@@ -1,0 +1,98 @@
+/*          note-page           */
+.note-page {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+}
+
+/*          note content            */
+.note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+}
+
+.note-container {
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+    padding: 5px;
+}
+
+.note-list {
+    display: flex;
+    flex-direction: column;
+    height: 470px;
+    width: 200px;
+
+    border: 1px solid red;
+}
+
+.note-list-item {
+    border: 1px solid black;
+}
+
+.note-list-item-box {
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.note-list-item-btn {
+    border: none;
+    width: 100%;
+    height: 45px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+    background-color: white;
+    transition-duration: 0.6s;
+}
+
+.note-list-item-box {
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.note-list-item-check {
+    color: red;
+}
+
+.note-list-item-account {
+    color: blue;
+}
+
+.note-list-item-btn:hover {
+    background-color: gray;
+    color: white;
+}
+
+.note-list-add-btn-container {
+    display: flex;
+    justify-content: right;
+}
+
+.note-list-add-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.note-list-add-btn:hover {
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.4s;
+}
+
+.note-content {
+    display: flex;
+    height: 500px;
+    width: 950px;
+    border: 1px solid blue;
+}
