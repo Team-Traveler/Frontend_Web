@@ -1,0 +1,63 @@
+.check-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid red;
+    margin: 10px;
+}
+
+.check-list-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid blue;
+    margin: 10px;
+}
+
+.check-list-item {
+    width: 100%;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid gray;
+    outline: none;
+    margin: 5px;
+}
+
+.check-list-item-checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    accent-color: yellowgreen;
+    cursor: pointer;
+}
+
+.check-list-item-delete {
+    border-radius: 50px;
+    border: 1px solid red;
+}
+
+.check-list-box {
+    border: 1px solid green;
+    margin: 10px;
+}
+
+.check-list-box-header {
+    border: 1px solid magenta;
+    margin: 10px;
+}
+
+.note-not-selected {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid red;
+    margin: 10px;
+    justify-content: center;
+}
+
+button {
+    margin: 5px;
+    cursor: pointer;
+}

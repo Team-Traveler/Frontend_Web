@@ -38,9 +38,16 @@
     border: 1px solid black;
 }
 
+.note-list-item-header {
+    display: flex;
+    border: 1px solid magenta;
+    margin: 5px;
+}
+
 .note-list-item-box {
     font-size: 12px;
     padding-left: 10px;
+    border: none;
 }
 
 .note-list-item-btn {
@@ -80,8 +87,8 @@
 .note-list-add-btn {
     width: 30px;
     height: 30px;
-    border: none;
     border-radius: 50px;
+    border: none;
     cursor: pointer;
 }
 

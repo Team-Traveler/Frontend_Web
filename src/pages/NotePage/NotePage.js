@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./NotePage.css";
 import { useRecoilState } from "recoil";
 import { noteState } from "../../recoil/atoms/noteState";
+import { selectedNoteId } from "../../recoil/atoms/noteState";
+import { nextNoteId } from "../../recoil/atoms/noteState";
 import axios from "axios";
 import CheckList from "./CheckList";
 import AccountBook from "./AccountBook";
@@ -9,6 +11,9 @@ import Nav from "../../components/Nav/Nav";
 
 function NotePage() {
     const [noteList, setNoteList] = useRecoilState(noteState);
+    const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
+    const [nextid, setNextid] = useRecoilState(nextNoteId);
+    const [checktoggle, setCheckToggle] = useState(true);
 
     // useEffect(() => {
     //     const fetchNotes = async () => {
@@ -23,28 +28,46 @@ function NotePage() {
     //     fetchNotes();
     // }, []);
 
-    // const addNote = async () => {
+    const addNote = () => {
+        setNoteList([
+            ...noteList,
+            {
+                id: nextid,
+                title: "새로운 여행",
+                istoggle: false,
+                nextCheckListId: 1,
+                checkcontent: [
+                    {
+                        title: "새로운 여행 체크리스트",
+                        content: [],
+                        isedit: false,
+                    },
+                ],
+                accountcontent: "새로운 여행 가계부",
+            },
+        ]);
+        setNextid(nextid + 1);
+    };
+
+    // const addNote = () => {
     //     try {
     //         const response = await axios.post("api/notes", {
-    //             title: "새로운 노트",
+    //             id: noteList.length + 1,
+    //             title: "새로운 여행",
     //             istoggle: false,
+    //             checkcontent: [
+    //                 {
+    //                     title: "새로운 여행 체크리스트",
+    //                     content: [],
+    //                 },
+    //             ],
+    //             accountcontent: "새로운 여행 가계부",
     //         });
     //         setNoteList([...noteList, response.data]);
     //     } catch (err) {
     //         console.log(err);
     //     }
     // };
-
-    const addNote = () => {
-        setNoteList([
-            ...noteList,
-            {
-                id: noteList.length + 1,
-                title: "새로운 여행",
-                istoggle: false,
-            },
-        ]);
-    };
 
     return (
         <div className="note-page">
@@ -54,33 +77,68 @@ function NotePage() {
                     <div className="note-list">
                         {noteList.map((note) => (
                             <div className="note-list-item " key={note.id}>
-                                <button
-                                    className="note-list-item-btn"
-                                    onClick={() => {
-                                        setNoteList(
-                                            noteList.map((item) => {
-                                                if (item.id === note.id) {
-                                                    return {
-                                                        ...item,
-                                                        istoggle:
-                                                            !item.istoggle,
-                                                    };
+                                <div className="note-list-item-header">
+                                    <button
+                                        className="note-list-item-btn"
+                                        onClick={() => {
+                                            setNoteList(
+                                                noteList.map((item) => {
+                                                    if (item.id === note.id) {
+                                                        return {
+                                                            ...item,
+                                                            istoggle:
+                                                                !item.istoggle,
+                                                        };
+                                                    }
+                                                    return item;
+                                                })
+                                            );
+                                        }}
+                                    >
+                                        {note.title}
+                                        {/* {note.id} */}
+                                    </button>
+                                    <div>
+                                        <button
+                                            onClick={
+                                                //delete note
+                                                () => {
+                                                    setNoteList(
+                                                        noteList.filter(
+                                                            (item) =>
+                                                                item.id !==
+                                                                note.id
+                                                        )
+                                                    );
                                                 }
-                                                return item;
-                                            })
-                                        );
-                                    }}
-                                >
-                                    {note.title}
-                                </button>
+                                            }
+                                        >
+                                            -
+                                        </button>
+                                    </div>
+                                </div>
 
                                 {note.istoggle ? (
                                     <div className="note-list-item-box">
                                         <div className="note-list-item-check">
-                                            체크리스트
+                                            <button
+                                                onClick={() => {
+                                                    setCheckToggle(true);
+                                                    setSelectedNote(note.id);
+                                                }}
+                                            >
+                                                체크리스트
+                                            </button>
                                         </div>
                                         <div className="note-list-item-account">
-                                            가계부
+                                            <button
+                                                onClick={() => {
+                                                    setCheckToggle(false);
+                                                    setSelectedNote(note.id);
+                                                }}
+                                            >
+                                                가계부
+                                            </button>
                                         </div>
                                     </div>
                                 ) : null}
@@ -100,8 +158,7 @@ function NotePage() {
                 </div>
 
                 <div className="note-content">
-                    <CheckList />
-                    {/* <AccountBook /> */}
+                    {checktoggle ? <CheckList /> : <AccountBook />}
                 </div>
             </div>
         </div>
