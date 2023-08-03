@@ -37,7 +37,7 @@
 
 .main-header-button{
   border: none;
-  background-color: white;
+  background-color: transparent;
 }
 
 .main-header-button:hover{

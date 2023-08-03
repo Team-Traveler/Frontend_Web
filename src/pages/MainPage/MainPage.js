@@ -22,6 +22,8 @@ import { ReactComponent as Story } from "../../../src/assets/images/book.svg";
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const navigate = useNavigate();
+
     const openModal = () => {
         setShowModal(true);
     };
@@ -41,15 +43,23 @@ function MainPage() {
         // 백엔드로 code 전송
         const sendCodeToBackend = async () => {
             try {
-                const response = await axios.post("/api/auth/kakao", { code });
+                // const response = await axios.post("/api/auth/kakao", { code });
                 // 백엔드에서 응답으로 받은 사용자 정보
-                const { nickname, profile_image, email } = response.data;
+                // const { nickname, profile_image, email } = response.data;
                 // 사용자 정보를 recoil에 저장
+                // setUserInfo({
+                //     id: "",
+                //     name: nickname,
+                //     email: email,
+                //     profileImage: profile_image,
+                //     isLogin: true,
+                // });
                 setUserInfo({
                     id: "",
-                    name: nickname,
-                    email: email,
-                    profileImage: profile_image,
+                    name: "트레블러",
+                    email: "traveler@example.com",
+                    profileImage:
+                        "https://avatars.githubusercontent.com/u/71630722?v=4",
                     isLogin: true,
                 });
                 // 현재 페이지 URL에서 code 값의 쿼리 스트링을 제거
@@ -68,9 +78,9 @@ function MainPage() {
     }, []);
 
     // 로그인 후 recoil에 저장된 사용자 정보 확인하는 테스트코드
-    // useEffect(() => {
-    //     console.log("userInfo:", userInfo);
-    // }, [userInfo]);
+    useEffect(() => {
+        console.log("userInfo:", userInfo);
+    }, [userInfo]);
 
     return (
         <div className="main-page">
@@ -181,6 +191,7 @@ function MainPage() {
                     <div
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(216, 255, 216, 1)" }}
+                        onClick={() => navigate("/note")} // 나의노트 페이지로 이동
                     >
                         <Note />
                     </div>
@@ -202,7 +213,9 @@ function MainPage() {
                 {/* 로그인 한 경우에만 나의 찜한 여행 보여주기 */}
                 {userInfo.isLogin && (
                     <>
-                        <h3 className="content-title">나의 찜한 여행</h3>
+                        <h3 className="content-title">
+                            {userInfo.name}의 찜한 여행
+                        </h3>
                         <MultipleSlider></MultipleSlider>
                     </>
                 )}
