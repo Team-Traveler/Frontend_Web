@@ -3,7 +3,10 @@
   color: black;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  background-image: url("../../assets//images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .main-header {
@@ -43,12 +46,12 @@
 
 .main-logo{
   width: 100%;
-  height: 300px;
+  display: flex;
+  justify-content: center;
 }
 
 .main-logo-image{
-  width: 400px;
-  border: 1px solid black;
+  width: 300px;
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 20px;
@@ -76,6 +79,9 @@
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);  
   transition: box-shadow 0.1s linear;
   border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-menu-box:hover {
@@ -105,7 +111,8 @@
 .content-card{
   width: 200px;
   height: 200px;
-  background-color: white;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),url("../../assets//images/beach_image.jpeg");
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -116,6 +123,7 @@
   border-radius: 15px;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);  
   transition: box-shadow 0.1s linear;
+
 }
 
 .content-card:hover{
@@ -127,6 +135,7 @@
   margin-top: 0;
   margin-bottom: 5px;
   margin-right: 10px;
+  color: white;
 }
 
 
@@ -168,7 +177,7 @@
 }
 
 .modal {
-  width: 300px;
+  width: 400px;
   height: 500px;
   background-color: white;
   border-radius: 15px;
