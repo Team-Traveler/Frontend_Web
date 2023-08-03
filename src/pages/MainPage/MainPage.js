@@ -13,6 +13,11 @@ import { contentState } from "../.././recoil/atoms/contentState";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useKakaoLogin from "../../services/useKakaoLogin";
 import useLogout from "../../services/useLogout";
+import { ReactComponent as Logo } from "../../../src/assets/images/Traveler_logo.svg";
+import { ReactComponent as Location } from "../../../src/assets/images/carbon_location.svg";
+import { ReactComponent as Note } from "../../../src/assets/images/write.svg";
+import { ReactComponent as MyTravel } from "../../../src/assets/images/search.svg";
+import { ReactComponent as Story } from "../../../src/assets/images/book.svg";
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
@@ -148,9 +153,10 @@ function MainPage() {
                 )}
             </div>
             <div className="main-logo">
-                <div className="main-logo-image" style={{ height: "100px" }}>
-                    로고이미지
-                </div>
+                <Logo
+                    className="main-logo-image"
+                    style={{ height: "100px" }}
+                ></Logo>
             </div>
             <div className="main-menu">
                 <div className="main-menu-item">
@@ -158,7 +164,7 @@ function MainPage() {
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(217,250,255,1)" }}
                     >
-                        여행찾기 로고
+                        <Location />
                     </div>
                     <div className="main-menu-text">여행찾기</div>
                 </div>
@@ -167,7 +173,7 @@ function MainPage() {
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(255, 209, 209, 1)" }}
                     >
-                        스토리 로고
+                        <Story />
                     </div>
                     <div className="main-menu-text">스토리</div>
                 </div>
@@ -176,7 +182,7 @@ function MainPage() {
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(216, 255, 216, 1)" }}
                     >
-                        나의노트 로고
+                        <Note />
                     </div>
                     <div className="main-menu-text">나의노트</div>
                 </div>{" "}
@@ -185,7 +191,7 @@ function MainPage() {
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(249, 255, 223, 1)" }}
                     >
-                        나의여행 로고
+                        <MyTravel />
                     </div>
                     <div className="main-menu-text">나의여행</div>
                 </div>{" "}
@@ -193,8 +199,13 @@ function MainPage() {
             <div className="main-body">
                 <h3 className="content-title">Traveler의 추천여행</h3>
                 <MultipleSlider></MultipleSlider>
-                <h3 className="content-title">Traveler의 추천여행</h3>
-                <MultipleSlider></MultipleSlider>
+                {/* 로그인 한 경우에만 나의 찜한 여행 보여주기 */}
+                {userInfo.isLogin && (
+                    <>
+                        <h3 className="content-title">나의 찜한 여행</h3>
+                        <MultipleSlider></MultipleSlider>
+                    </>
+                )}
             </div>
         </div>
     );
@@ -210,7 +221,7 @@ const MultipleSlider = () => {
         // 여행 컨텐츠 데이터 받아오기
         const fetchContents = async () => {
             try {
-                const response = await axios.get("/api/contents");
+                const response = await axios.get("/travel/recommend");
                 setContents(response.data);
             } catch (error) {
                 console.error("Error while fetching contents:", error);
@@ -287,7 +298,7 @@ const MultipleSlider = () => {
     return (
         <div className="content">
             <Slider {...settings}>
-                {contents.map((content) => (
+                {contents.result.map((content) => (
                     <div key={content.id}>
                         <div
                             className="content-card"
