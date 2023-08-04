@@ -13,11 +13,11 @@ import { contentState } from "../.././recoil/atoms/contentState";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useKakaoLogin from "../../services/useKakaoLogin";
 import useLogout from "../../services/useLogout";
-import { ReactComponent as Logo } from "../../../src/assets/images/Traveler_logo.svg";
 import { ReactComponent as Location } from "../../../src/assets/images/carbon_location.svg";
 import { ReactComponent as Note } from "../../../src/assets/images/write.svg";
 import { ReactComponent as MyTravel } from "../../../src/assets/images/search.svg";
 import { ReactComponent as Story } from "../../../src/assets/images/book.svg";
+import { ReactComponent as Logo } from "./traveler_logo.svg";
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
@@ -56,7 +56,7 @@ function MainPage() {
                 // });
                 setUserInfo({
                     id: "",
-                    name: "트레블러",
+                    name: "서다원",
                     email: "traveler@example.com",
                     profileImage:
                         "https://avatars.githubusercontent.com/u/71630722?v=4",
