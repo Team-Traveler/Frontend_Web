@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .nav-logo {
@@ -13,24 +13,23 @@
     align-items: center;
     margin-bottom: 10px;
     margin-top: 10px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .nav-logo-image {
     width: 220px;
     height: 50px;
-    margin: 5px;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
 }
 
 .nav-menu {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid green;
     width: 700px;
     height: 65px;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .nav-menu-item {
@@ -42,6 +41,33 @@
     margin-left: 10px;
     padding-right: 10px;
     padding-left: 10px;
-    width: 120px;
-    border: 1px solid blue;
+    width: 112px;
+    height: 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: #e4e4e4;
+}
+
+.my-note {
+    background-color: #d8ffd8;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.find-travel:hover {
+    background-color: #d9faff;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.story:hover {
+    background-color: #ffd1d1;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.my-travel:hover {
+    background-color: #e7e152ba;
+    border-radius: 25px;
+    height: 65px;
 }
