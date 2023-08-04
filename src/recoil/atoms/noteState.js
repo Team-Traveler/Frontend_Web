@@ -21,7 +21,7 @@ export const noteState = atom({
             checkcontent: [
                 {
                     id: 1,
-                    title: "도쿄 여행 체크리스트1",
+                    title: "2023년 5월",
                     content: [
                         {
                             id: 1,
@@ -41,17 +41,17 @@ export const noteState = atom({
                 },
                 {
                     id: 2,
-                    title: "도쿄 여행 체크리스트2",
+                    title: "2023년 6월",
                     content: [
                         {
                             id: 1,
-                            item: "비행기 티켓",
+                            item: "여권",
                             ischecked: false,
                             isedit: false,
                         },
                         {
                             id: 2,
-                            item: "호텔 예약",
+                            item: "캐리어",
                             ischecked: false,
                             isedit: false,
                         },

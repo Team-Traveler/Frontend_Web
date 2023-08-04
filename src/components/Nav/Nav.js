@@ -1,33 +1,38 @@
 import { Link } from "react-router-dom";
 import "./Nav.css";
+import traveler_logo from "./traveler_logo.svg";
 
 function Nav() {
     return (
         <div className="nav">
-            <Link to="/main">
+            <Link to="/main" style={{ textDecoration: "none" }}>
                 <div className="nav-logo">
-                    <div className="nav-logo-image">로고 이미지</div>
+                    <img
+                        src={traveler_logo}
+                        alt="logo"
+                        className="nav-logo-image"
+                    />
                 </div>
             </Link>
 
             <div className="nav-menu">
-                <Link to="/find">
-                    <button className="nav-menu-item">
+                <Link to="/find" style={{ textDecoration: "none" }}>
+                    <button className="nav-menu-item find-travel">
                         <div className="nav-menu-box">여행 찾기</div>
                     </button>
                 </Link>
-                <Link to="/story">
-                    <button className="nav-menu-item">
+                <Link to="/story" style={{ textDecoration: "none" }}>
+                    <button className="nav-menu-item story">
                         <div className="nav-menu-box">스토리</div>
                     </button>
                 </Link>
-                <Link to="/note">
-                    <button className="nav-menu-item">
+                <Link to="/note" style={{ textDecoration: "none" }}>
+                    <button className="nav-menu-item my-note">
                         <div className="nav-menu-box">나의 노트</div>
                     </button>
                 </Link>
-                <Link to="/mypage">
-                    <button className="nav-menu-item">
+                <Link to="/mypage" style={{ textDecoration: "none" }}>
+                    <button className="nav-menu-item my-travel">
                         <div className="nav-menu-box">나의 여행</div>
                     </button>
                 </Link>

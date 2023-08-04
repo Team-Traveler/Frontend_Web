@@ -8,6 +8,9 @@ import axios from "axios";
 import CheckList from "./CheckList";
 import AccountBook from "./AccountBook";
 import Nav from "../../components/Nav/Nav";
+// import Vector.png
+import Vector from "./Vector.png";
+import Ellipse from "./Ellipse.png";
 
 function NotePage() {
     const [noteList, setNoteList] = useRecoilState(noteState);
@@ -95,10 +98,15 @@ function NotePage() {
                                             );
                                         }}
                                     >
+                                        <img
+                                            src={Vector}
+                                            alt="Vector"
+                                            className="mr-5"
+                                        />
                                         {note.title}
                                         {/* {note.id} */}
                                     </button>
-                                    <div>
+                                    {/* <div>
                                         <button
                                             onClick={
                                                 //delete note
@@ -115,45 +123,43 @@ function NotePage() {
                                         >
                                             -
                                         </button>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 {note.istoggle ? (
                                     <div className="note-list-item-box">
-                                        <div className="note-list-item-check">
-                                            <button
-                                                onClick={() => {
-                                                    setCheckToggle(true);
-                                                    setSelectedNote(note.id);
-                                                }}
-                                            >
-                                                체크리스트
-                                            </button>
-                                        </div>
-                                        <div className="note-list-item-account">
-                                            <button
-                                                onClick={() => {
-                                                    setCheckToggle(false);
-                                                    setSelectedNote(note.id);
-                                                }}
-                                            >
-                                                가계부
-                                            </button>
-                                        </div>
+                                        <button
+                                            className="note-list-item-check"
+                                            onClick={() => {
+                                                setCheckToggle(true);
+                                                setSelectedNote(note.id);
+                                            }}
+                                        >
+                                            <img
+                                                src={Ellipse}
+                                                alt="Ellipse"
+                                                className="mr-5"
+                                            />
+                                            체크리스트
+                                        </button>
+                                        <button
+                                            className="note-list-item-account"
+                                            onClick={() => {
+                                                setCheckToggle(false);
+                                                setSelectedNote(note.id);
+                                            }}
+                                        >
+                                            <img
+                                                src={Ellipse}
+                                                alt="Ellipse"
+                                                className="mr-5"
+                                            />
+                                            가계부
+                                        </button>
                                     </div>
                                 ) : null}
                             </div>
                         ))}
-                    </div>
-                    <div className="note-list-add-btn-container">
-                        <button
-                            className="note-list-add-btn"
-                            onClick={() => {
-                                addNote();
-                            }}
-                        >
-                            +
-                        </button>
                     </div>
                 </div>
 
