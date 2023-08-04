@@ -17,8 +17,7 @@ import { ReactComponent as Location } from "../../../src/assets/images/carbon_lo
 import { ReactComponent as Note } from "../../../src/assets/images/write.svg";
 import { ReactComponent as MyTravel } from "../../../src/assets/images/search.svg";
 import { ReactComponent as Story } from "../../../src/assets/images/book.svg";
-import { ReactComponent as Logo } from "./traveler_logo.svg";
-
+import { ReactComponent as Logo } from "../../../src/assets/images/Traveler_logo.svg";
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
