@@ -1,20 +1,16 @@
 import { Link } from "react-router-dom";
 import "./Nav.css";
-import traveler_logo from "./traveler_logo.svg";
+import React from "react";
+import { ReactComponent as Logo } from "./traveler_logo.svg";
 
 function Nav() {
     return (
         <div className="nav">
             <Link to="/main" style={{ textDecoration: "none" }}>
                 <div className="nav-logo">
-                    <img
-                        src={traveler_logo}
-                        alt="logo"
-                        className="nav-logo-image"
-                    />
+                    <Logo className="nav-logo-image" />
                 </div>
             </Link>
-
             <div className="nav-menu">
                 <Link to="/find" style={{ textDecoration: "none" }}>
                     <button className="nav-menu-item find-travel">
