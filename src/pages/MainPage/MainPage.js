@@ -10,8 +10,8 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../.././recoil/atoms/userState";
 import { contentState } from "../.././recoil/atoms/contentState";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import useKakaoLogin from "../../services/useKakaoLogin";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import UseKakaoLogin from "../../services/useKakaoLogin";
 import useLogout from "../../services/useLogout";
 import { ReactComponent as Location } from "../../../src/assets/images/carbon_location.svg";
 import { ReactComponent as Note } from "../../../src/assets/images/write.svg";
@@ -22,6 +22,7 @@ function MainPage() {
     const [showModal, setShowModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const openModal = () => {
         setShowModal(true);
@@ -32,7 +33,7 @@ function MainPage() {
     };
 
     // 카카오 로그인
-    const handleLogin = useKakaoLogin();
+    const handleLogin = UseKakaoLogin();
     // 로그아웃
     const handleLogout = useLogout(setUserInfo);
 
@@ -42,25 +43,43 @@ function MainPage() {
         // 백엔드로 code 전송
         const sendCodeToBackend = async () => {
             try {
-                // const response = await axios.post("/api/auth/kakao", { code });
+                const response = await axios.post(
+                    "http://13.209.66.9:9000/api/auth/kakao",
+                    { authorizationCode: code },
+                    { headers: { "Content-Type": "application/json" } }
+                );
                 // 백엔드에서 응답으로 받은 사용자 정보
-                // const { nickname, profile_image, email } = response.data;
+                const { accessToken, refreshToken, grantType, expiresIn } =
+                    response.data;
+
+                const userData = await axios.get(
+                    "http://13.209.66.9:9000/users/profile",
+                    { headers: { Authorization: `${accessToken}` } }
+                );
+
+                const { id, name, nickname, kakao, profile_image_url, email } =
+                    userData.data;
+
                 // 사용자 정보를 recoil에 저장
-                // setUserInfo({
-                //     id: "",
-                //     name: nickname,
-                //     email: email,
-                //     profileImage: profile_image,
-                //     isLogin: true,
-                // });
                 setUserInfo({
-                    id: "",
-                    name: "서다원",
-                    email: "traveler@example.com",
-                    profileImage:
-                        "https://avatars.githubusercontent.com/u/71630722?v=4",
+                    id: id,
+                    name: name,
+                    nickname: nickname,
+                    kakao: kakao,
+                    email: email,
+                    profileImage: profile_image_url,
                     isLogin: true,
                 });
+
+                // setUserInfo({
+                //     id: "",
+                //     name: "서다원",
+                //     email: "traveler@example.com",
+                //     profileImage:
+                //         "https://avatars.githubusercontent.com/u/71630722?v=4",
+                //     isLogin: true,
+                // });
+
                 // 현재 페이지 URL에서 code 값의 쿼리 스트링을 제거
                 if (window.location.search) {
                     const newURL = window.location.href.split("?")[0];
@@ -74,7 +93,7 @@ function MainPage() {
         if (code) {
             sendCodeToBackend();
         }
-    }, []);
+    }, [location, setUserInfo]);
 
     // 로그인 후 recoil에 저장된 사용자 정보 확인하는 테스트코드
     useEffect(() => {
@@ -228,22 +247,23 @@ const MultipleSlider = () => {
     const [showModal, setShowModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [contents, setContents] = useRecoilState(contentState);
+    const location = useLocation();
 
-    useEffect(() => {
-        // 여행 컨텐츠 데이터 받아오기
-        const fetchContents = async () => {
-            try {
-                const response = await axios.get("/travel/recommend");
-                setContents(response.data);
-            } catch (error) {
-                console.error("Error while fetching contents:", error);
-            }
-        };
-        fetchContents();
-    }, []);
+    // useEffect(() => {
+    //     // 여행 컨텐츠 데이터 받아오기
+    //     const fetchContents = async () => {
+    //         try {
+    //             const response = await axios.get("/travel/recommend");
+    //             setContents(response.data);
+    //         } catch (error) {
+    //             console.error("Error while fetching contents:", error);
+    //         }
+    //     };
+    //     fetchContents();
+    // }, []);
 
     // 카카오 로그인
-    const handleLogin = useKakaoLogin();
+    const handleLogin = UseKakaoLogin();
 
     // 카카오 로그인 후 백엔드로 code 전송
     useEffect(() => {
@@ -251,17 +271,43 @@ const MultipleSlider = () => {
         // 백엔드로 code 전송
         const sendCodeToBackend = async () => {
             try {
-                const response = await axios.post("/api/auth/kakao", { code });
+                const response = await axios.post(
+                    "http://13.209.66.9:9000/api/auth/kakao",
+                    { authorizationCode: code },
+                    { headers: { "Content-Type": "application/json" } }
+                );
                 // 백엔드에서 응답으로 받은 사용자 정보
-                const { nickname, profile_image, email } = response.data;
+                const { accessToken, refreshToken, grantType, expiresIn } =
+                    response.data;
+
+                const userData = await axios.get(
+                    "http://13.209.66.9:9000/users/profile",
+                    { headers: { Authorization: `${accessToken}` } }
+                );
+
+                const { id, name, nickname, kakao, profile_image_url, email } =
+                    userData.data;
+
                 // 사용자 정보를 recoil에 저장
                 setUserInfo({
-                    id: "",
-                    name: nickname,
+                    id: id,
+                    name: name,
+                    nickname: nickname,
+                    kakao: kakao,
                     email: email,
-                    profileImage: profile_image,
+                    profileImage: profile_image_url,
                     isLogin: true,
                 });
+
+                // setUserInfo({
+                //     id: "",
+                //     name: "서다원",
+                //     email: "traveler@example.com",
+                //     profileImage:
+                //         "https://avatars.githubusercontent.com/u/71630722?v=4",
+                //     isLogin: true,
+                // });
+
                 // 현재 페이지 URL에서 code 값의 쿼리 스트링을 제거
                 if (window.location.search) {
                     const newURL = window.location.href.split("?")[0];
@@ -275,7 +321,7 @@ const MultipleSlider = () => {
         if (code) {
             sendCodeToBackend();
         }
-    }, []);
+    }, [location, setUserInfo]);
 
     const settings = {
         dots: false,
