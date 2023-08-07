@@ -8,7 +8,10 @@ export const userInfoState = atom({
         id: "",
         name: "",
         email: "",
+        nickname: "",
         profileImage: "",
         isLogin: false,
+        kakao: "",
+        accessToken: "",
     },
 });
