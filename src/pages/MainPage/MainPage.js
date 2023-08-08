@@ -10,7 +10,12 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../.././recoil/atoms/userState";
 import { contentState } from "../.././recoil/atoms/contentState";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+    Link,
+    useLocation,
+    useNavigate,
+    useSearchParams,
+} from "react-router-dom";
 import UseKakaoLogin from "../../services/useKakaoLogin";
 import useLogout from "../../services/useLogout";
 import { ReactComponent as Location } from "../../../src/assets/images/carbon_location.svg";
@@ -18,6 +23,7 @@ import { ReactComponent as Note } from "../../../src/assets/images/write.svg";
 import { ReactComponent as MyTravel } from "../../../src/assets/images/search.svg";
 import { ReactComponent as Story } from "../../../src/assets/images/book.svg";
 import { ReactComponent as Logo } from "../../../src/assets/images/Traveler_logo.svg";
+import Modal from "../../components/Modal/Modal";
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -40,6 +46,7 @@ function MainPage() {
     // 카카오 로그인 후 백엔드로 code 전송
     useEffect(() => {
         const code = new URL(window.location.href).searchParams.get("code");
+        console.log("code:", code);
         // 백엔드로 code 전송
         const sendCodeToBackend = async () => {
             try {
@@ -48,6 +55,7 @@ function MainPage() {
                     { authorizationCode: code },
                     { headers: { "Content-Type": "application/json" } }
                 );
+                console.log("response:", response);
                 // 백엔드에서 응답으로 받은 사용자 정보
                 const { accessToken, refreshToken, grantType, expiresIn } =
                     response.data;
@@ -86,7 +94,7 @@ function MainPage() {
                     window.history.replaceState({}, document.title, newURL);
                 }
             } catch (error) {
-                console.error("Error while sending code to backend:", error);
+                console.error("Error :", error);
             }
         };
         // code가 있으면 백엔드로 전송
@@ -153,47 +161,35 @@ function MainPage() {
                 </div>
                 {/* 로그인 모달 창 */}
                 {showModal && (
-                    <div className="modal-overlay">
-                        <div className="modal">
-                            {/* 로그인 폼 등 내용 추가 */}
-                            <div className="modal-header">
-                                <h3>로그인 또는 회원가입</h3>
-                                <button onClick={closeModal}>
-                                    <AiOutlineClose />
-                                </button>
-                            </div>
-                            <hr style={{ width: "100%" }}></hr>
-
-                            <div className="modal-body">
-                                <h3>Traveler에 오신것을 환영합니다!</h3>
-                                <button
-                                    className="kakao-login"
-                                    onClick={handleLogin}
-                                >
-                                    <img
-                                        src={kakaoLoginButton}
-                                        alt="kakao-login"
-                                    ></img>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <Modal
+                        closeModal={closeModal}
+                        headerTitle={<h3>로그인 또는 회원가입</h3>}
+                    >
+                        <h3>Traveler에 오신것을 환영합니다!</h3>
+                        <button className="kakao-login" onClick={handleLogin}>
+                            <img src={kakaoLoginButton} alt="kakao-login"></img>
+                        </button>
+                    </Modal>
                 )}
             </div>
+            {/* 메인 로고 */}
             <div className="main-logo">
                 <Logo
                     className="main-logo-image"
                     style={{ height: "100px" }}
                 ></Logo>
             </div>
+            {/* 메인 메뉴 */}
             <div className="main-menu">
                 <div className="main-menu-item">
-                    <div
-                        className="main-menu-box"
-                        style={{ backgroundColor: "rgba(217,250,255,1)" }}
-                    >
-                        <Location />
-                    </div>
+                    <Link to="/recommend">
+                        <div
+                            className="main-menu-box"
+                            style={{ backgroundColor: "rgba(217,250,255,1)" }}
+                        >
+                            <Location />
+                        </div>
+                    </Link>
                     <div className="main-menu-text">여행찾기</div>
                 </div>
                 <div className="main-menu-item">

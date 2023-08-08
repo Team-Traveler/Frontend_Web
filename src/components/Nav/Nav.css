@@ -46,15 +46,11 @@
     border-radius: 20px;
     border: none;
     background-color: #e4e4e4;
+    transition: background-color 0.2s ease, border-radius 0.2s ease, height 0.2s ease;
+
 }
 
-.my-note {
-    background-color: #d8ffd8;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.find-travel:hover {
+.recommend:hover {
     background-color: #d9faff;
     border-radius: 25px;
     height: 65px;
@@ -66,8 +62,39 @@
     height: 65px;
 }
 
-.my-travel:hover {
+.mynote:hover {
+    background-color: #d8ffd8;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.mypage:hover {
     background-color: #e7e152ba;
     border-radius: 25px;
     height: 65px;
 }
+
+.active-recommend {
+    background-color: #d9faff;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.active-story {
+    background-color: #ffd1d1;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.active-note {
+    background-color: #d8ffd8;
+    border-radius: 25px;
+    height: 65px;
+}
+
+.active-mypage {
+    background-color: #e7e152ba;
+    border-radius: 25px;
+    height: 65px;
+}
+
