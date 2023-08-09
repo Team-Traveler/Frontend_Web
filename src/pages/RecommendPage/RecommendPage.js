@@ -12,8 +12,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TextField } from "@mui/material";
 import { useRecoilState } from "recoil";
+import { userInfoState } from "../../recoil/atoms/userState";
 import { recommendFormState } from "../../recoil/atoms/recommendFormState";
 import { regionState } from "../../recoil/atoms/regionState";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const datePickerFormat = "YYYY-MM-DD";
 const datePickerUtils = {
@@ -28,8 +31,36 @@ function RecommendPage() {
     const [finishDate, setFinishDate] = useState(null);
     const [recommendForm, setRecommendForm] =
         useRecoilState(recommendFormState);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [selectedCountry, setSelectedCountry] = useState("");
     const [region, setRegion] = useRecoilState(regionState);
+    const navigate = useNavigate();
+
+    // recommendFormState axios 전송
+    const handleCompleteButtonClick = () => {
+        const data = {
+            startDate: recommendForm.startDate,
+            finishDate: recommendForm.finishDate,
+            cityId: recommendForm.cityId,
+            hard: recommendForm.hard,
+            what: recommendForm.what,
+            with: recommendForm.with,
+            people: recommendForm.people,
+        };
+        axios
+            .post("http://13.209.66.9:9000/recommend", data, {
+                headers: { Authorization: `${userInfo.accessToken}` },
+            })
+            .then((response) => {
+                console.log(response);
+
+                // mypage로 이동
+                navigate("/mypage");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleWithWhoButtonClick = (buttonId) => {
         setRecommendForm((prev) => ({
@@ -67,6 +98,24 @@ function RecommendPage() {
         { id: 12, name: "경상남북도" },
         { id: 13, name: "제주도" },
     ];
+
+    // region 데이터 axios로 불러와서 regionState에 저장
+    useEffect(() => {
+        const fetchRegionData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://13.209.66.9:9000/recommend/region",
+                    {
+                        headers: { Authorization: `${userInfo.accessToken}` },
+                    }
+                );
+                setRegion(response.data);
+            } catch (error) {
+                console.log("Error: ", error);
+            }
+        };
+        fetchRegionData();
+    }, [userInfo.accessToken, showModal, setRegion]);
 
     const rightListCountry = region.result.filter(
         (item) => item.country === selectedCountry
@@ -391,7 +440,12 @@ function RecommendPage() {
                         </div>
                     </div>
                 </div>
-                <div className="recommend-button">여행찾기</div>
+                <div
+                    className="recommend-button"
+                    onClick={handleCompleteButtonClick}
+                >
+                    여행찾기
+                </div>
             </div>
 
             {/* 여행지 선택 모달 창 */}
