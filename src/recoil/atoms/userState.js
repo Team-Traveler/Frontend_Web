@@ -11,7 +11,6 @@ export const userInfoState = atom({
         nickname: "",
         profileImage: "",
         isLogin: false,
-        kakao: "",
         accessToken: "",
     },
 });

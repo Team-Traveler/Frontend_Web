@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage/MainPage.js";
 import NotePage from "./pages/NotePage/NotePage.js";
 import RecommendPage from "./pages/RecommendPage/RecommendPage";
+import KakaoLogin from "./pages/MainPage/KakaoLogin";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path="/story" />
                 <Route path="/note" element={<NotePage />}></Route>
                 <Route path="/mypage" />
+                <Route path="/kakaoLogin" element={<KakaoLogin />} />
             </Routes>
         </div>
     );
