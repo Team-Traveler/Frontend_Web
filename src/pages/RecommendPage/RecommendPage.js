@@ -2,22 +2,18 @@ import "./RecommendPage.css";
 import React, { useEffect, useState } from "react";
 import Nav from "../../components/Nav/Nav";
 import Modal from "../../components/Modal/Modal";
-import { AiOutlineCalendar, AiOutlinePlus } from "react-icons/ai";
-import ReactDatePicker from "react-datepicker";
+import { AiOutlinePlus } from "react-icons/ai";
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TextField } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../recoil/atoms/userState";
 import { recommendFormState } from "../../recoil/atoms/recommendFormState";
 import { regionState } from "../../recoil/atoms/regionState";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 const datePickerFormat = "YYYY-MM-DD";
 const datePickerUtils = {
     format: datePickerFormat,
@@ -27,11 +23,11 @@ const datePickerUtils = {
 
 function RecommendPage() {
     const [showModal, setShowModal] = useState(false);
-    const [startDate, setStartDate] = useState(null);
-    const [finishDate, setFinishDate] = useState(null);
+    const [startDate] = useState(null);
+    const [finishDate] = useState(null);
     const [recommendForm, setRecommendForm] =
         useRecoilState(recommendFormState);
-    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const [userInfo] = useRecoilState(userInfoState);
     const [selectedCountry, setSelectedCountry] = useState("");
     const [region, setRegion] = useRecoilState(regionState);
     const navigate = useNavigate();
@@ -48,8 +44,8 @@ function RecommendPage() {
             people: recommendForm.people,
         };
         axios
-            .post("http://13.209.66.9:9000/recommend", data, {
-                headers: { Authorization: `${userInfo.accessToken}` },
+            .post("http://15.164.232.95:9000/recommend", data, {
+                headers: { Authorization: userInfo.accessToken },
             })
             .then((response) => {
                 console.log(response);
@@ -104,9 +100,9 @@ function RecommendPage() {
         const fetchRegionData = async () => {
             try {
                 const response = await axios.get(
-                    "http://13.209.66.9:9000/recommend/region",
+                    "http://15.164.232.95:9000/recommend/region",
                     {
-                        headers: { Authorization: `${userInfo.accessToken}` },
+                        headers: { Authorization: userInfo.accessToken },
                     }
                 );
                 setRegion(response.data);
