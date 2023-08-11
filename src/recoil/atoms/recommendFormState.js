@@ -11,6 +11,6 @@ export const recommendFormState = atom({
         hard: "",
         what: "",
         with: "",
-        people: "",
+        people: 1,
     },
 });
