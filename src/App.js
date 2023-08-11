@@ -1,25 +1,37 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MainPage from "./pages/MainPage/MainPage.js";
 import NotePage from "./pages/NotePage/NotePage.js";
 import RecommendPage from "./pages/RecommendPage/RecommendPage";
 import KakaoLogin from "./pages/MainPage/KakaoLogin";
 import CompletedPage from "./pages/RecommendPage/CompletedPage";
+import { userInfoState } from "./recoil/atoms/userState";
+import { useRecoilState } from "recoil";
 
 function App() {
+    const [userInfo] = useRecoilState(userInfoState);
+    const isLogin = userInfo.isLogin;
     return (
         <div className="App">
             <Routes>
-                <Route path="/main" element={<MainPage />}></Route>
-                <Route path="/recommend" element={<RecommendPage />}></Route>
-                <Route
-                    path="/recommendCompleted"
-                    element={<CompletedPage />}
-                ></Route>
-                <Route path="/story" />
-                <Route path="/note" element={<NotePage />}></Route>
-                <Route path="/mypage" />
+                <Route path="/" element={<MainPage />}></Route>
+                {isLogin ? (
+                    <>
+                        <Route
+                            path="/recommend"
+                            element={<RecommendPage />}
+                        ></Route>
+                        <Route
+                            path="/recommendCompleted"
+                            element={<CompletedPage />}
+                        ></Route>
+                        <Route path="/story" />
+                        <Route path="/note" element={<NotePage />}></Route>
+                        <Route path="/mypage" />
+                    </>
+                ) : null}
                 <Route path="/kakaoLogin" element={<KakaoLogin />} />
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div>
     );

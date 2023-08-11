@@ -15,7 +15,7 @@ function Nav() {
 
     return (
         <div className="nav">
-            <Link to="/main" style={{ textDecoration: "none" }}>
+            <Link to="/" style={{ textDecoration: "none" }}>
                 <div className="nav-logo">
                     <Logo className="nav-logo-image" />
                 </div>

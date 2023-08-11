@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../../recoil/atoms/userState";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./KakaoLogin.css";
 
 function KakaoLogin() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -73,7 +74,7 @@ function KakaoLogin() {
                     profileImage: response.data.result.profile_image_url,
                     isLogin: true,
                 });
-                navigate("/main");
+                navigate("/");
             } else {
                 console.log("No accessToken available");
             }
@@ -94,7 +95,24 @@ function KakaoLogin() {
         }
     }, [userInfo]);
 
-    return <div>kakaoLogin...</div>;
+    return (
+        <div>
+            <div class="spinner center">
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+            </div>
+        </div>
+    );
 }
 
 export default KakaoLogin;
