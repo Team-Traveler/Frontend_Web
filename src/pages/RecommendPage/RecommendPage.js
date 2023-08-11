@@ -31,9 +31,28 @@ function RecommendPage() {
     const [selectedCountry, setSelectedCountry] = useState("");
     const [region, setRegion] = useRecoilState(regionState);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [completed, setCompleted] = useState(false);
+
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+    useEffect(() => {
+        // recommendForm 상태 변화에 따라 isButtonDisabled 업데이트
+        setIsButtonDisabled(
+            recommendForm.startDate === "" ||
+                recommendForm.finishDate === "" ||
+                recommendForm.cityId === "" ||
+                recommendForm.hard === "" ||
+                recommendForm.what === "" ||
+                recommendForm.with === "" ||
+                recommendForm.people === ""
+        );
+    }, [recommendForm]); // recommendForm 상태 변화 감지
 
     // recommendFormState axios 전송
     const handleCompleteButtonClick = () => {
+        setLoading(true);
+
         const data = {
             startDate: recommendForm.startDate,
             finishDate: recommendForm.finishDate,
@@ -43,19 +62,29 @@ function RecommendPage() {
             with: recommendForm.with,
             people: recommendForm.people,
         };
-        axios
-            .post("http://15.164.232.95:9000/recommend", data, {
-                headers: { Authorization: userInfo.accessToken },
-            })
-            .then((response) => {
-                console.log(response);
 
-                // mypage로 이동
-                navigate("/mypage");
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        // axios
+        //     .post("http://15.164.232.95:9000/recommend", data, {
+        //         headers: { Authorization: userInfo.accessToken },
+        //     })
+        //     .then((response) => {
+        //         console.log(response);
+
+        //         setTimeout(() => {
+        //             setLoading(false);
+        //             setCompleted(true);
+        //         }, 3000);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //         setLoading(false);
+        //     });
+
+        setTimeout(() => {
+            setLoading(false);
+            setCompleted(true);
+            navigate("/recommendCompleted");
+        }, 3000);
     };
 
     const handleWithWhoButtonClick = (buttonId) => {
@@ -96,22 +125,22 @@ function RecommendPage() {
     ];
 
     // region 데이터 axios로 불러와서 regionState에 저장
-    useEffect(() => {
-        const fetchRegionData = async () => {
-            try {
-                const response = await axios.get(
-                    "http://15.164.232.95:9000/recommend/region",
-                    {
-                        headers: { Authorization: userInfo.accessToken },
-                    }
-                );
-                setRegion(response.data);
-            } catch (error) {
-                console.log("Error: ", error);
-            }
-        };
-        fetchRegionData();
-    }, [userInfo.accessToken, showModal, setRegion]);
+    // useEffect(() => {
+    //     const fetchRegionData = async () => {
+    //         try {
+    //             const response = await axios.get(
+    //                 "http://15.164.232.95:9000/recommend/region",
+    //                 {
+    //                     headers: { Authorization: userInfo.accessToken },
+    //                 }
+    //             );
+    //             setRegion(response.data);
+    //         } catch (error) {
+    //             console.log("Error: ", error);
+    //         }
+    //     };
+    //     fetchRegionData();
+    // }, [userInfo.accessToken, showModal, setRegion]);
 
     const rightListCountry = region.result.filter(
         (item) => item.country === selectedCountry
@@ -133,6 +162,21 @@ function RecommendPage() {
         }));
     };
 
+    const handleDecreasePeopleCount = () => {
+        if (recommendForm.people === 1) return;
+        setRecommendForm((prev) => ({
+            ...prev,
+            people: prev.people - 1,
+        }));
+    };
+
+    const handleIncreasePeopleCount = () => {
+        setRecommendForm((prev) => ({
+            ...prev,
+            people: prev.people + 1,
+        }));
+    };
+
     const openModal = () => {
         setShowModal(true);
     };
@@ -151,297 +195,404 @@ function RecommendPage() {
             <Nav className="recommend-nav"></Nav>
             {/* main content */}
             <div className="recommend-content">
-                <div className="recommend-section">
-                    <div className="recommend-section-1">
-                        <div className="recommend-card">
-                            <div className="recommend-card-title">언제?</div>
-                            <div className="recommend-card-content">
-                                {/* 출발 row */}
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        marginTop: "5px",
-                                        marginBottom: "5px",
-                                        marginLeft: "10%",
-                                    }}
-                                >
-                                    <div style={{ marginRight: "5%" }}>
-                                        출발
+                {/* Display initial content */}
+                {!loading && !completed && (
+                    <>
+                        {" "}
+                        <div className="recommend-section">
+                            <div className="recommend-section-1">
+                                <div className="recommend-card">
+                                    <div className="recommend-card-title">
+                                        언제?
                                     </div>
+                                    <div className="recommend-card-content">
+                                        {/* 출발 row */}
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                                marginLeft: "10%",
+                                            }}
+                                        >
+                                            <div style={{ marginRight: "5%" }}>
+                                                출발
+                                            </div>
 
-                                    <div className="when-button">
-                                        {" "}
-                                        <LocalizationProvider
-                                            dateAdapter={AdapterDayjs}
-                                            dateFormats={datePickerUtils}
+                                            <div className="when-button">
+                                                {" "}
+                                                <LocalizationProvider
+                                                    dateAdapter={AdapterDayjs}
+                                                    dateFormats={
+                                                        datePickerUtils
+                                                    }
+                                                >
+                                                    <DemoContainer
+                                                        components={[
+                                                            "DatePicker",
+                                                        ]}
+                                                    >
+                                                        <DatePicker
+                                                            label="출발 날짜를 선택해주세요"
+                                                            slotProps={{
+                                                                textField: {
+                                                                    size: "small",
+                                                                },
+                                                            }}
+                                                            format="YYYY / MM / DD"
+                                                            value={startDate}
+                                                            onChange={(
+                                                                newValue
+                                                            ) => {
+                                                                startDateChange(
+                                                                    newValue
+                                                                );
+                                                            }}
+                                                        />
+                                                    </DemoContainer>
+                                                </LocalizationProvider>
+                                            </div>
+                                        </div>
+                                        {/* 도착 row */}
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginTop: "5px",
+                                                marginBottom: "5px",
+                                                marginLeft: "10%",
+                                            }}
                                         >
-                                            <DemoContainer
-                                                components={["DatePicker"]}
-                                            >
-                                                <DatePicker
-                                                    label="출발 날짜를 선택해주세요"
-                                                    slotProps={{
-                                                        textField: {
-                                                            size: "small",
-                                                        },
-                                                    }}
-                                                    format="YYYY / MM / DD"
-                                                    value={startDate}
-                                                    onChange={(newValue) => {
-                                                        startDateChange(
-                                                            newValue
-                                                        );
-                                                    }}
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
+                                            <div style={{ marginRight: "5%" }}>
+                                                도착
+                                            </div>
+                                            <div className="when-button">
+                                                {" "}
+                                                <LocalizationProvider
+                                                    dateAdapter={AdapterDayjs}
+                                                    dateFormats={
+                                                        datePickerUtils
+                                                    }
+                                                >
+                                                    <DemoContainer
+                                                        components={[
+                                                            "DatePicker",
+                                                        ]}
+                                                    >
+                                                        <DatePicker
+                                                            label="도착 날짜를 선택해주세요"
+                                                            slotProps={{
+                                                                textField: {
+                                                                    size: "small",
+                                                                },
+                                                            }}
+                                                            format="YYYY / MM / DD"
+                                                            value={finishDate}
+                                                            onChange={(
+                                                                newValue
+                                                            ) => {
+                                                                finishDateChange(
+                                                                    newValue
+                                                                );
+                                                            }}
+                                                        />
+                                                    </DemoContainer>
+                                                </LocalizationProvider>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                {/* 도착 row */}
-                                <div
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        marginTop: "5px",
-                                        marginBottom: "5px",
-                                        marginLeft: "10%",
-                                    }}
-                                >
-                                    <div style={{ marginRight: "5%" }}>
-                                        도착
-                                    </div>
-                                    <div className="when-button">
-                                        {" "}
-                                        <LocalizationProvider
-                                            dateAdapter={AdapterDayjs}
-                                            dateFormats={datePickerUtils}
-                                        >
-                                            <DemoContainer
-                                                components={["DatePicker"]}
-                                            >
-                                                <DatePicker
-                                                    label="도착 날짜를 선택해주세요"
-                                                    slotProps={{
-                                                        textField: {
-                                                            size: "small",
-                                                        },
-                                                    }}
-                                                    format="YYYY / MM / DD"
-                                                    value={finishDate}
-                                                    onChange={(newValue) => {
-                                                        finishDateChange(
-                                                            newValue
-                                                        );
-                                                    }}
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="recommend-card">
-                            {" "}
-                            <div className="recommend-card-title"> 어디로?</div>
-                            <div className="where-button-wrap">
-                                <div
-                                    className="where-button"
-                                    onClick={openModal}
-                                >
-                                    {recommendForm.cityId !== ""
-                                        ? region.result
-                                              .filter(
-                                                  (item) =>
-                                                      item.id ===
-                                                      recommendForm.cityId
-                                              )
-                                              .map((item) => item.city)
-                                        : "여행지를 선택해주세요"}
-                                    <div className="where-button-icon">
-                                        <AiOutlinePlus
-                                            style={{ fontSize: "20px" }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="recommend-card">
-                            {" "}
-                            <div className="recommend-card-title">누구와?</div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <button
-                                    onClick={() => handleWithWhoButtonClick(1)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.with === 1
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    친구랑
-                                </button>
-                                <button
-                                    onClick={() => handleWithWhoButtonClick(2)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.with === 2
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    가족과
-                                </button>
-                                <button
-                                    onClick={() => handleWithWhoButtonClick(3)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.with === 3
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    연인과
-                                </button>
-                                <button
-                                    onClick={() => handleWithWhoButtonClick(4)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.with === 4
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    혼자서
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="recommend-section-1">
-                        <div className="recommend-card">
-                            {" "}
-                            <div className="recommend-card-title">여행강도</div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <button
-                                    onClick={() => handleHardButtonClick(1)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.hard === 1
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    여유롭게
-                                </button>
-                                <button
-                                    onClick={() => handleHardButtonClick(2)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.hard === 2
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    보통
-                                </button>
-                                <button
-                                    onClick={() => handleHardButtonClick(3)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.hard === 3
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    바쁘게
-                                </button>
-                            </div>
-                        </div>
-                        <div className="recommend-card">
-                            {" "}
-                            <div className="recommend-card-title">
-                                무엇을?
-                                <span style={{ fontWeight: "normal" }}>
+                                <div className="recommend-card">
                                     {" "}
-                                    최대 3개 선택 가능
-                                </span>
+                                    <div className="recommend-card-title">
+                                        {" "}
+                                        어디로?
+                                    </div>
+                                    <div className="where-button-wrap">
+                                        <div
+                                            className="where-button"
+                                            onClick={openModal}
+                                        >
+                                            {recommendForm.cityId !== ""
+                                                ? region.result
+                                                      .filter(
+                                                          (item) =>
+                                                              item.id ===
+                                                              recommendForm.cityId
+                                                      )
+                                                      .map((item) => item.city)
+                                                : "여행지를 선택해주세요"}
+                                            <div className="where-button-icon">
+                                                <AiOutlinePlus
+                                                    style={{ fontSize: "20px" }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="recommend-card">
+                                    {" "}
+                                    <div className="recommend-card-title">
+                                        누구와?
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <div className="people-count-container">
+                                            <div
+                                                className="people-count-icon-minus people-count-icon
+"
+                                                onClick={
+                                                    handleDecreasePeopleCount
+                                                }
+                                            >
+                                                -
+                                            </div>
+                                            <div className="people-count">
+                                                {recommendForm.people}명
+                                            </div>
+                                            <div
+                                                className="people-count-icon-plus people-count-icon"
+                                                onClick={
+                                                    handleIncreasePeopleCount
+                                                }
+                                            >
+                                                +
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <button
+                                                onClick={() =>
+                                                    handleWithWhoButtonClick(1)
+                                                }
+                                                className={`recommend-card-button ${
+                                                    recommendForm.with === 1
+                                                        ? "recommend-card-button-selected"
+                                                        : ""
+                                                }`}
+                                            >
+                                                친구랑
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleWithWhoButtonClick(2)
+                                                }
+                                                className={`recommend-card-button ${
+                                                    recommendForm.with === 2
+                                                        ? "recommend-card-button-selected"
+                                                        : ""
+                                                }`}
+                                            >
+                                                가족과
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleWithWhoButtonClick(3)
+                                                }
+                                                className={`recommend-card-button ${
+                                                    recommendForm.with === 3
+                                                        ? "recommend-card-button-selected"
+                                                        : ""
+                                                }`}
+                                            >
+                                                연인과
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleWithWhoButtonClick(4)
+                                                }
+                                                className={`recommend-card-button ${
+                                                    recommendForm.with === 4
+                                                        ? "recommend-card-button-selected"
+                                                        : ""
+                                                }`}
+                                            >
+                                                혼자서
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <button
-                                    onClick={() => handleWhatButtonClick(1)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.what === 1
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    경치관람
-                                </button>
-                                <button
-                                    onClick={() => handleWhatButtonClick(2)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.what === 2
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    먹방
-                                </button>
-                                <button
-                                    onClick={() => handleWhatButtonClick(3)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.what === 3
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    액티비티
-                                </button>
-                            </div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <button
-                                    onClick={() => handleWhatButtonClick(4)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.what === 4
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    체험
-                                </button>
-                                <button
-                                    onClick={() => handleWhatButtonClick(5)}
-                                    className={`recommend-card-button ${
-                                        recommendForm.what === 5
-                                            ? "recommend-card-button-selected"
-                                            : ""
-                                    }`}
-                                >
-                                    카페
-                                </button>
+                            <div className="recommend-section-1">
+                                <div className="recommend-card">
+                                    {" "}
+                                    <div className="recommend-card-title">
+                                        여행강도
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                handleHardButtonClick(1)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.hard === 1
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            여유롭게
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleHardButtonClick(2)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.hard === 2
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            보통
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleHardButtonClick(3)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.hard === 3
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            바쁘게
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="recommend-card">
+                                    {" "}
+                                    <div className="recommend-card-title">
+                                        무엇을?
+                                        <span style={{ fontWeight: "normal" }}>
+                                            {" "}
+                                            최대 3개 선택 가능
+                                        </span>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(1)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 1
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            경치관람
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(2)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 2
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            먹방
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(3)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 3
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            액티비티
+                                        </button>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(4)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 4
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            체험
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(5)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 5
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            카페
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        {/* 여행찾기 버튼 */}
+                        <div
+                            className={`recommend-button ${
+                                isButtonDisabled ? "disabled" : ""
+                            }`}
+                            onClick={
+                                isButtonDisabled
+                                    ? null
+                                    : handleCompleteButtonClick
+                            }
+                        >
+                            여행찾기
+                        </div>
+                    </>
+                )}
+
+                {/* Display loading screen */}
+                {loading && (
+                    <div className="loading-screen">
+                        <div className="loading-text">
+                            <p>취향에 맞게 여행계획을</p>
+                            <p>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;구성중입니다
+                            </p>
+                        </div>
+                        <div className="loading-spinner">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
                     </div>
-                </div>
-                <div
-                    className="recommend-button"
-                    onClick={handleCompleteButtonClick}
-                >
-                    여행찾기
-                </div>
+                )}
             </div>
 
             {/* 여행지 선택 모달 창 */}
