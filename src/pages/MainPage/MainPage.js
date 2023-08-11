@@ -165,13 +165,13 @@ function MainPage() {
                 </div>{" "}
             </div>
             <div className="main-body">
-                <h3 className="content-title">Traveler의 추천여행</h3>
+                <h3 className="content-title">Traveler 의 추천여행</h3>
                 <MultipleSliderRecommend></MultipleSliderRecommend>
                 {/* 로그인 한 경우에만 나의 찜한 여행 보여주기 */}
                 {userInfo.isLogin && (
                     <>
                         <h3 className="content-title">
-                            {userInfo.nickname}의 찜한 여행
+                            {userInfo.nickname}님의 찜한 여행
                         </h3>
                         <MultipleSliderLike></MultipleSliderLike>
                     </>
