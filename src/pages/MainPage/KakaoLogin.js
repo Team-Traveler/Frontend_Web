@@ -73,7 +73,7 @@ function KakaoLogin() {
                     profileImage: response.data.result.profile_image_url,
                     isLogin: true,
                 });
-                navigate("/main");
+                navigate("/");
             } else {
                 console.log("No accessToken available");
             }
