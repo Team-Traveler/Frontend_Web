@@ -10,12 +10,13 @@
 
 .recommend-content{
   width: 60%;
-  margin-top: 2%;
+  margin-top: 4%;
 }
 
 .recommend-section{
   display: flex;
   height: 400px;
+
 }
 
 .recommend-section-1{
@@ -226,6 +227,9 @@
   line-height: 0.5;
   font-weight: 200;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .completed-text p{
