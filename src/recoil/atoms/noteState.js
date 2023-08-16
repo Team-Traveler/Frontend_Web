@@ -25,18 +25,18 @@ export const checkListState = atom({
             item: [
                 {
                     id: 1,
-                    item: "비행기 티켓",
-                    ischecked: false,
+                    name: "비행기 티켓",
+                    isChecked: false,
                 },
                 {
                     id: 2,
-                    item: "호텔 예약",
-                    ischecked: false,
+                    name: "호텔 예약",
+                    isChecked: false,
                 },
                 {
                     id: 3,
-                    item: "여권",
-                    ischecked: false,
+                    name: "여권",
+                    isChecked: false,
                 },
             ],
         },
@@ -47,13 +47,13 @@ export const checkListState = atom({
             item: [
                 {
                     id: 1,
-                    item: "여권",
-                    ischecked: false,
+                    name: "여권",
+                    isChecked: false,
                 },
                 {
                     id: 2,
-                    item: "캐리어",
-                    ischecked: false,
+                    name: "캐리어",
+                    isChecked: false,
                 },
             ],
         },
@@ -64,18 +64,18 @@ export const checkListState = atom({
             item: [
                 {
                     id: 1,
-                    item: "비행기 티켓",
-                    ischecked: false,
+                    name: "비행기 티켓",
+                    isChecked: false,
                 },
                 {
                     id: 2,
-                    item: "호텔 예약",
-                    ischecked: false,
+                    name: "호텔 예약",
+                    isChecked: false,
                 },
                 {
                     id: 3,
-                    item: "여권",
-                    ischecked: false,
+                    name: "여권",
+                    isChecked: false,
                 },
             ],
         },
