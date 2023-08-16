@@ -7,9 +7,10 @@ import "./CheckList.css";
 import edit_btn from "../../assets/images/edit_btn.png";
 import add_btn from "../../assets/images/add_btn.png";
 import del_btn from "../../assets/images/del_btn.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { el } from "date-fns/locale";
+import { set } from "date-fns";
 
 function CheckList() {
     const [noteList, setNoteList] = useRecoilState(noteState);
@@ -118,7 +119,17 @@ function CheckList() {
                 <div
                     className="check-list-add-btn"
                     onClick={() => {
-                        createCheckList();
+                        // createCheckList(selectedNote);
+                        setCheckList([
+                            ...checkList,
+                            {
+                                id: checkList.length + 1,
+                                travelId: selectedNote,
+                                title: "새로운 체크리스트",
+                                isedit: true,
+                                item: [],
+                            },
+                        ]);
                     }}
                 >
                     체크리스트 추가
@@ -129,6 +140,9 @@ function CheckList() {
             {checkList.find((list) => list.travelId === selectedNote) ? null : (
                 <div>체크리스트를 추가해 주세요.</div>
             )}
+
+            {/* {console.log("checklist: ", checkList)} */}
+
             {checkList.map((list) => {
                 if (list.travelId === selectedNote) {
                     return (
@@ -141,7 +155,12 @@ function CheckList() {
                                         src={del_btn}
                                         alt="del_btn"
                                         onClick={() => {
-                                            deleteCheckList();
+                                            // deleteCheckList();
+                                            setCheckList(
+                                                checkList.filter(
+                                                    (i) => i.id !== list.id
+                                                )
+                                            );
                                         }}
                                     />
 
@@ -150,7 +169,20 @@ function CheckList() {
                                         className="check-list-title-edit-box"
                                         type="text"
                                         value={list.title}
-                                        onChange={(e) => {}}
+                                        onChange={(e) => {
+                                            setCheckList(
+                                                checkList.map((i) => {
+                                                    if (i.id === list.id) {
+                                                        return {
+                                                            ...i,
+                                                            title: e.target
+                                                                .value,
+                                                        };
+                                                    }
+                                                    return i;
+                                                })
+                                            );
+                                        }}
                                     ></input>
 
                                     {/* 항목 추가 버튼 */}
@@ -158,7 +190,30 @@ function CheckList() {
                                         className="check-list-add-item-btn"
                                         onClick={
                                             // add new content
-                                            () => {}
+                                            () => {
+                                                setCheckList(
+                                                    checkList.map((i) => {
+                                                        if (i.id === list.id) {
+                                                            return {
+                                                                ...i,
+                                                                item: [
+                                                                    ...i.item,
+                                                                    {
+                                                                        id:
+                                                                            i
+                                                                                .item
+                                                                                .length +
+                                                                            1,
+                                                                        name: "",
+                                                                        isChecked: false,
+                                                                    },
+                                                                ],
+                                                            };
+                                                        }
+                                                        return i;
+                                                    })
+                                                );
+                                            }
                                         }
                                     >
                                         항목추가
@@ -170,6 +225,18 @@ function CheckList() {
                                         onClick={() => {
                                             // set check.isedit to false
                                             // set check.title to input value
+                                            setCheckList(
+                                                checkList.map((e) => {
+                                                    if (e.id === list.id) {
+                                                        return {
+                                                            ...e,
+                                                            isedit: !e.isedit,
+                                                            title: list.title,
+                                                        };
+                                                    }
+                                                    return e;
+                                                })
+                                            );
                                         }}
                                     >
                                         완료
@@ -190,14 +257,14 @@ function CheckList() {
                                         onClick={() => {
                                             // set list.isedit to true
                                             setCheckList(
-                                                checkList.map((item) => {
-                                                    if (item.id === list.id) {
+                                                checkList.map((e) => {
+                                                    if (e.id === list.id) {
                                                         return {
-                                                            ...item,
-                                                            isedit: !item.isedit,
+                                                            ...e,
+                                                            isedit: !e.isedit,
                                                         };
                                                     }
-                                                    return item;
+                                                    return e;
                                                 })
                                             );
                                         }}
@@ -216,25 +283,106 @@ function CheckList() {
                                         <input
                                             className="check-list-item-checkbox"
                                             type="checkbox"
-                                            checked={item.ischecked}
-                                            onChange={() => {}}
+                                            checked={item.isChecked}
+                                            onChange={() => {
+                                                setCheckList(
+                                                    checkList.map((e) => {
+                                                        if (e.id === list.id) {
+                                                            return {
+                                                                ...e,
+                                                                item: e.item.map(
+                                                                    (i) => {
+                                                                        if (
+                                                                            i.id ===
+                                                                            item.id
+                                                                        ) {
+                                                                            return {
+                                                                                ...i,
+                                                                                isChecked:
+                                                                                    !i.isChecked,
+                                                                            };
+                                                                        }
+                                                                        return i;
+                                                                    }
+                                                                ),
+                                                            };
+                                                        }
+                                                        return e;
+                                                    })
+                                                );
+                                            }}
                                         />
 
                                         {/* 체크리스트 항목 */}
-                                        <input
-                                            className="check-list-item"
-                                            type="text"
-                                            value={item.item}
-                                            placeholder="항목을 입력하세요"
-                                            onChange={() => {}}
-                                        />
+                                        {list.isedit ? (
+                                            <input
+                                                className="check-list-item"
+                                                type="text"
+                                                value={item.name}
+                                                placeholder="항목을 입력하세요"
+                                                onChange={(e) => {
+                                                    setCheckList(
+                                                        checkList.map((i) => {
+                                                            if (
+                                                                i.id === list.id
+                                                            ) {
+                                                                return {
+                                                                    ...i,
+                                                                    item: i.item.map(
+                                                                        (j) => {
+                                                                            if (
+                                                                                j.id ===
+                                                                                item.id
+                                                                            ) {
+                                                                                return {
+                                                                                    ...j,
+                                                                                    name: e
+                                                                                        .target
+                                                                                        .value,
+                                                                                };
+                                                                            }
+                                                                            return j;
+                                                                        }
+                                                                    ),
+                                                                };
+                                                            }
+                                                            return i;
+                                                        })
+                                                    );
+                                                }}
+                                            />
+                                        ) : (
+                                            <div className="check-list-item">
+                                                {item.name
+                                                    ? item.name
+                                                    : "빈 항목"}
+                                            </div>
+                                        )}
 
                                         {list.isedit ? (
                                             <img
                                                 className="check-list-item-delete"
                                                 src={del_btn}
                                                 alt="del_btn"
-                                                onClick={() => {}}
+                                                onClick={() => {
+                                                    setCheckList(
+                                                        checkList.map((i) => {
+                                                            if (
+                                                                i.id === list.id
+                                                            ) {
+                                                                return {
+                                                                    ...i,
+                                                                    item: i.item.filter(
+                                                                        (j) =>
+                                                                            j.id !==
+                                                                            item.id
+                                                                    ),
+                                                                };
+                                                            }
+                                                            return i;
+                                                        })
+                                                    );
+                                                }}
                                             />
                                         ) : null}
                                     </div>

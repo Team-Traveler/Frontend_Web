@@ -27,32 +27,32 @@ function NotePage() {
     // 나의 여행 목록 조회	GET	/users/my_travels
     // Header : Authorization : accessToken
 
-    useEffect(() => {
-        const fetchNotes = async () => {
-            try {
-                const response = await axios.get(
-                    `${serverUrl}/users/my_travels`,
-                    {
-                        headers: {
-                            Authorization: `${userInfo.accessToken}`,
-                        },
-                    }
-                );
-                console.log(response);
-                setNoteList(response.data.result);
-                console.log("노트 조회 성공");
-                console.log("result : ", response.data.result);
-            } catch (error) {
-                console.log(error);
-                console.log("노트 조회 실패");
-            }
-        };
-        fetchNotes();
-    }, []);
+    // useEffect(() => {
+    //     const fetchNotes = async () => {
+    //         try {
+    //             const response = await axios.get(
+    //                 `${serverUrl}/users/my_travels`,
+    //                 {
+    //                     headers: {
+    //                         Authorization: `${userInfo.accessToken}`,
+    //                     },
+    //                 }
+    //             );
+    //             console.log(response);
+    //             setNoteList(response.data.result);
+    //             console.log("노트 조회 성공");
+    //             console.log("result : ", response.data.result);
+    //         } catch (error) {
+    //             console.log(error);
+    //             console.log("노트 조회 실패");
+    //         }
+    //     };
+    //     fetchNotes();
+    // }, []);
 
     return (
         <div className="note-page">
-            selectedNoteId : {selectedNote}
+            {/* selectedNoteId : {selectedNote} */}
             <Nav />
             <div className="note">
                 <div className="note-container">
