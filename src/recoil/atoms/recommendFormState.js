@@ -9,7 +9,7 @@ export const recommendFormState = atom({
         finishDate: "",
         cityId: "",
         hard: "",
-        what: [],
+        what: "",
         with: "",
         people: 1,
     },
