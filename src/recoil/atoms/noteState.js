@@ -5,14 +5,30 @@ export const selectedNoteId = atom({
     default: 0,
 });
 
-export const nextNoteId = atom({
-    key: "nextNoteId",
-    default: 6,
-});
-
 export const AccountBookMode = atom({
     key: "AccountBookMode",
     default: 0,
+});
+
+export const accountListState = atom({
+    key: "accountListState",
+    default: [
+        {
+            accountName: "새로운 가계부 이름",
+            tId: 12345,
+            budget: 1500.0,
+            transactions: [
+                {
+                    description: "식사",
+                    amount: 200.0,
+                },
+                {
+                    description: "교통비",
+                    amount: 50.0,
+                },
+            ],
+        },
+    ],
 });
 
 export const checkListState = atom({

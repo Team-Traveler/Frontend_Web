@@ -3,7 +3,6 @@ import "./NotePage.css";
 import { useRecoilState } from "recoil";
 import { noteState } from "../../recoil/atoms/noteState";
 import { selectedNoteId } from "../../recoil/atoms/noteState";
-import { nextNoteId } from "../../recoil/atoms/noteState";
 import { AccountBookMode } from "../../recoil/atoms/noteState";
 import { userInfoState } from "../../recoil/atoms/userState";
 import axios from "axios";
@@ -16,7 +15,6 @@ import Ellipse from "../../assets/images/Ellipse.png";
 function NotePage() {
     const [noteList, setNoteList] = useRecoilState(noteState);
     const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
-    const [nextid, setNextid] = useRecoilState(nextNoteId);
     const [checktoggle, setCheckToggle] = useState(true);
     const [AccountMode, setAccountMode] = useRecoilState(AccountBookMode);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -26,7 +24,6 @@ function NotePage() {
 
     // 나의 여행 목록 조회	GET	/users/my_travels
     // Header : Authorization : accessToken
-
     // useEffect(() => {
     //     const fetchNotes = async () => {
     //         try {
