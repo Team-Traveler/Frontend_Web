@@ -167,14 +167,14 @@ function RecommendPage() {
         if (recommendForm.people === 1) return;
         setRecommendForm((prev) => ({
             ...prev,
-            people: prev.people - 1,
+            people: Number(prev.people) - 1,
         }));
     };
 
     const handleIncreasePeopleCount = () => {
         setRecommendForm((prev) => ({
             ...prev,
-            people: prev.people + 1,
+            people: Number(prev.people) + 1,
         }));
     };
 
@@ -319,7 +319,7 @@ function RecommendPage() {
                                                 ? region.result
                                                       .filter(
                                                           (item) =>
-                                                              item.id ===
+                                                              item.did ===
                                                               recommendForm.cityId
                                                       )
                                                       .map((item) => item.city)
@@ -625,7 +625,7 @@ function LeftListComponent({ items, onItemClick, selectedCountry }) {
         <div className="left-list">
             {items.map((item) => (
                 <div
-                    key={item.id}
+                    key={item.did}
                     className={`left-list-item ${
                         item.name === selectedCountry ? "selected" : ""
                     }`}
@@ -644,14 +644,14 @@ function RightListComponent({ items, setRecommendForm, closeModal }) {
     return (
         <div className="right-list">
             {items.map((item) => (
-                <div key={item.id}>
-                    <div key={item.id} className="right-list-item">
+                <div key={item.did}>
+                    <div key={item.did} className="right-list-item">
                         {item.city}
                         <div
                             onClick={() => {
                                 setRecommendForm((prev) => ({
                                     ...prev,
-                                    cityId: item.id,
+                                    cityId: item.did,
                                 }));
                                 closeModal();
                             }}
