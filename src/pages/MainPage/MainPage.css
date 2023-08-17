@@ -111,7 +111,7 @@
 .content-card{
   width: 200px;
   height: 200px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),url("../../assets//images/beach_image.jpeg");
+  /* background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),url("../../assets//images/beach_image.jpeg"); */
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -119,7 +119,6 @@
   align-items: end;
   margin-right: auto;
   margin-left: auto;
-  border: 1px solid black;
   border-radius: 15px;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);  
   transition: box-shadow 0.1s linear;
