@@ -1,0 +1,154 @@
+
+.travel-card {
+    position: relative;
+    margin-top: 2vh;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    padding: 1.64vw;
+    border: 2px solid #757575;  
+}
+
+.travel-card-name {
+    font-size: 30px;
+    text-align: center;
+    font-family: CooperBlack;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.travel-card-duration {
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+    margin-bottom: 10px;
+}
+
+.travel-card-category {
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+}
+
+.travel-card-text {
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+    margin-bottom: 10px;
+}
+
+.travel-card-button {
+    font-size: 18px;
+    text-align: center;
+}
+
+.day {
+    font-size: 20px;
+    font-family: CooperBlack;
+    font-weight: lighter;
+    margin-left: 10px;
+}
+
+.numofDay {
+    font-size: 20px;
+    font-family: CooperBlack;
+    font-weight: bold;
+}
+
+.travel-card-empty {
+    font-size: 30px;
+    text-align: match-parent;
+    height: 17.86vh;
+    font-family: CooperBlack;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-specific-button {
+    position: absolute;
+    top: 5vh;
+    right: 1.17vw;
+    width: 2.5vw;
+    height: 2.5vw;
+    background: url('./edit.svg');
+    border: none;
+    outline: none;
+    background-size: cover;
+}
+
+.edit-specific-extra-button {
+    position: absolute;
+    top: 3vh;
+    right: 2vw;
+    width: 2.5vw;
+    height: 2.5vw;
+    background: url('./edit.svg');
+    border: none;
+    outline: none;
+    background-size: cover;
+}
+
+.my-travel-specific-lists {
+    position: relative;
+    overflow-y: auto; /* 수직으로만 스크롤 */
+    width: 39vw;
+    height: 56vh;
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #000;
+    box-sizing: border-box;
+
+}
+
+.image-container img {
+    position: relative;
+    top: 5vh;  
+    width: 39vw;
+}
+
+.num-box {
+    width: 1.5vw;
+    height: 1.5vw;
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    margin-right: 2.34vw;
+}
+.travel-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;  /* 수직 방향에서 자식 요소들을 중앙 정렬 */
+    margin-top: 5vh;
+    margin-left: 20px;
+}
+
+.spot-container {
+    display: flex;        /* Flexbox를 활성화합니다. */
+    align-items: center;  /* 자식 요소들을 수직 중앙으로 정렬합니다. */
+    
+}
+
+.travel-card-places {
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+    text-decoration: none;
+}
+
+.spot-wrapper{
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.div-size {
+    width: 20px;
+    height: 20px;
+    display: flex;       /* 내용을 중앙에 정렬하기 위해 flexbox를 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    font-size: 30px;
+}

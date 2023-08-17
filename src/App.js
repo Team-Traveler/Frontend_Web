@@ -5,6 +5,7 @@ import NotePage from "./pages/NotePage/NotePage.js";
 import RecommendPage from "./pages/RecommendPage/RecommendPage";
 import KakaoLogin from "./pages/MainPage/KakaoLogin";
 import CompletedPage from "./pages/RecommendPage/CompletedPage";
+import MyTravelMain from "./pages/MyTravelPage/MyTravelMain/MyTravelMain";
 import { userInfoState } from "./recoil/atoms/userState";
 import { useRecoilState } from "recoil";
 
@@ -27,7 +28,7 @@ function App() {
                         ></Route>
                         <Route path="/story" />
                         <Route path="/note" element={<NotePage />}></Route>
-                        <Route path="/mypage" />
+                        <Route path="/mypage" element={<MyTravelMain />}/>
                     </>
                 ) : null}
                 <Route path="/kakaoLogin" element={<KakaoLogin />} />

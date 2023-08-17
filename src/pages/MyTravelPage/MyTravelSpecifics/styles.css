@@ -1,0 +1,41 @@
+.group490 {
+    width: 100%;
+    height: 10.58vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+  }
+  
+  .detailTitle {
+    width: 14.84vw;
+    height: 5vh;
+    font-family: 'Cooper Black';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 42px;
+    text-align: center;
+    color: #000000;
+    
+  }
+  
+  .subText {
+    width: 14.37vw;
+    height: 2.5vh;
+    font-family: 'Cooper Black';
+    font-style: normal;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: #000000;
+  }
+  
+  .rectangle {
+    box-sizing: border-box;
+    width: 56.95vw;
+    height: 0.6vh;
+    background: #FFFFFF;
+    border: 1px solid #BBBBBB;
+  }

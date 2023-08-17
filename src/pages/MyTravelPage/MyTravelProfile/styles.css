@@ -1,0 +1,59 @@
+.border {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 24vw;
+    height: 63.8vh;
+    border: 1px solid #BBBBBB;
+    background-color: white;
+    border-radius: 10px;
+    padding: 3.12vw;
+}
+
+.profile-title {
+    align-self: center;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-family: CooperBlack;
+}
+
+.profile-name {
+    font-size: 25px;
+    text-align: start;
+    font-family: CooperBlack;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: normal;
+    width: 100%;
+}
+
+.profile-travels {
+    font-size: 25px;
+    text-align: center;
+    font-family: CooperBlack;
+}
+
+.profile-likes {
+    font-size: 25px;
+    text-align: center;
+    margin-left: 5vw;
+    font-family: CooperBlack;
+}
+
+.profile-date {
+    font-size: 25px;
+    text-align: start;
+    font-family: CooperBlack;
+}
+
+.profile-image{
+    width: 120px;
+    height: 120px;
+    margin-top: 14.1vh;
+    border-radius: 50%;
+    object-fit: cover;
+}
