@@ -102,24 +102,10 @@ function RecommendPage() {
     };
 
     const handleWhatButtonClick = (buttonId) => {
-        // Check if the buttonId is already selected
-        const isSelected = recommendForm.what.includes(buttonId);
-
-        if (isSelected) {
-            // If already selected, remove the buttonId from the array
-            setRecommendForm((prev) => ({
-                ...prev,
-                what: prev.what.filter((id) => id !== buttonId).sort(),
-            }));
-        } else {
-            // If not selected, add the buttonId to the array if it doesn't exceed 3 selections
-            if (recommendForm.what.length < 3) {
-                setRecommendForm((prev) => ({
-                    ...prev,
-                    what: [...prev.what, buttonId].sort(),
-                }));
-            }
-        }
+        setRecommendForm((prev) => ({
+            ...prev,
+            what: buttonId,
+        }));
     };
 
     const leftListCountry = [
@@ -500,58 +486,76 @@ function RecommendPage() {
                                     <div
                                         style={{
                                             display: "flex",
-                                            flexDirection: "column",
                                             justifyContent: "center",
                                         }}
                                     >
-                                        <div style={{ textAlign: "center" }}>
-                                            {[1, 2, 3].map((buttonId) => (
-                                                <button
-                                                    key={buttonId}
-                                                    onClick={() =>
-                                                        handleWhatButtonClick(
-                                                            buttonId
-                                                        )
-                                                    }
-                                                    className={`recommend-card-button ${
-                                                        recommendForm.what.includes(
-                                                            buttonId
-                                                        )
-                                                            ? "recommend-card-button-selected"
-                                                            : ""
-                                                    }`}
-                                                >
-                                                    {buttonId === 1
-                                                        ? "경치관람"
-                                                        : buttonId === 2
-                                                        ? "먹방"
-                                                        : "액티비티"}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <div style={{ textAlign: "center" }}>
-                                            {[4, 5].map((buttonId) => (
-                                                <button
-                                                    key={buttonId}
-                                                    onClick={() =>
-                                                        handleWhatButtonClick(
-                                                            buttonId
-                                                        )
-                                                    }
-                                                    className={`recommend-card-button ${
-                                                        recommendForm.what.includes(
-                                                            buttonId
-                                                        )
-                                                            ? "recommend-card-button-selected"
-                                                            : ""
-                                                    }`}
-                                                >
-                                                    {buttonId === 4
-                                                        ? "체험"
-                                                        : "카페"}
-                                                </button>
-                                            ))}
-                                        </div>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(1)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 1
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            경치관람
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(2)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 2
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            먹방
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(3)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 3
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            액티비티
+                                        </button>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(4)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 4
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            체험
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleWhatButtonClick(5)
+                                            }
+                                            className={`recommend-card-button ${
+                                                recommendForm.what === 5
+                                                    ? "recommend-card-button-selected"
+                                                    : ""
+                                            }`}
+                                        >
+                                            카페
+                                        </button>
                                     </div>
                                 </div>
                             </div>
