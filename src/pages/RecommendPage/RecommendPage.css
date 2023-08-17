@@ -170,7 +170,7 @@
 
 .recommend-button{
   position: fixed;
-  bottom: 10%;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   width: 15%;
@@ -223,7 +223,7 @@
 .completed-text{
   z-index: 2;
   position: absolute;
-  top: 37%;
+  top: 34%;
   left: 40%;
   line-height: 0.5;
   font-weight: 200;
