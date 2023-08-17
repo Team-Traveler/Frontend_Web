@@ -37,13 +37,30 @@
 
 .account-item {
     width: 100%;
+    margin-bottom: 10px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .account-item-category {
+    width: 100px;
 }
 .account-item-title {
+    width: 100px;
 }
 .account-item-price {
+    width: 100px;
     color: red;
+}
+
+.account-item-del-btn {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-left: 70px;
+}
+
+.account-item-del-btn-diable {
+    width: 20px;
+    height: 20px;
+    margin-left: 70px;
 }

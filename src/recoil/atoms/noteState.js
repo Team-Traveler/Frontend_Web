@@ -36,12 +36,12 @@ export const checkListState = atom({
     default: [
         {
             id: 1,
-            title: "2023년 5월",
+            title: "2023년 8월",
             travelId: 1,
             item: [
                 {
                     id: 1,
-                    name: "비행기 티켓",
+                    name: "아쿠아 슈즈",
                     isChecked: false,
                 },
                 {
@@ -51,24 +51,24 @@ export const checkListState = atom({
                 },
                 {
                     id: 3,
-                    name: "여권",
+                    name: "보조배터리",
                     isChecked: false,
                 },
             ],
         },
         {
             id: 2,
-            title: "2023년 6월",
+            title: "2023년 9월",
             travelId: 1,
             item: [
                 {
                     id: 1,
-                    name: "여권",
+                    name: "클렌징폼",
                     isChecked: false,
                 },
                 {
                     id: 2,
-                    name: "캐리어",
+                    name: "우산",
                     isChecked: false,
                 },
             ],
@@ -80,17 +80,17 @@ export const checkListState = atom({
             item: [
                 {
                     id: 1,
-                    name: "비행기 티켓",
+                    name: "한복 대여",
                     isChecked: false,
                 },
                 {
                     id: 2,
-                    name: "호텔 예약",
+                    name: "충전기",
                     isChecked: false,
                 },
                 {
                     id: 3,
-                    name: "여권",
+                    name: "카메라",
                     isChecked: false,
                 },
             ],
@@ -103,23 +103,11 @@ export const noteState = atom({
     default: [
         {
             id: 1,
-            title: "도쿄 여행",
+            title: "제주도 제주시",
         },
         {
             id: 2,
-            title: "오사카 여행",
-        },
-        {
-            id: 3,
-            title: "동유럽 여행",
-        },
-        {
-            id: 4,
-            title: "캐나다 여행_2019",
-        },
-        {
-            id: 5,
-            title: "방콕 여행_2022",
+            title: "전라북도 전주시",
         },
     ],
 });

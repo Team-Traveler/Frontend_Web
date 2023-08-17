@@ -167,6 +167,7 @@ function CheckList() {
         }
     };
 
+    // console.log("noteList: ", noteList);
     const selectedNoteObject = noteList.find(
         (note) => note.id === selectedNote
     );

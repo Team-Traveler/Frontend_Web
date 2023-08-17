@@ -18,12 +18,29 @@ function AccountBook() {
         <div className="account-book">
             <div className="account-book-header">
                 <div className="account-book-title">
-                    {noteList[selectedNote - 1].title}
+                    {noteList.map((note) => {
+                        if (note.id === selectedNote) {
+                            return note.title;
+                        }
+                    })}
                 </div>
                 <img
                     className="account-book-title-edit-btn"
                     src={edit_btn}
                     alt="edit_btn"
+                    onClick={() => {
+                        setNoteList(
+                            noteList.map((item) => {
+                                if (item.id === selectedNote) {
+                                    return {
+                                        ...item,
+                                        isEdit: !item.isEdit,
+                                    };
+                                }
+                                return item;
+                            })
+                        );
+                    }}
                 />
             </div>
 
