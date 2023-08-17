@@ -241,6 +241,11 @@ const MultipleSliderRecommend = () => {
         }
     };
 
+    // 이미지 슬라이드 이미지 스타일
+    const imageStyle = (imageUrl) => ({
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("${imageUrl}")`,
+    });
+
     return (
         <div className="content">
             <Slider {...settings}>
@@ -249,6 +254,7 @@ const MultipleSliderRecommend = () => {
                         <div
                             className="content-card"
                             onClick={() => handleCardClick(content)}
+                            style={imageStyle(content.image)}
                         >
                             <p>{content.title}</p>
                             <p>{content.duration}</p>
@@ -355,6 +361,11 @@ const MultipleSliderLike = () => {
         }
     };
 
+    // 이미지 슬라이드 이미지 스타일
+    const imageStyle = (imageUrl) => ({
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("${imageUrl}")`,
+    });
+
     return (
         <div className="content">
             <Slider {...settings}>
@@ -363,6 +374,7 @@ const MultipleSliderLike = () => {
                         <div
                             className="content-card"
                             onClick={() => handleCardClick(likeContent)}
+                            style={imageStyle(likeContent.image)}
                         >
                             <p>{likeContent.title}</p>
                             <p>{likeContent.duration}</p>

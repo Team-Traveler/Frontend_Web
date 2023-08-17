@@ -4,24 +4,18 @@ import { atom } from "recoil";
 const defaultLikeContents = {
     result: [
         {
-            id: 1,
-            title: "괌 여행",
-            duration: "3박 4일",
-            description: "투몬해변과 두짓비치리조트", // 15자 이내
-            daysAgo: 5,
-            hashTag: ["hashTag1", "hashTag2", "hasTag3"],
-            authorId: 1,
-            authorName: "관리자",
+            id: 5,
+            title: "대구광역시 수성구 수성못",
+            duration: "4박 5일",
+            description: "요즘 날씨에 걷기 좋은 곳",
+            image: "https://github.com/Team-Traveler/Frontend_Web/assets/71630722/5034f333-731f-48e8-a6f9-12ba608d1466",
         },
         {
-            id: 7,
-            title: "헝가리 여행",
+            id: 6,
+            title: "전라남도 여수시",
             duration: "3박 4일",
-            description: "아름다운 야경, 저렴한 물가",
-            daysAgo: 5,
-            hashTag: ["hashTag1", "hashTag2", "hasTag3"],
-            authorId: 1,
-            authorName: "관리자",
+            description: "엑스포만 있는게 아니에요",
+            image: "https://github.com/Team-Traveler/Frontend_Web/assets/71630722/31897bc5-1fcf-4874-919e-8cabe344aade",
         },
     ],
 };
