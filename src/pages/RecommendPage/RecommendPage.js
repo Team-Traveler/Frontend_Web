@@ -63,6 +63,7 @@ function RecommendPage() {
             people: recommendForm.people,
         };
 
+        // 여행 찾기 버튼 클릭 시 recommendFormState axios 전송
         // axios
         //     .post("http://15.164.232.95:9000/recommend", data, {
         //         headers: { Authorization: userInfo.accessToken },
@@ -125,22 +126,22 @@ function RecommendPage() {
     ];
 
     // region 데이터 axios로 불러와서 regionState에 저장
-    // useEffect(() => {
-    //     const fetchRegionData = async () => {
-    //         try {
-    //             const response = await axios.get(
-    //                 "http://15.164.232.95:9000/recommend/region",
-    //                 {
-    //                     headers: { Authorization: userInfo.accessToken },
-    //                 }
-    //             );
-    //             setRegion(response.data);
-    //         } catch (error) {
-    //             console.log("Error: ", error);
-    //         }
-    //     };
-    //     fetchRegionData();
-    // }, [userInfo.accessToken, showModal, setRegion]);
+    useEffect(() => {
+        const fetchRegionData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://15.164.232.95:9000/recommend/region",
+                    {
+                        headers: { Authorization: userInfo.accessToken },
+                    }
+                );
+                setRegion(response.data);
+            } catch (error) {
+                console.log("Error: ", error);
+            }
+        };
+        fetchRegionData();
+    }, [userInfo.accessToken, showModal, setRegion]);
 
     const rightListCountry = region.result.filter(
         (item) => item.country === selectedCountry
@@ -478,10 +479,6 @@ function RecommendPage() {
                                     {" "}
                                     <div className="recommend-card-title">
                                         무엇을?
-                                        <span style={{ fontWeight: "normal" }}>
-                                            {" "}
-                                            최대 3개 선택 가능
-                                        </span>
                                     </div>
                                     <div
                                         style={{

@@ -109,6 +109,8 @@ function MainPage() {
                         headerTitle={<h3>로그인 또는 회원가입</h3>}
                     >
                         <h3>Traveler에 오신것을 환영합니다!</h3>
+                        <p>로그인 후 해당 컨텐츠를 이용하실 수 있습니다.</p>
+
                         <button className="kakao-login" onClick={handleLogin}>
                             <img src={kakaoLoginButton} alt="kakao-login"></img>
                         </button>
@@ -125,20 +127,32 @@ function MainPage() {
             {/* 메인 메뉴 */}
             <div className="main-menu">
                 <div className="main-menu-item">
-                    <Link to="/recommend">
-                        <div
-                            className="main-menu-box"
-                            style={{ backgroundColor: "rgba(217,250,255,1)" }}
-                        >
-                            <Location />
-                        </div>
-                    </Link>
+                    <div
+                        className="main-menu-box"
+                        style={{ backgroundColor: "rgba(217,250,255,1)" }}
+                        onClick={() => {
+                            if (userInfo.isLogin) {
+                                navigate("/recommend");
+                            } else {
+                                openModal();
+                            }
+                        }}
+                    >
+                        <Location />
+                    </div>
                     <div className="main-menu-text">여행찾기</div>
                 </div>
                 <div className="main-menu-item">
                     <div
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(255, 209, 209, 1)" }}
+                        onClick={() => {
+                            if (userInfo.isLogin) {
+                                navigate("/story");
+                            } else {
+                                openModal();
+                            }
+                        }}
                     >
                         <Story />
                     </div>
@@ -148,7 +162,13 @@ function MainPage() {
                     <div
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(216, 255, 216, 1)" }}
-                        onClick={() => navigate("/note")} // 나의노트 페이지로 이동
+                        onClick={() => {
+                            if (userInfo.isLogin) {
+                                navigate("/note");
+                            } else {
+                                openModal();
+                            }
+                        }}
                     >
                         <Note />
                     </div>
@@ -158,6 +178,13 @@ function MainPage() {
                     <div
                         className="main-menu-box"
                         style={{ backgroundColor: "rgba(249, 255, 223, 1)" }}
+                        onClick={() => {
+                            if (userInfo.isLogin) {
+                                navigate("/mypage");
+                            } else {
+                                openModal();
+                            }
+                        }}
                     >
                         <MyTravel />
                     </div>
@@ -188,18 +215,20 @@ const MultipleSliderRecommend = () => {
     const [userInfo] = useRecoilState(userInfoState);
     const [contents, setContents] = useRecoilState(contentState);
 
-    // useEffect(() => {
-    //     // 여행 컨텐츠 데이터 받아오기
-    //     const fetchContents = async () => {
-    //         try {
-    //             const response = await axios.get("http://15.164.232.95:9000/travel/recommend");
-    //             setContents(response.data);
-    //         } catch (error) {
-    //             console.error("Error while fetching contents:", error);
-    //         }
-    //     };
-    //     fetchContents();
-    // }, []);
+    useEffect(() => {
+        // 추천여행 리스트 데이터 받아오기
+        const fetchContents = async () => {
+            try {
+                const response = await axios.get(
+                    "http://15.164.232.95:9000/travel/recommend"
+                );
+                setContents(response.data);
+            } catch (error) {
+                console.error("Error while fetching contents:", error);
+            }
+        };
+        fetchContents();
+    }, []);
 
     // 카카오 로그인
     const Rest_api_key = process.env.REACT_APP_KAKAO_REST_API_KEY;
@@ -298,11 +327,11 @@ const MultipleSliderLike = () => {
     const [likeContents, setLikeContents] = useRecoilState(likeContentState);
 
     // useEffect(() => {
-    //     // 여행 컨텐츠 데이터 받아오기
+    //     // 찜한 여행 컨텐츠 데이터 받아오기
     //     const fetchContents = async () => {
     //         try {
     //             const response = await axios.get(
-    //                 "http://15.164.232.95:9000/travel/recommend",
+    //                 "http://15.164.232.95:9000/users/like",
     //                 {
     //                     headers: { Authorization: userInfo.accessToken },
     //                 }
