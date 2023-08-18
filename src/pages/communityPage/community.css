@@ -1,0 +1,215 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.community-page {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  height: 100;
+  background-image: url("../../assets/images/background.png");
+  background-size: cover;
+}
+
+#header {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid gray;
+}
+
+#body {
+  height: 100%;
+  width: 1024px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+}
+
+#footer {
+  height: 200px;
+}
+
+#header-area {
+  width: 1024px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#header-area > img {
+  width: 219px;
+  height: 55px;
+  margin: 0 auto;
+}
+
+.product-img-container {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ddd; /* 별 아이콘 색상 변경 */
+  z-index: 1; /* 아이콘을 이미지 위로 렌더링 */
+}
+
+.favorite-icon.filled {
+  color: #ffcc00; /* 채워진 별 색상 */
+}
+
+#body > h1 {
+  margin-top: 16px;
+}
+
+#product-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
+   /* 각 카드 사이의 간격 조정 */
+}
+
+.product-card {
+  z-index: 2;
+  position: relative; /* 추가 */
+  width: calc(25% - 12px);
+  height: 293px;
+  margin-right: 10px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지 비율 유지 및 컨테이너에 꽉 차도록 설정 */
+}
+
+.product-contents {
+  position: absolute; /* 변경 */
+  bottom: 0; /* 변경 */
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  width: 100%; /* 추가 */
+  background-color: rgba(255, 255, 255, 0.8); /* 추가 */
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.product-oneline {
+  font-size: 14px;
+}
+
+.product-traveler {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.icons-bottom {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1.2rem;
+}
+.custom-button {
+  position: relative; /* Create a positioning context for the custom-button container */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 40px; /* Adjust this value if needed */
+}
+
+.search {
+  position: absolute;
+  top: 178px; /* Adjust this value for vertical positioning */
+  left: 1434px; /* Adjust this value for horizontal positioning */
+  z-index: 3; /* Place the search image above button1 */
+  filter: brightness(0) invert(1);
+}
+  
+.recent {
+  /* 기본레이아웃 스타일 */
+  width: 960px;
+  height: 88.34px;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 30px 0px rgba(141, 141, 141, 0.2);
+}
+
+.button1,
+.button2 {
+  /* 버튼 이미지 공통 스타일 */
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative; 
+  /* 간격을 왼쪽으로 조절 */
+}
+
+.button2{
+  z-index: 1;
+  position: relative; 
+}
+
+.comment-icon {
+  margin-right: 40px; 
+  margin-left: 10px;/* 오른쪽 마진을 조정하여 간격을 설정하세요 */
+}
+
+.share-icon {
+  margin: 0 40px; /* 좌우 마진을 조정하여 간격을 설정하세요 */
+}
+
+.heart-icon {
+  margin-left: 40px; /* 왼쪽 마진을 조정하여 간격을 설정하세요 */
+}
+.icons-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100px; /* 조정할 아이콘 영역의 너비를 지정하세요 */
+}
+
+.comment-icon,
+.share-icon,
+.heart-icon {
+  margin-top: 4px;
+  flex: 1;
+  text-align: center;
+}
+.button1 img,
+.button2 img {
+  width: 100%; /* 버튼 이미지를 꽉 차도록 조정 */
+  height: auto;
+}
+/* margin: 0 auto;:부모로부터 자식정렬 */
+/* display: flex; 상품들이 세로가 아닌 가로로 정렬되도록 함 */
+/* flex-wrap: wrap; 상품의 줄바꿈을 유연하게 해줌 */
+/* margin-right: 12px;를 통해 제품간의 좌우 간격을 둠 */
+/* margin-bottom: 12px;르 통해 제품간의 상하 간격을 둠 */
+/* flex-direction: column;를 통해 <span> 세로 정렬 */
+/* span tag는 줄바꿈이 되지 않음 또한, 부가 설명 글을 넣을때 주로 사용 */
+/* font weight는 폰트의 두께를 의미 */
+/* align-items:center;: 아바타와 판매자를 수직으로 정렬 시켜줌 */
