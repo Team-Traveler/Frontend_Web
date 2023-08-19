@@ -22,30 +22,30 @@ function NotePage() {
     // Server Address
     const serverUrl = "http://15.164.232.95:9000";
 
-    // 나의 여행 목록 조회	GET	/users/my_travels
-    // Header : Authorization : accessToken
-    // useEffect(() => {
-    //     const fetchNotes = async () => {
-    //         try {
-    //             const response = await axios.get(
-    //                 `${serverUrl}/users/my_travels`,
-    //                 {
-    //                     headers: {
-    //                         Authorization: `${userInfo.accessToken}`,
-    //                     },
-    //                 }
-    //             );
-    //             console.log(response);
-    //             setNoteList(response.data.result);
-    //             console.log("노트 조회 성공");
-    //             console.log("result : ", response.data.result);
-    //         } catch (error) {
-    //             console.log(error);
-    //             console.log("노트 조회 실패");
-    //         }
-    //     };
-    //     fetchNotes();
-    // }, []);
+    // 나의 여행 목록 조회
+    useEffect(() => {
+        const fetchNotes = async () => {
+            try {
+                const response = await axios.get(
+                    `${serverUrl}/users/my_travels`,
+                    {
+                        headers: {
+                            Authorization: `${userInfo.accessToken}`,
+                        },
+                    }
+                );
+                console.log("여행(노트) 조회 성공");
+                console.log("response : ", response);
+                console.log("result : ", response.data.result);
+                setNoteList(response.data.result);
+                console.log("noteList : ", noteList);
+            } catch (error) {
+                console.log(error);
+                console.log("여행(노트) 조회 실패");
+            }
+        };
+        fetchNotes();
+    }, []);
 
     return (
         <div className="note-page">
@@ -56,7 +56,7 @@ function NotePage() {
                     {noteList.length > 0 ? (
                         <div className="note-list">
                             {noteList.map((note) => (
-                                <div className="note-list-item " key={note.id}>
+                                <div className="note-list-item " key={note.tid}>
                                     <div className="note-list-item-header">
                                         <button
                                             className="note-list-item-btn"
@@ -64,7 +64,8 @@ function NotePage() {
                                                 setNoteList(
                                                     noteList.map((item) => {
                                                         if (
-                                                            item.id === note.id
+                                                            item.tid ===
+                                                            note.tid
                                                         ) {
                                                             return {
                                                                 ...item,
@@ -92,7 +93,7 @@ function NotePage() {
                                                 className="note-list-item-check"
                                                 onClick={() => {
                                                     setCheckToggle(true);
-                                                    setSelectedNote(note.id);
+                                                    setSelectedNote(note.tid);
                                                 }}
                                             >
                                                 <img
@@ -106,7 +107,7 @@ function NotePage() {
                                                 className="note-list-item-account"
                                                 onClick={() => {
                                                     setCheckToggle(false);
-                                                    setSelectedNote(note.id);
+                                                    setSelectedNote(note.tid);
                                                     setAccountMode(0);
                                                 }}
                                             >
