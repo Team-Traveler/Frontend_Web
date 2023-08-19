@@ -31,6 +31,7 @@ function CheckList() {
     // 준비물 삭제	DELETE	/checklist/{categoryId}/item/{itemId}
     // 준비물 체크 상태 변경	PATCH	/{categoryId}/item/{itemId}/status
 
+    // 체크리스트 조회
     // useEffect(() => {
     //     const fetchCheckList = async (travelId) => {
     //         try {
@@ -169,7 +170,7 @@ function CheckList() {
 
     // console.log("noteList: ", noteList);
     const selectedNoteObject = noteList.find(
-        (note) => note.id === selectedNote
+        (note) => note.tid === selectedNote
     );
 
     if (!selectedNoteObject) {
@@ -189,16 +190,6 @@ function CheckList() {
                     className="check-list-add-btn"
                     onClick={() => {
                         createCheckList(selectedNote);
-                        setCheckList([
-                            ...checkList,
-                            {
-                                id: checkList.length + 1,
-                                travelId: selectedNote,
-                                title: "새로운 체크리스트",
-                                isedit: true,
-                                item: [],
-                            },
-                        ]);
                     }}
                 >
                     체크리스트 추가
