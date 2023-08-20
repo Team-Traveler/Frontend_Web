@@ -4,7 +4,7 @@ import MyTravelInputWindows from '../MyTravelInputWindows/MyTravelInputWindows';
 import './styles.css';
 
 
-function MyTravelAdd({setView,...props}) {
+function MyTravelAdd({setView, setIsTravelDataCreated,...props}) {
     const [travelInfo, setTravelInfo] = useState({
         name: "",
         placeName: "",
@@ -44,7 +44,7 @@ function MyTravelAdd({setView,...props}) {
                 <div className="rectangle"></div>
             </div>
             <div className="windows">
-                <MyTravelInputWindows onTravelInfoSubmit={onTravelInfoSubmit} isFromEdit={false} setView={setView}/>
+                <MyTravelInputWindows onTravelInfoSubmit={onTravelInfoSubmit} isFromEdit={false} setView={setView} setIsTravelDataCreated={setIsTravelDataCreated}/>
             </div>
             
         

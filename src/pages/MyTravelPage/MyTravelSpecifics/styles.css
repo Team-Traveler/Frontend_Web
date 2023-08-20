@@ -8,6 +8,7 @@
   }
   
   .detailTitle {
+    margin-top: 50px;
     width: 14.84vw;
     height: 5vh;
     font-family: 'Cooper Black';
@@ -20,8 +21,8 @@
     
   }
   
-  .subText {
-    width: 14.37vw;
+  .subText-specific {
+    width: 100%;
     height: 2.5vh;
     font-family: 'Cooper Black';
     font-style: normal;

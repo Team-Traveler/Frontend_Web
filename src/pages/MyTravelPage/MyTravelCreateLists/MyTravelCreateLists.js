@@ -24,6 +24,8 @@ const travels = {
             "spot2_lon":  127.734086,
             "spot3_lat": 39.715133,
             "spot3_lon":  128.734086,
+            "spot4_lat": 39.715133,
+            "spot4_lon":  128.734086,
             "numOfDay": 3,
             "tid": 1
         },
@@ -34,12 +36,13 @@ function TravelCard({  travel, handleEditClick,setSelectedCourse,setIsTravelCrea
   
     const handleEditSpecificsClick = (course) => {
         console.log('Edit Specifics button clicked', travel.courses[0].numOfDay);
-        setIsTravelCreate(true); 
+        //setIsTravelCreate(true); 
     };
 
-    const handleDeleteClick = (course) => {
+    const handleDeleteClick = (spotNum) => {
         console.log('Edit Specifics button clicked', travel.courses[0].numOfDay);
-        setIsTravelCreate(true); 
+        
+        //setIsTravelCreate(true); 
     };
 
     const convertDistance = (distance) => {
@@ -81,7 +84,7 @@ function TravelCard({  travel, handleEditClick,setSelectedCourse,setIsTravelCrea
         <div className='spot-container'>
           <div className="num-box">{`${num}`}</div>
           <div className="travel-card-places">{spot}</div>
-          <div className='travel-carrd-delete' onClick={handleDeleteClick}>삭제</div>
+          <div className='travel-carrd-delete' onClick={handleDeleteClick(num)}>삭제</div>
         </div>
         {distance && 
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', marginTop: '10px', marginBottom: '10px', marginLeft: '10px', marginRight: '40px' }}>
