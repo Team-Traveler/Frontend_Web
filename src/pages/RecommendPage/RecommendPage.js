@@ -81,11 +81,11 @@ function RecommendPage() {
         //         setLoading(false);
         //     });
 
-        setTimeout(() => {
-            setLoading(false);
-            setCompleted(true);
-            navigate("/recommendCompleted");
-        }, 3000);
+        // setTimeout(() => {
+        //     setLoading(false);
+        //     setCompleted(true);
+        //     navigate("/recommendCompleted");
+        // }, 3000);
     };
 
     const handleWithWhoButtonClick = (buttonId) => {
@@ -110,19 +110,20 @@ function RecommendPage() {
     };
 
     const leftListCountry = [
-        { id: 1, name: "서울특별시" },
-        { id: 2, name: "인천광역시" },
-        { id: 3, name: "부산광역시" },
-        { id: 4, name: "대전광역시" },
-        { id: 5, name: "대구광역시" },
-        { id: 6, name: "울산광역시" },
-        { id: 7, name: "광주광역시" },
+        { id: 1, name: "서울" },
+        { id: 2, name: "인천" },
+        { id: 3, name: "부산" },
+        { id: 4, name: "대전" },
+        { id: 5, name: "대구" },
+        { id: 6, name: "울산" },
+        { id: 7, name: "광주" },
         { id: 8, name: "경기도" },
-        { id: 9, name: "충청남북도" },
+        { id: 9, name: "충청도" },
         { id: 10, name: "강원도" },
-        { id: 11, name: "전라남북도" },
-        { id: 12, name: "경상남북도" },
-        { id: 13, name: "제주도" },
+        { id: 11, name: "전라도" },
+        { id: 12, name: "경북" },
+        { id: 13, name: "경남" },
+        { id: 14, name: "제주도" },
     ];
 
     // region 데이터 axios로 불러와서 regionState에 저장
@@ -130,7 +131,7 @@ function RecommendPage() {
         const fetchRegionData = async () => {
             try {
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/recommend/region",
+                    "http://15.164.232.95:9000/recommend/regieon",
                     {
                         headers: { Authorization: userInfo.accessToken },
                     }
@@ -143,7 +144,7 @@ function RecommendPage() {
         fetchRegionData();
     }, [userInfo.accessToken, showModal, setRegion]);
 
-    const rightListCountry = region.result.filter(
+    const rightListCountry = region.filter(
         (item) => item.country === selectedCountry
     );
 
@@ -316,7 +317,7 @@ function RecommendPage() {
                                             onClick={openModal}
                                         >
                                             {recommendForm.cityId !== ""
-                                                ? region.result
+                                                ? region
                                                       .filter(
                                                           (item) =>
                                                               item.did ===
