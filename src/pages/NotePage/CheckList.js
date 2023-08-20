@@ -21,22 +21,12 @@ function CheckList() {
     // Server Address
     const serverUrl = "http://15.164.232.95:9000";
 
-    // 나의 여행 목록 조회	GET	/users/my_travels
-    // 체크리스트 생성	POST	/category/{travelId}
-    // 체크리스트 조회	GET	/category/{travelId}
-    // 체크리스트 제목 변경	PATCH	/category/{cId}
-    // 체크리스트 삭제	DELETE	/category/{cId}
-    // 준비물 작성	POST	/checklist/{categoryId}/item
-    // 준비물 변경	PATCH	/checklist/{categoryId}/item/{itemId}
-    // 준비물 삭제	DELETE	/checklist/{categoryId}/item/{itemId}
-    // 준비물 체크 상태 변경	PATCH	/{categoryId}/item/{itemId}/status
-
     // 체크리스트 조회
     // useEffect(() => {
-    //     const fetchCheckList = async (travelId) => {
+    //     const fetchCheckList = async (tId) => {
     //         try {
     //             const response = await axios.get(
-    //                 `${serverUrl}/category/${travelId}`,
+    //                 `${serverUrl}/checklist/${tId}`,
     //                 {
     //                     headers: {
     //                         Authorization: `${userInfo.accessToken}`,
@@ -54,18 +44,25 @@ function CheckList() {
     // }, []);
 
     // 체크리스트 생성
-    const createCheckList = async (travelId) => {
+    const createCheckList = async (tId) => {
         try {
             const response = await axios.post(
-                `${serverUrl}/category/${travelId}`,
+                `${serverUrl}/checklist/${tId}`,
+                {
+                    title: "새로운 체크리스트",
+                },
                 {
                     headers: {
                         Authorization: `${userInfo.accessToken}`,
                     },
                 }
             );
-            console.log(response);
-            setCheckList(response.data);
+            console.log("체크리스트 생성 response : ", response);
+            console.log(
+                "체크리스트 생성 response.data.result : ",
+                response.data.result
+            );
+            setCheckList([...checkList, response.data.result]);
         } catch (error) {
             console.log(error);
             console.log("체크리스트 생성 실패");
@@ -75,11 +72,12 @@ function CheckList() {
     // 체크리스트 제목 변경
     const updateCheckListTitle = async (cId, newTitle) => {
         try {
-            const response = await axios.patch(`${serverUrl}/category/${cId}`, {
-                body: {
+            const response = await axios.patch(
+                `${serverUrl}/checklist/${cId}`,
+                {
                     title: newTitle,
-                },
-            });
+                }
+            );
             console.log(response);
             // setCheckList(response.data);
         } catch (error) {
@@ -91,7 +89,9 @@ function CheckList() {
     // 체크리스트 삭제
     const deleteCheckList = async (cId) => {
         try {
-            const response = await axios.delete(`${serverUrl}/category/${cId}`);
+            const response = await axios.delete(
+                `${serverUrl}/checklist/${cId}`
+            );
             console.log(response);
         } catch (error) {
             console.log(error);
@@ -197,16 +197,14 @@ function CheckList() {
                 </div>
             </div>
 
-            {checkList.find((list) => list.travelId === selectedNote) ? null : (
+            {checkList.find((list) => list.tId === selectedNote) ? null : (
                 <div>체크리스트를 추가해 주세요.</div>
             )}
 
-            {/* {console.log("checklist: ", checkList)} */}
-
             {checkList.map((list) => {
-                if (list.travelId === selectedNote) {
+                if (list.tId === selectedNote) {
                     return (
-                        <div className="check-list-box" key={list.id}>
+                        <div className="check-list-box" key={list.cid}>
                             {list.isedit ? (
                                 <div className="check-list-box-header">
                                     {/* 리스트 삭제 버튼 */}
@@ -215,10 +213,10 @@ function CheckList() {
                                         src={del_btn}
                                         alt="del_btn"
                                         onClick={() => {
-                                            deleteCheckList(list.id);
+                                            deleteCheckList(list.cid);
                                             setCheckList(
                                                 checkList.filter(
-                                                    (i) => i.id !== list.id
+                                                    (i) => i.cid !== list.cid
                                                 )
                                             );
                                         }}
@@ -232,7 +230,7 @@ function CheckList() {
                                         onChange={(e) => {
                                             setCheckList(
                                                 checkList.map((i) => {
-                                                    if (i.id === list.id) {
+                                                    if (i.cid === list.cid) {
                                                         return {
                                                             ...i,
                                                             title: e.target
@@ -251,18 +249,20 @@ function CheckList() {
                                         onClick={
                                             // add new content
                                             () => {
-                                                createItem(list.id);
+                                                createItem(list.cid);
                                                 setCheckList(
                                                     checkList.map((i) => {
-                                                        if (i.id === list.id) {
+                                                        if (
+                                                            i.cid === list.cid
+                                                        ) {
                                                             return {
                                                                 ...i,
-                                                                item: [
-                                                                    ...i.item,
+                                                                items: [
+                                                                    ...i.items,
                                                                     {
                                                                         id:
                                                                             i
-                                                                                .item
+                                                                                .items
                                                                                 .length +
                                                                             1,
                                                                         name: "",
@@ -285,14 +285,14 @@ function CheckList() {
                                         className="check-list-save-btn"
                                         onClick={() => {
                                             updateCheckListTitle(
-                                                list.id,
+                                                list.cid,
                                                 list.title
                                             );
                                             checkList.map((e) => {
                                                 console.log("수정완료 버튼", e);
-                                                if (e.id === list.id) {
+                                                if (e.cid === list.cid) {
                                                     // updateItemTitle all items
-                                                    e.item.map((i) => {
+                                                    e.items.map((i) => {
                                                         // console.log(
                                                         //     "list.id: ",
                                                         //     list.id,
@@ -302,7 +302,7 @@ function CheckList() {
                                                         //     i.name
                                                         // );
                                                         updateItemTitle(
-                                                            list.id,
+                                                            list.cid,
                                                             i.id,
                                                             i.name
                                                         );
@@ -311,7 +311,7 @@ function CheckList() {
                                             });
                                             setCheckList(
                                                 checkList.map((e) => {
-                                                    if (e.id === list.id) {
+                                                    if (e.cid === list.cid) {
                                                         return {
                                                             ...e,
                                                             isedit: !e.isedit,
@@ -342,7 +342,7 @@ function CheckList() {
                                             // set list.isedit to true
                                             setCheckList(
                                                 checkList.map((e) => {
-                                                    if (e.id === list.id) {
+                                                    if (e.cid === list.cid) {
                                                         return {
                                                             ...e,
                                                             isedit: !e.isedit,
@@ -358,7 +358,7 @@ function CheckList() {
 
                             {/* 체크리스트 항목들 */}
                             <div className="check-list-item-wrapper">
-                                {list.item.map((item) => (
+                                {list.items.map((item) => (
                                     <div
                                         className="check-list-item-container"
                                         key={item.id}
@@ -370,21 +370,23 @@ function CheckList() {
                                             checked={item.isChecked}
                                             onChange={() => {
                                                 console.log(
-                                                    "check item / list.id: ",
-                                                    list.id,
+                                                    "check item / list.cid: ",
+                                                    list.cid,
                                                     "item.id: ",
                                                     item.id
                                                 );
                                                 updateItemStatus(
-                                                    list.id,
+                                                    list.cid,
                                                     item.id
                                                 );
                                                 setCheckList(
                                                     checkList.map((e) => {
-                                                        if (e.id === list.id) {
+                                                        if (
+                                                            e.cid === list.cid
+                                                        ) {
                                                             return {
                                                                 ...e,
-                                                                item: e.item.map(
+                                                                items: e.items.map(
                                                                     (i) => {
                                                                         if (
                                                                             i.id ===
@@ -418,11 +420,12 @@ function CheckList() {
                                                     setCheckList(
                                                         checkList.map((i) => {
                                                             if (
-                                                                i.id === list.id
+                                                                i.cid ===
+                                                                list.cid
                                                             ) {
                                                                 return {
                                                                     ...i,
-                                                                    item: i.item.map(
+                                                                    items: i.items.map(
                                                                         (j) => {
                                                                             if (
                                                                                 j.id ===
@@ -462,22 +465,23 @@ function CheckList() {
                                                 onClick={() => {
                                                     console.log(
                                                         "delete item / list.id: ",
-                                                        list.id,
+                                                        list.cid,
                                                         "item.id: ",
                                                         item.id
                                                     );
                                                     deleteItem(
-                                                        list.id,
+                                                        list.cid,
                                                         item.id
                                                     );
                                                     setCheckList(
                                                         checkList.map((i) => {
                                                             if (
-                                                                i.id === list.id
+                                                                i.cid ===
+                                                                list.cid
                                                             ) {
                                                                 return {
                                                                     ...i,
-                                                                    item: i.item.filter(
+                                                                    items: i.items.filter(
                                                                         (j) =>
                                                                             j.id !==
                                                                             item.id
