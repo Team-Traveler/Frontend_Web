@@ -46,7 +46,9 @@ function AccountBook() {
 
             <div className="account-book-nav">
                 <button
-                    className="account-book-mode-btn"
+                    className={`account-book-mode-btn${
+                        AccountMode === 0 ? "-active" : ""
+                    }`}
                     onClick={() => {
                         setAccountMode(0);
                     }}
@@ -54,7 +56,9 @@ function AccountBook() {
                     일일
                 </button>
                 <button
-                    className="account-book-mode-btn"
+                    className={`account-book-mode-btn${
+                        AccountMode === 1 ? "-active" : ""
+                    }`}
                     onClick={() => {
                         setAccountMode(1);
                     }}
@@ -62,7 +66,9 @@ function AccountBook() {
                     월별
                 </button>
                 <button
-                    className="account-book-mode-btn"
+                    className={`account-book-mode-btn${
+                        AccountMode === 2 ? "-active" : ""
+                    }`}
                     onClick={() => {
                         setAccountMode(2);
                     }}
