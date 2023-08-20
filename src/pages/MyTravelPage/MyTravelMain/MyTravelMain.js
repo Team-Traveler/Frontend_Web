@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import axios from 'axios';
 import ReactDOM from 'react-dom';
+import React, { useState,useEffect } from 'react';
+import { useRecoilState,useRecoilValue } from "recoil";
+import { userInfoState } from "../../../recoil/atoms/userState";
+import { myAllTravelsState } from '../../../recoil/atoms/myAllTravelsState.js';
 import './MyTravelMain.css';
 import MyTravelProfile from '../MyTravelProfile/MyTravelProfile';
 import MyTravelSpecifics from '../MyTravelSpecifics/MyTravelSpecifics';
@@ -11,23 +15,117 @@ import MyTravelEdit from '../MyTravelEdit/MyTravelEdit'
 import MyTravelProfileEdit from '../MyTravelProfileEdit/MyTravelProfileEdit';
 import Nav from '../../../components/Nav/Nav'
 
+
 function MyTravelMain() {
+  const TAG = "MyTravelMain"
   const [view, setView] = useState('list'); 
   const [selectedTravel, setSelectedTravel] = useState(null); //상세보기 활성화 여부
   const [isEditMode, setIsEditMode] = useState(false); // 목록 편집 활성화 여부
   const profileRef = React.useRef();
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [travelData, setTravelData]= useRecoilState(myAllTravelsState);
+  const [IsTravelDataCreated, setIsTravelDataCreated]= useState(false);
+  const [profileData, setProfileData] = useState({
+    imgSrc: profileTest,
+    name: '라이언',
+    numTravel: 8,
+    numLiked: 20,
+    date: '2023.08.23'
+  });
+
+  const updateProfileImgAndName = (newImgSrc, newName) => {
+    setProfileData(prevData => ({
+        ...prevData,
+        imgSrc: newImgSrc,
+        name: newName
+    }));
+};
+
   const handleDetailClick = (travel) => {
     setSelectedTravel(travel);
     setView('specifics');
   };
 
-  const profileData = {
-    imgSrc: profileTest,
-    name: '라이언',
-    numTravel: 8,
-    numLiked: 20,
-    date: '2023.07.03'
-  };
+  async function fetchTravelData() {
+    try {
+        const response = await axios({
+            method: 'GET',
+            url: "http://15.164.232.95:9000/users/my_travels",
+            headers: {
+                Authorization: `${userInfo.accessToken}` 
+            }
+        });
+
+        if (response.status === 200) {
+            const travelData = response.data;
+            setTravelData(travelData.result);
+            setProfileData(prevData => ({
+              ...prevData,
+              numTravel: travelData.result.length,
+          }));
+            console.log(TAG+"-모든여행조회 : ", travelData);
+
+        }
+    } catch (error) {
+        console.error("Error fetching travel data:", error);
+    }
+}
+
+async function fetchProfilelData() {
+  try {
+      const response = await axios({
+          method: 'GET',
+          url: "http://15.164.232.95:9000/users/profile",
+          headers: {
+              Authorization: `${userInfo.accessToken}` 
+          }
+      });
+
+      if (response.status === 200) {
+          const profile = response.data;
+          updateProfileImgAndName(profile.result.profile_image_url,profile.result.nickname);
+          console.log(TAG+"-카카오프로필 : ", profileData);
+
+      }
+  } catch (error) {
+      console.error("Error fetching profile data:", error);
+  }
+}
+
+async function fetchProfilelLikedData() {
+  try {
+      const response = await axios({
+          method: 'GET',
+          url: "http://15.164.232.95:9000/users/like",
+          headers: {
+              Authorization: `${userInfo.accessToken}` 
+          }
+      });
+
+      if (response.status === 200) {
+          const liked = response.data.length;
+          
+          console.log(TAG+"-찜한목록 : ", liked);
+
+      }
+  } catch (error) {
+      console.error("Error fetching profile data:", error);
+  }
+}
+
+
+useEffect(() => {
+  fetchTravelData();
+  fetchProfilelData();
+  //fetchProfilelLikedData()
+}, []);
+
+if(IsTravelDataCreated){
+  fetchTravelData();
+  fetchProfilelData();
+}
+
+
 
   return (
     <div className='myTravelMain'>
@@ -48,10 +146,10 @@ function MyTravelMain() {
           <div className='my-travel-main-container'>
             <div className='my-travel-profile' ref={profileRef}>
               <MyTravelProfile imgSrc={profileData.imgSrc} 
-  name={profileData.name} 
-  numTravel={profileData.numTravel} 
-  numLiked={profileData.numLiked} 
-  date={profileData.date}  />
+                name={profileData.name} 
+                numTravel={profileData.numTravel} 
+                numLiked={profileData.numLiked} 
+                date={profileData.date}  />`
             </div>
             <div style={{ 
               flexGrow: 1,
@@ -68,7 +166,7 @@ function MyTravelMain() {
         {/* 여행 만들기 */}
         {view === 'add' && (
           <div>
-            <MyTravelAdd setView={setView}/>
+            <MyTravelAdd setView={setView} setIsTravelDataCreated={setIsTravelDataCreated}/>
           </div>
         )}
 
@@ -83,7 +181,7 @@ function MyTravelMain() {
         {/* 프로필 편집 */}
         {view === 'profile' && (
           <div style={{ display: 'flex', flexDirection: 'row',justifyContent:'center', height: '62.6vh' }}>
-            <MyTravelProfileEdit imgSrc={'./profile.svg'}/>
+            <MyTravelProfileEdit profileData={profileData} setProfileData={setProfileData}/>
           </div>
         )}
 

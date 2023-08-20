@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
+import { userInfoState } from "../../../recoil/atoms/userState";
 import { useRecoilState } from "recoil";
 import {
     travelsState,
@@ -9,7 +11,7 @@ import {
 import { noteState } from "../../../recoil/atoms/noteState";
 import "./styles.css";
 
-const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
+const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTravelDataCreated }) => {
     const [name, setName] = useState("");
     const [placeName, setPlaceName] = useState("");
     const [category, setCategory] = useState("");
@@ -21,6 +23,32 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
     const [travels, setTravels] = useRecoilState(travelsState); // Recoil state 가져오기
     const [noteList, setNoteList] = useRecoilState(noteState);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+    // 여행 생성 api 호출
+    async function postTravelData(travelInfo) {
+        try {
+            const response = await axios({
+                method: 'POST',
+                url: "http://15.164.232.95:9000/travel",
+                headers: {
+                    Authorization: `${userInfo.accessToken}` 
+                },
+                data: {
+                    title: travelInfo.name,
+                    destination: travelInfo.category,
+                    start_date: travelInfo.start,
+                    end_date: travelInfo.end,
+                    write_status: travelInfo.write_status
+                }
+            });
+    
+            console.log(response.data); // 받아온 응답 데이터를 콘솔에 출력
+    
+        } catch (error) {
+            console.error("Error posting travel data:", error);
+        }
+    }
 
     const handleExampleComponent = () => {
         // Example 컴포넌트를 호출하고 값을 받아오는 로직 구현 필요
@@ -50,16 +78,19 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
     };
 
     const handleSubmit = () => {
-        const newTid = travels.legnth + 1;
+        const newTid = travels.length + 1;
         const newNoteId = noteList.length + 1;
         const travelInfo = {
             id: newTid, // TODO: Assign a unique ID. Maybe use the length of travelsState + 1.
             name: name,
             category: category,
-            start: formatDate(startDate),
-            end: formatDate(endDate),
+            start: formatPostDate(startDate),
+            end: formatPostDate(endDate),
             write_status: 1,
         };
+
+        //axios 통신
+        postTravelData(travelInfo);
 
         setTravels((prevTravels) => [...prevTravels, travelInfo]); // 새 여행 정보 추가
         setNoteList([
@@ -71,6 +102,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
         ]);
 
         setView("list");
+        setIsTravelDataCreated(true);
     };
 
     useEffect(() => {
@@ -89,6 +121,14 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const day = String(date.getDate()).padStart(2, "0");
         return `${year}년 ${month}월 ${day}일`;
+    };
+
+    const formatPostDate = (date) => {
+        if (!date) return null;
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
     };
 
     return (

@@ -7,7 +7,7 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
 
 
 
-  function TravelCard({  spot1, spot2, spot3, spot4, first, second, third, start, end, setView,numOfDay, handleEditClick,setSelectedCourse,setIsTravelCreate,...props }) {
+  function TravelCard({  spot1, spot2, spot3, spot4, first, second, third, start, end, setView,numOfDay, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
   
     const handleEditSpecificsClick = (course) => {
       console.log('Edit Specifics button clicked',numOfDay);
@@ -84,8 +84,12 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
             <span className='day'>{formatDate(addDays(convertToDate(start), numOfDay - 1))}</span>
         </div>      
         <div className="travel-card">
-        <button className="edit-specific-extra-button" 
-        onClick={() => handleEditSpecificsClick({ spot1, spot2, spot3, spot4, first, second, third, start, end, numOfDay,setIsTravelCreate })}></button>
+        {isEditClicked &&
+          <button className="edit-specific-extra-button" 
+          onClick={() => handleEditSpecificsClick({ spot1, spot2, spot3, spot4, first, second, third, start, end, numOfDay,setIsTravelCreate })}></button>
+          
+        }
+        
           <SpotDisplay num="1" spot={spot1} distance={first} />
           {spot2 && <SpotDisplay num="2" spot={spot2} distance={second} />}
           {spot3 && <SpotDisplay num="3" spot={spot3} distance={third} />}
@@ -97,11 +101,25 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
   
   function MyTravelSpecificsLists({ travels,setSelectedCourse,setIsTravelCreate, ...props }) {
     
+    const[isEditClicked, setIsEditClicked] = useState(false);
 
     const handleEditClick = (course) => {
       console.log('Edit button clicked');
-      setSelectedCourse(course);
-      
+      //setSelectedCourse(course);
+      if(isEditClicked){
+        setIsEditClicked(false);
+      }
+      else{
+        setIsEditClicked(true);
+      }
+        
+    };
+
+    const handlePlusClick = (course) => {
+      console.log('Edit button clicked');
+      //setSelectedCourse(course);
+
+        
     };
 
 
@@ -128,11 +146,22 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
                     .sort((a, b) => a.numOfDay - b.numOfDay)  // 오름차순으로 정렬
                     .map((travel, index) => 
                         <TravelCard key={index} {...travel} start={travels.start_date} end={travel.end_date} 
-                        handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}/>
+                        handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
+                        isEditClicked={isEditClicked} />
                     )
                     
                 )}
-                <button className="edit-specific-button" onClick={handleEditClick}></button>
+                {isEditClicked?(
+                  <>
+                    <button className="edit-specific-plus-button" onClick={handlePlusClick}></button>
+                    <button className="edit-specific-minus-button" onClick={handleEditClick}></button>
+                  </>
+                ):(
+                    <button className="edit-specific-button" onClick={handleEditClick}></button>)}
+                
+
+                
+
               </div>
         </div>
     );

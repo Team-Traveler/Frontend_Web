@@ -91,7 +91,7 @@ function MyTravelSpecifics(props) {
                 
                 <div className="group490">
                     <h1 className="detailTitle">여행 상세보기</h1>
-                    <p className="subText">여행 일정을 확인해보세요!</p>
+                    <p className="subText-specific">여행 일정을 확인해보세요!</p>
                     <div className="rectangle"></div>
                 </div>
             )
@@ -103,10 +103,10 @@ function MyTravelSpecifics(props) {
                         alignItems: 'center',
                         height: '62.6vh',
                         padding: '0 6vw',
-                        marginTop: '7.1vh'
+                        marginTop: '35px'
                         }}>
                         <div style={{marginRight: '6vw'}}>
-                            <MyTravelMap/>
+                            <MyTravelMap isTravelCreate={isTravelCreate}/>
                         </div>
                         
                         <div style={{ flexGrow: 1 }}>

@@ -16,10 +16,11 @@
     margin-bottom: 10px;
 }
 
-.travel-card-duration {
-    font-size: 20px;
+.travel-card-list-duration {
+    font-size: 22px;
     text-align: center;
     font-family: CooperBlack;
+    font-weight: lighter;
     margin-bottom: 10px;
 }
 
