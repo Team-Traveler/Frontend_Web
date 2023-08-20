@@ -19,7 +19,7 @@ function AccountBook() {
             <div className="account-book-header">
                 <div className="account-book-title">
                     {noteList.map((note) => {
-                        if (note.id === selectedNote) {
+                        if (note.tid === selectedNote) {
                             return note.title;
                         }
                     })}
@@ -31,7 +31,7 @@ function AccountBook() {
                     onClick={() => {
                         setNoteList(
                             noteList.map((item) => {
-                                if (item.id === selectedNote) {
+                                if (item.tid === selectedNote) {
                                     return {
                                         ...item,
                                         isEdit: !item.isEdit,
