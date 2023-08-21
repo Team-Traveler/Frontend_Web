@@ -220,7 +220,7 @@ const MultipleSliderRecommend = () => {
         const fetchContents = async () => {
             try {
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/travel/recommend"
+                    "http://15.164.232.95:9000/recommend/list"
                 );
                 setContents(response.data);
             } catch (error) {
@@ -262,8 +262,8 @@ const MultipleSliderRecommend = () => {
     const handleCardClick = (content) => {
         if (userInfo.isLogin) {
             // 로그인 한 경우 상세 페이지로 이동
-            console.log("Navigate to /story/detail/:id", content.id);
-            navigate(`/story/detail/${content.id}`);
+            console.log("Navigate to /story/detail/:id", content.pid);
+            navigate(`/story/detail/${content.pid}`);
         } else {
             // 로그인 하지 않은 경우 로그인 모달 창 띄우기
             openModal();
@@ -279,14 +279,14 @@ const MultipleSliderRecommend = () => {
         <div className="content">
             <Slider {...settings}>
                 {contents.map((content) => (
-                    <div key={content.id}>
+                    <div key={content.pid}>
                         <div
                             className="content-card"
                             onClick={() => handleCardClick(content)}
-                            style={imageStyle(content.image)}
+                            style={imageStyle(content.url)}
                         >
                             <p>{content.title}</p>
-                            <p>{content.oneLineReview}</p>
+                            <p>{content.description}</p>
                         </div>
                     </div>
                 ))}
@@ -381,8 +381,11 @@ const MultipleSliderLike = () => {
     const handleCardClick = (content) => {
         if (userInfo.isLogin) {
             // 로그인 한 경우 상세 페이지로 이동
-            console.log("Navigate to /story/detail/:id", content.post.pid);
-            navigate(`/story/detail/${content.post.pid}`);
+            console.log(
+                "Navigate to /story/detail/:id",
+                content.postResponse.pid
+            );
+            navigate(`/story/detail/${content.postResponse.pid}`);
         } else {
             // 로그인 하지 않은 경우 로그인 모달 창 띄우기
             openModal();
