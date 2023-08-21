@@ -131,6 +131,7 @@ function MyTravelCreateLists({ addPlan}) {
     const [Place, setPlace] = useState("");
     const [recoilPlaces, setRecoilPlaces] = useRecoilState(setPlaceStateSelector);
     const [InputText, setInputText] = useState("");
+    const [hide,setHide] = useState(true);
     
     // TODO: 장소 검색 API 통신을 위한 로직
     // 검색 결과가 있다면 addPlan을 사용하여 TravelPlanList에 추가
