@@ -49,43 +49,43 @@ function RecommendPage() {
         );
     }, [recommendForm]); // recommendForm 상태 변화 감지
 
-    // recommendFormState axios 전송
+    // recommendFormState axios 전송(여행 찾기)
     const handleCompleteButtonClick = () => {
         setLoading(true);
 
         const data = {
             startDate: recommendForm.startDate,
             finishDate: recommendForm.finishDate,
-            cityId: recommendForm.cityId,
-            hard: recommendForm.hard,
-            what: recommendForm.what,
-            with: recommendForm.with,
-            people: recommendForm.people,
+            cityId: parseInt(recommendForm.cityId),
+            hard: parseInt(recommendForm.hard),
+            what: parseInt(recommendForm.what),
+            with: parseInt(recommendForm.with),
+            people: parseInt(recommendForm.people),
         };
 
         // 여행 찾기 버튼 클릭 시 recommendFormState axios 전송
-        // axios
-        //     .post("http://15.164.232.95:9000/recommend", data, {
-        //         headers: { Authorization: userInfo.accessToken },
-        //     })
-        //     .then((response) => {
-        //         console.log(response);
+        axios
+            .post("http://15.164.232.95:9000/recommend", data, {
+                headers: { Authorization: userInfo.accessToken },
+            })
+            .then((response) => {
+                console.log(response);
 
-        //         setTimeout(() => {
-        //             setLoading(false);
-        //             setCompleted(true);
-        //         }, 3000);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         setLoading(false);
-        //     });
+                setTimeout(() => {
+                    setLoading(false);
+                    setCompleted(true);
+                }, 3000);
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
 
-        // setTimeout(() => {
-        //     setLoading(false);
-        //     setCompleted(true);
-        //     navigate("/recommendCompleted");
-        // }, 3000);
+        setTimeout(() => {
+            setLoading(false);
+            setCompleted(true);
+            navigate("/recommendCompleted");
+        }, 3000);
     };
 
     const handleWithWhoButtonClick = (buttonId) => {
@@ -646,7 +646,7 @@ function RightListComponent({ items, setRecommendForm, closeModal }) {
         <div className="right-list">
             {items.map((item) => (
                 <div key={item.did}>
-                    <div key={item.did} className="right-list-item">
+                    <div className="right-list-item">
                         {item.city}
                         <div
                             onClick={() => {

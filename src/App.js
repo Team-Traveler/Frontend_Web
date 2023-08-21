@@ -27,8 +27,9 @@ function App() {
                             element={<CompletedPage />}
                         ></Route>
                         <Route path="/story" />
+                        <Route path="/story/detail/:id" />
                         <Route path="/note" element={<NotePage />}></Route>
-                        <Route path="/mypage" element={<MyTravelMain />}/>
+                        <Route path="/mypage" element={<MyTravelMain />} />
                     </>
                 ) : null}
                 <Route path="/kakaoLogin" element={<KakaoLogin />} />
