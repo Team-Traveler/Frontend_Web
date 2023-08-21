@@ -22,6 +22,10 @@ function NotePage() {
     // Server Address
     const serverUrl = "http://15.164.232.95:9000";
 
+    useEffect(() => {
+        setSelectedNote(0);
+    }, []);
+
     // 나의 여행 목록 조회
     useEffect(() => {
         const fetchNotes = async () => {
@@ -36,9 +40,9 @@ function NotePage() {
                 );
                 console.log("여행(노트) 조회 성공");
                 console.log("response : ", response);
-                console.log("result : ", response.data.result);
+                // console.log("result : ", response.data.result);
                 setNoteList(response.data.result);
-                console.log("noteList : ", noteList);
+                // console.log("noteList : ", noteList);
             } catch (error) {
                 console.log(error);
                 console.log("여행(노트) 조회 실패");

@@ -35,10 +35,10 @@ export const checkListState = atom({
     key: "checkListState",
     default: [
         {
-            id: 1,
+            cid: 1,
             title: "2023년 8월",
-            travelId: 1,
-            item: [
+            tId: 40,
+            items: [
                 {
                     id: 1,
                     name: "아쿠아 슈즈",
@@ -57,10 +57,10 @@ export const checkListState = atom({
             ],
         },
         {
-            id: 2,
+            cid: 2,
             title: "2023년 9월",
-            travelId: 1,
-            item: [
+            tId: 40,
+            items: [
                 {
                     id: 1,
                     name: "클렌징폼",
@@ -74,10 +74,10 @@ export const checkListState = atom({
             ],
         },
         {
-            id: 3,
+            cid: 3,
             title: "2023년 7월",
-            travelId: 2,
-            item: [
+            tId: 40,
+            items: [
                 {
                     id: 1,
                     name: "한복 대여",
