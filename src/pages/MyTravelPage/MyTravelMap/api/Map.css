@@ -1,0 +1,35 @@
+.divStyle {
+    display: flex;
+    width: 100%;
+  }
+  
+  .resultStyle {
+    width: 350px;
+    height: 730px;
+    overflow: scroll;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    border-radius: 30px 0px 0px 0px;
+    background-color: gray;
+    opacity: 0.7;
+    z-index: 1;
+    font-size: 17px;
+    color: #000000;
+  }
+  
+  .pagination {
+    margin-top: 3rem;
+  }
+  
+  .pagination a {
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .pagination a.on {
+    color: lightblue;
+    font-weight: bold;
+  }

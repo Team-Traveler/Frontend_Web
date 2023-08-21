@@ -7,11 +7,11 @@ import profileTest from './profile.svg';
 
 function MyTravelProfileEdit({profileData, setProfileData,...props}) {
 
-    let formData;
     const [showPopup, setShowPopup] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [userNick, setUserNick] = useState(profileData.name);
     const [saveState, setSaveState] = useState(false);
+    const [formData, setFormData] = useState(null);
 
     const handleNickChange = (event) => {
         setUserNick(event.target.value);
@@ -42,7 +42,8 @@ function MyTravelProfileEdit({profileData, setProfileData,...props}) {
                 method: 'PATCH',
                 url: "http://15.164.232.95:9000/users/nickname",
                 headers: {
-                    Authorization: `${userInfo.accessToken}` 
+                    Authorization: `${userInfo.accessToken}` ,
+                    
                 },
                 data: {
                     nickname : userNick,
@@ -60,23 +61,23 @@ function MyTravelProfileEdit({profileData, setProfileData,...props}) {
 
     async function changeUserPick() {
         try {
-            const response = await axios({
-                method: 'PATCH',
-                url: "http://15.164.232.95:9000/users/profile_image",
-                headers: {
-                    Authorization: `${userInfo.accessToken}` 
-                },
-                data: {
-                    data : formData,
-                },
-            });
-        
+            const response = await axios.patch(
+                "http://15.164.232.95:9000/users/profile_image",
+                formData, // 이전에 설정한 formData
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                }
+            );
+            
             if (response.status === 200) {
                 console.log("프사 수정 완료");
-        
             }
         } catch (error) {
             console.error("Error fetching profile_img data:", error);
+            console.log(formData);
         }
     }
     
@@ -120,9 +121,25 @@ function MyTravelProfileEdit({profileData, setProfileData,...props}) {
 
         if (file) {
             // form-data 형식으로 파일 데이터 설정
-            formData = new FormData();
-            formData.append('imageFile', file);
-
+            const newFormData = new FormData();
+            newFormData.append('imageFile', file);
+            let extension;
+            switch (file.type) {
+                case 'image/jpeg':
+                    extension = '.jpg';
+                    break;
+                case 'image/png':
+                    extension = '.png';
+                    break;
+                case 'image/png':
+                    extension = '.jpeg';
+                    break;
+                default:
+                    extension = '.unknown';
+                    break;
+            }
+            console.log(`newFormData extension: ${extension}`);
+            setFormData(newFormData);
             // 선택한 이미지의 미리보기 URL 생성
             const reader = new FileReader();
             reader.onloadend = () => {

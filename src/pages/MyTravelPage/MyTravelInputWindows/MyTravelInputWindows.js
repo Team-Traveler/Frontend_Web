@@ -10,6 +10,8 @@ import {
 } from "../../../recoil/atoms/travelsListStates";
 import { noteState } from "../../../recoil/atoms/noteState";
 import "./styles.css";
+import { selectedTIDState, setSelectedTIDSelector } from '../../../recoil/atoms/travelSpecificState'; 
+
 
 const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTravelDataCreated }) => {
     const [name, setName] = useState("");
@@ -24,6 +26,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
     const [travels, setTravels] = useRecoilState(travelsState); // Recoil state 가져오기
     const [noteList, setNoteList] = useRecoilState(noteState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const [selectedTID, setSelectedTID] = useRecoilState(selectedTIDState);
 
     // 여행 생성 api 호출
     async function postTravelData(travelInfo) {
@@ -50,13 +53,33 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
         }
     }
 
+    // 여행 수정 api 호출
+    async function patchTravelData(travelInfo,selectedTID) {
+        try {
+            const response = await axios({
+                method: 'PATCH',
+                url: `http://15.164.232.95:9000/travel/${selectedTID}`,
+                headers: {
+                    Authorization: `${userInfo.accessToken}` 
+                },
+                data: {
+                    title: travelInfo.name,
+                    destination: travelInfo.category,
+                    start_date: travelInfo.start,
+                    end_date: travelInfo.end,
+                    write_status: travelInfo.write_status
+                }
+            });
+    
+            console.log(response.data); // 받아온 응답 데이터를 콘솔에 출력
+    
+        } catch (error) {
+            console.error("Error posting travel data:", error);
+        }
+    }
+
     const handleExampleComponent = () => {
-        // Example 컴포넌트를 호출하고 값을 받아오는 로직 구현 필요
-        // 예시:
-        // const { returnedPlaceName, returnedLatitude, returnedLongitude } = Example();
-        // setPlaceName(returnedPlaceName);
-        // setLatitude(returnedLatitude);
-        // setLongitude(returnedLongitude);
+        // 지도로 확인 버튼
     };
 
     const handleDateInput = (type) => {
@@ -77,32 +100,37 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (isFromEdit) => {
         const newTid = travels.length + 1;
-        const newNoteId = noteList.length + 1;
         const travelInfo = {
-            id: newTid, // TODO: Assign a unique ID. Maybe use the length of travelsState + 1.
+            id: newTid, 
             name: name,
             category: category,
             start: formatPostDate(startDate),
             end: formatPostDate(endDate),
             write_status: 1,
         };
+        if(isFromEdit){ // 여행 편집
 
-        //axios 통신
-        postTravelData(travelInfo);
+            patchTravelData(travelInfo,selectedTID);
 
-        setTravels((prevTravels) => [...prevTravels, travelInfo]); // 새 여행 정보 추가
-        setNoteList([
-            ...noteList,
-            {
-                id: noteList.length + 1,
-                title: name,
-            },
-        ]);
 
-        setView("list");
+        }else{  // 여행 생성
+                //axios 통신
+                postTravelData(travelInfo);
+
+                setTravels((prevTravels) => [...prevTravels, travelInfo]); // 새 여행 정보 추가
+                setNoteList([
+                    ...noteList,
+                    {
+                        id: noteList.length + 1,
+                        title: name,
+                    },
+                ]);
+        };
         setIsTravelDataCreated(true);
+        setView("list");
+
     };
 
     useEffect(() => {
@@ -221,7 +249,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
                 </div>
             </div>
             <div className="button-container">
-                <button className="button" onClick={handleSubmit}>
+                <button className="button" onClick={() => handleSubmit(isFromEdit)}>
                     {isFromEdit ? "여행 편집 완료" : "여행 만들기"}
                 </button>
             </div>
