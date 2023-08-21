@@ -397,22 +397,29 @@ const MultipleSliderLike = () => {
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("${imageUrl}")`,
     });
 
+    const hasLikedContents =
+        likeContents && likeContents.result && likeContents.result.length > 0;
+
     return (
         <div className="content">
-            <Slider {...settings}>
-                {likeContents.result.map((likeContent) => (
-                    <div key={likeContent.postResponse.pid}>
-                        <div
-                            className="content-card"
-                            onClick={() => handleCardClick(likeContent)}
-                            style={imageStyle(likeContent.postResponse.url)}
-                        >
-                            <p>{likeContent.postResponse.title}</p>
-                            <p>{likeContent.postResponse.oneLineReview}</p>
+            {hasLikedContents ? (
+                <Slider {...settings}>
+                    {likeContents.result.map((likeContent) => (
+                        <div key={likeContent.postResponse.pid}>
+                            <div
+                                className="content-card"
+                                onClick={() => handleCardClick(likeContent)}
+                                style={imageStyle(likeContent.postResponse.url)}
+                            >
+                                <p>{likeContent.postResponse.title}</p>
+                                <p>{likeContent.postResponse.oneLineReview}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </Slider>
+                    ))}
+                </Slider>
+            ) : (
+                <p>No liked contents available.</p>
+            )}
             {/* Modal for non-logged-in users */}
             {showModal && (
                 <div className="modal-overlay">
