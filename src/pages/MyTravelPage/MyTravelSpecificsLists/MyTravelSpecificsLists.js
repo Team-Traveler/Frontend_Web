@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useRecoilState,useRecoilValue } from "recoil";
+import { userInfoState } from "../../../recoil/atoms/userState";
 import ReactDOM from 'react-dom';
 import './styles.css';
 import circles from './circles.svg'; 
 import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
-
+import axios from 'axios';
+import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState';
 
 
 
@@ -11,19 +14,6 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
   
     const handleEditSpecificsClick = (course) => {
       console.log('Edit Specifics button clicked',numOfDay);
-    //   setSelectedCourse({
-    //     spot1,
-    //     spot2,
-    //     spot3,
-    //     spot4,
-    //     first,
-    //     second,
-    //     third,
-    //     start,
-    //     end,
-    //     numOfDay,
-    //     // 여기에 필요한 다른 데이터를 추가합니다.
-    // });
       console.log(setIsTravelCreate);
       setIsTravelCreate(true); 
     };
@@ -99,9 +89,39 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
     );
   }
   
-  function MyTravelSpecificsLists({ travels,setSelectedCourse,setIsTravelCreate, ...props }) {
+  function MyTravelSpecificsLists({ travels,setSelectedCourse,setIsTravelCreate, selectedTID,...props }) {
     
+    const TAG = "MyTravelSpecificsLists";
     const[isEditClicked, setIsEditClicked] = useState(false);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const [travelSpecificData,setTravelSpecificData] = useRecoilState(setTravelSpecificStateSelector);
+
+    async function fetchSpecificData() {
+      try {
+          const response = await axios({
+              method: 'GET',
+              url: `http://15.164.232.95:9000/travel/${selectedTID}`,
+              headers: {
+                Authorization: `${userInfo.accessToken}` 
+            }
+          });
+  
+          if (response.status === 200) {
+              const travelData = response.data;
+              setTravelSpecificData(travelData);
+              console.log(TAG+"-상세여행조회 : ", travelData);
+  
+          }
+      } catch (error) {
+          console.log("SelectedTID :",selectedTID);
+          
+          console.error("Error fetching travel Specific data:", error);
+      }
+  }
+
+  useEffect(() => {
+    fetchSpecificData();
+}, []);
 
     const handleEditClick = (course) => {
       console.log('Edit button clicked');
@@ -123,7 +143,6 @@ import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
     };
 
 
-    
 
     console.log("travel.start_date데이는:", travels.start_date);
     return (

@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import MyTravelMap from '../MyTravelMap/MyTravelMap';
 import circles from './circles.svg'; 
 import './styles.css';
+import { useRecoilState } from 'recoil';
+import { setPlaceStateSelector } from '../../../recoil/atoms/placeState'; // 경로에 따라 변경해주세요
+import Map from '../MyTravelMap/api/Map';
 
 const travels = {
     title : "여수 투어",
@@ -122,56 +125,97 @@ function TravelCard({  travel, handleEditClick,setSelectedCourse,setIsTravelCrea
     );
   }
 
-function MyTravelCreateLists({ addPlan }) {
+function MyTravelCreateLists({ addPlan}) {
+
     const [search, setSearch] = useState("");
+    const [Place, setPlace] = useState("");
+    const [recoilPlaces, setRecoilPlaces] = useRecoilState(setPlaceStateSelector);
+    const [InputText, setInputText] = useState("");
+    const [hide,setHide] = useState(true);
+    
     // TODO: 장소 검색 API 통신을 위한 로직
     // 검색 결과가 있다면 addPlan을 사용하여 TravelPlanList에 추가
+
+    const onChange = (e) => {
+        setInputText(e.target.value);
+    };
     
-    const handleSearch = () => {
-        // 여기에서 검색 API를 호출하고 결과를 받아온다면:
-        const result = {
-            latitude: "37.5665",  // 예시: 서울의 위도
-            longitude: "126.9780", // 예시: 서울의 경도
-            placeName: "서울"
-        };
-        addPlan(result);
+    const handleSearch=(e) => {
+
+        e.preventDefault();
+        setPlace(InputText);
+        setInputText("");
     };
 
     return (
-
-        <div>
-              <div className="image-container">
-                <img src={circles} alt="Circles Decoration"  />
-              </div>
-              <div className="my-travel-create-lists">
-                {travels.length === 0 ? (
-                    <div className='container'>
-                        <div className="date">안녕</div>
-                        <div className='travel-card'>
-                            <div className='travel-card-empty'>
-                            항목을 추가하세요
+        <div style={{ 
+            display: 'flex', 
+            flexDirection: 'row',
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            height: '62.6vh',
+            padding: '0 6vw',
+            marginTop: '35px'
+            }}>
+            <div style={{marginRight: '6vw'}}>
+                {/* <MyTravelMap isTravelCreate={isTravelCreate}/> */}
+                <Map isFromCreate={true} searchPlace={Place} setRecoilPlaces={setRecoilPlaces}/>
+            </div>
+            <div>
+                <div className="image-container">
+                    <img src={circles} alt="Circles Decoration"  />
+                </div>
+                <div className="my-travel-create-lists">
+                    {travels.length === 0 ? (
+                        <div className='container'>
+                            <div className="date">안녕</div>
+                            <div className='travel-card'>
+                                <div className='travel-card-empty'>
+                                항목을 추가하세요
+                                </div>
                             </div>
                         </div>
+                    ) : (    
+                        <div>
+                            <TravelCard travel={travels} />
+                        </div>
+                    )
+                    }
+                    <div className='inputFormContainer'>
+                        <form className="inputform" onSubmit={handleSearch}>
+                            <button className="search-Btn" type="submit"></button>
+                            <input
+                                className="search-"
+                                placeholder="검색어를 입력하세요"
+                                onChange={onChange}
+                                value={InputText}
+                            />
+                        </form>
                     </div>
-                ) : (    
-                    <div>
-                        <TravelCard travel={travels} />
+
+                    <div className="result-Style">
+                        {recoilPlaces.map((item, i) => (
+                            <div key={i} style={{ marginTop: "40px" }}>
+                                <div>
+                                <h5>{item.place_name}</h5>
+                                {item.road_address_name ? (
+                                    <div>
+                                    <span>{item.road_address_name}</span>
+                                    </div>
+                                ) : (
+                                    <span>{item.address_name}</span>
+                                )}
+                                </div>
+                            </div>
+                        ))}
+                        <div className="pagi-nation" id="pagination"></div>
                     </div>
-                )
-                }
-                <div>
-                    <input 
-                        type="text" 
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        placeholder="장소 검색..."
-                    />
-                    <button onClick={handleSearch}>검색</button>
-                    {/* 검색 결과 및 기타 UI 추가 */}
-                    
+
                 </div>
             </div>
-        </div>
+            </div>
+
+        
 
     );
 }

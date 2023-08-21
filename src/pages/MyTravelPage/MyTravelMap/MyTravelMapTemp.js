@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './styles.css';
 const { kakao } = window
 
-function MyTravelMap({isTravelCreate, ...props}) {
+function MyTravelMapTemp({isTravelCreate, ...props}) {
 
 
   const travels = {
@@ -150,4 +150,4 @@ function MyTravelMap({isTravelCreate, ...props}) {
       );
 }
 
-export default MyTravelMap;
+export default MyTravelMapTemp;

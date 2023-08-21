@@ -165,3 +165,90 @@
     box-sizing: border-box;
     flex-shrink: 0;
 }
+
+.inputform {
+    display: flex;
+    justify-content: center; /* 자식 요소들을 좌에서 우로 배치 */
+    align-items: center;
+    width: 600px;
+    height: 40px;
+    position: relative;
+    left: 50%; /* 부모 요소의 수평방향 정중앙에 위치 */
+    transform: translateX(-50%); /* 부모 요소의 수평방향 정중앙에 위치 */
+    border-radius: 5px; /* 둘레를 살짝 둥글게 */
+    flex-direction: row-reverse; /* 버튼을 왼쪽으로 */
+}
+
+.inputFormContainer {
+    margin-top: 25px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
+    border-radius: 5px; /* 둘레를 살짝 둥글게 */
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.search- {
+    font-size: 20px;
+    width: 450px;
+    height: 30px;
+    text-align: start;
+    font-family: 'CooperBlack';
+    border-radius: 0;
+    border: none;
+    outline: none;
+}
+
+.search-Btn {
+    background-color: #ffffff;
+    border: none;
+    background-image: url('./search.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    margin-right: 10px; /* 버튼과 검색창 사이의 간격 조정 */
+}
+
+.searchBtn:active {
+    transform: none;
+    box-shadow: none;
+}
+
+.result-Style {
+    width: 890px;
+    height: 300px;
+    overflow: scroll;
+    position: relative;
+    border-radius: 30px 0px 0px 0px;
+    background-color: gray;
+    opacity: 0.7;
+    z-index: 1;
+    font-size: 17px;
+    margin-left: 25px;
+    margin-right: 20px;
+    border-radius: 0;
+    color: #000000;
+  }
+  
+  .pagi-nation {
+    margin-top: 3rem;
+  }
+  
+  .pagination a {
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .pagination a.on {
+    color: lightblue;
+    font-weight: bold;
+  }

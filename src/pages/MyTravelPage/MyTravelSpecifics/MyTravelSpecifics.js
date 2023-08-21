@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
+import { useRecoilState } from "recoil";
 import ReactDOM from 'react-dom';
 import MyTravelMap from '../MyTravelMap/MyTravelMap';
 import MyTravelCreate from '../MyTravelCreate/MyTravelCreate'; 
 import MyTravelSpecificsLists from '../MyTravelSpecificsLists/MyTravelSpecificsLists';
 import MyTravelCreateLists from '../MyTravelCreateLists/MyTravelCreateLists';
+import { travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState'; 
+import { setPlaceStateSelector } from '../../../recoil/atoms/placeState'; 
+import { selectedTIDState, setSelectedTIDSelector } from '../../../recoil/atoms/travelSpecificState'; 
 import './styles.css';
+import MapSection from '../MyTravelMap/Map';
+import Map from '../MyTravelMap/api/Map';
 
 function MyTravelSpecifics(props) {
     const [showCreateComponent, setShowCreateComponent] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [ isTravelCreate, setIsTravelCreate] = useState(false);
+    const [selectedTID, setSelectedTID] = useRecoilState(selectedTIDState);
+    const [Place, setPlace] = useState("");
+    const [recoilPlaces, setRecoilPlaces] = useRecoilState(setPlaceStateSelector);
 
     const travels = {
         title : "여수 투어",
@@ -105,10 +114,13 @@ function MyTravelSpecifics(props) {
                         padding: '0 6vw',
                         marginTop: '35px'
                         }}>
-                        <div style={{marginRight: '6vw'}}>
-                            <MyTravelMap isTravelCreate={isTravelCreate}/>
-                        </div>
-                        
+                        { isTravelCreate == false &&(
+                            <div style={{marginRight: '6vw'}}>
+                                    {/* <MyTravelMap isTravelCreate={isTravelCreate}/> */}
+                                    <Map searchPlace={Place} setRecoilPlaces={setRecoilPlaces}/>
+                            </div>
+                        )}
+
                         <div style={{ flexGrow: 1 }}>
                         { isTravelCreate
                             ? (
@@ -117,16 +129,20 @@ function MyTravelSpecifics(props) {
                                     setShowCreateComponent={setShowCreateComponent}
                                     setIsTravelCreate={setIsTravelCreate}
                                     travels={travels}
+                                    Places={Place}
                                 />
                             )
                             : (
+                                <>
                                 
                                 <MyTravelSpecificsLists 
                                     showCreateComponent={showCreateComponent} 
                                     setShowCreateComponent={setShowCreateComponent}
                                     setIsTravelCreate={setIsTravelCreate}
-                                    travels={travels}
+                                    travels={travels} selectedTID={selectedTID}
                                     />
+                                </>
+                                
                             )
                             }
                         

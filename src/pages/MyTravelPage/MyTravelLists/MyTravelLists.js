@@ -5,14 +5,15 @@ import './styles.css';
 import { useRecoilState,useSetRecoilState } from 'recoil';
 import { userInfoState } from "../../../recoil/atoms/userState";
 import { myAllTravelsState,deleteTravelById } from '../../../recoil/atoms/myAllTravelsState'; 
+import { selectedTIDState, setSelectedTIDSelector } from '../../../recoil/atoms/travelSpecificState'; 
 
-
-function TravelCard({ tid, title, write_status, start_date, end_date, setView, isEditMode, setIsEditMode, onDelete }) {
+function TravelCard({ tid, title, write_status, start_date, end_date, setView, isEditMode, setIsEditMode, onDelete,setSelectedTID }) {
 
   const handleDetailClick = () => {
     console.log('Detail button clicked');
     console.log('Detail button clicked with tid:', tid);
     setView('specifics');
+    setSelectedTID(tid);
   };
 
   const handleReviewClick = () => {
@@ -28,6 +29,7 @@ function TravelCard({ tid, title, write_status, start_date, end_date, setView, i
   const handleEditClick = () => {
     console.log('Edit button clicked');
     setIsEditMode(false)
+    setSelectedTID(tid);
     setView('edit');
   };
 
@@ -96,7 +98,7 @@ function MyTravelLists({ setSelectedTravel, setView, isEditMode,setIsEditMode })
 
   const [travelList, setTravelList] = useRecoilState(myAllTravelsState); 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
+  const [selectedTID, setSelectedTID] = useRecoilState(selectedTIDState);
   async function deleteTravelData(tid) {
     try {
       const url = `http://15.164.232.95:9000/travel/${tid}`;
@@ -131,7 +133,7 @@ function MyTravelLists({ setSelectedTravel, setView, isEditMode,setIsEditMode })
           return (
             <TravelCard key={travel.tid || index} {...travel} setSelectedTravel={setSelectedTravel} 
                 setView={setView} isEditMode={isEditMode} onDelete={handleDelete}
-                setIsEditMode={setIsEditMode}/>
+                setIsEditMode={setIsEditMode} tid = {travel.tid} setSelectedTID={setSelectedTID}/>
           );
         })
       )}
