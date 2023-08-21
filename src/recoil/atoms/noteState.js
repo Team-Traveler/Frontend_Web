@@ -15,7 +15,7 @@ export const accountListState = atom({
     default: [
         {
             accountName: "새로운 가계부 이름",
-            tId: 12345,
+            tid: 12345,
             budget: 1500.0,
             transactions: [
                 {
@@ -37,7 +37,7 @@ export const checkListState = atom({
         {
             cid: 1,
             title: "2023년 8월",
-            tId: 40,
+            tid: 40,
             items: [
                 {
                     id: 1,
@@ -59,7 +59,7 @@ export const checkListState = atom({
         {
             cid: 2,
             title: "2023년 9월",
-            tId: 40,
+            tid: 40,
             items: [
                 {
                     id: 1,
@@ -76,7 +76,7 @@ export const checkListState = atom({
         {
             cid: 3,
             title: "2023년 7월",
-            tId: 40,
+            tid: 40,
             items: [
                 {
                     id: 1,
@@ -102,11 +102,11 @@ export const noteState = atom({
     key: "noteState",
     default: [
         {
-            id: 1,
+            tid: 1,
             title: "제주도 제주시",
         },
         {
-            id: 2,
+            tid: 2,
             title: "전라북도 전주시",
         },
     ],
