@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import { userInfoState } from "../../../recoil/atoms/userState";
-import { useRecoilState } from "recoil";
+import { useRecoilState,useSetRecoilState } from "recoil";
 import {
     travelsState,
     modifyTravels,
@@ -11,9 +11,9 @@ import {
 import { noteState } from "../../../recoil/atoms/noteState";
 import "./styles.css";
 import { selectedTIDState, setSelectedTIDSelector } from '../../../recoil/atoms/travelSpecificState'; 
+import { addNewTravel,myAllTravelsState,isTravelDataCreatedState } from "../../../recoil/atoms/myAllTravelsState.js";
 
-
-const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTravelDataCreated }) => {
+const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
     const [name, setName] = useState("");
     const [placeName, setPlaceName] = useState("");
     const [category, setCategory] = useState("");
@@ -23,11 +23,12 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
     const [endDatePicker, setEndDatePicker] = useState(null);
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    const [travels, setTravels] = useRecoilState(travelsState); // Recoil state 가져오기
+    const [travels, setTravels] = useRecoilState(myAllTravelsState); // Recoil state 가져오기
+    const setNewTravel = useSetRecoilState(addNewTravel);
     const [noteList, setNoteList] = useRecoilState(noteState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [selectedTID, setSelectedTID] = useRecoilState(selectedTIDState);
-
+    const [isTravelDataCreated, setIsTravelDataCreated] = useRecoilState(isTravelDataCreatedState);
     // 여행 생성 api 호출
     async function postTravelData(travelInfo) {
         try {
@@ -119,7 +120,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
                 //axios 통신
                 postTravelData(travelInfo);
 
-                setTravels((prevTravels) => [...prevTravels, travelInfo]); // 새 여행 정보 추가
+                setNewTravel(travelInfo); // 새 여행 정보 추가
                 setNoteList([
                     ...noteList,
                     {
@@ -128,6 +129,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView,setIsTra
                     },
                 ]);
         };
+
         setIsTravelDataCreated(true);
         setView("list");
 

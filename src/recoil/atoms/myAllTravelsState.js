@@ -6,6 +6,16 @@ export const myAllTravelsState = atom({
   default: null,
 });
 
+export const addNewTravel = selector({
+  key: 'addNewTravel',
+  get: ({ get }) => {
+    return get(myAllTravelsState); // 기존의 여행 데이터를 반환
+  },
+  set: ({ set }, travelInfo) => {
+    set(myAllTravelsState, (prevTravels) => [...prevTravels, travelInfo]);
+  },
+});
+
 // Selector: 각각의 항목에 접근
 export const travelTitleSelector = selector({
   key: 'travelTitleSelector',
@@ -106,4 +116,22 @@ export const deleteTravelById = selectorFamily({
         return travelList.filter(travel => travel.tid !== tid);
         });
     }
+});
+
+
+export const isTravelDataCreatedState = atom({
+  key: 'isTravelDataCreatedState', // 고유한 ID (전역에서 고유해야 함)
+  default: false, // 기본값
+});
+
+export const toggleIsTravelDataCreated = selector({
+  key: 'toggleIsTravelDataCreated',
+  get: ({ get }) => {
+    const isCreated = get(isTravelDataCreatedState);
+    return isCreated;
+  },
+  set: ({ set }) => {
+    const isCreated = set(isTravelDataCreatedState, (prev) => !prev);
+    return isCreated;
+  },
 });

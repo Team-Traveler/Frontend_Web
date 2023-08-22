@@ -6,15 +6,56 @@ import './styles.css';
 import circles from './circles.svg'; 
 import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
 import axios from 'axios';
-import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState';
+import {  travelCourseState, setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState';
+
+
+function TravelEmptyCard({ start, end, setView, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
+  
+  const handleEditSpecificsClick = () => {
+    console.log('Edit Specifics Empty button clicked');
+    console.log(setIsTravelCreate);
+    setIsTravelCreate(true); 
+  };
+
+  //console.log("start데이는:",formatDate(start));
+
+  function formatDate(input) {
+    const date = new Date(input);
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해주어야 합니다.
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${month}/${day}`;
+  }
+
+  function getDayOfWeek(input) {
+    const date = new Date(input);
+    const days = ['일','월','화','수','목','금','토'];
+    return `(${days[date.getDay()]})`;
+}
+
+  return (
+    <div>
+      <div className="travel-card-header">
+          <span className='numofDay'>{1}일차</span>
+          <span className='day'>{formatDate(start)}{getDayOfWeek(start)}</span>
+      </div>      
+      <div className="travel-card" style={{marginTop:'20px',marginLeft:'20px', marginRight:'20px'}}>
+        <span className='travel-card-empty'>항목을 추가하세요</span>
+      {isEditClicked &&
+        <button className="edit-specific-empty-button" 
+        onClick={() => handleEditSpecificsClick({ setIsTravelCreate })}></button>
+        
+      }
+      
+      </div>
+    </div>
+  );
+}
 
 
 
-  function TravelCard({  spot1, spot2, spot3, spot4, first, second, third, start, end, setView,numOfDay, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
+  function TravelCard({ index, spot1, spot2, spot3, spot4, first, second, third, start, end, setView,numOfDay, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
   
     const handleEditSpecificsClick = (course) => {
-      console.log('Edit Specifics button clicked',numOfDay);
-      console.log(setIsTravelCreate);
       setIsTravelCreate(true); 
     };
 
@@ -25,25 +66,20 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
       return `${distance}m`;
     };
     
-    console.log("start데이는:",start);
+    //console.log("start데이는:",start);
 
-    function convertToDate(inputString) {
-      if (!inputString) return null;
-      const year = `20${inputString.substring(0, 2)}`;
-      const month = inputString.substring(2, 4);
-      const day = inputString.substring(4, 6);
+    function getDayOfWeek(input,index) {
+      const date = new Date(input);
+      const days = ['일','월','화','수','목','금','토'];
+      const nextDayIndex = (date.getDay() + index) % 7;
+      return `(${days[nextDayIndex]})`;
+  }
     
-      return new Date(`${year}-${month}-${day}`);
-    }
-    
-    function formatDate(inputDate) {
-      if (!inputDate) return null;
-      const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-      const month = inputDate.getMonth() + 1;
-      const day = inputDate.getDate();
-      const weekday = weekdays[inputDate.getDay()];
-    
-      return `${month}/${day}(${weekday})`;
+    function formatDate(input) {
+      const date = new Date(input);
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해주어야 합니다.
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${month}/${day}`;
     }
 
     function addDays(date, days) {
@@ -71,7 +107,7 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
       <div>
         <div className="travel-card-header">
             <span className='numofDay'>{numOfDay}일차</span>
-            <span className='day'>{formatDate(addDays(convertToDate(start), numOfDay - 1))}</span>
+            <span className='day'>{formatDate(start)}{getDayOfWeek(start,index)}</span>
         </div>      
         <div className="travel-card">
         {isEditClicked &&
@@ -80,7 +116,11 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
           
         }
         
-          <SpotDisplay num="1" spot={spot1} distance={first} />
+          { spot1==null?(
+            <span className='travel-card-empty'>항목을 추가하세요</span>
+          ):(
+            <SpotDisplay num="1" spot={spot1} distance={first} />
+          )}
           {spot2 && <SpotDisplay num="2" spot={spot2} distance={second} />}
           {spot3 && <SpotDisplay num="3" spot={spot3} distance={third} />}
           {spot4 && <SpotDisplay num="4" spot={spot4}  />}
@@ -89,14 +129,16 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
     );
   }
   
-  function MyTravelSpecificsLists({ travels,setSelectedCourse,setIsTravelCreate, selectedTID,...props }) {
+  function MyTravelSpecificsLists({travels,setSelectedCourse,setIsTravelCreate, selectedTID,...props }) {
     
     const TAG = "MyTravelSpecificsLists";
     const[isEditClicked, setIsEditClicked] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [travelSpecificData,setTravelSpecificData] = useRecoilState(setTravelSpecificStateSelector);
+    const [travelCourse,setTravelCourse]=useRecoilState(travelCourseState);
 
-    async function fetchSpecificData() {
+    useEffect(() => {
+    const fetchSpecificData = async () => {
       try {
           const response = await axios({
               method: 'GET',
@@ -108,8 +150,8 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
   
           if (response.status === 200) {
               const travelData = response.data;
-              setTravelSpecificData(travelData);
-              console.log(TAG+"-상세여행조회 : ", travelData);
+              setTravelSpecificData(travelData.result);
+              console.log(TAG+"-상세여행조회 get : ", travelSpecificData);
   
           }
       } catch (error) {
@@ -119,9 +161,49 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
       }
   }
 
-  useEffect(() => {
-    fetchSpecificData();
-}, []);
+  fetchSpecificData();
+  postCourse(1);
+},[]);
+
+console.log(TAG+"-mount : ", travelSpecificData);
+console.log(TAG+"-mount : ", selectedTID);
+  if((Object.values(travelSpecificData.courses).length != 0)||travelSpecificData.courses.length !=0){
+    setTravelCourse(travelSpecificData.courses);
+    console.log(TAG+"-travelCourse",travelCourse);
+  }
+
+
+
+  // useEffect(()=>{
+  //   if((Object.values(travelSpecificData.courses).length != 0)||travelSpecificData.courses.length !=0){
+  //     setTravelCourse(travelSpecificData.courses);
+  //   }
+  //   console.log("travelCourse는 ",travelSpecificData.courses);
+  // },[travelSpecificData]);
+
+  async function postCourse(numOfDay) {
+    try {
+        const response = await axios({
+            method: 'POST',
+            url: `http://15.164.232.95:9000/travel/${selectedTID}/course`,
+            headers: {
+              Authorization: `${userInfo.accessToken}` 
+            },
+            data:{
+              "numOfDay" : numOfDay
+            }
+        });
+
+        if (response.status === 200) {
+            const travelData = response.data;
+            console.log(TAG+"-날짜별 코스 생성 : ", travelData);
+
+        }
+    } catch (error) {
+        console.log("SelectedTID :",selectedTID);
+        console.error("Error postCourse :", error);
+    }
+}
 
     const handleEditClick = (course) => {
       console.log('Edit button clicked');
@@ -135,36 +217,31 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
         
     };
 
+
     const handlePlusClick = (course) => {
       console.log('Edit button clicked');
-      //setSelectedCourse(course);
-
-        
+      postCourse(travelCourse.length+1);
     };
 
 
 
-    console.log("travel.start_date데이는:", travels.start_date);
+    //console.log("travel.start_date데이는:", travelSpecificData.start_date);
     return (
         <div>
               <div className="image-container">
                 <img src={circles} alt="Circles Decoration"  />
               </div>
               <div className="my-travel-specific-lists">
-                {travels.length === 0 ? (
-                    <div className='container'>
-                        <div className="date">안녕</div>
-                        <div className='travel-card'>
-                            <div className='travel-card-empty'>
-                            항목을 추가하세요
-                            </div>
-                        </div>
-                    </div>
+                {  (travelCourse.length == 1) && (travelCourse[0].spot1 ==null) ? (
+                    <TravelEmptyCard start={travelSpecificData.start_date} end={travelSpecificData.end_date} 
+                    handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
+                    isEditClicked={isEditClicked}/>
                 ) : (
-                  travels.courses
-                    .sort((a, b) => a.numOfDay - b.numOfDay)  // 오름차순으로 정렬
+                  travelCourse
                     .map((travel, index) => 
-                        <TravelCard key={index} {...travel} start={travels.start_date} end={travel.end_date} 
+                        <TravelCard key={index} {...travel} 
+                        index = {index}
+                        start={travelSpecificData.start_date} end={travelSpecificData.end_date} 
                         handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
                         isEditClicked={isEditClicked} />
                     )
@@ -187,4 +264,3 @@ import {  setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,g
   }
   
   export default MyTravelSpecificsLists;
-  

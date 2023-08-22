@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./Map.css";
 import { useRecoilState } from 'recoil';
 import { setPlaceStateSelector } from '../../../../recoil/atoms/placeState';
-
+import { fromPlaceSearchState, placeSearchState } from '../../../../recoil/atoms/placeSearchState';
 
 const Map = ({ searchPlace, setRecoilPlaces, isFromCreate }) => {
     const [Places, setPlaces] = useState([]);
+    const [placeSearch, setPlaceSearch] = useRecoilState(placeSearchState);
+    const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
     useEffect(() => {
         const { kakao } = window;
 
@@ -32,7 +34,10 @@ const Map = ({ searchPlace, setRecoilPlaces, isFromCreate }) => {
                 bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                 }
 
-                map.setBounds(bounds);
+                if (!isFromSearch) {
+                    map.setBounds(bounds);
+                }
+
                 displayPagination(pagination);
 
                 setPlaces(data);
@@ -70,21 +75,58 @@ const Map = ({ searchPlace, setRecoilPlaces, isFromCreate }) => {
         }
 
         function displayMarker(place) {
-        let marker = new kakao.maps.Marker({
-            map: map,
-            position: new kakao.maps.LatLng(place.y, place.x),
-        });
+            let marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(place.y, place.x),
+            });
+        
+            kakao.maps.event.addListener(marker, "click", function () {
+                createAndDisplay(place);
+                setIsFromSearch(false);
+            });
+        }
 
-        kakao.maps.event.addListener(marker, "click", function () {
+        if (isFromCreate && placeSearch && isFromSearch) {
+            createAndDisplay(placeSearch);
+            setIsFromSearch(false);
+            //createAndDisplayMarker(placeSearch);
+        }
+
+        function createAndDisplay(place) {
+            console.log("Place : ",place);
+            let marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(place.y, place.x),
+            });
+        
             infowindow.setContent(
-            '<div style="padding:5px;font-size:12px;">' +
-                place.place_name +
-                "</div>"
+                '<div style="padding:5px;font-size:12px;">' +
+                    place.place_name +
+                    "</div>"
             );
             infowindow.open(map, marker);
-        });
+        
+            // 지도의 중심을 해당 마커의 위치로 변경
+            map.setCenter(marker.getPosition());
+        
+            // 확대 레벨을 3으로 변경
+            map.setLevel(3);
         }
-    }, [searchPlace]);
+        // function createAndDisplayMarker(place) {
+        //     let marker = new kakao.maps.Marker({
+        //         map: map,
+        //         position: new kakao.maps.LatLng(place.y, place.x),
+        //     });
+    
+        //     infowindow.setContent(
+        //         '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
+        //     );
+        //     infowindow.open(map, marker);
+        //     map.setLevel(3);
+        //     map.setCenter(marker.getPosition());
+        // }
+
+    }, [placeSearch,searchPlace]);
 
     return (
         <div className="divStyle">
