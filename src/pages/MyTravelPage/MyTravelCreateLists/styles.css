@@ -67,10 +67,12 @@
     margin-top: 20px;
 }
 
-.image-container img {
+.image-create-container img {
     position: relative;
-    top: 5vh;  
-    width: 39vw;
+    top: 6vh;  
+    width: 38vw;
+    
+    z-index: 1000;
 }
 
 .date {
@@ -170,11 +172,8 @@
     display: flex;
     justify-content: center; /* 자식 요소들을 좌에서 우로 배치 */
     align-items: center;
-    width: 600px;
     height: 40px;
     position: relative;
-    left: 50%; /* 부모 요소의 수평방향 정중앙에 위치 */
-    transform: translateX(-50%); /* 부모 요소의 수평방향 정중앙에 위치 */
     border-radius: 5px; /* 둘레를 살짝 둥글게 */
     flex-direction: row-reverse; /* 버튼을 왼쪽으로 */
 }
@@ -195,11 +194,12 @@
     font-size: 20px;
     width: 450px;
     height: 30px;
-    text-align: start;
+    text-align: center;
     font-family: 'CooperBlack';
     border-radius: 0;
     border: none;
     outline: none;
+    background: none;
 }
 
 .search-Btn {
@@ -213,7 +213,8 @@
     width: 30px;
     height: 30px;
     outline: none;
-    margin-right: 10px; /* 버튼과 검색창 사이의 간격 조정 */
+    margin-left: 10rem; /* 버튼과 검색창 사이의 간격 조정 */
+
 }
 
 .searchBtn:active {
@@ -222,28 +223,30 @@
 }
 
 .result-Style {
-    width: 890px;
-    height: 300px;
+    margin-top: 5px;
+    margin-left: 80px;
+    margin-right: 80px;
+    padding: 0 20px 20px 20px;
     overflow: scroll;
+    max-height: 500px;
     position: relative;
-    border-radius: 30px 0px 0px 0px;
-    background-color: gray;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
+    border-radius: 5%; /* 둘레를 살짝 둥글게 */
+    background-color: white;
     opacity: 0.7;
     z-index: 1;
     font-size: 17px;
-    margin-left: 25px;
-    margin-right: 20px;
-    border-radius: 0;
     color: #000000;
   }
   
   .pagi-nation {
-    margin-top: 3rem;
+    margin-top: 1rem;
   }
   
   .pagination a {
     color: black;
-    font-size: 20px;
+    font-size: 25px;
     text-decoration: none;
     margin: 0 10px;
   }
@@ -252,3 +255,41 @@
     color: lightblue;
     font-weight: bold;
   }
+
+  .item-search-create-container{
+    margin-top: 40px;
+  }
+
+  .item-search-create-container:hover {
+    background-color: #67C65738; /* 원하는 회색 색상 */
+}
+
+.button-create-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-right: 300px;
+}
+.button-create-container:last-child {
+    margin-right: 0;  
+}
+
+
+  .button {
+    width: 30vw;
+    height: 4vh;
+    background-color: #95D88A;
+    color: white;
+    border-radius: 8px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    border: none; 
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+    cursor: pointer;
+    transition: 0.3s; 
+
+    &:active {
+        background-color: #7DBB7A;
+    }
+}

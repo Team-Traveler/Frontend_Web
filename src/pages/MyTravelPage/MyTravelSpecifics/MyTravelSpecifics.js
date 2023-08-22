@@ -8,18 +8,19 @@ import MyTravelCreateLists from '../MyTravelCreateLists/MyTravelCreateLists';
 import { travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState'; 
 import { setPlaceStateSelector } from '../../../recoil/atoms/placeState'; 
 import { selectedTIDState, setSelectedTIDSelector } from '../../../recoil/atoms/travelSpecificState'; 
+import { selectedTravelState } from '../../../recoil/atoms/placeSearchState';
 import './styles.css';
 import MapSection from '../MyTravelMap/Map';
 import Map from '../MyTravelMap/api/Map';
 
-function MyTravelSpecifics(props) {
+function MyTravelSpecifics({travel, setView, ...props}) {
     const [showCreateComponent, setShowCreateComponent] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [ isTravelCreate, setIsTravelCreate] = useState(false);
     const [selectedTID, setSelectedTID] = useRecoilState(selectedTIDState);
     const [Place, setPlace] = useState("");
     const [recoilPlaces, setRecoilPlaces] = useRecoilState(setPlaceStateSelector);
-
+    const [selectTravel, setSelectTravel] = useRecoilState(selectedTravelState);
     const travels = {
         title : "여수 투어",
         start_date: "230814",
@@ -112,7 +113,7 @@ function MyTravelSpecifics(props) {
                         alignItems: 'center',
                         height: '62.6vh',
                         padding: '0 6vw',
-                        marginTop: '35px'
+                        marginTop: '20px'
                         }}>
                         { isTravelCreate == false &&(
                             <div style={{marginRight: '6vw'}}>
@@ -130,6 +131,8 @@ function MyTravelSpecifics(props) {
                                     setIsTravelCreate={setIsTravelCreate}
                                     travels={travels}
                                     Places={Place}
+                                    setView={setView}
+                                    
                                 />
                             )
                             : (
@@ -139,7 +142,8 @@ function MyTravelSpecifics(props) {
                                     showCreateComponent={showCreateComponent} 
                                     setShowCreateComponent={setShowCreateComponent}
                                     setIsTravelCreate={setIsTravelCreate}
-                                    travels={travels} selectedTID={selectedTID}
+                                    selectedTID={selectedTID}
+                                    travels={travels}
                                     />
                                 </>
                                 

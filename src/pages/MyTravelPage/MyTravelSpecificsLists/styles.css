@@ -76,6 +76,8 @@
     background-size: cover;
 }
 
+
+
 .edit-specific-plus-button {
     position: absolute;
     top: 5vh;
@@ -105,6 +107,18 @@
 .edit-specific-extra-button {
     position: absolute;
     top: 3vh;
+    right: 2vw;
+    width: 2.5vw;
+    height: 2.5vw;
+    background: url('./edit.svg');
+    border: none;
+    outline: none;
+    background-size: cover;
+}
+
+.edit-specific-empty-button {
+    position: absolute;
+    top: 2vh;
     right: 2vw;
     width: 2.5vw;
     height: 2.5vw;

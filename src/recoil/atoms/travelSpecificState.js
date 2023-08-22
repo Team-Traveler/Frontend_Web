@@ -2,9 +2,26 @@ import { atom, selector } from 'recoil';
 
 export const travelSpecificState = atom({
     key: 'travelSpecificState',
-    default: null,
+    default: {
+        "title": null,
+        "destination": null,
+        "start_date": null,
+        "end_date": null,
+        "created_at": null,
+        "time_status": null,
+        "writeStatus": null,
+        "noteStatus": null,
+        "courses": [
+        ],
+        "tid": null,
+        "uid": null
+    },
 });
 
+export const travelCourseState = atom({
+    key: 'travelCourseState',
+    default: [],
+});
 
 export const setTravelSpecificStateSelector = selector({
     key: 'setTravelSpecificStateSelector',

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
-import { myAllTravelsState } from "../../../recoil/atoms/myAllTravelsState.js";
+import { myAllTravelsState, isTravelDataCreatedState, toggleIsTravelDataCreated } from "../../../recoil/atoms/myAllTravelsState.js";
 import "./MyTravelMain.css";
 import MyTravelProfile from "../MyTravelProfile/MyTravelProfile";
 import MyTravelSpecifics from "../MyTravelSpecifics/MyTravelSpecifics";
@@ -14,16 +14,18 @@ import profileTest from "./profileTest.png";
 import MyTravelEdit from "../MyTravelEdit/MyTravelEdit";
 import MyTravelProfileEdit from "../MyTravelProfileEdit/MyTravelProfileEdit";
 import Nav from "../../../components/Nav/Nav";
+import { selectedTravelState } from "../../../recoil/atoms/placeSearchState";
 
 function MyTravelMain() {
     const TAG = "MyTravelMain";
     const [view, setView] = useState("list");
     const [selectedTravel, setSelectedTravel] = useState(null); //상세보기 활성화 여부
+    const [selectTravel, setSelectTravel] = useRecoilState(selectedTravelState);
     const [isEditMode, setIsEditMode] = useState(false); // 목록 편집 활성화 여부
     const profileRef = React.useRef();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [travelData, setTravelData] = useRecoilState(myAllTravelsState);
-    const [IsTravelDataCreated, setIsTravelDataCreated] = useState(false);
+    const [IsTravelDataCreated, setIsTravelDataCreated] = useRecoilState(isTravelDataCreatedState);
     const [profileData, setProfileData] = useState({
         imgSrc: profileTest,
         name: "라이언",
@@ -168,13 +170,14 @@ function MyTravelMain() {
         fetchProfilelLikedData();
     }, []);
 
-    useEffect(() => {
-        if (IsTravelDataCreated) {
-            fetchTravelData();
-            fetchProfilelData();
-            setIsTravelDataCreated(false);
-        }
-    }, [IsTravelDataCreated]);
+    // useEffect(() => {
+    //     console.log("여행생성Toggled-Recoil");
+    //     if (IsTravelDataCreated) {
+    //         fetchTravelData();
+    //         fetchProfilelData();
+    //         setIsTravelDataCreated(false);
+    //     }
+    // }, [IsTravelDataCreated]);
 
     return (
         <div className="myTravelMain">
@@ -217,6 +220,7 @@ function MyTravelMain() {
                                 isEditMode={isEditMode}
                                 setIsEditMode={setIsEditMode}
                                 view={view}
+                                travelData={travelData}
                             />
                         </div>
                     </div>
@@ -266,7 +270,7 @@ function MyTravelMain() {
                 {/* 상세보기 */}
                 {view === "specifics" && (
                     <div style={{ flexGrow: 1 }}>
-                        <MyTravelSpecifics travel={selectedTravel} />
+                        <MyTravelSpecifics travel={selectedTravel} setView={setView} />
                     </div>
                 )}
 
