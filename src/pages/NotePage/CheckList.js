@@ -21,27 +21,32 @@ function CheckList() {
     // Server Address
     const serverUrl = "http://15.164.232.95:9000";
 
+    // selectedNote 값이 변할 때만 fetchCheckList 함수 호출, 처음에는 호출 안 함
+    useEffect(() => {
+        if (selectedNote !== 0) {
+            fetchCheckList(selectedNote);
+        }
+    }, [selectedNote]);
+
     // 체크리스트 조회
-    // useEffect(() => {
-    //     const fetchCheckList = async (tId) => {
-    //         try {
-    //             const response = await axios.get(
-    //                 `${serverUrl}/checklist/${tId}`,
-    //                 {
-    //                     headers: {
-    //                         Authorization: `${userInfo.accessToken}`,
-    //                     },
-    //                 }
-    //             );
-    //             console.log(response);
-    //             setNoteList(response.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //             console.log("체크리스트 조회 실패");
-    //         }
-    //     };
-    //     fetchCheckList();
-    // }, []);
+    const fetchCheckList = async (tId) => {
+        try {
+            const response = await axios.get(
+                `${serverUrl}/checklist/travel/${tId}`,
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                }
+            );
+            console.log("체크리스트 조회 성공");
+            console.log("체크리스트 조회 response : ", response);
+            setCheckList(response.data.result);
+        } catch (error) {
+            console.log("체크리스트 조회 실패");
+            console.log(error);
+        }
+    };
 
     // 체크리스트 생성
     const createCheckList = async (tId) => {
@@ -62,7 +67,13 @@ function CheckList() {
                 "체크리스트 생성 response.data.result : ",
                 response.data.result
             );
-            setCheckList([...checkList, response.data.result]);
+            const newCheckList = response.data.result;
+            console.log(
+                "체크리스트 생성 response.data.result : ",
+                newCheckList
+            );
+            setCheckList([...checkList, newCheckList]);
+            console.log("체크리스트 생성 결과 checkList : ", checkList);
         } catch (error) {
             console.log(error);
             console.log("체크리스트 생성 실패");
@@ -109,10 +120,10 @@ function CheckList() {
             // setCheckList(response.data);
             setCheckList(
                 checkList.map((list) => {
-                    if (list.id === cId) {
+                    if (list.cid === cId) {
                         return {
                             ...list,
-                            item: [...list.item, response.data],
+                            items: [...list.items, response.data],
                         };
                     }
                     return list;
@@ -197,12 +208,13 @@ function CheckList() {
                 </div>
             </div>
 
-            {checkList.find((list) => list.tId === selectedNote) ? null : (
+            {/* {console.log("find 위쪽 checkList: ", checkList)} */}
+            {checkList.find((list) => list.tid === selectedNote) ? null : (
                 <div>체크리스트를 추가해 주세요.</div>
             )}
 
             {checkList.map((list) => {
-                if (list.tId === selectedNote) {
+                if (list.tid === selectedNote) {
                     return (
                         <div className="check-list-box" key={list.cid}>
                             {list.isedit ? (

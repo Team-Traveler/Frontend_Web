@@ -220,7 +220,7 @@ const MultipleSliderRecommend = () => {
         const fetchContents = async () => {
             try {
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/travel/recommend"
+                    "http://15.164.232.95:9000/recommend/list"
                 );
                 setContents(response.data);
             } catch (error) {
@@ -262,8 +262,8 @@ const MultipleSliderRecommend = () => {
     const handleCardClick = (content) => {
         if (userInfo.isLogin) {
             // 로그인 한 경우 상세 페이지로 이동
-            console.log("Navigate to /detail/:id", content.id);
-            navigate(`/detail/${content.id}`);
+            console.log("Navigate to /story/detail/:id", content.pid);
+            navigate(`/story/detail/${content.pid}`);
         } else {
             // 로그인 하지 않은 경우 로그인 모달 창 띄우기
             openModal();
@@ -278,15 +278,14 @@ const MultipleSliderRecommend = () => {
     return (
         <div className="content">
             <Slider {...settings}>
-                {contents.result.map((content) => (
-                    <div key={content.id}>
+                {contents.map((content) => (
+                    <div key={content.pid}>
                         <div
                             className="content-card"
                             onClick={() => handleCardClick(content)}
-                            style={imageStyle(content.image)}
+                            style={imageStyle(content.url)}
                         >
                             <p>{content.title}</p>
-                            <p>{content.duration}</p>
                             <p>{content.description}</p>
                         </div>
                     </div>
@@ -332,23 +331,23 @@ const MultipleSliderLike = () => {
     const [userInfo] = useRecoilState(userInfoState);
     const [likeContents, setLikeContents] = useRecoilState(likeContentState);
 
-    // useEffect(() => {
-    //     // 찜한 여행 컨텐츠 데이터 받아오기
-    //     const fetchContents = async () => {
-    //         try {
-    //             const response = await axios.get(
-    //                 "http://15.164.232.95:9000/users/like",
-    //                 {
-    //                     headers: { Authorization: userInfo.accessToken },
-    //                 }
-    //             );
-    //             setLikeContents(response.data);
-    //         } catch (error) {
-    //             console.error("Error while fetching contents:", error);
-    //         }
-    //     };
-    //     fetchContents();
-    // }, []);
+    useEffect(() => {
+        // 찜한 여행 컨텐츠 데이터 받아오기
+        const fetchContents = async () => {
+            try {
+                const response = await axios.get(
+                    "http://15.164.232.95:9000/users/myScrap",
+                    {
+                        headers: { Authorization: userInfo.accessToken },
+                    }
+                );
+                setLikeContents(response.data);
+            } catch (error) {
+                console.error("Error while fetching contents:", error);
+            }
+        };
+        fetchContents();
+    }, []);
 
     // 카카오 로그인
     const Rest_api_key = process.env.REACT_APP_KAKAO_REST_API_KEY;
@@ -382,8 +381,11 @@ const MultipleSliderLike = () => {
     const handleCardClick = (content) => {
         if (userInfo.isLogin) {
             // 로그인 한 경우 상세 페이지로 이동
-            console.log("Navigate to /detail/:id", content.id);
-            navigate(`/detail/${content.id}`);
+            console.log(
+                "Navigate to /story/detail/:id",
+                content.postResponse.pid
+            );
+            navigate(`/story/detail/${content.postResponse.pid}`);
         } else {
             // 로그인 하지 않은 경우 로그인 모달 창 띄우기
             openModal();
@@ -395,23 +397,29 @@ const MultipleSliderLike = () => {
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("${imageUrl}")`,
     });
 
+    const hasLikedContents =
+        likeContents && likeContents.result && likeContents.result.length > 0;
+
     return (
         <div className="content">
-            <Slider {...settings}>
-                {likeContents.result.map((likeContent) => (
-                    <div key={likeContent.id}>
-                        <div
-                            className="content-card"
-                            onClick={() => handleCardClick(likeContent)}
-                            style={imageStyle(likeContent.image)}
-                        >
-                            <p>{likeContent.title}</p>
-                            <p>{likeContent.duration}</p>
-                            <p>{likeContent.description}</p>
+            {hasLikedContents ? (
+                <Slider {...settings}>
+                    {likeContents.result.map((likeContent) => (
+                        <div key={likeContent.postResponse.pid}>
+                            <div
+                                className="content-card"
+                                onClick={() => handleCardClick(likeContent)}
+                                style={imageStyle(likeContent.postResponse.url)}
+                            >
+                                <p>{likeContent.postResponse.title}</p>
+                                <p>{likeContent.postResponse.oneLineReview}</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </Slider>
+                    ))}
+                </Slider>
+            ) : (
+                <p>No liked contents available.</p>
+            )}
             {/* Modal for non-logged-in users */}
             {showModal && (
                 <div className="modal-overlay">

@@ -22,34 +22,34 @@ function NotePage() {
     // Server Address
     const serverUrl = "http://15.164.232.95:9000";
 
-    useEffect(() => {
-        setSelectedNote(0);
-    }, []);
-
     // 나의 여행 목록 조회
     useEffect(() => {
-        const fetchNotes = async () => {
-            try {
-                const response = await axios.get(
-                    `${serverUrl}/users/my_travels`,
-                    {
-                        headers: {
-                            Authorization: `${userInfo.accessToken}`,
-                        },
-                    }
-                );
-                console.log("여행(노트) 조회 성공");
-                console.log("response : ", response);
-                // console.log("result : ", response.data.result);
-                setNoteList(response.data.result);
-                // console.log("noteList : ", noteList);
-            } catch (error) {
-                console.log(error);
-                console.log("여행(노트) 조회 실패");
-            }
-        };
         fetchNotes();
     }, []);
+
+    const fetchNotes = async () => {
+        try {
+            const response = await axios.get(`${serverUrl}/users/my_travels`, {
+                headers: {
+                    Authorization: `${userInfo.accessToken}`,
+                },
+            });
+            console.log("여행(노트) 조회 성공");
+            console.log("여행 조회 response : ", response);
+            setNoteList(response.data.result);
+
+            // const initialSelectedNote =
+            //     response.data.result.length > 0
+            //         ? response.data.result[0].tid
+            //         : 0;
+
+            // setSelectedNote(initialSelectedNote);
+            // console.log("selectedNote : ", initialSelectedNote);
+        } catch (error) {
+            console.log(error);
+            console.log("여행(노트) 조회 실패");
+        }
+    };
 
     return (
         <div className="note-page">

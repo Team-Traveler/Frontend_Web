@@ -30,12 +30,12 @@ function App() {
                             path="/recommendCompleted"
                             element={<CompletedPage />}
                         ></Route>
+
                         <Route path="/story" element={<CommunityPage />}></Route>
                         <Route path="/story/search" element={<Search />}></Route>
-                        
                         <Route path={`/story/:tid`} element={<Hap />}></Route>
                         <Route path="/note" element={<NotePage />}></Route>
-                        <Route path="/mypage" element={<MyTravelMain />}/>
+                        <Route path="/mypage" element={<MyTravelMain />} />
                     </>
                 ) : null}
                 <Route path="/kakaoLogin" element={<KakaoLogin />} />
