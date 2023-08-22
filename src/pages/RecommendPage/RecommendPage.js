@@ -51,7 +51,7 @@ function RecommendPage() {
 
     // recommendFormState axios 전송(여행 찾기)
     const handleCompleteButtonClick = () => {
-        setLoading(true);
+        setLoading(true); // loading 화면 띄우기
 
         const data = {
             startDate: recommendForm.startDate,
@@ -71,21 +71,23 @@ function RecommendPage() {
             .then((response) => {
                 console.log(response);
 
+                const startTime = Date.now(); // 로딩화면 띄우기 시작 시간
+
+                // 최소 3초동안 로딩화면 띄우기
+                const remainingTime = Math.max(
+                    0,
+                    3000 - (Date.now() - startTime)
+                );
                 setTimeout(() => {
                     setLoading(false);
                     setCompleted(true);
-                }, 3000);
+                    navigate("/recommendCompleted");
+                }, remainingTime);
             })
             .catch((error) => {
                 console.log(error);
                 setLoading(false);
             });
-
-        setTimeout(() => {
-            setLoading(false);
-            setCompleted(true);
-            navigate("/recommendCompleted");
-        }, 3000);
     };
 
     const handleWithWhoButtonClick = (buttonId) => {
@@ -188,7 +190,7 @@ function RecommendPage() {
     };
 
     useEffect(() => {
-        console.log(recommendForm);
+        console.log("여행 찾기 입력폼 데이터 :", recommendForm);
     }, [recommendForm]);
 
     return (

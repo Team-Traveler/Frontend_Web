@@ -24,6 +24,7 @@ function NotePage() {
 
     // 나의 여행 목록 조회
     useEffect(() => {
+        setSelectedNote(0);
         fetchNotes();
     }, []);
 

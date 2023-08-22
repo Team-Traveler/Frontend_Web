@@ -29,10 +29,10 @@ function CheckList() {
     }, [selectedNote]);
 
     // 체크리스트 조회
-    const fetchCheckList = async (tId) => {
+    const fetchCheckList = async (tid) => {
         try {
             const response = await axios.get(
-                `${serverUrl}/checklist/travel/${tId}`,
+                `${serverUrl}/checklist/travel/${tid}`,
                 {
                     headers: {
                         Authorization: `${userInfo.accessToken}`,
@@ -40,7 +40,10 @@ function CheckList() {
                 }
             );
             console.log("체크리스트 조회 성공");
-            console.log("체크리스트 조회 response : ", response);
+            console.log(
+                "체크리스트 조회 response.data.result : ",
+                response.data.result
+            );
             setCheckList(response.data.result);
         } catch (error) {
             console.log("체크리스트 조회 실패");
@@ -49,12 +52,13 @@ function CheckList() {
     };
 
     // 체크리스트 생성
-    const createCheckList = async (tId) => {
+    const createCheckList = async (tid) => {
         try {
             const response = await axios.post(
-                `${serverUrl}/checklist/${tId}`,
+                `${serverUrl}/checklist/${tid}`,
                 {
-                    title: "새로운 체크리스트",
+                    title: "new title",
+                    items: [],
                 },
                 {
                     headers: {
@@ -62,17 +66,9 @@ function CheckList() {
                     },
                 }
             );
+            console.log("체크리스트 생성 성공!");
             console.log("체크리스트 생성 response : ", response);
-            console.log(
-                "체크리스트 생성 response.data.result : ",
-                response.data.result
-            );
-            const newCheckList = response.data.result;
-            console.log(
-                "체크리스트 생성 response.data.result : ",
-                newCheckList
-            );
-            setCheckList([...checkList, newCheckList]);
+            setCheckList([...checkList, response.data.result]);
             console.log("체크리스트 생성 결과 checkList : ", checkList);
         } catch (error) {
             console.log(error);
@@ -81,29 +77,47 @@ function CheckList() {
     };
 
     // 체크리스트 제목 변경
-    const updateCheckListTitle = async (cId, newTitle) => {
+    const updateCheckListTitle = async (cid, newTitle) => {
         try {
             const response = await axios.patch(
-                `${serverUrl}/checklist/${cId}`,
+                `${serverUrl}/checklist/${cid}/title`,
                 {
-                    title: newTitle,
+                    newTitle: newTitle,
+                },
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
                 }
             );
-            console.log(response);
-            // setCheckList(response.data);
+            console.log("체크리스트 제목 변경 성공!");
+            console.log("체크리스트 제목 변경 response : ", response);
         } catch (error) {
             console.log(error);
             console.log("체크리스트 제목 변경 실패");
+            console.log("checklist : ", checkList);
         }
     };
 
     // 체크리스트 삭제
-    const deleteCheckList = async (cId) => {
+    const deleteCheckList = async (cid) => {
         try {
             const response = await axios.delete(
-                `${serverUrl}/checklist/${cId}`
+                `${serverUrl}/checklist/${cid}`,
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                }
             );
-            console.log(response);
+            console.log("체크리스트 삭제 성공!");
+            console.log("체크리스트 삭제 response : ", response);
+            setCheckList(
+                checkList.filter((list) => {
+                    return list.cid !== cid;
+                })
+            );
+            console.log("체크리스트 삭제 결과 checkList : ", checkList);
         } catch (error) {
             console.log(error);
             console.log("체크리스트 삭제 실패");
@@ -111,24 +125,36 @@ function CheckList() {
     };
 
     // 준비물 생성
-    const createItem = async (cId) => {
+    const createItem = async (cid) => {
         try {
+            console.log("Authorization : ", userInfo.accessToken);
             const response = await axios.post(
-                `${serverUrl}/checklist/${cId}/items`
+                `${serverUrl}/checklist/${cid}/items`,
+                {},
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                }
             );
-            console.log(response);
+            console.log("준비물 생성 성공!");
+            console.log(
+                "준비물 생성 response.data.result : ",
+                response.data.result
+            );
             // setCheckList(response.data);
             setCheckList(
                 checkList.map((list) => {
-                    if (list.cid === cId) {
+                    if (list.cid === cid) {
                         return {
                             ...list,
-                            items: [...list.items, response.data],
+                            items: [...list.items, response.data.result],
                         };
                     }
                     return list;
                 })
             );
+            console.log("준비물 생성 결과 checkList : ", checkList);
         } catch (error) {
             console.log(error);
             console.log("준비물 생성 실패");
@@ -136,46 +162,63 @@ function CheckList() {
     };
 
     // 준비물 제목 변경
-    const updateItemTitle = async (cId, itemId, newTitle) => {
+    const updateItemTitle = async (cid, iid, newTitle) => {
         try {
             const response = await axios.patch(
-                `${serverUrl}/checklist/${cId}/items/${itemId}`,
+                `${serverUrl}/checklist/${cid}/items/${iid}/name`,
                 {
-                    body: {
-                        name: newTitle,
+                    name: newTitle,
+                },
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
                     },
                 }
             );
-            console.log(response);
+            console.log("준비물 제목 변경 성공!");
+            console.log("준비물 제목 변경 response : ", response);
         } catch (error) {
             console.log(error);
             console.log("준비물 제목 변경 실패");
         }
     };
 
-    // 준비물 삭제
-    const deleteItem = async (cId, itemId) => {
+    // 준비물 체크 상태 변경
+    const updateItemStatus = async (cid, iid) => {
         try {
-            const response = await axios.delete(
-                `${serverUrl}/checklist/${cId}/items/${itemId}`
+            const response = await axios.patch(
+                `${serverUrl}/checklist/${cid}/items/${iid}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                }
             );
+            console.log("준비물 체크 상태 변경 성공!");
             console.log(response);
         } catch (error) {
+            console.log("준비물 체크 상태 변경 실패");
             console.log(error);
-            console.log("준비물 삭제 실패");
         }
     };
 
-    // 준비물 체크 상태 변경
-    const updateItemStatus = async (cId, itemId) => {
+    // 준비물 삭제
+    const deleteItem = async (cid, iid) => {
         try {
-            const response = await axios.patch(
-                `${serverUrl}/checklist/${cId}/item/${itemId}/status`
+            const response = await axios.delete(
+                `${serverUrl}/checklist/${cid}/items/${iid}`,
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                }
             );
-            console.log(response);
+            console.log("준비물 삭제 성공!");
+            console.log("준비물 삭제 response : ", response);
         } catch (error) {
             console.log(error);
-            console.log("준비물 체크 상태 변경 실패");
+            console.log("준비물 삭제 실패");
         }
     };
 
@@ -262,30 +305,6 @@ function CheckList() {
                                             // add new content
                                             () => {
                                                 createItem(list.cid);
-                                                setCheckList(
-                                                    checkList.map((i) => {
-                                                        if (
-                                                            i.cid === list.cid
-                                                        ) {
-                                                            return {
-                                                                ...i,
-                                                                items: [
-                                                                    ...i.items,
-                                                                    {
-                                                                        id:
-                                                                            i
-                                                                                .items
-                                                                                .length +
-                                                                            1,
-                                                                        name: "",
-                                                                        isChecked: false,
-                                                                    },
-                                                                ],
-                                                            };
-                                                        }
-                                                        return i;
-                                                    })
-                                                );
                                             }
                                         }
                                     >
@@ -301,21 +320,11 @@ function CheckList() {
                                                 list.title
                                             );
                                             checkList.map((e) => {
-                                                console.log("수정완료 버튼", e);
                                                 if (e.cid === list.cid) {
-                                                    // updateItemTitle all items
                                                     e.items.map((i) => {
-                                                        // console.log(
-                                                        //     "list.id: ",
-                                                        //     list.id,
-                                                        //     "i.id: ",
-                                                        //     i.id,
-                                                        //     "i.name: ",
-                                                        //     i.name
-                                                        // );
                                                         updateItemTitle(
                                                             list.cid,
-                                                            i.id,
+                                                            i.iid,
                                                             i.name
                                                         );
                                                     });
@@ -373,7 +382,7 @@ function CheckList() {
                                 {list.items.map((item) => (
                                     <div
                                         className="check-list-item-container"
-                                        key={item.id}
+                                        key={item.iid}
                                     >
                                         {/* 체크박스 */}
                                         <input
@@ -385,11 +394,11 @@ function CheckList() {
                                                     "check item / list.cid: ",
                                                     list.cid,
                                                     "item.id: ",
-                                                    item.id
+                                                    item.iid
                                                 );
                                                 updateItemStatus(
                                                     list.cid,
-                                                    item.id
+                                                    item.iid
                                                 );
                                                 setCheckList(
                                                     checkList.map((e) => {
@@ -401,8 +410,8 @@ function CheckList() {
                                                                 items: e.items.map(
                                                                     (i) => {
                                                                         if (
-                                                                            i.id ===
-                                                                            item.id
+                                                                            i.iid ===
+                                                                            item.iid
                                                                         ) {
                                                                             return {
                                                                                 ...i,
@@ -429,6 +438,14 @@ function CheckList() {
                                                 value={item.name}
                                                 placeholder="항목을 입력하세요"
                                                 onChange={(e) => {
+                                                    console.log(
+                                                        "iId: ",
+                                                        item.iid
+                                                    );
+                                                    console.log(
+                                                        "cId: ",
+                                                        list.cid
+                                                    );
                                                     setCheckList(
                                                         checkList.map((i) => {
                                                             if (
@@ -440,8 +457,8 @@ function CheckList() {
                                                                     items: i.items.map(
                                                                         (j) => {
                                                                             if (
-                                                                                j.id ===
-                                                                                item.id
+                                                                                j.iid ===
+                                                                                item.iid
                                                                             ) {
                                                                                 return {
                                                                                     ...j,
@@ -464,7 +481,7 @@ function CheckList() {
                                             <div className="check-list-item">
                                                 {item.name
                                                     ? item.name
-                                                    : "빈 항목"}
+                                                    : "새로운 준비물"}
                                             </div>
                                         )}
 
@@ -479,11 +496,11 @@ function CheckList() {
                                                         "delete item / list.id: ",
                                                         list.cid,
                                                         "item.id: ",
-                                                        item.id
+                                                        item.iid
                                                     );
                                                     deleteItem(
                                                         list.cid,
-                                                        item.id
+                                                        item.iid
                                                     );
                                                     setCheckList(
                                                         checkList.map((i) => {
@@ -495,8 +512,8 @@ function CheckList() {
                                                                     ...i,
                                                                     items: i.items.filter(
                                                                         (j) =>
-                                                                            j.id !==
-                                                                            item.id
+                                                                            j.iid !==
+                                                                            item.iid
                                                                     ),
                                                                 };
                                                             }

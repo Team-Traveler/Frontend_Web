@@ -23,7 +23,18 @@ function Daily() {
                                         {e.date}
                                     </div>
                                     <div className="account-item-daily-cost">
-                                        합계 금액
+                                        {/* 합계 금액 */}
+                                        {e.content
+                                            .reduce(
+                                                (acc, cur) => acc + cur.price,
+                                                0
+                                            )
+                                            .toString()
+                                            .replace(
+                                                /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                                                ","
+                                            )}
+                                        원
                                     </div>
                                 </div>
                                 {e.content.map((item) => {
@@ -53,11 +64,18 @@ function Daily() {
                                                 {item.title}
                                             </div>
                                             <div className="account-item-price">
-                                                {item.price}
+                                                {item.price
+                                                    .toString()
+                                                    .replace(
+                                                        /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                                                        ","
+                                                    )}
+                                                원
                                             </div>
                                         </div>
                                     );
                                 })}
+                                <div className="account-daily-div-line"></div>
                             </div>
                         );
                     });

@@ -1,0 +1,157 @@
+/* search.css */
+.back {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  height: 100vh;
+  background-image: url("../../../assets/images/background.png");
+  background-size: cover;
+}
+
+.search-container {
+  width: 960px;
+  height: 88.34px;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 30px 0px rgba(141, 141, 141, 0.2);
+}
+.recent {
+  width: 960px;
+  height: 88.34px;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 30px 0px rgba(141, 141, 141, 0.2);
+}
+.iptSearch::placeholder {
+  font-size: 20px; /* 원하는 폰트 크기로 설정 */
+  /* 추가 스타일링 옵션을 여기에 추가할 수 있습니다 */
+}
+.iptSearch {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border: 2px solid #ffffff;
+  margin-left: 30px;
+  margin-top: 10px;
+}
+
+.hashtags {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.hashtag-button {
+  padding: 10px 45px;
+  margin: 0 5px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #ffffff;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.search-icon-button {
+  border: none;
+}
+
+/* 스타일링 파일 (search.css) */
+.search-button {
+  background: transparent; /* 배경색을 투명하게 설정 */
+  border: 1px solid transparent; /* 테두리선 제거 */
+  cursor: pointer;
+  padding: 0;
+  margin-right: 30px;
+}
+
+.searchh {
+  border: 1px solid transparent; /* 이미지의 테두리선 설정 */
+  padding: 3px; /* 테두리선과 이미지 사이의 여백 설정 */
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  /* 이미지 주변의 배경을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  padding: 0; /* 패딩 제거 */
+  margin: 0; /* 마진 제거 */
+  /* 추가적인 스타일을 여기에 정의할 수 있습니다 */
+}
+
+/* 스타일링 파일 (search.css) */
+.recent-searches {
+  width: 960px;
+  height: 300px; /* 수정할 크기를 지정해주세요 */
+  position: absolute;
+  top: 480px;
+  left: 320px;
+  border-radius: 10px;
+
+  background-color: rgba(255, 255, 255, 0.7);
+  overflow: auto; /* 수정: overflow 속성을 auto로 변경 */
+  display: flex; /* 수정: flex 속성 추가 */
+  flex-direction: column;
+  align-items: flex-start; /* 수정: 요소들을 왼쪽으로 정렬 */
+  justify-content: flex-start; /* 수정: 요소들을 위쪽으로 정렬 */
+
+  box-shadow: 0px 5px 30px 0px #8d8d8d73;
+}
+
+.recent-searches h2 {
+  font-family: Pretendard;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding: 15px;
+  margin: 0 auto;
+  margin-left: 10px;
+  color: #757575;
+}
+
+.vector {
+  width: 20.000000138834078px;
+  height: 20.000000138834078px;
+  transform: rotate(0deg);
+  position: absolute;
+  margin-left: 170px;
+  margin-top: -60px;
+  top: 273px;
+  border-radius: 50%;
+  left: 1091.61328125px;
+  background-color: white;
+  border: 2px solid white; /* 변경 가능한 색상으로 대체 */
+  box-shadow: 0px 5px 30px 0px #8d8d8d73;
+}
+
+
+.recent-searches li {
+  padding: 10px;
+  margin-bottom: 10px;
+  /* 검색 기록 간 구분선 추가 */
+  font-family: Pretendard;
+  padding-left: 30px;
+}
+
+.line {
+  width: 1033px;
+  height: 1px;
+  background: #b0b0b0;
+  /* 선의 색상 설정 */
+  position: absolute;
+  top: 450.59033203125px;
+  left: 300px;
+  border: none; /* 테두리 제거 */
+  margin-bottom: 300px;;
+}

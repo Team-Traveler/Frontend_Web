@@ -5,7 +5,7 @@ export const accountState = atom({
     key: "accountState",
     default: [
         {
-            tId: 1,
+            tId: 7902,
             daily: [
                 {
                     dateId: 1,
