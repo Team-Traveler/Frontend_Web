@@ -1,19 +1,19 @@
 /* ImageUploadBox.css */
 
-.image-upload-box {
+.ximage-upload-box {
     display: flex;
     flex-direction: column;
     align-items: center;
 
   }
   
-  .image-slider-container {
+  .ximage-slider-container {
     display: flex;
     margin-right: 15px;
 
   }
   
-  .image-slider {
+  .ximage-slider {
     width: 234px;
     height: 294px;
     position: relative;
@@ -29,7 +29,7 @@
 
 
 
-  .slider-arrow {
+  .xslider-arrow {
     position: absolute;
     top: 50%;
     cursor: pointer;
@@ -38,21 +38,21 @@
     color: black;
   }
   
-  .left-arrow {
+  .xleft-arrow {
     left: 10px;
   }
   
-  .right-arrow {
+  .xright-arrow {
     right: 10px;
   }
   
-  .upload-section {
+  .xupload-section {
     position: relative;
     margin-top: 15px;
     cursor: pointer;
   }
 
-  .upload-label {
+  .xupload-label {
     display: none;
     width: 30px;
 height: 30px;
@@ -62,7 +62,7 @@ left: 547px;
 
   }
   
-  .icon-label {
+  .xicon-label {
     position: absolute;
     top: -350px;
     left: 238px;
@@ -70,7 +70,7 @@ left: 547px;
     cursor: pointer;
   }
   
-  .file-input {
+  .xfile-input {
     display: none;
   }
   

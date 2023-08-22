@@ -27,62 +27,62 @@ function TravelList() {
 
   return (
     <div>
-          <div className="travel-card">
-            <div className="travel-card-info">
-              <div className="travel-card-name">
+          <div className="xtravel-card">
+            <div className="xtravel-card-info">
+              <div className="xtravel-card-name">
                 #해시태그
                 <img src={hhh} alt="hhh" className="hhh" />
               </div>
-              <div className="travel-card-category">
+              <div className="xtravel-card-category">
                 {" "}
                 #{selectedTravel.hashtags[0]} #{selectedTravel.hashtags[1]}
               </div>
             </div>
           </div>
 
-          <div className="travel-card">
-            <div className="travel-card-info">
-              <div className="travel-card-name">
+          <div className="xtravel-card">
+            <div className="xtravel-card-info">
+              <div className="xtravel-card-name">
                 위치추가
                 <img src={sss} alt="sss" className="sss" />
                 <img src={sss2} alt="sss2" className="sss2" />
               </div>
-              <div className="travel-card-category">{selectedTravel.location}</div>
+              <div className="xtravel-card-category">{selectedTravel.location}</div>
             </div>
           </div>
 
-          <div className="travel-card">
-            <div className="travel-card-info">
-              <div className="travel-card-name">
+          <div className="xtravel-card">
+            <div className="xtravel-card-info">
+              <div className="xtravel-card-name">
                 good
                 <img src={ggg} alt="ggg" className="ggg1" />
               </div>
-              <div className="travel-card-category">{selectedTravel.goodPoints}</div>
+              <div className="xtravel-card-category">{selectedTravel.goodPoints}</div>
             </div>
           </div>
 
-          <div className="travel-card">
-            <div className="travel-card-info">
-              <div className="travel-card-name">
+          <div className="xtravel-card">
+            <div className="xtravel-card-info">
+              <div className="xtravel-card-name">
                 bad
                 <img src={ggg} alt="ggg" className="ggg2" />
               </div>
-              <div className="travel-card-category">{selectedTravel.badPoints}</div>
+              <div className="xtravel-card-category">{selectedTravel.badPoints}</div>
             </div>
           </div>
 
-          <div className="travel-card">
-            <div className="travel-card-info">
-              <div className="travel-card-name">한줄 평 작성</div>
-              <div className="travel-card-category">{selectedTravel.oneLineReview}</div>
+          <div className="xtravel-card">
+            <div className="xtravel-card-info">
+              <div className="xtravel-card-name">한줄 평 작성</div>
+              <div className="xtravel-card-category">{selectedTravel.oneLineReview}</div>
             </div>
           </div>
 
-          <div className="travel-card">
-            <div className="travel-card-info">
-              <div className="travel-card-name">나의 노트 공유</div>
-              <div className="travel-card-category">
-                <label className="checkbox-label">
+          <div className="xtravel-card">
+            <div className="xtravel-card-info">
+              <div className="xtravel-card-name">나의 노트 공유</div>
+              <div className="xtravel-card-category">
+                <label className="xcheckbox-label">
                   <input
                     type="checkbox"
                     checked={isChecked}
@@ -90,8 +90,8 @@ function TravelList() {
                   />
                   체크리스트
                 </label>
-                <span className="checkbox-spacing" />
-                <label className="checkbox-label">
+                <span className="xcheckbox-spacing" />
+                <label className="xcheckbox-label">
                   <input
                     type="checkbox"
                     checked={!isChecked}

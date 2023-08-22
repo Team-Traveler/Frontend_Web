@@ -56,34 +56,34 @@ function CommunityPage() {
       <div id="body">
         <div id="product-list">
           {travels.map((travel, index) => (
-            <div className="product-card" key={travel.pid}>
-              <div className="product-img-container">
+            <div className="xproduct-card" key={travel.pid}>
+              <div className="xproduct-img-container">
                 <Link to={`/story/${travel.tid}`}>
             
                 
                   <img
-                    className="product-img"
+                    className="xproduct-img"
                     src={travel.imageUrl}
                     alt={`Travel ${index}`}
                   />
                 </Link>
-                <div className="favorite-icon" onClick={() => handleStarClick(travel.tid, index)}>
+                <div className="xfavorite-icon" onClick={() => handleStarClick(travel.tid, index)}>
                   {starred[index] ? <StarFilled /> : <StarOutlined />}
                 </div>
-                <div className="icons-bottom">
+                <div className="xicons-bottom">
                   <CommentOutlined className="comment-icon" />
                   <ShareAltOutlined className="share-icon" />
                   <HeartOutlined className="heart-icon" />
                 </div>
               </div>
-              <div className="product-contents">
-                <span className="product-oneline">
+              <div className="xproduct-contents">
+                <span className="xproduct-oneline">
                   {travel.oneLineReview}
                 </span>{" "}
-                <span className="product-traveler">
+                <span className="xproduct-traveler">
                   {travel.title}
                 </span>
-                <span className="tag">#{travel.hashtags[0]} #{travel.hashtags[1]}</span>
+                <span className="xtag">#{travel.hashtags[0]} #{travel.hashtags[1]}</span>
               </div>
             </div>
           ))}

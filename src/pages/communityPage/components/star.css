@@ -1,5 +1,5 @@
 /* StarRating.css */
-.star-rating-card {
+.xstar-rating-card {
     width: 503px;
     height: 212px;
     top: 714px;
@@ -11,28 +11,28 @@
     padding: 20px;
  }
   
-  .star-section {
+  .xstar-section {
     margin-bottom: 20px;
     margin-top:px;
   }
   
-  .star-container {
+  .xstar-container {
     display: flex;
     margin-top: 0px;
     align-items: center;
   }
   
-  .star {
+  .xstar {
     cursor: pointer;
     margin-right: 10px;
   }
   
-  .star:last-child {
+  .xstar:last-child {
     margin-right: 0;
   }
   /* star.css */
 
-.star-section h2 {
+.xstar-section h2 {
   font-family: Pretendard;
   font-size: 16px;
   font-weight: 200;

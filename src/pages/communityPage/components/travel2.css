@@ -1,6 +1,6 @@
 /* styles.css */
 
-.travel-card {
+.xtravel-card {
   width: 609px;
   height: 96px;
   margin: 30px 0;
@@ -12,7 +12,7 @@
 }
 
 
-.travel-card-name {
+.xtravel-card-name {
   margin-left: 20px;
   font-size: 15px;
   margin-top: 2vh;
@@ -21,14 +21,14 @@
   margin-bottom: 15px;
 }
 
-.travel-card-duration {
+.xtravel-card-duration {
   font-size: 20px;
   text-align: left;
   font-family: CooperBlack;
   margin-bottom: 10px;
 }
 
-.travel-card-category {
+.xtravel-card-category {
   margin-left: 20px;
   font-size: 15px;
 
@@ -38,19 +38,19 @@
   color: #757575;
 }
 
-.travel-card-text {
+.xtravel-card-text {
   font-size: 20px;
   text-align: center;
   font-family: CooperBlack;
   margin-bottom: 10px;
 }
 
-.travel-card-button {
+.xtravel-card-button {
   font-size: 18px;
   text-align: center;
 }
 
-.my-travel-lists {
+.xmy-travel-lists {
   /* overflow-y: auto; */
   width: 39vw;
   height: 51.3vh;
@@ -59,13 +59,13 @@
   border: 2px solid #000; /* 테두리 추가 */
 }
 
-.image-container img {
+.ximage-container img {
   position: relative;
   top: 5vh;
   width: 39vw;
 }
 
-.date {
+.xdate {
   font-size: 30px;
 
   margin-top: 5vh;
@@ -73,29 +73,29 @@
   margin-right: 5.6vw;
 }
 
-.travel-card-empty {
+.xtravel-card-empty {
   font-size: 50px;
   text-align: center;
   margin-top: 200px;
   font-family: CooperBlack;
 }
 
-.my-travel-emptylists {
+.xmy-travel-emptylists {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%; /* Or whatever height you need */
 }
 
-.checkbox-label {
+.xcheckbox-label {
   margin-right: 20px; /* 체크박스 간격 조절 */
 }
 
-.checkbox-spacing {
+.xcheckbox-spacing {
   width: 10px; /* 원하는 간격 너비 */
   display: inline-block;
 }
-.travel-card-name {
+.xtravel-card-name {
   position: relative; /* 부모 요소를 기준으로 자식 요소들의 위치를 설정 */
 }
 
