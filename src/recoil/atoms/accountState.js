@@ -15,7 +15,7 @@ export const accountState = atom({
                             id: 1,
                             category: "교통비",
                             title: "지하철",
-                            price: 1000,
+                            price: 2300,
                         },
                         {
                             id: 2,
@@ -46,6 +46,18 @@ export const accountState = atom({
                             category: "식비",
                             title: "점심",
                             price: 9500,
+                        },
+                        {
+                            id: 2,
+                            category: "쇼핑",
+                            title: "기념품",
+                            price: 20000,
+                        },
+                        {
+                            id: 3,
+                            category: "기타",
+                            title: "운세보기",
+                            price: 5000,
                         },
                     ],
                 },
