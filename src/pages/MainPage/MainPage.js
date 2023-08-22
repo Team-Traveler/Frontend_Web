@@ -45,9 +45,9 @@ function MainPage() {
     const handleLogout = useLogout(setUserInfo);
 
     // 로그인 후 recoil에 저장된 사용자 정보 확인하는 테스트코드
-    useEffect(() => {
-        console.log("userInfo:", userInfo);
-    }, [userInfo]);
+    // useEffect(() => {
+    //     console.log("userInfo:", userInfo);
+    // }, [userInfo]);
 
     return (
         <div className="main-page">

@@ -69,7 +69,7 @@ function RecommendPage() {
                 headers: { Authorization: userInfo.accessToken },
             })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
 
                 const startTime = Date.now(); // 로딩화면 띄우기 시작 시간
 
@@ -189,9 +189,9 @@ function RecommendPage() {
         setShowModal(false);
     };
 
-    useEffect(() => {
-        console.log("여행 찾기 입력폼 데이터 :", recommendForm);
-    }, [recommendForm]);
+    // useEffect(() => {
+    //     console.log("여행 찾기 입력폼 데이터 :", recommendForm);
+    // }, [recommendForm]);
 
     return (
         <div className="recommend-page">
