@@ -44,10 +44,10 @@ function ImageUploadBox() {
   };
 
   return (
-    <div className="image-upload-box">
-      <div className="image-slider-container">
+    <div className="ximage-upload-box">
+      <div className="ximage-slider-container">
         <div
-          className="image-slider"
+          className="ximage-slider"
           style={{
             width: "234px",
             height: "294px",
@@ -61,20 +61,20 @@ function ImageUploadBox() {
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           <div
-            className="slider-arrow left-arrow"
+            className="xslider-arrow left-arrow"
             onClick={() => handlePrevClick(1)}
           >
             &lt;
           </div>
           <div
-            className="slider-arrow right-arrow"
+            className="xslider-arrow right-arrow"
             onClick={() => handleNextClick(1)}
           >
             &gt;
           </div>
         </div>
         <div
-          className="image-slider"
+          className="ximage-slider"
           style={{
             width: "234px",
             height: "294px",
@@ -88,20 +88,20 @@ function ImageUploadBox() {
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           <div
-            className="slider-arrow left-arrow"
+            className="xslider-arrow left-arrow"
             onClick={() => handlePrevClick(2)}
           >
             &lt;
           </div>
           <div
-            className="slider-arrow right-arrow"
+            className="xslider-arrow right-arrow"
             onClick={() => handleNextClick(2)}
           >
             &gt;
           </div>
         </div>
       </div>
-      <div className="upload-section">
+      <div className="xupload-section">
         <label htmlFor="fileInput" className="upload-label">
           사진 선택
         </label>
@@ -114,7 +114,7 @@ function ImageUploadBox() {
           id="fileInput"
           onChange={handleImageUpload}
           multiple
-          className="file-input"
+          className="xfile-input"
         />
       </div>
     </div>

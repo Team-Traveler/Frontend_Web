@@ -5,6 +5,7 @@ import {
   travelsSelector,
   travelByIdSelector,
 }  from "../../../recoil/atoms/travelsreviewStates";
+
 const travels = [
   {
     tag: "초당 옥수수",
@@ -33,9 +34,9 @@ function TravelCard() {
   }) {
     return (
       <div>
-      <div className="travel-card-info" style={{ marginLeft: 30 }}>
+      <div className="xtravel-card-info" style={{ marginLeft: 30 }}>
         <div
-          className="travel-card-travel"
+          className="xtravel-card-travel"
           style={{
             fontFamily: "Pretendard",
             fontSize: "28px",
@@ -50,7 +51,7 @@ function TravelCard() {
           {" "}
           {travel}
         </div>
-        <div className="travel-card-when"> {when}</div>
+        <div className="xtravel-card-when"> {when}</div>
         <br></br>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <select

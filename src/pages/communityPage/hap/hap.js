@@ -9,11 +9,11 @@ import TravelCard from "../components/trip";
 // 이 페이지에서 데이터 가져와서 보여주기
 function Hap() {
     return (
-        <div className="community-page">
+        <div className="xcommunity-page">
             <Nav />
-            <div className="content-wrapper">
-                <div className="left-content">
-                    <div className="left-section">
+            <div className="xcontent-wrapper">
+                <div className="xleft-content">
+                    <div className="xleft-section">
                         <div>
                             <TravelCard />
                         </div>
@@ -25,7 +25,7 @@ function Hap() {
                         </div>
                     </div>
                 </div>
-                <div className="right-section">
+                <div className="xright-section">
                     <TravelList />
                 </div>
             </div>

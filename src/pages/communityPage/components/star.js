@@ -12,15 +12,15 @@ function StarRating() {
   };
 
   return (
-    <div className="star-rating-card">
-      <div className="star-section">
+    <div className="xstar-rating-card">
+      <div className="xstar-section">
         <h2>여행 컨셉</h2>
-        <div className="star-container">
+        <div className="xstar-container">
           {[1, 2, 3, 4, 5].map((num) => (
             <span
               key={num}
               onClick={() => handleStarClick(num, 0)}
-              className="star"
+              className="xstar"
             >
               {num <= ratings[0] ? (
                 <StarFilled style={{ color: "yellow" }} />
@@ -31,14 +31,14 @@ function StarRating() {
           ))}
         </div>
       </div>
-      <div className="star-section">
+      <div className="xstar-section">
         <h2>여행 강도</h2>
-        <div className="star-container">
+        <div className="xstar-container">
           {[1, 2, 3, 4, 5].map((num) => (
             <span
               key={num}
               onClick={() => handleStarClick(num, 1)}
-              className="star"
+              className="xstar"
             >
               {num <= ratings[1] ? (
                 <StarFilled style={{ color: "yellow" }} />
@@ -49,14 +49,14 @@ function StarRating() {
           ))}
         </div>
       </div>
-      <div className="star-section">
+      <div className="xstar-section">
         <h2>총 별점</h2>
-        <div className="star-container">
+        <div className="xstar-container">
           {[1, 2, 3, 4, 5].map((num) => (
             <span
               key={num}
               onClick={() => handleStarClick(num, 2)}
-              className="star"
+              className="xstar"
             >
               {num <= ratings[2] ? (
                 <StarFilled style={{ color: "yellow" }} />

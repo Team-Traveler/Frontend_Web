@@ -1,6 +1,6 @@
 /* new.css */
 
-.content-wrapper {
+.xcontent-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +12,7 @@
   }
   
   
-  .left-section {
+  .xleft-section {
     display: flex;
     flex-direction: column;
     padding-left: 50px; /* 감소시킴 */
@@ -20,7 +20,7 @@
     flex: 0.5;
   }
   
-  .right-section {
+  .xright-section {
 
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@
     flex: 0.5;
   }
   
-  .community-page {
+  .xcommunity-page {
     overflow-x: hidden;
   }
     
