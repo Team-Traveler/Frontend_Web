@@ -1,138 +1,112 @@
 import React, { useState } from "react";
 import "./community.css";
 import axios from "axios";
-import https from "https";
 import { Pagination } from "antd";
 import Nav from "../../../components/Nav/Nav";
 import {
-    HeartOutlined,
-    ShareAltOutlined,
-    CommentOutlined,
-    StarOutlined,
-    StarFilled,
+  HeartOutlined,
+  ShareAltOutlined,
+  CommentOutlined,
+  StarOutlined,
+  StarFilled,
 } from "@ant-design/icons";
 import button1 from "../../../assets/images/Group 533.svg";
 import button2 from "../../../assets/images/Ellipse 7.svg";
 import search from "../../../assets/images/Search.png";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { travelsSelector } from "../../../recoil/atoms/travelsreviewStates";
-
-// At instance level
-const instance = axios.create({
-    httpsAgent: new https.Agent({
-        rejectUnauthorized: false,
-    }),
-});
-instance.get("https://something.com/foo");
-
-// At request level
-const agent = new https.Agent({
-    rejectUnauthorized: false,
-});
+import { useRecoilValue } from 'recoil';
+import { travelsSelector } from '../../../recoil/atoms/travelsreviewStates';
 
 function CommunityPage() {
-    const travels = useRecoilValue(travelsSelector);
-    const [starred, setStarred] = useState(
-        new Array(travels.length).fill(false)
-    );
+  const travels = useRecoilValue(travelsSelector);
+  const [starred, setStarred] = useState(new Array(travels.length).fill(false));
 
-    const handleStarClick = async (pId, index) => {
-        try {
-            console.log("별 클릭 이벤트 발생");
-            const response = await axios.post(`/post/${pId}/scrap`, {
-                httpsAgent: agent,
-            });
-            if (response.status === 200) {
-                const newStarred = [...starred];
-                newStarred[index] = !newStarred[index];
-                setStarred(newStarred);
-                console.log("성공");
-            }
-        } catch (error) {
-            console.error("Error while scraping:", error);
-        }
-    };
+  const handleStarClick = async (pId, index) => {
+    try {
+      console.log('별 클릭 이벤트 발생');
+      const response = await axios.post(`/post/${pId}/scrap`);
+      if (response.status === 200) {
+        const newStarred = [...starred];
+        newStarred[index] = !newStarred[index];
+        setStarred(newStarred);
+        console.log('성공');
+      }
+    } catch (error) {
+      console.error('Error while scraping:', error);
+    }
+  };
 
-    return (
-        <div className="community-page">
-            <Nav />
-            <div className="custom-button">
-                <Link to="/search">
-                    <img src={button2} alt="button1" className="button2" />
-                </Link>
-                <Link to="/new">
-                    <img src={button1} alt="button2" className="button1" />
-                </Link>
-            </div>
-            <div className="search-button">
-                <Link to="/story/search">
-                    <img src={search} alt="search" className="search" />
-                </Link>
-            </div>
+  return (
+    <div className="community-page">
+      <Nav />
+      <div className="custom-button">
+        <Link to="/search">
+          <img src={button2} alt="button1" className="button2" />
+        </Link>
+        <Link to="/new">
+          <img src={button1} alt="button2" className="button1" />
+        </Link>
+      </div>
+      <div className="search-button">
+        <Link to="/story/search">
+          <img src={search} alt="search" className="search" />
+        </Link>
+      </div>
 
-            <div id="body">
-                <div id="product-list">
-                    {travels.map((travel, index) => (
-                        <div className="xproduct-card" key={travel.pid}>
-                            <div className="xproduct-img-container">
-                                <Link to={`/story/${travel.tid}`}>
-                                    <img
-                                        className="xproduct-img"
-                                        src={travel.imageUrl}
-                                        alt={`Travel ${index}`}
-                                    />
-                                </Link>
-                                <div
-                                    className="xfavorite-icon"
-                                    onClick={() =>
-                                        handleStarClick(travel.tid, index)
-                                    }
-                                >
-                                    {starred[index] ? (
-                                        <StarFilled />
-                                    ) : (
-                                        <StarOutlined />
-                                    )}
-                                </div>
-                                <div className="xicons-bottom">
-                                    <CommentOutlined className="comment-icon" />
-                                    <ShareAltOutlined className="share-icon" />
-                                    <HeartOutlined className="heart-icon" />
-                                </div>
-                            </div>
-                            <div className="xproduct-contents">
-                                <span className="xproduct-oneline">
-                                    {travel.oneLineReview}
-                                </span>{" "}
-                                <span className="xproduct-traveler">
-                                    {travel.title}
-                                </span>
-                                <span className="xtag">
-                                    #{travel.hashtags[0]} #{travel.hashtags[1]}
-                                </span>
-                            </div>
-                        </div>
-                    ))}
+      <div id="body">
+        <div id="product-list">
+          {travels.map((travel, index) => (
+            <div className="xproduct-card" key={travel.pid}>
+              <div className="xproduct-img-container">
+                <Link to={`/story/${travel.tid}`}>
+            
+                
+                  <img
+                    className="xproduct-img"
+                    src={travel.imageUrl}
+                    alt={`Travel ${index}`}
+                  />
+                </Link>
+                <div className="xfavorite-icon" onClick={() => handleStarClick(travel.tid, index)}>
+                  {starred[index] ? <StarFilled /> : <StarOutlined />}
                 </div>
+                <div className="xicons-bottom">
+                  <CommentOutlined className="comment-icon" />
+                  <ShareAltOutlined className="share-icon" />
+                  <HeartOutlined className="heart-icon" />
+                </div>
+              </div>
+              <div className="xproduct-contents">
+                <span className="xproduct-oneline">
+                  {travel.oneLineReview}
+                </span>{" "}
+                <span className="xproduct-traveler">
+                  {travel.title}
+                </span>
+                <span className="xtag">#{travel.hashtags[0]} #{travel.hashtags[1]}</span>
+              </div>
             </div>
-            <div
-                id="footer"
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "20px",
-                    marginBottom: "20px",
-                }}
-            >
-                <Pagination defaultCurrent={1} total={50} />
-            </div>
+          ))}
         </div>
-    );
+      </div>
+      <div
+        id="footer"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20px",
+          marginBottom: "20px",
+        }}
+      >
+        <Pagination defaultCurrent={1} total={50} />
+      </div>
+    </div>
+  );
 }
 
 export default CommunityPage;
+
 
 // import React, { useState } from "react";
 // import "./community.css";
