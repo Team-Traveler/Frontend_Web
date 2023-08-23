@@ -5,7 +5,6 @@ import {
   travelsSelector,
   travelByIdSelector,
 }  from "../../../recoil/atoms/travelsreviewStates";
-
 const travels = [
   {
     tag: "초당 옥수수",
@@ -14,7 +13,7 @@ const travels = [
     bad: "날이 더워요",
     oneline: "7/4",
     sharing: "yes",
-    travel: "강릉 3박 4일",
+    travel: "부산 여행 1박 2일",
     when: "2023/05/08-2023/05/12",
   },
 ];
@@ -34,9 +33,9 @@ function TravelCard() {
   }) {
     return (
       <div>
-      <div className="xtravel-card-info" style={{ marginLeft: 30 }}>
+      <div className="travel-card-info" style={{ marginLeft: 30 }}>
         <div
-          className="xtravel-card-travel"
+          className="travel-card-travel"
           style={{
             fontFamily: "Pretendard",
             fontSize: "28px",
@@ -51,7 +50,7 @@ function TravelCard() {
           {" "}
           {travel}
         </div>
-        <div className="xtravel-card-when"> {when}</div>
+        <div className="travel-card-when"> {when}</div>
         <br></br>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <select
@@ -72,7 +71,7 @@ function TravelCard() {
               border: "none",
             }}
           >
-            <option value="여행 컨셉">여행 컨셉</option>
+            <option value="여행 컨셉">먹방</option>
             <option value="경치관람">경치관람</option>
             <option value="먹방">먹방</option>
             <option value="엑티비티">엑티비티</option>
@@ -97,7 +96,7 @@ function TravelCard() {
               border: "none",
             }}
           >
-            <option value="여행 강도">여행 강도</option>
+            <option value="여행 강도">엑티비티</option>
             <option value="엑티비티">엑티비티</option>
             <option value="여유롭게">여유롭게</option>
             <option value="보통">보통</option>
@@ -121,7 +120,7 @@ function TravelCard() {
               border: "none",
             }}
           >
-            <option value="누구와">누구와?</option>
+            <option value="누구와">친구랑</option>
             <option value="친구랑">친구랑</option>
             <option value="가족과">가족과</option>
             <option value="연인과">연인과</option>
@@ -132,7 +131,8 @@ function TravelCard() {
         </div>
         {/* <Link to="/일정보기"> */}
         <h5
-  style={{
+          style={{
+           top:"30px",
     position: "absolute",
     width: "52px",
     height: "px",

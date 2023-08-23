@@ -23,7 +23,7 @@ function CommunityPage() {
 
   const handleStarClick = async (pId, index) => {
     try {
-      console.log('별 클릭 이벤트 발생');
+      // console.log('별 클릭 이벤트 발생');
       const response = await axios.post(`/post/${pId}/scrap`);
       if (response.status === 200) {
         const newStarred = [...starred];
@@ -37,19 +37,19 @@ function CommunityPage() {
   };
 
   return (
-    <div className="community-page">
+    <div className="xcommunity-page">
       <Nav />
-      <div className="custom-button">
+      <div className="xcustom-button">
         <Link to="/search">
-          <img src={button2} alt="button1" className="button2" />
+          <img src={button2} alt="button1" className="xbutton2" />
         </Link>
-        <Link to="/new">
-          <img src={button1} alt="button2" className="button1" />
+        <Link to="/story/pen">
+          <img src={button1} alt="button2" className="xbutton1" />
         </Link>
       </div>
       <div className="search-button">
         <Link to="/story/search">
-          <img src={search} alt="search" className="search" />
+          <img src={search} alt="search" className="xsearch" />
         </Link>
       </div>
 
@@ -63,17 +63,21 @@ function CommunityPage() {
                 
                   <img
                     className="xproduct-img"
-                    src={travel.imageUrl}
+                    src={travel.imgurl}
                     alt={`Travel ${index}`}
                   />
                 </Link>
-                <div className="xfavorite-icon" onClick={() => handleStarClick(travel.tid, index)}>
-                  {starred[index] ? <StarFilled /> : <StarOutlined />}
-                </div>
+                <div
+  className={`xfavorite-icon ${starred[index] ? 'filled' : ''}`}
+  onClick={() => handleStarClick(travel.tid, index)}
+>
+  {starred[index] ? <StarFilled style={{ color: '#ffcc00' }} /> : <StarOutlined />}
+</div>
+
                 <div className="xicons-bottom">
-                  <CommentOutlined className="comment-icon" />
-                  <ShareAltOutlined className="share-icon" />
-                  <HeartOutlined className="heart-icon" />
+                  <CommentOutlined className="xcomment-icon" />
+                  <ShareAltOutlined className="xshare-icon" />
+                  <HeartOutlined className="xheart-icon" />
                 </div>
               </div>
               <div className="xproduct-contents">
@@ -106,8 +110,6 @@ function CommunityPage() {
 }
 
 export default CommunityPage;
-
-
 // import React, { useState } from "react";
 // import "./community.css";
 // import { Pagination } from "antd";

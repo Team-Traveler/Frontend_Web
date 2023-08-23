@@ -44,8 +44,8 @@ function TravelList() {
             <div className="xtravel-card-info">
               <div className="xtravel-card-name">
                 위치추가
-                <img src={sss} alt="sss" className="sss" />
-                <img src={sss2} alt="sss2" className="sss2" />
+                <img src={sss} alt="sss" className="xsss" />
+                <img src={sss2} alt="sss2" className="xsss2" />
               </div>
               <div className="xtravel-card-category">{selectedTravel.location}</div>
             </div>

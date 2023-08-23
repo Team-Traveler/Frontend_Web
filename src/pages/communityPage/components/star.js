@@ -3,7 +3,7 @@ import { StarOutlined, StarFilled } from "@ant-design/icons";
 import "./star.css"; // Import the CSS file
 
 function StarRating() {
-  const [ratings, setRatings] = useState([0, 0, 0]); // Initialize with 0 ratings for each section
+  const [ratings, setRatings] = useState([2, 4, 3]); // Initialize with specific ratings for each section
 
   const handleStarClick = (selectedRating, index) => {
     const newRatings = [...ratings];

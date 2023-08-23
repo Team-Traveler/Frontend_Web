@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "./image.css"; // Import the CSS file for styling
 import button from "./Group-250.png";
-
+import image1 from "../images/1.jpg";
+import image2 from "../images/3.jpg";
 function ImageUploadBox() {
   const [imagesBox1, setImagesBox1] = useState([]);
   const [imagesBox2, setImagesBox2] = useState([]);
   const [currentIndex1, setCurrentIndex1] = useState(0);
   const [currentIndex2, setCurrentIndex2] = useState(0);
-
+  const imageStyle = {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain", // 이미지를 비율 유지하며 박스에 맞춥니다.
+  };
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const newImages = Array.from(files).map((file) =>
@@ -53,12 +58,13 @@ function ImageUploadBox() {
             height: "294px",
             position: "relative",
             border: "1px solid #000",
+            overflow: "hidden",
           }}
         >
           <img
-            src={imagesBox1[currentIndex1]}
+            src={image1}
             alt="Uploaded"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: "100%", height: "100%",  objectFit: "cover"}}            
           />
           <div
             className="xslider-arrow left-arrow"
@@ -80,10 +86,11 @@ function ImageUploadBox() {
             height: "294px",
             position: "relative",
             border: "1px solid #000",
+            overflow: "hidden",
           }}
         >
           <img
-            src={imagesBox2[currentIndex2]}
+            src={image2}
             alt="Uploaded"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -103,7 +110,7 @@ function ImageUploadBox() {
       </div>
       <div className="xupload-section">
         <label htmlFor="fileInput" className="upload-label">
-          사진 선택
+          
         </label>
         {/* <label htmlFor="fileInput" className="icon-label">
           <img src={button} alt="Upload Icon" className="UploadIcon" />
