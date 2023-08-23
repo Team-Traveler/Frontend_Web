@@ -3,7 +3,21 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../../recoil/atoms/userState";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import https from "https";
 import "./KakaoLogin.css";
+
+// At instance level
+const instance = axios.create({
+    httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+    }),
+});
+instance.get("https://something.com/foo");
+
+// At request level
+const agent = new https.Agent({
+    rejectUnauthorized: false,
+});
 
 function KakaoLogin() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -27,6 +41,7 @@ function KakaoLogin() {
                 "http://15.164.232.95:9000/api/auth/kakao",
                 {
                     authorizationCode: KAKAO_CODE,
+                    httpsAgent: agent,
                 },
                 {
                     headers: {
@@ -58,6 +73,7 @@ function KakaoLogin() {
                 // console.log("accessToken in getProfile:", userInfo.accessToken);
                 const response = await axios.get(
                     "http://15.164.232.95:9000/users/profile",
+                    { httpsAgent: agent },
                     {
                         headers: {
                             Authorization: `${userInfo.accessToken}`,
