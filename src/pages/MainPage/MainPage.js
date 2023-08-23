@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./MainPage.css";
 import Slider from "react-slick";
 import axios from "axios";
+import https from "https";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BiSolidLock } from "react-icons/bi";
@@ -19,6 +20,19 @@ import { ReactComponent as MyTravel } from "../../../src/assets/images/search.sv
 import { ReactComponent as Story } from "../../../src/assets/images/book.svg";
 import { ReactComponent as Logo } from "../../../src/assets/images/Traveler_logo.svg";
 import Modal from "../../components/Modal/Modal";
+
+// At instance level
+const instance = axios.create({
+    httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+    }),
+});
+instance.get("https://something.com/foo");
+
+// At request level
+const agent = new https.Agent({
+    rejectUnauthorized: false,
+});
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
@@ -220,7 +234,8 @@ const MultipleSliderRecommend = () => {
         const fetchContents = async () => {
             try {
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/recommend/list"
+                    "http://15.164.232.95:9000/recommend/list",
+                    { httpsAgent: agent }
                 );
                 setContents(response.data);
             } catch (error) {
@@ -337,6 +352,7 @@ const MultipleSliderLike = () => {
             try {
                 const response = await axios.get(
                     "http://15.164.232.95:9000/users/myScrap",
+                    { httpsAgent: agent },
                     {
                         headers: { Authorization: userInfo.accessToken },
                     }
