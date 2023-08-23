@@ -18,7 +18,7 @@ function Summary() {
     const [progressBarWidth, setprogressBarWidth] = useState(0);
 
     const createExepnse = (categoryTitle) => {
-        return parseInt(
+        const value = parseInt(
             account
                 .filter((list) => list.tId === selectedNote)
                 .map((list2) => {
@@ -33,10 +33,21 @@ function Summary() {
                         .reduce((acc, cur) => acc + cur, 0);
                 })
         );
+        return value ? value : 0;
     };
 
     const costToString = (cost) => {
         return cost.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    const expensePercentage = (expense) => {
+        const value = Math.round(expense / totalExpense) * 100;
+        return value ? value : 0;
+    };
+
+    const processBarWidth = (expense) => {
+        const value = (expense / totalExpense) * 300 + 100;
+        return value ? value : 100;
     };
 
     useEffect(() => {
@@ -124,14 +135,12 @@ function Summary() {
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            {Math.round((foodExpense / totalExpense) * 100)}%
+                            {expensePercentage(foodExpense)}%
                         </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${
-                                    (foodExpense / totalExpense) * 300 + 100
-                                }px`,
+                                width: `${processBarWidth(foodExpense)}px`,
                             }}
                         ></div>
                     </div>
@@ -147,19 +156,14 @@ function Summary() {
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            {Math.round(
-                                (transportationExpense / totalExpense) * 100
-                            )}
-                            %
+                            {expensePercentage(transportationExpense)}%
                         </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${
-                                    (transportationExpense / totalExpense) *
-                                        300 +
-                                    100
-                                }px`,
+                                width: `${processBarWidth(
+                                    transportationExpense
+                                )}px`,
                             }}
                         ></div>
                     </div>
@@ -175,18 +179,14 @@ function Summary() {
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            {Math.round(
-                                (sightseeingExpense / totalExpense) * 100
-                            )}
-                            %
+                            {expensePercentage(sightseeingExpense)}%
                         </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${
-                                    (sightseeingExpense / totalExpense) * 300 +
-                                    100
-                                }px`,
+                                width: `${processBarWidth(
+                                    sightseeingExpense
+                                )}px`,
                             }}
                         ></div>
                     </div>
@@ -202,15 +202,12 @@ function Summary() {
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            {Math.round((shoppingExpense / totalExpense) * 100)}
-                            %
+                            {expensePercentage(shoppingExpense)}%
                         </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${
-                                    (shoppingExpense / totalExpense) * 300 + 100
-                                }px`,
+                                width: `${processBarWidth(shoppingExpense)}px`,
                             }}
                         ></div>
                     </div>
@@ -226,14 +223,12 @@ function Summary() {
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            {Math.round((otherExpense / totalExpense) * 100)}%
+                            {expensePercentage(otherExpense)}%
                         </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${
-                                    (otherExpense / totalExpense) * 300 + 100
-                                }px`,
+                                width: `${processBarWidth(otherExpense)}px`,
                             }}
                         ></div>
                     </div>
