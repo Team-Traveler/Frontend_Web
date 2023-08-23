@@ -18,7 +18,7 @@ function KakaoLogin() {
     const getAccessToken = async () => {
         if (accessTokenFetching) return; // Return early if fetching
 
-        console.log("getAccessToken 호출");
+        // console.log("getAccessToken 호출");
 
         try {
             setAccessTokenFetching(true); // Set fetching to true
@@ -35,7 +35,7 @@ function KakaoLogin() {
                 }
             );
             const accessToken = response.data.accessToken;
-            console.log("accessToken:", accessToken);
+            // console.log("accessToken:", accessToken);
 
             setUserInfo({
                 ...userInfo,
@@ -52,10 +52,10 @@ function KakaoLogin() {
 
     const getProfile = async () => {
         try {
-            console.log("getProfile 호출");
+            // console.log("getProfile 호출");
             // Check if accessToken is available
             if (userInfo.accessToken) {
-                console.log("accessToken in getProfile:", userInfo.accessToken);
+                // console.log("accessToken in getProfile:", userInfo.accessToken);
                 const response = await axios.get(
                     "http://15.164.232.95:9000/users/profile",
                     {
@@ -64,7 +64,7 @@ function KakaoLogin() {
                         },
                     }
                 );
-                console.log("message:", response.data.message);
+                // console.log("message:", response.data.message);
                 setUserInfo({
                     ...userInfo,
                     id: response.data.result.id,

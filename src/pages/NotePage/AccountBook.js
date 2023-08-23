@@ -30,14 +30,14 @@ function AccountBook() {
                     alt="edit_btn"
                     onClick={() => {
                         setNoteList(
-                            noteList.map((item) => {
-                                if (item.tid === selectedNote) {
+                            noteList.map((note) => {
+                                if (note.tid === selectedNote) {
                                     return {
-                                        ...item,
-                                        isEdit: !item.isEdit,
+                                        ...note,
+                                        isEdit: !note.isEdit,
                                     };
                                 }
-                                return item;
+                                return note;
                             })
                         );
                     }}
