@@ -1,8 +1,65 @@
+import { useRecoilState } from "recoil";
+import { accountState } from "../../../recoil/atoms/accountState";
+import { selectedNoteId } from "../../../recoil/atoms/noteState";
+import { useEffect, useState } from "react";
 import "./Summary.css";
 
 function Summary() {
-    const percentage = 47; // (총 지출 / 총 예산)
-    const progressbarWidth = (percentage / 100) * 450;
+    const [account, setAccount] = useRecoilState(accountState);
+    const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
+    const [foodExpense, setFoodExpense] = useState(0);
+    const [transportationExpense, setTransportationExpense] = useState(0);
+    const [sightseeingExpense, setSightseeingExpense] = useState(0);
+    const [shoppingExpense, setShoppingExpense] = useState(0);
+    const [otherExpense, setOtherExpense] = useState(0);
+    const [totalExpense, setTotalExpense] = useState(0);
+    const [totalBudget, setTotalBudget] = useState(200000);
+    const [percentage, setPercentage] = useState(0);
+    const [progressBarWidth, setprogressBarWidth] = useState(0);
+
+    const createExepnse = (categoryTitle) => {
+        return parseInt(
+            account
+                .filter((list) => list.tId === selectedNote)
+                .map((list2) => {
+                    return list2.daily
+                        .map((e) => {
+                            return e.content
+                                .filter(
+                                    (item) => item.category === categoryTitle
+                                )
+                                .reduce((acc, cur) => acc + cur.price, 0);
+                        })
+                        .reduce((acc, cur) => acc + cur, 0);
+                })
+        );
+    };
+
+    const costToString = (cost) => {
+        return cost.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    useEffect(() => {
+        setFoodExpense(createExepnse("식비"));
+        setTransportationExpense(createExepnse("교통비"));
+        setSightseeingExpense(createExepnse("관광"));
+        setShoppingExpense(createExepnse("쇼핑"));
+        setOtherExpense(createExepnse("기타"));
+        setTotalExpense(
+            createExepnse("식비") +
+                createExepnse("교통비") +
+                createExepnse("관광") +
+                createExepnse("쇼핑") +
+                createExepnse("기타")
+        );
+    }, [account]);
+
+    useEffect(() => {
+        setPercentage(Math.round((totalExpense / totalBudget) * 100));
+        setprogressBarWidth((percentage / 100) * 450);
+        // console.log("percentage: ", percentage);
+        // console.log("progressBarWidth: ", progressBarWidth);
+    });
 
     return (
         <div className="account-summary">
@@ -11,14 +68,26 @@ function Summary() {
                     <div className="account-summary-total-left-top">
                         총 지출
                     </div>
-                    <div className="account-summary-total-left-bottom">
+                    <div
+                        className="account-summary-total-left-bottom"
+                        onClick={() => {
+                            setTotalBudget(
+                                parseInt(
+                                    prompt(
+                                        "변경할 예산을 입력해주세요.",
+                                        totalBudget
+                                    )
+                                )
+                            );
+                        }}
+                    >
                         총 예산 변경하기
                     </div>
                 </div>
                 <div className="account-summary-total-center">
                     <div
                         className="account-summary-total-progress-bar"
-                        style={{ width: `${progressbarWidth}px` }}
+                        style={{ width: `${progressBarWidth}px` }}
                     ></div>
                     <div
                         className="account-summary-total-percentage"
@@ -31,10 +100,10 @@ function Summary() {
                 </div>
                 <div className="account-summary-total-right">
                     <div className="account-summary-total-right-top">
-                        521,000원
+                        {costToString(totalExpense)}원
                     </div>
                     <div className="account-summary-total-right-bottom">
-                        1,300,000원
+                        {costToString(totalBudget)}원
                     </div>
                 </div>
             </div>
@@ -50,16 +119,21 @@ function Summary() {
                             식 비
                         </div>
                         <div className="account-summary-content-item-cost">
-                            66,700원
+                            {costToString(foodExpense)}원
                         </div>
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            56%
+                            {Math.round((foodExpense / totalExpense) * 100)}%
                         </div>
-                        <div className="account-summary-content-item-progress-bar">
-                            Progress Bar
-                        </div>
+                        <div
+                            className="account-summary-content-item-progress-bar"
+                            style={{
+                                width: `${
+                                    (foodExpense / totalExpense) * 300 + 100
+                                }px`,
+                            }}
+                        ></div>
                     </div>
                 </div>
                 <div className="account-summary-content-item">
@@ -68,16 +142,26 @@ function Summary() {
                             교통비
                         </div>
                         <div className="account-summary-content-item-cost">
-                            13,600원
+                            {costToString(transportationExpense)}원
                         </div>
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            23%
+                            {Math.round(
+                                (transportationExpense / totalExpense) * 100
+                            )}
+                            %
                         </div>
-                        <div className="account-summary-content-item-progress-bar">
-                            Progress Bar
-                        </div>
+                        <div
+                            className="account-summary-content-item-progress-bar"
+                            style={{
+                                width: `${
+                                    (transportationExpense / totalExpense) *
+                                        300 +
+                                    100
+                                }px`,
+                            }}
+                        ></div>
                     </div>
                 </div>
                 <div className="account-summary-content-item">
@@ -86,16 +170,25 @@ function Summary() {
                             관 광
                         </div>
                         <div className="account-summary-content-item-cost">
-                            12,500원
+                            {costToString(sightseeingExpense)}원
                         </div>
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            21%
+                            {Math.round(
+                                (sightseeingExpense / totalExpense) * 100
+                            )}
+                            %
                         </div>
-                        <div className="account-summary-content-item-progress-bar">
-                            Progress Bar
-                        </div>
+                        <div
+                            className="account-summary-content-item-progress-bar"
+                            style={{
+                                width: `${
+                                    (sightseeingExpense / totalExpense) * 300 +
+                                    100
+                                }px`,
+                            }}
+                        ></div>
                     </div>
                 </div>
                 <div className="account-summary-content-item">
@@ -104,16 +197,22 @@ function Summary() {
                             쇼 핑
                         </div>
                         <div className="account-summary-content-item-cost">
-                            6,300원
+                            {costToString(shoppingExpense)}원
                         </div>
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            13%
+                            {Math.round((shoppingExpense / totalExpense) * 100)}
+                            %
                         </div>
-                        <div className="account-summary-content-item-progress-bar">
-                            Progress Bar
-                        </div>
+                        <div
+                            className="account-summary-content-item-progress-bar"
+                            style={{
+                                width: `${
+                                    (shoppingExpense / totalExpense) * 300 + 100
+                                }px`,
+                            }}
+                        ></div>
                     </div>
                 </div>
                 <div className="account-summary-content-item">
@@ -122,16 +221,21 @@ function Summary() {
                             기 타
                         </div>
                         <div className="account-summary-content-item-cost">
-                            2,800원
+                            {costToString(otherExpense)}원
                         </div>
                     </div>
                     <div className="account-summary-content-item-right">
                         <div className="account-summary-content-item-percentage">
-                            6%
+                            {Math.round((otherExpense / totalExpense) * 100)}%
                         </div>
-                        <div className="account-summary-content-item-progress-bar">
-                            Progress Bar
-                        </div>
+                        <div
+                            className="account-summary-content-item-progress-bar"
+                            style={{
+                                width: `${
+                                    (otherExpense / totalExpense) * 300 + 100
+                                }px`,
+                            }}
+                        ></div>
                     </div>
                 </div>
             </div>

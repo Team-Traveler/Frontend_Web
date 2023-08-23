@@ -35,8 +35,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 10px;
 }
 .account-item-date {
     display: flex;
@@ -46,7 +45,8 @@
 .account-item-daily-cost {
     display: flex;
     justify-content: center;
-    color: red;
+    color: crimson;
+    font-weight: bold;
 }
 
 .account-item {
@@ -69,7 +69,7 @@
     width: 220px;
     display: flex;
     justify-content: flex-end;
-    color: red;
+    color: crimson;
 }
 
 .account-item-del-btn {
