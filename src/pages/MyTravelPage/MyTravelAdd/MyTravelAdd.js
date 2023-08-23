@@ -32,7 +32,7 @@ function MyTravelAdd({setView, setIsTravelDataCreated,...props}) {
     
         // 추가적으로 필요한 로직(정보전송)
     };
-    console.log('Travel Add result: ', travelInfo);
+    //console.log('Travel Add result: ', travelInfo);
 
     return (
         <div>

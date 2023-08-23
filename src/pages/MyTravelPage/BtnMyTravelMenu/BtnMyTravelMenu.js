@@ -20,7 +20,7 @@ const BtnMyTravelMenu = (props) => {
   }
 
   const handleButton = (buttonNumber) => {
-    console.log(`버튼 ${buttonNumber}가 클릭되었습니다.`);
+    //console.log(`버튼 ${buttonNumber}가 클릭되었습니다.`);
     switch(buttonNumber){
       case 1:
         props.setView('profile');

@@ -29,6 +29,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [selectedTID, setSelectedTID] = useRecoilState(selectedTIDState);
     const [isTravelDataCreated, setIsTravelDataCreated] = useRecoilState(isTravelDataCreatedState);
+    const[ isnotnull, setIsnotnull] = useState(false);
     // 여행 생성 api 호출
     async function postTravelData(travelInfo) {
         try {
@@ -95,6 +96,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
         if (type === "start") {
             setStartDatePicker(date);
             setStartDate(date);
+            setIsnotnull(date !== null);  // 여기서 isnotnull 상태 업데이트
         } else if (type === "end") {
             setEndDatePicker(date);
             setEndDate(date);
@@ -102,8 +104,12 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
     };
 
     const handleSubmit = (isFromEdit) => {
-        const newTid = travels.length + 1;
-        const travelInfo = {
+        if (startDate === null || endDate === null) {
+            alert("입력을 다시 확인해주세요");
+            return; // 이후의 코드 실행을 중단합니다.
+        }else{
+            const newTid = travels.length + 1;
+            const travelInfo = {
             id: newTid, 
             name: name,
             category: category,
@@ -132,6 +138,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
 
         setIsTravelDataCreated(true);
         setView("list");
+        }
 
     };
 
@@ -146,7 +153,7 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
 
     // 날짜 포맷 변환 함수
     const formatDate = (date) => {
-        if (!date) return null;
+        if (!date) return ;
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const day = String(date.getDate()).padStart(2, "0");
@@ -244,14 +251,14 @@ const MyTravelInputWindows = ({ onTravelInfoSubmit, isFromEdit, setView }) => {
                             )}
                             <button
                                 className="calendar-button"
-                                onClick={() => handleDateInput("end")}
+                                onClick={() => handleDateInput("end") }
                             ></button>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="button-container">
-                <button className="button" onClick={() => handleSubmit(isFromEdit)}>
+                <button className="button" onClick={() => {(startDate&&endDate) ? handleSubmit(isFromEdit): alert("입력을 다시 확인해주세요")}}>
                     {isFromEdit ? "여행 편집 완료" : "여행 만들기"}
                 </button>
             </div>

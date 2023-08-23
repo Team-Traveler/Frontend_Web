@@ -267,17 +267,26 @@
 .button-create-container {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 50px;
     margin-right: 300px;
+
 }
 .button-create-container:last-child {
     margin-right: 0;  
 }
-
+.travel-card-empty {
+    font-size: 30px;
+    text-align: match-parent;
+    height: 17.86vh;
+    font-family: CooperBlack;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
   .button {
     width: 30vw;
-    height: 4vh;
+    height: 5vh;
     background-color: #95D88A;
     color: white;
     border-radius: 8px; 

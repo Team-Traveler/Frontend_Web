@@ -5,6 +5,11 @@ export const placeSearchState = atom({
     default: null,  // 초기값은 null
 });
 
+export const searchSubmitState = atom({
+    key: 'placeSearchState',
+    default: null,  // 초기값은 null
+});
+
 export const fromPlaceSearchState = atom({
     key: 'fromPlaceSearchState',
     default: false,  // 초기값은 false

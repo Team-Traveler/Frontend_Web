@@ -5,50 +5,25 @@ import circles from './circles.svg';
 import './styles.css';
 import { useRecoilState } from 'recoil';
 import { setPlaceStateSelector } from '../../../recoil/atoms/placeState';
-import { selectedTravelState,fromPlaceSearchState, placeSearchState } from '../../../recoil/atoms/placeSearchState';
+import { searchSubmitState,selectedTravelState,fromPlaceSearchState, placeSearchState } from '../../../recoil/atoms/placeSearchState';
 import { userInfoState } from "../../../recoil/atoms/userState";
-import {  travelCourseState, setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState';
+import {  travelCourseIndex,travelCourseState, setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector, travelCourseDcid } from '../../../recoil/atoms/travelSpecificState';
 
 import Map from '../MyTravelMap/api/Map';
 import axios from 'axios';
 
-const travels = {
-    title : "여수 투어",
-    start_date: "230814",
-    end_date: "230816",
-    courses : [
-        {
-            "dcId": 1,
-            "spot1": '호텔',
-            "spot2": '롯폰기 힐스',
-            "spot3": "롯폰기 케야키자카",
-            "spot4": '공원',
-            "first": 30000,
-            "second": 1000,
-            "third": 500,
-            "spot1_lat": 37.715133,
-            "spot1_lon":  126.734086,
-            "spot2_lat": 38.715133,
-            "spot2_lon":  127.734086,
-            "spot3_lat": 39.715133,
-            "spot3_lon":  128.734086,
-            "spot4_lat": null,
-            "spot4_lon":  null,
-            "numOfDay": 3,
-            "tid": 1
-        },
-    ]
-}
+function TravelCard({  index,travelSpecificData,...props }) {
+    // console.log("카드내부-",{travelSpecificData});
+    // console.log("카드내부-",travelSpecificData.courses);
+    // console.log("카드내부-",{index});
 
-function TravelCard({  travel, handleEditClick,setSelectedCourse,setIsTravelCreate,...props }) {
-  
     const handleEditSpecificsClick = (course) => {
-        console.log('Edit Specifics button clicked', travel.courses[0].numOfDay);
+        //console.log('Edit Specifics button clicked');
         //setIsTravelCreate(true); 
     };
 
     const handleDeleteClick = (spotNum) => {
-        console.log('Edit Specifics button clicked', travel.courses[0].numOfDay);
+        //console.log('Delete button clicked');
         
         //setIsTravelCreate(true); 
     };
@@ -60,7 +35,6 @@ function TravelCard({  travel, handleEditClick,setSelectedCourse,setIsTravelCrea
       return `${distance}m`;
     };
     
-    console.log("start데이는:",travel.start_date);
 
     function convertToDate(inputString) {
       if (!inputString) return null;
@@ -71,61 +45,64 @@ function TravelCard({  travel, handleEditClick,setSelectedCourse,setIsTravelCrea
       return new Date(`${year}-${month}-${day}`);
     }
     
-    function formatDate(inputDate) {
-      if (!inputDate) return null;
-      const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-      const month = inputDate.getMonth() + 1;
-      const day = inputDate.getDate();
-      const weekday = weekdays[inputDate.getDay()];
+
+    function getDayOfWeek(input,index) {
+        const date = new Date(input);
+        const days = ['일','월','화','수','목','금','토'];
+        const nextDayIndex = (date.getDay() + index) % 7;
+        return `(${days[nextDayIndex]})`;
+    }
     
-      return `${month}/${day}(${weekday})`;
+    function formatDate(input) {
+        const date = new Date(input);
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해주어야 합니다.
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${month}/${day}`;
     }
 
-    function addDays(date, days) {
-      let result = new Date(date);
-      result.setDate(result.getDate() + days);
-      return result;
-  }
-
     const SpotDisplay = ({ num, spot, distance }) => (
-      <div className='spot-wrapper'>
+    <div className='spot-wrapper'>
         <div className='spot-container'>
-          <div className="num-box">{`${num}`}</div>
-          <div className="travel-card-places">{spot}</div>
-          <div className='travel-carrd-delete' onClick={handleDeleteClick(num)}>삭제</div>
+            <div className="num-box">{`${num}`}</div>
+            <div className="travel-card-places">{spot}</div>
+            <div className='travel-carrd-delete' onClick={handleDeleteClick(num)}>삭제</div>
         </div>
         {distance && 
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', marginTop: '10px', marginBottom: '10px', marginLeft: '10px', marginRight: '40px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', marginTop: '10px', marginBottom: '10px', marginLeft: '10px', marginRight: '40px' }}>
             <div className="div-size" >|</div>
             <div >{convertDistance(distance)}</div>
-          </div>
+            </div>
         }
     </div>
     );
-  
+
     return (
         <div>
             <div style={{  display: 'flex', flexDirection: 'row', marginTop: '40px', marginBottom: '10px', marginLeft: '40px', alignItems: 'flex-end'}}>
-                <div className="travel-card-name">{travel.title}</div>
-                <div className="travel-card-duration">{travel.courses[0].numOfDay-1}박 {travel.courses[0].numOfDay}일</div>
+                <div className="travel-card-name">{travelSpecificData.title}</div>
+                <div className="travel-card-duration">{travelSpecificData.courses.length-1}박 {travelSpecificData.courses.length}일</div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', marginTop: '0px', marginLeft: '40px' }}>
-                <div className="travel-create-text">{travel.start_date}</div>
+                <div className="travel-create-text">{formatDate(travelSpecificData.start_date)}</div>
                 <div className="travel-create-text">~</div>
-                <div className="travel-create-text">{travel.end_date}</div>
+                <div className="travel-create-text">{formatDate(travelSpecificData.end_date)}</div>
             </div>
             <div className="travel-card-create-header">
-                <span className='numofDay'>{travel.courses[0].numOfDay}일차</span> 
-                <span className='day'>{formatDate(addDays(convertToDate(travel.start_date), travel.courses[0].numOfDay - 1))}</span> 
+                <span className='numofDay'>{index+1}일차</span> 
+                <span className='day'>{getDayOfWeek(travelSpecificData.start_date,index)}</span> 
             </div>
             <div className="travel-create-card">
-                <SpotDisplay num="1" spot={travel.courses[0].spot1} distance={travel.courses[0].first} /> 
-                {travel.courses[0].spot2 && <SpotDisplay num="2" spot={travel.courses[0].spot2} distance={travel.courses[0].second} />} 
-                {travel.courses[0].spot3 && <SpotDisplay num="3" spot={travel.courses[0].spot3} distance={travel.courses[0].third} />} 
-                {travel.courses[0].spot4 && <SpotDisplay num="4" spot={travel.courses[0].spot4}  />} 
+                    { travelSpecificData.courses[index].spot1==null?(
+                    <span className='travel-card-empty'>항목을 추가하세요</span>
+                ):(
+                <SpotDisplay num="1" spot={travelSpecificData.courses[index].spot1} distance={travelSpecificData.courses[index].first} /> 
+                )}
+                {travelSpecificData.courses[index].spot2 && <SpotDisplay num="2" spot={travelSpecificData.courses[index].spot2} distance={travelSpecificData.courses[index].second} />} 
+                {travelSpecificData.courses[index].spot3 && <SpotDisplay num="3" spot={travelSpecificData.courses[index].spot3} distance={travelSpecificData.courses[index].third} />} 
+                {travelSpecificData.courses[index].spot4 && <SpotDisplay num="4" spot={travelSpecificData.courses[index].spot4}  />} 
             </div>
-            <button className="edit-create-button" onClick={handleEditClick}></button>
-            <button className="calender-create-button" onClick={handleEditClick}></button>
+            <button className="edit-create-button" ></button>
+            <button className="calender-create-button"></button>
         </div>
     );
 }
@@ -140,10 +117,12 @@ function MyTravelCreateLists({setView, setIsTravelCreate}) {
     const [hide,setHide] = useState(true);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [searchState,setplaceSearchState] = useRecoilState(placeSearchState);
+    const [searchSubmit,setSearchSubmit] = useRecoilState(searchSubmitState);
     const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
     const [selectTravel, setSelectTravel] = useRecoilState(selectedTravelState);
     const [travelSpecificData,setTravelSpecificData] = useRecoilState(setTravelSpecificStateSelector);
     const [travelCourse,setTravelCourse]=useRecoilState(travelCourseState);
+    const [travelIndex,setTraveIndex]=useRecoilState(travelCourseIndex);
 
     const onChange = (e) => {
         setInputText(e.target.value);
@@ -160,25 +139,30 @@ function MyTravelCreateLists({setView, setIsTravelCreate}) {
         
         setplaceSearchState(item);
         setIsFromSearch(true);
-        console.log("Clicked item:", item);
+        //console.log("Clicked item:", item);
     }
 
     useEffect(() => {
         console.log(TAG+"-",{travelSpecificData});
         console.log(TAG+"-",{travelCourse});
+        console.log(TAG+"-",travelIndex.index);
+        console.log(TAG+"-",searchState);
+
     }, []);
     
     // 여행 상세 추가 api 호출
-    async function postTravelData(travelInfo,selectedTID) {
-        const dcId = 1;
+    async function postTravelData(title,lat,lng,dcid) {
         try {
             const response = await axios({
                 method: 'POST',
-                url: `http://15.164.232.95:9000/travel/course/${dcId}/spot`,
+                url: `http://15.164.232.95:9000/travel/course/${dcid}/spot`,
                 headers: {
                     Authorization: `${userInfo.accessToken}` 
                 },
                 data: {
+                    title: title,
+                    latitude: lat,
+                    longitude: lng
                 }
             });
     
@@ -189,65 +173,33 @@ function MyTravelCreateLists({setView, setIsTravelCreate}) {
         }
     }
 
+    //자 ,,,, 이제 api연결해보자
     const handleSubmit = () => {
-        console.log("여행 상세 추가: ",searchState);
-        // const newTid = travels.length + 1;
-        // const travelInfo = {
-        //     id: newTid, 
-        //     name: name,
-        //     category: category,
-        //     start: formatPostDate(startDate),
-        //     end: formatPostDate(endDate),
-        //     write_status: 1,
-        // };
-        // if(isFromEdit){ // 여행 편집
+        const courseindex =  +travelIndex.index;
+        if (!searchState) {
+            alert("장소 입력을 완료해주세요.");
+            return;
+        };
 
-        //     patchTravelData(travelInfo,selectedTID);
+        
+        console.log(travelCourse[courseindex]);
+        if(travelCourse[courseindex].dcId){
+            console.log(travelCourse[courseindex].dcId);
+        }
+        console.log(typeof(searchState.place_name));
+        console.log(typeof(searchState.y));
+        console.log(typeof(searchState.x));
+        postTravelData( searchState.place_name,parseFloat(searchState.y),parseFloat(searchState.x),travelCourse[courseindex].dcId);
 
-
-        // }else{  // 여행 생성
-        //         //axios 통신
-        //         postTravelData(travelInfo);
-
-        //         setTravels((prevTravels) => [...prevTravels, travelInfo]); // 새 여행 정보 추가
-
-        //};
-
-        //setSelectTravel(false);
-        setplaceSearchState(null);
-
-
-    }
-
-    const handleBack = () => {
-        console.log("여행 상세 추가: ",searchState);
-        // const newTid = travels.length + 1;
-        // const travelInfo = {
-        //     id: newTid, 
-        //     name: name,
-        //     category: category,
-        //     start: formatPostDate(startDate),
-        //     end: formatPostDate(endDate),
-        //     write_status: 1,
-        // };
-        // if(isFromEdit){ // 여행 편집
-
-        //     patchTravelData(travelInfo,selectedTID);
-
-
-        // }else{  // 여행 생성
-        //         //axios 통신
-        //         postTravelData(travelInfo);
-
-        //         setTravels((prevTravels) => [...prevTravels, travelInfo]); // 새 여행 정보 추가
-
-        //};
-
-        //setSelectTravel(false);
+        setSearchSubmit(searchState);
         setplaceSearchState(null);
         setIsTravelCreate(false);
 
     }
+
+    useEffect(()=>{
+        console.log("여행 진짜 상세 추가: ",searchSubmit);
+    },[searchSubmit]);
 
     return (
         <div>
@@ -269,34 +221,28 @@ function MyTravelCreateLists({setView, setIsTravelCreate}) {
                     <img src={circles} alt="Circles Decoration"  />
                 </div>
                 <div className="my-travel-create-lists">
-                    {travels.length === 0 ? (
-                        <div className='container'>
-                            <div className="date">안녕</div>
-                            <div className='travel-card'>
-                                <div className='travel-card-empty'>
-                                항목을 추가하세요
-                                </div>
-                            </div>
-                        </div>
-                    ) : (    
-                        <div>
-                            <TravelCard travel={travels} />
-                        </div>
-                    )
-                    }
+                
+                    <div>
+                        <TravelCard 
+                            index = {travelIndex.index}
+                            travelSpecificData = {travelSpecificData}
+                        />
+                    </div>
+                    
+                    
                     <div className='inputFormContainer'>
                         <form className="inputform" onSubmit={handleSearch}>
                             <button className="search-Btn" type="submit"></button>
                             <input
                                 className="search-"
-                                placeholder="검색어를 입력하세요"
+                                placeholder={searchSubmit ? searchSubmit.place_name : "검색어를 입력하세요"}
                                 onChange={onChange}
                                 value={InputText}
                             />
                         </form>
                     </div>
-
-                    <div className="result-Style">
+                    
+                    <div className="result-Style" style={{ visibility: (InputText||Place) ? 'visible' : 'hidden' }}>
                         {recoilPlaces.map((item, i) => (
                             <div key={i} className="item-search-create-container" onClick={() => handleItemClick(item)}>
                                 <div>
@@ -316,30 +262,20 @@ function MyTravelCreateLists({setView, setIsTravelCreate}) {
                         ))}
                         <div className="pagi-nation" id="pagination"></div>
                     </div>
+                
+
 
                 </div>
             </div>
         </div>
 
-        <div style={{ 
-            display: 'flex', 
-            flexDirection: 'row', 
-            alignItems: 'center',
-            width: '100%',
-            marginLeft: '300px'
-            }}>
             <div className="button-create-container">
                 <button className="button" onClick={() => handleSubmit()}>
                     {"추가 하기"}
                 </button>
             </div>
 
-            <div className="button-create-container">
-                <button className="button" onClick={() => handleBack()}>
-                    {"뒤로 가기"}
-                </button>
-            </div>
-        </div>
+
         
     
         </div>
