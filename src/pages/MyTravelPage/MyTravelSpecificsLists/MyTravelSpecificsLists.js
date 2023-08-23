@@ -6,14 +6,14 @@ import './styles.css';
 import circles from './circles.svg'; 
 import MyTravelCreate from '../MyTravelCreate/MyTravelCreate';
 import axios from 'axios';
-import {  travelCourseState, setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector } from '../../../recoil/atoms/travelSpecificState';
+import {  travelCourseState, setTravelSpecificStateSelector,selectedTIDState, travelSpecificState,getCourseByDcIdSelector,setCourseByDcIdSelector, travelCourseIndex } from '../../../recoil/atoms/travelSpecificState';
 
 
 function TravelEmptyCard({ start, end, setView, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
   
   const handleEditSpecificsClick = () => {
-    console.log('Edit Specifics Empty button clicked');
-    console.log(setIsTravelCreate);
+    //console.log('Edit Specifics Empty button clicked');
+    //console.log(setIsTravelCreate);
     setIsTravelCreate(true); 
   };
 
@@ -53,9 +53,13 @@ function TravelEmptyCard({ start, end, setView, handleEditClick,setSelectedCours
 
 
 
-  function TravelCard({ index, spot1, spot2, spot3, spot4, first, second, third, start, end, setView,numOfDay, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
+  function TravelCard({ setCourseIndex,index,spot1,spot2,spot3,spot4, first, second, third, start, end, setView,numOfDay, handleEditClick,setSelectedCourse,setIsTravelCreate,isEditClicked,...props }) {
   
-    const handleEditSpecificsClick = (course) => {
+    
+
+    const handleEditSpecificsClick = (index) => {
+      console.log(index);
+      setCourseIndex(index);
       setIsTravelCreate(true); 
     };
 
@@ -112,18 +116,18 @@ function TravelEmptyCard({ start, end, setView, handleEditClick,setSelectedCours
         <div className="travel-card">
         {isEditClicked &&
           <button className="edit-specific-extra-button" 
-          onClick={() => handleEditSpecificsClick({ spot1, spot2, spot3, spot4, first, second, third, start, end, numOfDay,setIsTravelCreate })}></button>
+          onClick={() => handleEditSpecificsClick({index })}></button>
           
         }
         
           { spot1==null?(
             <span className='travel-card-empty'>항목을 추가하세요</span>
           ):(
-            <SpotDisplay num="1" spot={spot1} distance={first} />
+            <SpotDisplay num="1" spot={spot1.title} distance={first} />
           )}
-          {spot2 && <SpotDisplay num="2" spot={spot2} distance={second} />}
-          {spot3 && <SpotDisplay num="3" spot={spot3} distance={third} />}
-          {spot4 && <SpotDisplay num="4" spot={spot4}  />}
+          {spot2 && <SpotDisplay num="2" spot={spot2.title} distance={second} />}
+          {spot3 && <SpotDisplay num="3" spot={spot3.title} distance={third} />}
+          {spot4 && <SpotDisplay num="4" spot={spot4.title}  />}
         </div>
       </div>
     );
@@ -136,40 +140,41 @@ function TravelEmptyCard({ start, end, setView, handleEditClick,setSelectedCours
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [travelSpecificData,setTravelSpecificData] = useRecoilState(setTravelSpecificStateSelector);
     const [travelCourse,setTravelCourse]=useRecoilState(travelCourseState);
+    const [travelIndex,setCourseIndex]=useRecoilState(travelCourseIndex);
+    const [posted,setPosted] = useState(false);
 
     useEffect(() => {
-    const fetchSpecificData = async () => {
-      try {
-          const response = await axios({
-              method: 'GET',
-              url: `http://15.164.232.95:9000/travel/${selectedTID}`,
-              headers: {
-                Authorization: `${userInfo.accessToken}` 
+      const fetchSpecificData = async () => {
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: `http://15.164.232.95:9000/travel/${selectedTID}`,
+                headers: {
+                  Authorization: `${userInfo.accessToken}` 
+              }
+            });
+    
+            if (response.status === 200) {
+                const travelData = response.data;
+                setTravelSpecificData(travelData.result);
+                console.log(TAG+"-상세여행조회 get : ", travelSpecificData);
+    
             }
-          });
-  
-          if (response.status === 200) {
-              const travelData = response.data;
-              setTravelSpecificData(travelData.result);
-              console.log(TAG+"-상세여행조회 get : ", travelSpecificData);
-  
-          }
-      } catch (error) {
-          console.log("SelectedTID :",selectedTID);
-          
-          console.error("Error fetching travel Specific data:", error);
-      }
-  }
+        } catch (error) {
+            console.log("SelectedTID :",selectedTID);
+            
+            console.error("Error fetching travel Specific data:", error);
+        }
+    }
 
-  fetchSpecificData();
-  postCourse(1);
-},[]);
+    fetchSpecificData();
+    postCourse(1);
+  },[posted]);
 
-console.log(TAG+"-mount : ", travelSpecificData);
-console.log(TAG+"-mount : ", selectedTID);
+
   if((Object.values(travelSpecificData.courses).length != 0)||travelSpecificData.courses.length !=0){
     setTravelCourse(travelSpecificData.courses);
-    console.log(TAG+"-travelCourse",travelCourse);
+    console.log(TAG+"-travelCourse.spot1",travelCourse[0]);
   }
 
 
@@ -196,17 +201,28 @@ console.log(TAG+"-mount : ", selectedTID);
 
         if (response.status === 200) {
             const travelData = response.data;
-            console.log(TAG+"-날짜별 코스 생성 : ", travelData);
+            if(travelData.code == '3006'){
+              console.log(TAG+"-날짜별 코스 생성 : ", travelData.code);
+              setPosted(false);
+            }else{
+              setPosted(true);
+            }
+              
 
         }
     } catch (error) {
         console.log("SelectedTID :",selectedTID);
-        console.error("Error postCourse :", error);
+        if(numOfDay==1){
+          console.error("DEFAULT POST WHEN INIT :", error);
+        }else{
+          console.error("Error postCourse :", error);
+        }
+        
     }
 }
 
     const handleEditClick = (course) => {
-      console.log('Edit button clicked');
+      //console.log('Edit button clicked');
       //setSelectedCourse(course);
       if(isEditClicked){
         setIsEditClicked(false);
@@ -219,7 +235,7 @@ console.log(TAG+"-mount : ", selectedTID);
 
 
     const handlePlusClick = (course) => {
-      console.log('Edit button clicked');
+      console.log('Edit button clicked, ');
       postCourse(travelCourse.length+1);
     };
 
@@ -232,7 +248,7 @@ console.log(TAG+"-mount : ", selectedTID);
                 <img src={circles} alt="Circles Decoration"  />
               </div>
               <div className="my-travel-specific-lists">
-                {  (travelCourse.length == 1) && (travelCourse[0].spot1 ==null) ? (
+                {/* {  (travelCourse.length == 1) && (travelCourse[0].spot1 ==null) ? (
                     <TravelEmptyCard start={travelSpecificData.start_date} end={travelSpecificData.end_date} 
                     handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
                     isEditClicked={isEditClicked}/>
@@ -243,10 +259,27 @@ console.log(TAG+"-mount : ", selectedTID);
                         index = {index}
                         start={travelSpecificData.start_date} end={travelSpecificData.end_date} 
                         handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
-                        isEditClicked={isEditClicked} />
+                        isEditClicked={isEditClicked} setCourseIndex={setCourseIndex}
+                        />
                     )
                     
-                )}
+                )} */}
+                {  (travelCourse.length == 1) && !travelCourse[0].spot1 ? (
+                    <TravelEmptyCard start={travelSpecificData.start_date} end={travelSpecificData.end_date} 
+                    handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
+                    isEditClicked={isEditClicked}/>
+                ) : (
+                  travelCourse
+                    .map((travel, index) => 
+                        <TravelCard key={index} {...travel} 
+                        index = {index}
+                        start={travelSpecificData.start_date} end={travelSpecificData.end_date} 
+                        handleEditClick={handleEditClick} setSelectedCourse={setSelectedCourse} setIsTravelCreate={setIsTravelCreate}
+                        isEditClicked={isEditClicked} setCourseIndex={setCourseIndex}
+                        />
+                    )
+                    
+                )} 
                 {isEditClicked?(
                   <>
                     <button className="edit-specific-plus-button" onClick={handlePlusClick}></button>
@@ -254,10 +287,6 @@ console.log(TAG+"-mount : ", selectedTID);
                   </>
                 ):(
                     <button className="edit-specific-button" onClick={handleEditClick}></button>)}
-                
-
-                
-
               </div>
         </div>
     );

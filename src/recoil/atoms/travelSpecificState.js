@@ -12,6 +12,37 @@ export const travelSpecificState = atom({
         "writeStatus": null,
         "noteStatus": null,
         "courses": [
+            {
+                dcId: -1,
+                first: null,
+                numOfDay: 1,
+                second: null,
+                third: null,
+                spot1: {
+                    latitude: null,
+                    longitude: null,
+                    sid : null,
+                    title : null,
+                },
+                spot2: {
+                    latitude: null,
+                    longitude: null,
+                    sid : null,
+                    title : null,
+                },
+                spot3: {
+                    latitude: null,
+                    longitude: null,
+                    sid : null,
+                    title : null,
+                },
+                spot4: {
+                    latitude: null,
+                    longitude: null,
+                    sid : null,
+                    title : null,
+                }
+            }
         ],
         "tid": null,
         "uid": null
@@ -22,6 +53,12 @@ export const travelCourseState = atom({
     key: 'travelCourseState',
     default: [],
 });
+
+export const travelCourseIndex = atom({
+    key: 'travelCourseIndex',
+    default: 1,
+});
+
 
 export const setTravelSpecificStateSelector = selector({
     key: 'setTravelSpecificStateSelector',

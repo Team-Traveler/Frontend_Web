@@ -15,6 +15,10 @@ import MyTravelEdit from "../MyTravelEdit/MyTravelEdit";
 import MyTravelProfileEdit from "../MyTravelProfileEdit/MyTravelProfileEdit";
 import Nav from "../../../components/Nav/Nav";
 import { selectedTravelState } from "../../../recoil/atoms/placeSearchState";
+import { withoutAllTravelsState,
+    withoutApiState,
+    withoutProfileState,
+    }from "../../../recoil/atoms/withoutAPI";
 
 function MyTravelMain() {
     const TAG = "MyTravelMain";
@@ -34,6 +38,15 @@ function MyTravelMain() {
         date: "2023.08.23",
     });
 
+    // import { withoutAllTravelsState,
+    //     withoutApiState,
+    
+    //     }from "../../../recoil/atoms/withoutAPI";
+    const [isWithoutApi,setIsWithoutApi] = useRecoilState(withoutApiState);
+    const [withoutAllTravel,setWithoutAllTravel] = useRecoilState(withoutAllTravelsState);
+    const [withoutProfile, setWithoutProfile] = useRecoilState(withoutProfileState);
+
+
     const updateProfileImgAndName = (newImgSrc, newName) => {
         setProfileData((prevData) => ({
             ...prevData,
@@ -47,99 +60,107 @@ function MyTravelMain() {
         setView("specifics");
     };
 
-    async function fetchTravelData() {
-        try {
-            const response = await axios({
-                method: "GET",
-                url: "http://15.164.232.95:9000/users/my_travels",
-                headers: {
-                    Authorization: `${userInfo.accessToken}`,
-                },
-            });
 
-            if (response.status === 200) {
-                const travelData = response.data;
-                setTravelData(travelData.result);
-                setProfileData((prevData) => ({
-                    ...prevData,
-                    numTravel: travelData.result.length,
-                }));
-                console.log("토큰 : ", userInfo.accessToken);
-                console.log(TAG + "-모든여행조회 : ", travelData);
-            }
-        } catch (error) {
-            console.error("Error fetching travel data:", error);
-            const travelData = [
-                {
-                    title: "통신에러",
-                    destination: "여수",
-                    start_date: "2023-08-18 09:00:00",
-                    end_date: "2023-08-20 09:00:00",
-                    created_at: "2023-08-17 01:07:27",
-                    time_status: 1,
-                    writeStatus: 0,
-                    noteStatus: 0,
-                    courses: [
+    useEffect(()=>{
+        async function fetchTravelData() {
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: "http://15.164.232.95:9000/users/my_travels",
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                });
+    
+                if (response.status === 200) {
+                    const travelData = response.data;
+                    setTravelData(travelData.result);
+                    if(isWithoutApi){
+                        setWithoutAllTravel(travelData.result);
+                    }
+                    setProfileData((prevData) => ({
+                        ...prevData,
+                        numTravel: travelData.result.length,
+                    }));
+                    
+                    const travelDat = {
+                        numTravel: travelData.result.length,
+                    };
+                    //console.log(travelDat);
+                    setWithoutProfile(travelDat);
+                    console.log(TAG , travelData);
+                }
+            } catch (error) {
+                console.error("Error fetching travel data:", error);
+                if(!isWithoutApi){
+                    const travelData = [
                         {
-                            dcId: 41,
-                            spot1: {
-                                title: "오동도 김밥",
-                                latitude: 38.35901,
-                                longitude: 37.9857,
-                                sid: 170,
-                            },
-                            spot2: null,
-                            spot3: null,
-                            spot4: null,
-                            first: null,
-                            second: null,
-                            third: null,
-                            numOfDay: 1,
+                            title: "통신에러",
+                            destination: "여수",
+                            start_date: "2023-08-18 09:00:00",
+                            end_date: "2023-08-20 09:00:00",
+                            created_at: "2023-08-17 01:07:27",
+                            time_status: 1,
+                            writeStatus: 0,
+                            noteStatus: 0,
+                            courses: [
+                                {
+                                    dcId: 0,
+                                    spot1: null,
+                                    spot2: null,
+                                    spot3: null,
+                                    spot4: null,
+                                    first: null,
+                                    second: null,
+                                    third: null,
+                                    numOfDay: 1,
+                                },
+                            ],
+                            tid: 1,
+                            uid: 1,
                         },
-                    ],
-                    tid: 1,
-                    uid: 1,
-                },
-                {
-                    title: "포항 투어",
-                    destination: "포항",
-                    start_date: "2023-08-18 09:00:00",
-                    end_date: "2023-08-20 09:00:00",
-                    created_at: "2023-08-17 01:07:46",
-                    time_status: 1,
-                    writeStatus: 0,
-                    noteStatus: 0,
-                    courses: [],
-                    tid: 2,
-                    uid: 1,
-                },
-            ];
-            setTravelData(travelData);
-        }
-    }
-
-    async function fetchProfilelData() {
-        try {
-            const response = await axios({
-                method: "GET",
-                url: "http://15.164.232.95:9000/users/profile",
-                headers: {
-                    Authorization: `${userInfo.accessToken}`,
-                },
-            });
-
-            if (response.status === 200) {
-                const profile = response.data;
-                updateProfileImgAndName(
-                    profile.result.profile_image_url,
-                    profile.result.nickname
-                );
-                console.log(TAG + "-카카오프로필 : ", profileData);
+                        
+                    ];
+                    setTravelData(travelData);
+                    const travelDat = {
+                        numTravel: 0,
+                    };
+                    setWithoutProfile(travelDat);
+                }
+                
+                
             }
-        } catch (error) {
-            console.error("Error fetching profile data:", error);
-        }
-    }
+        };
+        fetchTravelData();
+    },[view]);
+    
+    useEffect(()=>{
+        async function fetchProfilelData() {
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: "http://15.164.232.95:9000/users/profile",
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                });
+    
+                if (response.status === 200) {
+                    const profile = response.data;
+                    updateProfileImgAndName(
+                        profile.result.profile_image_url,
+                        profile.result.nickname
+                    );
+                    setWithoutProfile(profile.result);
+                    console.log(TAG + "-카카오프로필 : ", profileData);
+                }
+            } catch (error) {
+                console.error("Error fetching profile data:", error);
+            }
+        };
+        fetchProfilelData();
+    },[travelData]);
+    
 
     async function fetchProfilelLikedData() {
         try {
@@ -157,19 +178,23 @@ function MyTravelMain() {
                     ...prevData,
                     numLiked: liked.result.length,
                 }));
-                console.log(TAG + "-찜한목록 : ", liked);
+                
+                //console.log(TAG + "-찜한목록 : ", liked);
             }
         } catch (error) {
             console.error("Error fetching like data:", error);
         }
     }
 
-    useEffect(() => {
-        fetchTravelData();
-        fetchProfilelData();
+    useEffect(() => {      
+        
         fetchProfilelLikedData();
-    }, []);
+        withoutfetchProfile();
+    }, [view]);
 
+    function withoutfetchProfile(){
+        setWithoutProfile(profileData.numTravel);
+    }
     // useEffect(() => {
     //     console.log("여행생성Toggled-Recoil");
     //     if (IsTravelDataCreated) {
@@ -204,7 +229,7 @@ function MyTravelMain() {
                                 numLiked={profileData.numLiked}
                                 date={profileData.date}
                             />
-                            `
+                            
                         </div>
                         <div
                             style={{
@@ -270,7 +295,7 @@ function MyTravelMain() {
                 {/* 상세보기 */}
                 {view === "specifics" && (
                     <div style={{ flexGrow: 1 }}>
-                        <MyTravelSpecifics travel={selectedTravel} setView={setView} />
+                        <MyTravelSpecifics setView={setView} />
                     </div>
                 )}
 

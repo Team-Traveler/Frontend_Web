@@ -10,11 +10,11 @@ import { setTravelSpecificStateSelector,selectedTIDState, setSelectedTIDSelector
 
 function TravelCard({ tid, title, write_status, start_date, end_date, setView, isEditMode, setIsEditMode, onDelete,setSelectedTID,onDetails }) {
 
-  console.log("Travel title : ",tid);
+  //console.log("Travel title : ",tid);
 
   const handleDetailClick = () => {
-    console.log('Detail button clicked');
-    console.log('Detail button clicked with tid:', tid);
+    //console.log('Detail button clicked');
+    //console.log('Detail button clicked with tid:', tid);
     onDetails(tid);
     setSelectedTID(tid);
     setView('specifics');
