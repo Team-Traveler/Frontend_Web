@@ -1,3 +1,4 @@
+
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import MainPage from "./pages/MainPage/MainPage.js";
@@ -14,15 +15,15 @@ import { useRecoilState } from "recoil";
 
 
 function App() {
-    const [userInfo] = useRecoilState(userInfoState);
-    const isLogin = userInfo.isLogin;
+    //const [userInfo] = useRecoilState(userInfoState);
+    //const isLogin = userInfo.isLogin;
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<MainPage />}></Route>
-                {isLogin ? (
+                {/* <Route path="/" element={<MainPage />}></Route> */}
+                {/* {isLogin ? ( */}
                     <>
-                        <Route
+                        {/* <Route 
                             path="/recommend"
                             element={<RecommendPage />}
                         ></Route>
@@ -30,16 +31,18 @@ function App() {
                             path="/recommendCompleted"
                             element={<CompletedPage />}
                         ></Route>
-
+                        */}
+                    </>
                         <Route path="/story" element={<CommunityPage />}></Route>
                         <Route path="/story/search" element={<Search />}></Route>
                         <Route path={`/story/:tid`} element={<Hap />}></Route>
+                        {/*  
                         <Route path="/note" element={<NotePage />}></Route>
                         <Route path="/mypage" element={<MyTravelMain />} />
-                    </>
-                ) : null}
-                <Route path="/kakaoLogin" element={<KakaoLogin />} />
-                <Route path="*" element={<Navigate to="/" />} />
+                        */}
+                {/* ) : null} */}
+                {/* </div><Route path="/kakaoLogin" element={<KakaoLogin />} /> */}
+                {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
         </div>
     );

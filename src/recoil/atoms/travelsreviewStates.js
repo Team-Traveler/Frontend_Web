@@ -18,11 +18,11 @@ export const travelsreviewState = atom({
       "totalrating": 3.8,
       "goodPoints": "Good points",
       "badPoints": "Bad points",
-      "imgurl": "{src=./}​"   
+      "imgUrl": require("../../assets/images/sea.jpg") //public이 아닌 src에 이미지를 저장한 경우 require을 사용해야함
     },
     {
       "tid": 2,
-      "title": "강릉 3박4일",
+      "title": "강릉 2박3일",
       "hashtags": ["tag1", "tag2"],
       "oneLineReview": "A review",
       "location": "Some location",
@@ -31,15 +31,15 @@ export const travelsreviewState = atom({
       "withwho": 3,
       "whatrating": 4.5,
       "hardrating": 3.0,
-      "totalrating": 3.8,
+      "totalrating": 2.8,
       "goodPoints": "Good points",
       "badPoints": "Bad points",
-      "imgurl": "{src=./}​"   
+      "imgUrl": require("../../assets/images/sea.jpg") 
     },
   
     {
       "tid": 3,
-      "title": "강릉 3박4일",
+      "title": "강릉 1박2일",
       "hashtags": ["tag1", "tag2"],
       "oneLineReview": "A review",
       "location": "Some location",
@@ -48,14 +48,14 @@ export const travelsreviewState = atom({
       "withwho": 3,
       "whatrating": 4.5,
       "hardrating": 3.0,
-      "totalrating": 3.8,
+      "totalrating": 1.8,
       "goodPoints": "Good points",
       "badPoints": "Bad points",
-      "imgurl": "{src=./}​"   
+      "imgUrl": require("../../assets/images/sea.jpg") 
     },
-      {
+    {
       "tid": 4,
-      "title": "강릉 3박4일",
+      "title": "부산 3박4일",
       "hashtags": ["tag1", "tag2"],
       "oneLineReview": "A review",
       "location": "Some location",
@@ -64,11 +64,11 @@ export const travelsreviewState = atom({
       "withwho": 3,
       "whatrating": 4.5,
       "hardrating": 3.0,
-      "totalrating": 3.8,
+      "totalrating": 0.8,
       "goodPoints": "Good points",
       "badPoints": "Bad points",
-      "imgurl": "{src=./}​"   
-  }  
+      "imgUrl": require("../../assets/images/sea.jpg") 
+  },  
   ],
 });
 

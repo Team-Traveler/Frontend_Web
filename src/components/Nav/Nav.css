@@ -1,18 +1,27 @@
 /*          nav             */
 .nav {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    height:65px;
+    background-color: #f5f5f5;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    padding: 5px;
     /* border: 1px solid black; */
 }
 
+.sticky{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
 .nav-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top:10px;
+    margin-left:50px;
     /* border: 1px solid red; */
 }
 
@@ -37,63 +46,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
-    margin-left: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
-    width: 112px;
-    height: 15px;
+    padding: 8px 12px;
     border-radius: 20px;
     border: none;
-    background-color: #e4e4e4;
+    font-weight: bold;
+    font-size: medium;
+    background-color: transparent;
     transition: background-color 0.2s ease, border-radius 0.2s ease,
         height 0.2s ease;
 }
 
-.recommend:hover {
-    background-color: #d9faff;
-    border-radius: 25px;
-    height: 65px;
+.nav-menu-item:hover {
+    background-color: rgb(156, 184, 148);
+    color: #f5f4f4;
+    width: 100px;
+    height: 50px;
 }
 
-.story:hover {
-    background-color: #ffd1d1;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.mynote:hover {
-    background-color: #d8ffd8;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.mypage:hover {
-    background-color: #e7e152ba;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.active-recommend {
-    background-color: #d9faff;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.active-story {
-    background-color: #ffd1d1;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.active-note {
-    background-color: #d8ffd8;
-    border-radius: 25px;
-    height: 65px;
-}
-
-.active-mypage {
-    background-color: #e7e152ba;
-    border-radius: 25px;
-    height: 65px;
+/* 활성화 돼있는 메뉴인 경우*/
+.active{
+    background-color:  rgb(156, 184, 148);
+    color: #f5f4f4;
+    width: 100px;
+    height: 50px;
 }

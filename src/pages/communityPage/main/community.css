@@ -1,15 +1,3 @@
-
-
-.xcommunity-page {
-  display: flex;
-  flex-direction: column;
-  background-color: #f5f5f5;
-  height: 100vh;
-  background-image: url("../../../assets/images/background.png");
-  background-size: cover;
-   box-sizing: border-box;
-}
-
 #header {
   height: 300px;
   display: flex;
@@ -22,24 +10,55 @@
   width: 1024px;
   margin: 0 auto;
   padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #footer {
   height: 200px;
 }
-
-#header-area {
-  width: 1024px;
-  height: 100%;
+/* 검색창 구현 */
+.search-bar{
   display: flex;
   align-items: center;
+  margin: 70px 0 50px 100px;
+  width: 800px;
+  padding: 6px;
+  border-radius: 50px;
+  background-color: rgb(245, 243, 243);
 }
 
-#header-area > img {
-  width: 219px;
-  height: 55px;
-  margin: 0 auto;
+.search-bar > img{
+  margin-left: 20px;
+  width: 30px;
+  height: 30px;
 }
+
+.search-bar-input{
+  margin-left: 20px;
+  border: none;
+  outline: none;
+  background-color: rgb(245, 243, 243);
+  font-size: medium;
+  font-weight: 400;
+  font-style: caption;
+  color:gray;
+}
+
+/* 마우스 올릴 시 기본 텍스트가 안보이도록 */
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+.search-bar-input:focus::placeholder{
+  color:transparent;
+}
+
+/* Edge */
+.search-bar-input:focus::-ms-input-placeholder{
+  color:transparent;
+}
+
+/* 인기순, 최신순 정렬 드롭다운 */
+
 
 .xproduct-img-container {
   position: relative;
@@ -128,21 +147,13 @@
   width: 100%;
   font-size: 1.2rem;
 }
-.xcustom-button {
-  position: relative; /* Create a positioning context for the custom-button container */
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: 40px; /* Adjust this value if needed */
-}
 
-.xsearch {
-  position: fixed;
-  position: absolute;
-  top: 178px; /* Adjust this value for vertical positioning */
-  left: 1454px; /* Adjust this value for horizontal positioning */
-  z-index: 3; /* Place the search image above button1 */
-  filter: brightness(0) invert(1);
+#writeBtn{
+  width: 60px;
+  height: 60px;
+  position: absolute; 
+  right: 40px; 
+  bottom: 40px;
 }
   
 .xrecent {
@@ -158,31 +169,16 @@
   box-shadow: 0px 5px 30px 0px rgba(141, 141, 141, 0.2);
 }
 
-.xbutton1,
-.xbutton2 {
-  /* 버튼 이미지 공통 스타일 */
-  margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  position: relative; 
-  /* 간격을 왼쪽으로 조절 */
-}
-
-.xbutton2{
-  z-index: 1;
-  position: relative; 
-}
-
-.xcomment-icon {
+.comment-icon {
   margin-right: 40px; 
   margin-left: 10px;/* 오른쪽 마진을 조정하여 간격을 설정하세요 */
 }
 
-.xshare-icon {
+.share-icon {
   margin: 0 40px; /* 좌우 마진을 조정하여 간격을 설정하세요 */
 }
 
-.xheart-icon {
+.heart-icon {
   margin-left: 40px; /* 왼쪽 마진을 조정하여 간격을 설정하세요 */
 }
 .xicons-bottom {
@@ -192,16 +188,11 @@
 }
 
 .xcomment-icon,
-.xshare-icon,
-.xheart-icon {
+.share-icon,
+.heart-icon {
   margin-top: 4px;
   flex: 1;
   text-align: center;
-}
-.xbutton1 img,
-.xbutton2 img {
-  width: 100%; /* 버튼 이미지를 꽉 차도록 조정 */
-  height: auto;
 }
 
 /* margin: 0 auto;:부모로부터 자식정렬 */
