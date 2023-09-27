@@ -6,11 +6,6 @@ export const travelsState = atom({
     {
         id: 1,
         name: "null",
-        category: "null",
-        duration: "null",
-        start: "null",
-        end: "null",
-        write_status : 0,
 
         dcId: 1,
         spot1: '호텔',

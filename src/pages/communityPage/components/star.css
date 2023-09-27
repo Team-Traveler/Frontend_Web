@@ -1,21 +1,23 @@
 /* StarRating.css */
 .xstar-rating-card {
-    width: 503px;
-    height: 212px;
-    top: 714px;
-    left: 74px;
-    border: 2px solid #757575;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border : 1px rgb(169, 169, 169);
+    box-shadow: 1px 1px 5px rgb(169, 168, 168);
+    width: 400px;
+    height: auto;
+    border-radius: 7px;
  }
   
   .xstar-section {
-    margin-bottom: 20px;
-    margin-top:px;
+    margin : 10px 0 10px 15px;
   }
   
+  .xstar-section > span{
+    font-size:medium;
+    font-weight: 600; 
+  }
+
   .xstar-container {
     display: flex;
     margin-top: 0px;
@@ -30,13 +32,3 @@
   .xstar:last-child {
     margin-right: 0;
   }
-  /* star.css */
-
-.xstar-section h2 {
-  font-family: Pretendard;
-  font-size: 16px;
-  font-weight: 200;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: left;
-}

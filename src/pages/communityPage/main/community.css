@@ -18,12 +18,22 @@
 #footer {
   height: 200px;
 }
+/* 글쓰기 버튼(하단 우측 고정) */
+#writeBtn{
+  width: 60px;
+  height: 60px;
+  position: fixed; 
+  right: 40px; 
+  bottom: 40px;
+}
+
 /* 검색창 구현 */
 .search-bar{
   display: flex;
   align-items: center;
   margin: 70px 0 50px 100px;
   width: 800px;
+  height: 50px;
   padding: 6px;
   border-radius: 50px;
   background-color: rgb(245, 243, 243);
@@ -46,7 +56,7 @@
   color:gray;
 }
 
-/* 마우스 올릴 시 기본 텍스트가 안보이도록 */
+/* 마우스 올릴 시 기본 텍스트가 안보이도록
 /* Chrome, Firefox, Opera, Safari 10.1+ */
 .search-bar-input:focus::placeholder{
   color:transparent;
@@ -55,18 +65,24 @@
 /* Edge */
 .search-bar-input:focus::-ms-input-placeholder{
   color:transparent;
-}
+} 
 
 /* 인기순, 최신순 정렬 드롭다운 */
+.sort-btn{
+  display : flex;
+  flex-direction: row;
+  justify-content: right;
+}
 
-
+/* 여행 카드 */
+/* 카드 컨테이너 */
 .xproduct-img-container {
   position: relative;
   width: 100%;
-  height: 210px;
+  height: 100%;
   overflow: hidden;
 }
-
+/* 찜 목록 */
 .xfavorite-icon {
   position: absolute;
   top: 12px;
@@ -77,27 +93,27 @@
   z-index: 1; /* 아이콘을 이미지 위로 렌더링 */
 }
 
-.xfavorite-icon.filled {
-  color: #ffcc00; /* 채워진 별 색상 */
+.xfavorite-icon > img{
+  width: 27px;
+  height: 32px;
 }
 
-#body > h1 {
-  margin-top: 16px;
-}
-
+/* 카드 리스트 출력 */
 #product-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-items:center;
   margin-top: 12px;
    /* 각 카드 사이의 간격 조정 */
 }
 
+/* 카드 */
 .xproduct-card {
   z-index: 2;
-  position: relative; /* 추가 */
-  width: calc(25% - 12px);
-  height: 293px;
-  margin-right: 10px;
+  position: relative;
+  width: calc(30% - 12px);
+  height: 350px;
   margin-bottom: 12px;
   margin-top: 12px;
   border: 1px solid rgb(230, 230, 230);
@@ -106,93 +122,47 @@
   box-sizing: border-box;
 
 }
-
+/* 이미지 부분 */
 .xproduct-img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* 이미지 비율 유지 및 컨테이너에 꽉 차도록 설정 */
 }
-
-.xproduct-contents {
-  position: absolute; /* 변경 */
-  bottom: 0; /* 변경 */
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  width: 100%; /* 추가 */
-  background-color: rgba(255, 255, 255, 0.8); /* 추가 */
-}
-
-.ximage-container {
-  position: relative;
-  display: inline-block;
-}
-
-.xproduct-oneline {
-  font-size: 14px;
-}
-
-.xproduct-traveler {
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 4px;
-}
-
-.xicons-bottom {
+/* 내용 부분 */
+.xproduct-contents{
   position: absolute;
-  bottom: 0;
+  display : flex;
+  flex-direction: column;
+  top: 50%;
+  left: 0%;
+  height: 50%;
+  width: 100%;
+  margin-top: 10px;
+  background-color:rgba(0, 0, 0, 0.6);
+}
+
+.xproduct-contents > * {
+  margin: 15px 0 0 5px;
+}
+
+/* 아이콘 버튼들 */
+.xicons-btn {
   display: flex;
-  justify-content: space-between;
+  flex-direction : row;
   align-items: center;
   width: 100%;
   font-size: 1.2rem;
 }
 
-#writeBtn{
-  width: 60px;
-  height: 60px;
-  position: absolute; 
-  right: 40px; 
-  bottom: 40px;
-}
-  
-.xrecent {
-  /* 기본레이아웃 스타일 */
-  width: 960px;
-  height: 88.34px;
-  margin: 0 auto;
-  margin-top: 100px;
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 5px 30px 0px rgba(141, 141, 141, 0.2);
+.xicons-btn > *{
+  margin-left: 5px;
 }
 
-.comment-icon {
-  margin-right: 40px; 
-  margin-left: 10px;/* 오른쪽 마진을 조정하여 간격을 설정하세요 */
-}
-
-.share-icon {
-  margin: 0 40px; /* 좌우 마진을 조정하여 간격을 설정하세요 */
-}
-
-.heart-icon {
-  margin-left: 40px; /* 왼쪽 마진을 조정하여 간격을 설정하세요 */
-}
-.xicons-bottom {
-  display: flex;
-  justify-content: space-between;
-  width: 100px; /* 조정할 아이콘 영역의 너비를 지정하세요 */
-}
-
-.xcomment-icon,
-.share-icon,
-.heart-icon {
-  margin-top: 4px;
-  flex: 1;
-  text-align: center;
+.xproduct-title {
+  width: 100%; /* 추가 */
+  color : white;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 /* margin: 0 auto;:부모로부터 자식정렬 */

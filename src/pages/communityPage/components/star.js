@@ -10,11 +10,13 @@ function StarRating() {
     newRatings[index] = selectedRating;
     setRatings(newRatings);
   };
+  const style = { color:"rgb(156, 184, 148)", fontSize:"25px", 
+  marginRight:"5px"};
 
   return (
     <div className="xstar-rating-card">
       <div className="xstar-section">
-        <h2>여행 컨셉</h2>
+        <span>여행 컨셉</span>
         <div className="xstar-container">
           {[1, 2, 3, 4, 5].map((num) => (
             <span
@@ -23,16 +25,16 @@ function StarRating() {
               className="xstar"
             >
               {num <= ratings[0] ? (
-                <StarFilled style={{ color: "yellow" }} />
+                <StarFilled style={style} />
               ) : (
-                <StarOutlined />
+                <StarOutlined style={style}/>
               )}
             </span>
           ))}
         </div>
       </div>
       <div className="xstar-section">
-        <h2>여행 강도</h2>
+        <span>여행 강도</span>
         <div className="xstar-container">
           {[1, 2, 3, 4, 5].map((num) => (
             <span
@@ -41,16 +43,16 @@ function StarRating() {
               className="xstar"
             >
               {num <= ratings[1] ? (
-                <StarFilled style={{ color: "yellow" }} />
+                <StarFilled style={style} />
               ) : (
-                <StarOutlined />
+                <StarOutlined style={style}/>
               )}
             </span>
           ))}
         </div>
       </div>
       <div className="xstar-section">
-        <h2>총 별점</h2>
+        <span>총 별점</span>
         <div className="xstar-container">
           {[1, 2, 3, 4, 5].map((num) => (
             <span
@@ -59,9 +61,9 @@ function StarRating() {
               className="xstar"
             >
               {num <= ratings[2] ? (
-                <StarFilled style={{ color: "yellow" }} />
+                <StarFilled style={style} />
               ) : (
-                <StarOutlined />
+                <StarOutlined style={style} />
               )}
             </span>
           ))}

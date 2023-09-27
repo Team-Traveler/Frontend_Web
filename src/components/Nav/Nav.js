@@ -8,6 +8,9 @@ function Nav() {
 
     // 현재 경로에 따라 메뉴 활성화
     const isActive = (path) => {
+        // /story/** 링크는 모두 스토리 네비게이션 바가 활성화됨.
+        if(path==="/story"&&location.pathname.includes("/story"))
+            return "active";
         return location.pathname === path ? `${"active"}`: "";
     };
     // 스크롤 시 상단에 네비바 고정
@@ -43,7 +46,7 @@ function Nav() {
                         <div className="nav-menu-box">여행 찾기</div>
                     </button>
                 </Link>
-                <Link to="/story" style={{ textDecoration: "none" }}>
+                <Link to={`/story`} style={{ textDecoration: "none" }}>
                     <button className={`nav-menu-item ${isActive("/story")}`}>
                         <div className="nav-menu-box">스토리</div>
                     </button>

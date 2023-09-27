@@ -1,0 +1,153 @@
+.xcommunity-page{
+    display: flex;
+    flex-direction: column;
+}
+      
+.xcontent-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px; /* 최대 너비를 지정 */
+    margin: 10px auto 20px auto; /* 가운데 정렬을 위한 마진 설정 */
+    position: relative;
+    gap:20px;
+}
+    
+.left-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 0.5;
+}
+
+.img-upload{
+    height: 400px;
+    width: 400px;
+    border: 1px rgb(179, 178, 178);
+    box-shadow: -1px 1px 5px rgb(171, 171, 171);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}  
+
+.right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 0.5;
+}
+
+input{
+    border:none;
+    font-size: medium;
+    font-weight: 550;
+    width: 500px;
+}
+
+input:focus{
+    outline: none;
+}
+    
+/* 마우스 올릴 시 기본 텍스트가 안보이도록
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+input:focus::placeholder{
+    color:transparent;
+}
+  
+/* Edge */
+input:focus::-ms-input-placeholder{
+    color:transparent;
+} 
+
+.input-user{
+    display: flex;
+    align-items: center;
+    margin-bottom : 7px;
+}
+   
+.input-user > span{
+    margin-left: 10px;
+    font-size: 27px;
+    font-weight:normal;
+    color : rgb(93, 92, 92);
+}
+
+.input-title{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.input-box{
+    border: 1px solid gray;
+}
+
+#title{
+    width: 500px;
+    margin: 10px 0 20px 0;
+    padding: 10px;
+    border: 1px rgb(179, 178, 178);
+    box-shadow: -1px 1px 5px rgb(171, 171, 171);
+    font-size: 18px;
+    font-weight: 550;
+    color : rgb(93, 92, 92);
+}
+
+.input-title > span{
+    font-size: 17px;
+    font-weight: 550;
+    color : rgb(93, 92, 92);
+}
+
+.input-travel{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-travel-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.input-travel-title > img{
+    width: 20px;
+    height: 30px;
+    margin-right: 7px;
+}
+
+.input-travel-title > span{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.input-travel-content{
+    width: 500px;
+    margin: 10px 0 20px 0;
+    padding: 10px;
+    border: 1px rgb(179, 178, 178);
+    box-shadow: -1px 1px 5px rgb(171, 171, 171);
+    font-size: 18px;
+    font-weight: 550;
+    color : rgb(93, 92, 92);
+}
+
+.footer{
+    background-color: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-btn{
+    height: 50px;
+    width: 100px;
+    background-color: rgb(156, 184, 148);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: medium;
+    font-weight: 550;
+}

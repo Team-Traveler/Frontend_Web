@@ -1,0 +1,74 @@
+h1{
+    margin:0;
+    color: black;
+    font-style: normal;
+}
+
+.info-list-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-user{
+    display: flex;
+    align-items: center;
+    margin-bottom : 7px;
+}
+
+.info-user > span{
+    margin-left: 10px;
+    font-size: 27px;
+    font-weight:normal;
+    color : rgb(93, 92, 92);
+}
+
+.info-title{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-title > span{
+    font-size: 17px;
+    font-weight: 550;
+    color : rgb(93, 92, 92);
+}
+
+.info-travel{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-travel-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.info-travel-title > img{
+    width: 20px;
+    height: 30px;
+    margin-right: 7px;
+}
+
+.info-travel-title > span{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.info-travel-content{
+    width: 500px;
+    margin: 10px 0 20px 0;
+    padding: 10px;
+    border: 1px rgb(179, 178, 178);
+    box-shadow: -1px 1px 5px rgb(171, 171, 171);
+    font-size: 18px;
+    font-weight: 550;
+    color : rgb(93, 92, 92);
+}
+
+.info-hashtag{
+    font-size: 20px;
+    color: rgb(55, 55, 55);
+    font-weight: 500;
+}

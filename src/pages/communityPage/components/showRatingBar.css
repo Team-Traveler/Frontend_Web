@@ -1,0 +1,19 @@
+.ratingbar-box{
+    display: flex;
+    flex-direction: column;
+    border : 1px rgb(169, 169, 169);
+    box-shadow: 1px 1px 5px rgb(169, 168, 168);
+    width: 400px;
+    height: auto;
+    border-radius: 7px;
+}
+
+.ratingbar > span{
+    font-size:medium;
+    font-weight: 600;
+}
+
+.ratingbar{
+    margin-left: 15px;
+    margin-bottom:10px;
+}
