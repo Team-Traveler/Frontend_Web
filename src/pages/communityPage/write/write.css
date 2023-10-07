@@ -10,7 +10,6 @@
     align-items: center;
     max-width: 900px; /* 최대 너비를 지정 */
     margin: 10px auto 20px auto; /* 가운데 정렬을 위한 마진 설정 */
-    position: relative;
     gap:20px;
 }
     
@@ -20,16 +19,6 @@
     gap: 10px;
     flex: 0.5;
 }
-
-.img-upload{
-    height: 400px;
-    width: 400px;
-    border: 1px rgb(179, 178, 178);
-    box-shadow: -1px 1px 5px rgb(171, 171, 171);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}  
 
 .right-section {
     display: flex;

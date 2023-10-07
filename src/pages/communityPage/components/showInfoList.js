@@ -43,13 +43,13 @@ function ShowInfoList() {
           <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> <span> Good </span>
         </div>
         <div className="info-travel-content" id="good">
-          {travel.good}
+          {travel.goodPoints}
         </div>
         <div className="info-travel-title">
           <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> <span> Bad </span>
         </div>
         <div className="info-travel-content" id="bad">
-          {travel.bad}
+          {travel.badPoints}
         </div>        
         <div className="info-travel-title">
             <GiPositionMarker style={{color:"rgb(156, 184, 148)", fontSize:"30px"}}/> <span> 한줄 평 </span>

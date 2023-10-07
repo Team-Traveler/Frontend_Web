@@ -18,37 +18,37 @@ const choiceStyle = {
 const wrapStyle = {
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-between",
+  justifyvalue: "space-between",
   alignItems: "center",
   width : "65%"
 }
 
-function TravelCard() {
+function TravelCard(props) {
   const [isChecked, setIsChecked] = useState(false);
   return (
     <div>
     <div className="xtravel-card-info" style={{wrapStyle}}>
-      <select className="travelConcept" id="select" style={choiceStyle}>
+      <select className="travelConcept" id="select" style={choiceStyle} onChange={(e)=>{props.setWhat(e.target.value);}}>
           <option value="여행 컨셉">컨셉</option>
-          <option value="경치관람">경치관람</option>
-          <option value="먹방">먹방</option>
-          <option value="엑티비티">엑티비티</option>
-          <option value="체험">체험</option>
-          <option value="카페">카페</option>
+          <option value={1}>경치관람</option>
+          <option value={2}>먹방</option>
+          <option value={3}>엑티비티</option>
+          <option value={4}>체험</option>
+          <option value={5}>카페</option>
         </select>
-        <select className="travelIntensity" id="select" style={choiceStyle}>
+        <select className="travelIntensity" id="select" style={choiceStyle} onChange={(e)=>{props.setHard(e.target.value);}}>
           <option value="여행 강도">강도</option>
-          <option value="엑티비티">엑티비티</option>
-          <option value="여유롭게">여유롭게</option>
-          <option value="보통">보통</option>
-          <option value="바쁘게">바쁘게</option>
+          <option value={1}>엑티비티</option>
+          <option value={2}>여유롭게</option>
+          <option value={3}>보통</option>
+          <option value={4}>바쁘게</option>
         </select>
-        <select className="travelWith" id="select" style={choiceStyle}>
+        <select className="travelWith" id="select" style={choiceStyle} onChange={(e)=>{props.setWithwho(e.target.value);}}>
           <option value="누구와">누구와?</option>
-          <option value="친구랑">친구랑</option>
-          <option value="가족과">가족과</option>
-          <option value="연인과">연인과</option>
-          <option value="혼자서">혼자서</option>
+          <option value={1}>친구랑</option>
+          <option value={2}>가족과</option>
+          <option value={3}>연인과</option>
+          <option value={4}>혼자서</option>
         </select>
       </div>
     </div>

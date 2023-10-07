@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil';
 import { travelsSelector } from '../../../recoil/atoms/travelsreviewStates';
 import CommentBtnPage from "../components/commentBtn";
 import HeartBtnPage from "../components/heartBtn";
-import PickBtnPage from "../components/pickBtn";
+import PickBtnPage from "../components/scrapBtn";
 
 function CommunityPage() {
   const travels = useRecoilValue(travelsSelector);
@@ -70,9 +70,9 @@ function CommunityPage() {
   
         <div id="product-list">
           {filterTravel.map((travel, index) => (
-            <div className="xproduct-card" key={travel.tid}>
+            <div className="xproduct-card" key={travel.pid}>
               <div className="xproduct-img-container">
-                <Link to={`/story/${travel.tid}`}>
+                <Link to={`/story/${travel.pid}`}>
                   <img
                     className="xproduct-img"
                     src={travel.imgUrl[0]} 
@@ -80,13 +80,13 @@ function CommunityPage() {
                   />
                 </Link>
                 <div className="xfavorite-icon">
-                  <PickBtnPage size="40" pId={travel.tid}/>
+                  <PickBtnPage size="40" pId={travel.pid}/>
                 </div>
               </div>
               <div className="xproduct-contents">
                 <div className="xicons-btn">
-                    <CommentBtnPage pId={travel.tid} size="20"/>
-                    <HeartBtnPage pId={travel.tid} size="20"/>
+                    <CommentBtnPage pId={travel.pid} size="20"/>
+                    <HeartBtnPage pId={travel.pid} size="20"/>
                 </div>
                 <span className="xproduct-title">
                   {travel.title}

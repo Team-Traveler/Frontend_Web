@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { StarOutlined, StarFilled } from "@ant-design/icons";
 import "./star.css"; // Import the CSS file
 
-function StarRating() {
+function StarRating(props) {
   const [ratings, setRatings] = useState([0, 0, 0]); // Initialize with 0 ratings for each section
 
   const handleStarClick = (selectedRating, index) => {
     const newRatings = [...ratings];
     newRatings[index] = selectedRating;
     setRatings(newRatings);
+    props.setRatings(newRatings); // 부모 컴포넌트에 별점값 전달
   };
   const style = { color:"rgb(156, 184, 148)", fontSize:"25px", 
   marginRight:"5px"};

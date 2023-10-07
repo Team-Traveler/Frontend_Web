@@ -9,7 +9,7 @@ function HeartBtnPage(props){
     // 임시
     const data=travels[props.pId-1];
     const [active,setActive] = useState(false);
-    const [count,setCount] = useState(data.heart);
+    const [count,setCount] = useState(data.likes);
 
     const onClick = (e)=>{
         active ? setActive(false) : setActive(true);

@@ -9,7 +9,7 @@ import ShowRatingbarPage from "../components/showRatingBar";
 import ShowImagePage from "../components/showImage";
 import CommentBtnPage from "../components/commentBtn";
 import HeartBtnPage from "../components/heartBtn";
-import PickBtnPage from "../components/pickBtn";
+import PickBtnPage from "../components/scrapBtn";
 
 // 이 페이지에서 데이터 가져와서 보여주기
 function InfoPage() {
@@ -24,18 +24,18 @@ function InfoPage() {
             <div className="xcontent-wrapper">
                 <div className="xleft-section">
                     <div className="info-square">
-                        <div className="info-square-concept">{travel.concept}</div>
-                        <div className="info-square-intensity">{travel.intensity}</div>
-                        <div className="info-square-who">{travel.who}</div>
+                        <div className="info-square-concept">{travel.what}</div>
+                        <div className="info-square-intensity">{travel.hard}</div>
+                        <div className="info-square-who">{travel.withwho}</div>
                     </div>
                     <div className="img-box">
                         <ShowImagePage pId={tid}/>
                     </div>
                     <div className="star-ratingbar">
                         <ShowRatingbarPage 
-                            intensity={travel.intensityRating} 
-                            concept={travel.conceptRating} 
-                            totalStar={travel.totalRating}
+                            intensity={travel.hardrating} 
+                            concept={travel.whatrating} 
+                            totalStar={travel.totalrating}
                         />
                     </div>
                 </div>
