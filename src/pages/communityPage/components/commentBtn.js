@@ -1,30 +1,20 @@
 import React, { useState,useRef,useEffect} from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useRecoilValue } from 'recoil';
-import { travelsSelector } from '../../../recoil/atoms/travelsreviewStates';
+import { API } from "../../../config";
 import { BiSolidCommentDetail } from 'react-icons/bi';
 
 function CommentBtnPage(props){
-    const travels = useRecoilValue(travelsSelector);
-    // 임시
-    const data=travels[props.pId-1];
-    
-    const [count,setCount] = useState(data.comments.length);
+    const [count,setCount] = useState(0);
 
-    /* api 연결 시 사용 */
-    // const counter = (data)=>{
-    //     return data.length
-    // }
-    // try{
-    //     response = axios.get(`/post/${props.pId}/comment`)
-    //     console.log(response);
-    //     if(response.status===200){
-    //         data = response.result;
-    //     }
-    // }catch(e){
-    //     console.log(e);
-    // }
+    useEffect(()=>{
+        axios.get(`${API.HEADER}/post/${props.pId}/comment`).then(response=>{
+            if(response.data.isSuccess===true){
+                setCount(response.data.result.length);
+                console.log(count);
+            }
+        }).catch(e=>console.log(e))
+    },[count]);
 
     return(
         <div>
