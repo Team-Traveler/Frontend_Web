@@ -34,9 +34,9 @@ function App() {
                         ></Route> 
 
                         <Route path="/story" element={<CommunityPage />}></Route>
-                        <Route path={`/story/:tid`} element={<InfoPage />}></Route>
+                        <Route path={`/story/:pid`} element={<InfoPage />}></Route>
                         <Route path="/story/write" element={<WritePage/>}></Route>
-                        <Route path="/story/:tid/comments" element={<CommentsPage/>}></Route>
+                        <Route path="/story/:pid/comments" element={<CommentsPage/>}></Route>
                         <Route path="/note" element={<NotePage />}></Route>
                         <Route path="/mypage" element={<MyTravelMain />} />
                     </>

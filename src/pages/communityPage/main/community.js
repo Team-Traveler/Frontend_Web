@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import "./community.css";
 import axios from "axios";
 import { Pagination } from "antd";
@@ -100,17 +100,17 @@ function CommunityPage() {
   
         <div id="product-list">
           {displayedTravels&&displayedTravels.map((travel, index) => (
-            <div className="xproduct-card" key={travel?.pid}>
+            <div className="xproduct-card" key={travel.pid}>
               <div className="xproduct-img-container">
-                <Link to={`/story/${travel?.pid}`}>
+                <Link to={`/story/${travel.pid}`} key={travel.pid}>
                   <img
                     className="xproduct-img"
-                    src={travels.imgUrl?travels.imgUrl:require("../../../assets/images/sea.jpg")}
+                    src={travels.imgUrl ? travels.imgUrl : require("../../../assets/images/sea.jpg")}
                     alt={`Travel ${index}`}
                   />
                 </Link>
                 <div className="xfavorite-icon">
-                  <PickBtnPage size="40" pId={travel?.pid}/>
+                  <PickBtnPage size="40" pId={travel.pid}/>
                 </div>
               </div>
               <div className="xproduct-contents">

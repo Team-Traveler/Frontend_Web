@@ -1,0 +1,13 @@
+.slider{
+    width: 400px;
+    height: 400px;
+}
+
+.slider > img {
+    width: 400px;
+    height: 400px;
+}
+
+.slick-dots{
+    bottom:0
+}
