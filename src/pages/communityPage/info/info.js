@@ -26,9 +26,9 @@ function InfoPage() {
         .then(response => {
             if(response.data.isSuccess === true){   
                 setTravel(response.data.result);
-                console.log(travel);
+                console.log('성공',travel);
             }
-            else console.log(response.data);
+            else console.log('실패',response.data);
         })
         .catch(e=>console.log('error',e))
     }

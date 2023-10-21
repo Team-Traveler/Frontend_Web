@@ -1,0 +1,106 @@
+.wrap-box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border : 4px solid rgb(231, 229, 229);
+    border-bottom-color: white;
+    border-top-right-radius: 60px;
+    border-top-left-radius: 60px;
+    margin : 0 300px 0 300px;
+    padding : 0 60px 0 60px;
+    min-width: 800px;
+    height: 90vh;
+}
+
+.comment-list-box{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+.comment-box{
+    display : flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 12px 0 12px;
+    border-bottom : 3px solid rgb(231, 229, 229);
+}
+
+.user-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:5px;
+}
+
+.user-box > span{
+    font-size: large;
+
+}
+
+.comment-content{
+    margin-left:20px;
+    font-size: large;
+}
+
+.comment-footer{
+    margin:0 0 10px 20px;
+    color : gray;
+    font-size: small;
+}
+
+.input-comment-box{
+    position:absolute;
+    bottom: 30px;
+    display : flex;
+    flex-direction: column;
+    font-size: medium;
+    border: 2px solid rgb(225, 223, 223);
+    border-radius: 10px;
+    height: 120px;
+    min-width: 85%;
+    gap:10px;
+    padding: 10px 15px 10px 15px;
+    
+}
+
+textarea{
+    resize: none;
+}
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+textarea:focus::placeholder{
+    color:transparent;
+}
+
+/* Edge */
+textarea:focus::-ms-input-placeholder{
+    color:transparent;
+}
+
+textarea::placeholder {color:#ccc;}
+textarea::-webkit-input-placeholder {color:#ccc;}
+textarea:-ms-input-placeholder {color:#ccc;}
+.comment{
+    border: none;
+    outline: none;
+    width: 95%;
+    height: 100px;
+    font-size: large;
+    font-weight: 600;
+    padding: 0 20px 0 20px;
+}
+
+.comment-submit-btn{
+    position:absolute;
+    width: 80px;
+    height: 30px;
+    border : none;
+    border-radius: 20px;
+    background-color: rgb(156, 184, 148);
+    color: white;
+    font-size: medium;
+    font-weight: 800;
+    right: 5px;
+    bottom: 5px;
+}

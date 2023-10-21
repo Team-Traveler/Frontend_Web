@@ -54,11 +54,6 @@ function WritePage() {
         }
         const jsonMerge = {...value,...rating,...info};
         console.log(jsonMerge);
-        // value와 rating을 하나의 json으로 변환
-        //const jsonString = Object.assign(CircularJSON.stringify(value),CircularJSON.stringify(rating));
-        // 이미지 파일 : multipart/form-data, 내용 : application/json
-        //formData.append("content",new Blob([jsonString]), { type: "application/json" }); 
-        //console.log(jsonString);
         alert('submit!');
     }
 
@@ -80,7 +75,7 @@ function WritePage() {
                                 <span>userId</span>
                             </div>
                             <div className="input-title">
-                                <input className="input-box" id="title" placeholder="제목 작성" name="title" onChange={onChangeHandler} />
+                                <input className="input-box" id="title" maxLength={28} placeholder="제목 작성" name="title" onChange={onChangeHandler} />
                                 <div className="input-travel-info">
                                 </div>
                                 <div className='input-travel-date'>
