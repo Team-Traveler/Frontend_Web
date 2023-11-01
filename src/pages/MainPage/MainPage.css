@@ -1,0 +1,230 @@
+/* main page css */
+.main-page {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-image: url("../../assets//images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+.main-header {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.main-header-container{
+  display: flex;
+  margin-right: 5%;
+}
+
+.main-header-item{
+  margin-left: 15px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-header-item img{
+  width: 30px;
+  height: 30px;
+  border: 1px solid gainsboro;
+  border-radius: 50px;
+}
+
+.main-header-button{
+  border: none;
+  background-color: transparent;
+}
+
+.main-header-button:hover{
+  cursor: pointer;
+}
+
+.main-logo{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main-logo-image{
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.main-menu{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-menu-item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.main-menu-box {
+  width: 100px;
+  height: 100px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);  
+  transition: box-shadow 0.1s linear;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-menu-box:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.main-menu-text{
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.content-title{
+  display: flex;
+  width: 100%;
+  justify-content: start;
+  margin-left: 5%;
+  }
+
+.content{
+  width: 85%;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top: 30px;
+  margin-bottom: 50px
+}
+.content-card{
+  width: 200px;
+  height: 200px;
+  /* background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),url("../../assets//images/beach_image.jpeg"); */
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 15px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);  
+  transition: box-shadow 0.1s linear;
+
+}
+
+.content-card:hover{
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.content-card p{
+  margin-top: 0;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  color: white;
+}
+
+
+
+.slick-arrow.slick-prev::before {
+  color:black;
+  font-size: 100px;
+  content: '‹';
+
+  position: absolute; /* 절대적 위치 설정 */
+  top: -50px; /* 상하 중앙에 위치 */
+  left: -30px; /* 좌우 중앙에 위치 */
+}
+
+
+
+.slick-arrow.slick-next::before {
+  color:black;
+  font-size: 100px;
+  content: '›';
+
+  position: absolute; /* 절대적 위치 설정 */
+  top: -50px; /* 상하 중앙에 위치 */
+  right: -30px; /* 좌우 중앙에 위치 */
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경의 투명도 조정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 다른 요소보다 위로 올라오도록 설정 */
+}
+
+.modal {
+  width: 400px;
+  height: 500px;
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+  padding:2px;
+  flex-direction: column;
+}
+
+.modal-header{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin: 5px;
+}
+
+.modal-header button{
+  position: absolute;
+  top: 0;
+  right:10px;
+  background-color: white;
+  border: none;
+  font-size: 20px;
+}
+
+.modal-header button:hover{
+  cursor: pointer;
+}
+
+.modal-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.modal-body h3{
+  margin-top: 100px;
+}
+
+
+.kakao-login{
+  border: none;
+  background-color:white;
+  margin-top: 100px;
+}
+
+.kakao-login:hover{
+  cursor: pointer;
+}

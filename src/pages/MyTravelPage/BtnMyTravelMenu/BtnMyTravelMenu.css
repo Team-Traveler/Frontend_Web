@@ -1,0 +1,107 @@
+.menu-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: absolute;
+    bottom: 50px;
+}
+  
+.menu {
+    display: flex;
+    flex-direction: column-reverse;
+    transition: visibility 0s linear 0.1s, opacity 0.1s linear; 
+}
+
+.menu.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.menu.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.menu button {
+    height: 3.8vh;
+    width: 12.4vw;
+    background-color: #95D88A;
+    color: #ffffff;
+    font-family: CooperBlack;
+    font-size: 21px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 20px; /* Optionally, you can add space between items */
+}
+
+.menu button:first-child {
+    height: 3.8vh;
+    width: 12.4vw;
+    background-color: #95D88A;
+    color: #ffffff;
+    font-family: CooperBlack;
+    font-size: 21px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 40px;  /* 또는 원하는 간격 */
+}
+
+.toggle-button {
+    height: 70px; 
+    width: 70px;
+    border-radius: 50%; 
+    background-color: #95D88A;
+    color: #ffffff;
+    border: none;
+}
+
+.button-open {
+    opacity: 1;
+    transition: opacity 0.5s linear;
+}
+
+.button-close {
+    opacity: 0;
+    transition: opacity 0.5s linear;
+}
+
+
+.button-1 {
+    transition-delay: 0.085s;
+}
+
+.button-2 {
+    transition-delay: 0.1s;
+}
+
+.button-3 {
+    transition-delay: 0.115s;
+}
+
+.button-4 {
+    transition-delay: 0.13s;
+}
+
+.button-5 {
+    transition-delay: 0.145s;
+}
+
+.button-close.button-1 {
+    transition-delay: 0.145s; 
+}
+
+.button-close.button-2 {
+    transition-delay: 0.13s; 
+}
+
+.button-close.button-3 {
+    transition-delay: 0.115s;
+}
+
+.button-close.button-4 {
+    transition-delay: 0.1s;
+}
+
+.button-close.button-5 {
+    transition-delay: 0.085s;
+}

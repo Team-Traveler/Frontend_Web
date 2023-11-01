@@ -1,0 +1,167 @@
+#header {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid gray;
+}
+
+#body {
+  height: 100%;
+  width: 1024px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 글쓰기 버튼(하단 우측 고정) */
+#writeBtn{
+  width: 60px;
+  height: 60px;
+  position: fixed; 
+  right: 40px; 
+  bottom: 40px;
+}
+
+/* 검색창 구현 */
+.search-bar{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 70px 0 50px 100px;
+  width: 800px;
+  height: 50px;
+  padding: 6px;
+  border-radius: 50px;
+  background-color: rgb(245, 243, 243);
+}
+
+.search-bar > img{
+  width: 30px;
+  height: 30px;
+}
+
+.search-bar-input{
+  margin-left: 10px;
+  border: none;
+  outline: none;
+  background-color: rgb(245, 243, 243);
+  font-size: medium;
+  font-weight: 400;
+  font-style: caption;
+  color:gray;
+}
+
+/* 마우스 올릴 시 기본 텍스트가 안보이도록
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+.search-bar-input:focus::placeholder{
+  color:transparent;
+}
+
+/* Edge */
+.search-bar-input:focus::-ms-input-placeholder{
+  color:transparent;
+} 
+
+/* 인기순, 최신순 정렬 드롭다운 */
+.sort-btn{
+  display : flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+/* 여행 카드 */
+/* 카드 컨테이너 */
+.xproduct-img-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+/* 찜 목록 */
+.xfavorite-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ddd; /* 별 아이콘 색상 변경 */
+  z-index: 1; /* 아이콘을 이미지 위로 렌더링 */
+}
+
+.xfavorite-icon > img{
+  width: 27px;
+  height: 32px;
+}
+
+/* 카드 리스트 출력 */
+#product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items:center;
+  margin-top: 12px;
+   /* 각 카드 사이의 간격 조정 */
+}
+
+/* 카드 */
+.xproduct-card {
+  z-index: 2;
+  position: relative;
+  width: calc(30% - 12px);
+  height: 350px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+}
+/* 이미지 부분 */
+.xproduct-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지 비율 유지 및 컨테이너에 꽉 차도록 설정 */
+}
+/* 내용 부분 */
+.xproduct-contents{
+  position: absolute;
+  display : flex;
+  flex-direction: column;
+  top: 50%;
+  left: 0%;
+  height: 50%;
+  width: 100%;
+  margin-top: 10px;
+  background-color:rgba(0, 0, 0, 0.6);
+}
+
+.xproduct-contents > * {
+  margin: 15px 0 0 5px;
+}
+
+/* 아이콘 버튼들 */
+.xicons-btn {
+  display: flex;
+  flex-direction : row;
+  align-items: center;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.xicons-btn > *{
+  margin-left: 5px;
+}
+
+.xproduct-title {
+  width: 100%; /* 추가 */
+  color : white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.page-box{
+  text-align: center;
+}

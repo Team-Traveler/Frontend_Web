@@ -1,0 +1,53 @@
+.container {
+    width: 39vw;
+    height: 53vh;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /* background-color will be applied inline due to dynamic theme property */
+  }
+  
+  @media screen and (min-width: 39vw) {
+    .container {
+      width: 90%;
+    }
+  }
+  
+  .mapContainer {
+    width: 39vw;
+    height: 53vh;
+    border: none;
+    border-radius: 30px;
+    position: relative;
+  }
+  
+  .search {
+    width: 20vw;
+    height: 20vh;
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    border-radius: 30px 0px 0px 30px;
+    z-index: 2;
+    font-size: 20px;
+  }
+  
+  .searchBtn {
+    width: 50px;
+    height: 45px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border-radius: 0px 30px 30px 0px;
+    z-index: 2;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  .searchBtn:hover {
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+  }

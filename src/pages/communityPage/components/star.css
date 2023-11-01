@@ -1,0 +1,34 @@
+/* StarRating.css */
+.xstar-rating-card {
+    display: flex;
+    flex-direction: column;
+    border : 1px rgb(169, 169, 169);
+    box-shadow: 1px 1px 5px rgb(169, 168, 168);
+    width: 400px;
+    height: auto;
+    border-radius: 7px;
+ }
+  
+  .xstar-section {
+    margin : 10px 0 10px 15px;
+  }
+  
+  .xstar-section > span{
+    font-size:medium;
+    font-weight: 600; 
+  }
+
+  .xstar-container {
+    display: flex;
+    margin-top: 0px;
+    align-items: center;
+  }
+  
+  .xstar {
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .xstar:last-child {
+    margin-right: 0;
+  }

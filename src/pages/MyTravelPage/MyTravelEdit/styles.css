@@ -1,0 +1,45 @@
+.group490-edit {
+  width: 100%;
+  height: 10.58vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Horizontal centering */
+  justify-content: center; /* Vertical centering */
+}
+
+.Title-edit {
+  width: 14.84vw;
+  height: 5vh;
+  font-family: 'Cooper Black';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 42px;
+  text-align: center;
+  color: #000000;
+}
+
+.subText-edit {
+  width: 100%;
+  height: 2.5vh;
+  font-family: 'Cooper Black';
+  font-style: normal;
+  font-weight: 200;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: #000000;
+  margin-top: 0.5rem; /* You can adjust this to position the subText below the Title as per your design requirements */
+}
+
+.rectangle-edit {
+  box-sizing: border-box;
+  width: 56.95vw;
+  height: 0.6vh;
+  background: #FFFFFF;
+  border: 1px solid #BBBBBB;
+}
+
+.windows-edit{
+  margin-top: 11.65vh;
+}

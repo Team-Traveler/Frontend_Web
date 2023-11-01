@@ -1,0 +1,304 @@
+/* styles.css */
+
+.travel-create-card {
+    margin-top: 2vh;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    padding: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
+    border: 2px solid #757575;  
+    background-color: white;
+}
+
+.travel-card-name {
+    font-size: 30px;
+    text-align: center;
+    font-family: CooperBlack;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.travel-card-duration {
+    margin-left: 10px;
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+    margin-bottom: 10px;
+}
+
+.travel-card-category {
+    margin-left: 20px;
+    font-size: 15px;
+    text-decoration: underline;
+    text-align: center;
+    font-family: CooperBlack;
+    margin-bottom: 15px;
+}
+
+
+
+.travel-create-text {
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+}
+
+.travel-card-button {
+    font-size: 18px;
+    text-align: center;
+}
+
+.my-travel-lists {
+    overflow-y: auto;
+    width: 39vw;
+    height: 51.3vh;
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #000;  /* 테두리 추가 */
+    background-color: white;
+}
+
+.travel-card-create-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;  /* 수직 방향에서 자식 요소들을 중앙 정렬 */
+    margin-left: 40px;
+    margin-top: 20px;
+}
+
+.image-create-container img {
+    position: relative;
+    top: 6vh;  
+    width: 38vw;
+    
+    z-index: 1000;
+}
+
+.date {
+    font-size: 30px;
+    margin-top: 5vh;
+}
+
+.travel-card-empty{
+    font-size: 30px;
+    text-align: match-parent;
+    height: 17.86vh;
+    font-family: CooperBlack;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.container{
+    position: relative;
+    margin-left: 5.6vw;
+    margin-right:5.6vw; 
+}
+
+.edit-create-button {
+    position: absolute;
+    top: 60px; /* 위치 조절 필요 */
+    right: 50px; /* 위치 조절 필요 */
+    width: 2vw;
+    height: 2vw;
+    background: url('./edit.svg');
+    border: none; /* 테두리 제거 */
+    outline: none; /* 클릭 시 나타나는 아웃라인도 제거합니다. */
+    background-size: cover; /* 이미지를 버튼에 꽉 차게 표시 */
+}
+
+.calender-create-button {
+    position: absolute;
+    top: 110px; /* 위치 조절 필요 */
+    right: 50px; /* 위치 조절 필요 */
+    width: 2vw;
+    height: 2vw;
+    background: url('./calender.svg');
+    border: none; /* 테두리 제거 */
+    outline: none; /* 클릭 시 나타나는 아웃라인도 제거합니다. */
+    background-size: cover; /* 이미지를 버튼에 꽉 차게 표시 */
+}
+
+.my-travel-create-lists {
+    position: relative;
+    overflow-y: auto; /* 수직으로만 스크롤 */
+    width: 39vw;
+    height: 56vh;
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    background-color: white;
+
+}
+
+.travel-carrd-delete{
+    margin-right: 20px;
+    width: 100%;
+    font-size: 20px;
+    text-align: right;
+    text-decoration: underline; 
+    font-family: CooperBlack;
+    font-weight: lighter;
+    display: block;
+}
+.travel-card-places{
+    font-size: 20px;
+    text-align: start;
+    font-family: CooperBlack;
+    font-weight: lighter;
+    display: block;
+    white-space: nowrap;
+}
+
+.num-box {
+    width: 1.5vw;
+    height: 1.5vw;
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    margin-right: 2.34vw;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.inputform {
+    display: flex;
+    justify-content: center; /* 자식 요소들을 좌에서 우로 배치 */
+    align-items: center;
+    height: 40px;
+    position: relative;
+    border-radius: 5px; /* 둘레를 살짝 둥글게 */
+    flex-direction: row-reverse; /* 버튼을 왼쪽으로 */
+}
+
+.inputFormContainer {
+    margin-top: 25px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
+    border-radius: 5px; /* 둘레를 살짝 둥글게 */
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
+.search- {
+    font-size: 20px;
+    width: 450px;
+    height: 30px;
+    text-align: center;
+    font-family: 'CooperBlack';
+    border-radius: 0;
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.search-Btn {
+    background-color: #ffffff;
+    border: none;
+    background-image: url('./search.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    margin-left: 10rem; /* 버튼과 검색창 사이의 간격 조정 */
+
+}
+
+.searchBtn:active {
+    transform: none;
+    box-shadow: none;
+}
+
+.result-Style {
+    margin-top: 5px;
+    margin-left: 80px;
+    margin-right: 80px;
+    padding: 0 20px 20px 20px;
+    overflow: scroll;
+    max-height: 500px;
+    position: relative;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
+    border-radius: 5%; /* 둘레를 살짝 둥글게 */
+    background-color: white;
+    opacity: 0.7;
+    z-index: 1;
+    font-size: 17px;
+    color: #000000;
+  }
+  
+  .pagi-nation {
+    margin-top: 1rem;
+  }
+  
+  .pagination a {
+    color: black;
+    font-size: 25px;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .pagination a.on {
+    color: lightblue;
+    font-weight: bold;
+  }
+
+  .item-search-create-container{
+    margin-top: 40px;
+  }
+
+  .item-search-create-container:hover {
+    background-color: #67C65738; /* 원하는 회색 색상 */
+}
+
+.button-create-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-right: 300px;
+
+}
+.button-create-container:last-child {
+    margin-right: 0;  
+}
+.travel-card-empty {
+    font-size: 30px;
+    text-align: match-parent;
+    height: 17.86vh;
+    font-family: CooperBlack;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  .button {
+    width: 30vw;
+    height: 5vh;
+    background-color: #95D88A;
+    color: white;
+    border-radius: 8px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    border: none; 
+    font-size: 20px;
+    text-align: center;
+    font-family: CooperBlack;
+    cursor: pointer;
+    transition: 0.3s; 
+
+    &:active {
+        background-color: #7DBB7A;
+    }
+}

@@ -1,0 +1,133 @@
+/* styles.css */
+
+.xtravel-card {
+  width: 609px;
+  height: 96px;
+  margin: 30px 0;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #757575;
+  background-color: white;
+  position: relative;
+}
+
+
+.xtravel-card-name {
+  margin-left: 20px;
+  font-size: 15px;
+  margin-top: 2vh;
+  text-align: left;
+  font-family: CooperBlack;
+  margin-bottom: 15px;
+}
+
+.xtravel-card-duration {
+  font-size: 20px;
+  text-align: left;
+  font-family: CooperBlack;
+  margin-bottom: 10px;
+}
+
+.xtravel-card-category {
+  margin-left: 20px;
+  font-size: 15px;
+
+  text-align: left;
+  font-family: CooperBlack;
+  margin-bottom: 15px;
+  color: #757575;
+}
+
+.xtravel-card-text {
+  font-size: 20px;
+  text-align: center;
+  font-family: CooperBlack;
+  margin-bottom: 10px;
+}
+
+.xtravel-card-button {
+  font-size: 18px;
+  text-align: center;
+}
+
+.xmy-travel-lists {
+  /* overflow-y: auto; */
+  width: 39vw;
+  height: 51.3vh;
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid #000; /* 테두리 추가 */
+}
+
+.ximage-container img {
+  position: relative;
+  top: 5vh;
+  width: 39vw;
+}
+
+.xdate {
+  font-size: 30px;
+
+  margin-top: 5vh;
+  margin-left: 5.6vw;
+  margin-right: 5.6vw;
+}
+
+.xtravel-card-empty {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 200px;
+  font-family: CooperBlack;
+}
+
+.xmy-travel-emptylists {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Or whatever height you need */
+}
+
+.xcheckbox-label {
+  margin-right: 20px; /* 체크박스 간격 조절 */
+}
+
+.xcheckbox-spacing {
+  width: 10px; /* 원하는 간격 너비 */
+  display: inline-block;
+}
+.xtravel-card-name {
+  position: relative; /* 부모 요소를 기준으로 자식 요소들의 위치를 설정 */
+}
+
+.sss,
+.sss2 {
+  position: absolute; /* 절대 위치로 설정하여 겹치게 함 */
+  top: 0; /* 위쪽으로 정렬 */
+  left: 80px; /* 왼쪽으로 정렬 */
+ 
+}
+
+.sss2 {
+  z-index: 1; 
+  margin-top: 3px;
+  margin-left: 6.5px;/* sss2 이미지를 sss 이미지 위로 겹치게 함 */
+}
+
+.hhh{
+
+ /* 위쪽으로 정렬 */
+  margin-left: 10.5px;
+  position: absolute;
+}
+.ggg1{
+
+  /* 위쪽으로 정렬 */
+   margin-left: 490.5px;
+   position: absolute;
+}
+.ggg2{
+
+  /* 위쪽으로 정렬 */
+   margin-left: 500.5px;
+   position: absolute;
+}

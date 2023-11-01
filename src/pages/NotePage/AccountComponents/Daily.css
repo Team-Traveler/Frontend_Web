@@ -1,0 +1,92 @@
+.account-daily {
+    width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    /* border: 1px solid gray; */
+}
+.account-daily::-webkit-scrollbar {
+    width: 5px;
+}
+.account-daily::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.account-daily::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 20px;
+    height: 20%;
+}
+
+.account-item-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    /* border: 1px solid magenta; */
+}
+
+.account-item-daily-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+.account-item-date {
+    display: flex;
+    justify-content: center;
+    margin-left: 50px;
+}
+.account-item-daily-cost {
+    display: flex;
+    justify-content: center;
+    color: crimson;
+    font-weight: bold;
+}
+
+.account-item {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.account-item-category {
+    width: 220px;
+    display: flex;
+    justify-content: flex-end;
+}
+.account-item-title {
+    width: 220px;
+    display: flex;
+    justify-content: flex-end;
+}
+.account-item-price {
+    width: 220px;
+    display: flex;
+    justify-content: flex-end;
+    color: crimson;
+}
+
+.account-item-del-btn {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-left: 70px;
+}
+
+.account-item-del-btn-diable {
+    width: 20px;
+    height: 20px;
+    margin-left: 70px;
+}
+
+.account-daily-div-line {
+    border-top: 1px solid #d3d3d3;
+    width: 95%;
+    margin: 10px;
+}

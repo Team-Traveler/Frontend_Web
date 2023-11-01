@@ -1,0 +1,86 @@
+/* info.css */
+.xcommunity-page{
+  display: flex;
+  flex-direction: column;
+}
+
+.xcontent-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 900px; /* 최대 너비를 지정 */
+  margin: 10px auto 20px auto; /* 가운데 정렬을 위한 마진 설정 */
+  position: relative;
+}
+
+.xleft-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 0.5;
+}
+  
+.xright-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 0.5;
+}
+
+.info-square{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width : 65%;
+}
+
+.info-square > *{
+  background-color: rgb(156, 184, 148);
+  font-size: large;
+  font-weight : 500;
+  color : white;
+  border-radius: 20px;
+  width: 80px;
+  height : 35px;
+  text-align : center;
+  padding-top:5px;
+}
+
+#footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  background-color: gray;
+  height: auto;
+  padding:10px;
+}
+
+.icon-btn{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon-btn > *{
+  margin-left: 20px;
+}
+
+.comment-btn, .heart-btn {
+  display: flex;
+  align-items: center;
+}
+
+.comment-btn, .heart-btn > *{
+  margin-right: 5px;
+}
+
+.pick-btn{
+  float: right;
+}
+  
+
+    
