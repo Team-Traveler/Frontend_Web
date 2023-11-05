@@ -2,8 +2,7 @@ import React, { useState,useRef,useEffect } from "react";
 import axios from "axios";
 import { useRecoilValue } from 'recoil';
 import { travelsSelector } from '../../../recoil/atoms/travelsreviewStates';
-import {GiPositionMarker} from 'react-icons/gi';
-
+import { ReactComponent as Marker } from './Vector.svg';
 function PickBtnPage(props){
     const travels = useRecoilValue(travelsSelector);
     // 임시
@@ -29,14 +28,13 @@ function PickBtnPage(props){
     //     }
     //     */
     //   };
-    const style = {
-        color: active ? "rgb(156, 184, 148)": "white",
-        fontSize:`${props.size}px`,
-        marginRight : "5px",
-    }
     return(
         <div>
-            <GiPositionMarker style={style} onClick={onClick} />
+            <Marker 
+            height={30}
+            width={30}
+            fill={active ? "#98B4A6" : "white"} 
+            onClick={onClick} />
         </div>
     )
 }

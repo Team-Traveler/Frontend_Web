@@ -16,7 +16,7 @@ function ShowRatingbarPage({intensity, concept, totalStar}){
         if(flag3===false) totalStarArray[i]=false;
     }
 
-    const style = { color:"rgb(156, 184, 148)", 
+    const style = { color:"#9CBBAC", 
                     fontSize:"25px", 
                     marginRight:"5px"};
     return(

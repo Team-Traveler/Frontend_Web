@@ -2,9 +2,12 @@ import { Link, useLocation } from "react-router-dom";
 import "./Nav.css";
 import React,{ useState, useEffect } from "react";
 import { ReactComponent as Logo } from "./Logo.svg";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../.././recoil/atoms/userState";
 
-function Nav() {
+function Nav({onClick}) {
     const location = useLocation();
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
     // 현재 경로에 따라 메뉴 활성화
     const isActive = (path) => {
@@ -19,9 +22,8 @@ function Nav() {
         const handleScroll = () => {
           // 현재 스크롤 위치를 가져옴
           const currentScrollPosition = window.pageYOffset;
-          
           // 스크롤 위치가 메뉴의 위치보다 크거나 같으면 메뉴를 고정
-          if (currentScrollPosition >= 50) {
+          if (currentScrollPosition >= 95) {
             setSticky(true);
           } else {
             setSticky(false);
@@ -40,28 +42,38 @@ function Nav() {
                     <Logo className="nav-logo-image" />
                 </div>
             </Link>
-            <div className="nav-menu">
-                <Link to="/recommend" style={{ textDecoration: "none" }}>
-                    <button className={`nav-menu-item ${isActive("/recommend")}`}>
-                        <div className="nav-menu-box">여행 찾기</div>
+            {userInfo.isLogin ? (
+                <div className="nav-menu">
+                    <Link to="/recommend" style={{ textDecoration: "none" }}>
+                        <button className={`nav-menu-item ${isActive("/recommend")}`}>
+                            <div className="nav-menu-box">여행 찾기</div>
+                        </button>
+                    </Link>
+                    <Link to={`/story`} style={{ textDecoration: "none" }}>
+                        <button className={`nav-menu-item ${isActive("/story")}`}>
+                            <div className="nav-menu-box">스토리</div>
+                        </button>
+                    </Link>
+                    <Link to="/note" style={{ textDecoration: "none" }}>
+                        <button className={`nav-menu-item ${isActive("/note")}`}>
+                            <div className="nav-menu-box">나의 노트</div>
+                        </button>
+                    </Link>
+                    <Link to="/mypage" style={{ textDecoration: "none" }}>
+                        <button className={`nav-menu-item ${isActive("/mypage")}`}>
+                            <div className="nav-menu-box">나의 여행</div>
+                        </button>
+                    </Link>
+                </div>) : (
+                <div className="nav-menu">
+                    <button className="nav-menu-item" onClick={onClick}>
+                        <div className="nav-menu-box">로그인</div>
                     </button>
-                </Link>
-                <Link to={`/story`} style={{ textDecoration: "none" }}>
-                    <button className={`nav-menu-item ${isActive("/story")}`}>
-                        <div className="nav-menu-box">스토리</div>
+                    <button className="nav-menu-item">
+                        <div className="nav-menu-box">회원가입</div>
                     </button>
-                </Link>
-                <Link to="/note" style={{ textDecoration: "none" }}>
-                    <button className={`nav-menu-item ${isActive("/note")}`}>
-                        <div className="nav-menu-box">나의 노트</div>
-                    </button>
-                </Link>
-                <Link to="/mypage" style={{ textDecoration: "none" }}>
-                    <button className={`nav-menu-item ${isActive("/mypage")}`}>
-                        <div className="nav-menu-box">나의 여행</div>
-                    </button>
-                </Link>
-            </div>
+                </div>
+            )}
         </div>
     );
 }

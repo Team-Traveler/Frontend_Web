@@ -17,7 +17,7 @@ function CommentsPage(){
         .then(response=>{
             if(response.data.isSuccess===true){
                 setCommentList(response.data.result);
-                console.log('성공',response.data.result);
+                console.log('댓글 목록',response.data.result);
             }
             else console.log('실패',response.data);
         })

@@ -14,7 +14,7 @@ import PickBtnPage from "../components/scrapBtn";
 function CommunityPage() {
   const [travels,setTravels] = useState([]);
   const [currentPage,setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   //api 호출(비동기를 처리하기 위해 useEffect 처리)
   useEffect(()=>{
@@ -84,7 +84,6 @@ function CommunityPage() {
         <img src={write} alt="writeButton" id="writeBtn"/>
       </Link>
       <div id="body">
-
         <div className="search-bar">
           <input type="text" placeholder="어떤 여행이 궁금하신가요?" className="search-bar-input" onChange={onChange}/>
           <img src={searchLogo} onClick={onClick}/>
@@ -97,7 +96,6 @@ function CommunityPage() {
             })}
           </select>
         </div>
-  
         <div id="product-list">
           {displayedTravels&&displayedTravels.map((travel, index) => (
             <div className="xproduct-card" key={travel.pid}>

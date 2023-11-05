@@ -1,6 +1,7 @@
 .xcommunity-page{
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
       
 .xcontent-wrapper {
@@ -13,6 +14,7 @@
     gap:20px;
 }
     
+/* Left Section */
 .left-section {
     display: flex;
     flex-direction: column;
@@ -20,6 +22,41 @@
     flex: 0.5;
 }
 
+.top-square{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-square{
+    display: flex;
+    flex-direction: row;
+    width : 65%;
+    gap : 10px;
+}
+  
+.info-square-content{
+    background-color: #9CBBAC;
+    font-size: 15px;
+    font-weight : 500;
+    color : white;
+    border-radius: 20px;
+    width: 80px;
+    height : 30px;
+    text-align : center;
+    padding-top:5px;
+}
+
+.course-btn{
+    text-decoration: underline;
+    background-color: white;
+    border : none;
+    color : black;
+    font-size: 16px;
+}
+
+/* Right Section */
 .right-section {
     display: flex;
     flex-direction: column;
@@ -29,8 +66,8 @@
 
 input{
     border:none;
-    font-size: medium;
-    font-weight: 550;
+    font-size: 14px;
+    font-weight: 400;
     width: 500px;
 }
 
@@ -57,9 +94,9 @@ input:focus::-ms-input-placeholder{
    
 .input-user > span{
     margin-left: 10px;
-    font-size: 27px;
+    font-size: 20px;
     font-weight:normal;
-    color : rgb(93, 92, 92);
+    color : #131313;
 }
 
 .input-title{
@@ -74,19 +111,29 @@ input:focus::-ms-input-placeholder{
 
 #title{
     width: 500px;
-    margin: 10px 0 20px 0;
     padding: 10px;
-    border: 1px rgb(179, 178, 178);
-    box-shadow: -1px 1px 5px rgb(171, 171, 171);
-    font-size: 18px;
-    font-weight: 550;
-    color : rgb(93, 92, 92);
+    border-radius: 5px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    font-size: 14px;
+    color : #393939
 }
 
 .input-title > span{
     font-size: 17px;
     font-weight: 550;
-    color : rgb(93, 92, 92);
+    color : #393939
+}
+
+.input-travel-date{
+    width: 500px;
+    height: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    font-size: 14px;
+    color : #696969
 }
 
 .input-travel{
@@ -99,6 +146,7 @@ input:focus::-ms-input-placeholder{
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap : 10px;
 }
 
 .input-travel-title > img{
@@ -108,19 +156,20 @@ input:focus::-ms-input-placeholder{
 }
 
 .input-travel-title > span{
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .input-travel-content{
     width: 500px;
+    height: 20px;
     margin: 10px 0 20px 0;
     padding: 10px;
-    border: 1px rgb(179, 178, 178);
-    box-shadow: -1px 1px 5px rgb(171, 171, 171);
-    font-size: 18px;
-    font-weight: 550;
-    color : rgb(93, 92, 92);
+    border-radius: 5px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    font-size: 14px;
+    color : #393939
 }
 
 .footer{
@@ -133,7 +182,7 @@ input:focus::-ms-input-placeholder{
 .submit-btn{
     height: 50px;
     width: 100px;
-    background-color: rgb(156, 184, 148);
+    background-color: #9CBBAC;
     border: none;
     border-radius: 20px;
     color: white;

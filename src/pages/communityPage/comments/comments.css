@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    border : 4px solid rgb(231, 229, 229);
+    border : 4px solid #FFFFFF;
     border-bottom-color: white;
     border-top-right-radius: 60px;
     border-top-left-radius: 60px;
@@ -23,7 +23,7 @@
     flex-direction: column;
     gap: 10px;
     margin: 0 12px 0 12px;
-    border-bottom : 3px solid rgb(231, 229, 229);
+    border-bottom : 3px solid #FFFFFF;
 }
 
 .user-box{
@@ -45,7 +45,7 @@
 
 .comment-footer{
     margin:0 0 10px 20px;
-    color : gray;
+    color :#C7C7C7;
     font-size: small;
 }
 
@@ -97,7 +97,7 @@ textarea:-ms-input-placeholder {color:#ccc;}
     height: 30px;
     border : none;
     border-radius: 20px;
-    background-color: rgb(156, 184, 148);
+    background-color:#9CBBAC;
     color: white;
     font-size: medium;
     font-weight: 800;

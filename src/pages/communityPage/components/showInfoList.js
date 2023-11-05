@@ -23,31 +23,31 @@ function ShowInfoList({prop}) {
           <span>userId</span>
         </div>
         <div className="info-title">
-          <h1> {travel.title} </h1>
+          <span id="info-title"> {travel.title} </span>
           <span> {travel.location} | 3박4일 </span>
           <span> 2022.10.09 ~ 2022.10.12 </span>
         </div>
         <div className="info-travel">
           <div className="info-travel-title">
-            <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> <span> 추천 장소 </span>
+          <GiPositionMarker style={{color:"#9CBBAC",fontSize:"30px"}}/><span> 추천 장소 </span>
           </div>
           <div className="info-travel-content" id="recommended">
             속초 중앙시장, 어쩌구바다, 어쩌구횟집
           </div>
           <div className="info-travel-title">
-            <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> <span> Good </span>
+            <GiPositionMarker style={{color:"#9CBBAC",fontSize:"30px"}}/> <span> Good </span>
           </div>
           <div className="info-travel-content" id="good">
             {travel.goodPoints}
           </div>
           <div className="info-travel-title">
-            <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> <span> Bad </span>
+            <GiPositionMarker style={{color:"#9CBBAC",fontSize:"30px"}}/> <span> Bad </span>
           </div>
           <div className="info-travel-content" id="bad">
             {travel.badPoints}
           </div>        
           <div className="info-travel-title">
-              <GiPositionMarker style={{color:"rgb(156, 184, 148)", fontSize:"30px"}}/> <span> 한줄 평 </span>
+              <GiPositionMarker style={{color:"#9CBBAC", fontSize:"30px"}}/> <span> 한줄 평 </span>
           </div>
           <div className="info-travel-content" id="review">
             {travel.oneLineReview}

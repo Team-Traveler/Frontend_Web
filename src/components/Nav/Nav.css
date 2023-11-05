@@ -2,7 +2,8 @@
 .nav {
     display: flex;
     height:65px;
-    background-color: #f5f5f5;
+    width: 100%;
+    background-color: #F9F9F9;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -57,7 +58,7 @@
 }
 
 .nav-menu-item:hover {
-    background-color: rgb(156, 184, 148);
+    background-color: #9CBBAC;
     color: #f5f4f4;
     width: 100px;
     height: 50px;
@@ -65,7 +66,7 @@
 
 /* 활성화 돼있는 메뉴인 경우*/
 .active{
-    background-color:  rgb(156, 184, 148);
+    background-color:  #9CBBAC;
     color: #f5f4f4;
     width: 100px;
     height: 50px;

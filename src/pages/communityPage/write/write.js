@@ -2,25 +2,53 @@ import './write.css'
 import React, { useState } from "react";
 import {BsPersonCircle} from 'react-icons/bs';
 import Nav from "../../../components/Nav/Nav";
-import TravelCard from '../components/trip';
-import {GiPositionMarker} from 'react-icons/gi';
 import ImageUploadBox from '../components/imgUpload'
 import StarRating from '../components/star';
-// 이 페이지에서 데이터 가져와서 보여주기
+import { Checkbox } from 'antd';
+import {ReactComponent as Marker} from '../components/Vector.svg';
+import Modal from "../../../components/Modal/Modal";
 
 function WritePage() {
+    const [showModal, setShowModal] = useState(false);
     const [value, setValue] = useState({
         title : "",
         goodPoints : "",
         badPoints : "",
         oneLineReview : "",
+        location : "",
         hashtags : [] 
        });
+    // 체크 박스
+    const [checklist, setChecklist] = useState(false);
+    const [book, setBook] = useState(false);
+    // 코스 선택 시 갖고 오는 값 
     const [what,setWhat] = useState(0);
     const [withwho,setWithwho] = useState(0);
     const [hard,setHard] = useState(0);
+    const [location,setLocation] = useState("");
+    // 별점
     const [ratings, setRatings] = useState([0, 0, 0]); // 0: 컨셉(what), 1: 강도(hard), 2: 총 별점(total)
     const [images,setImages] = useState([]);
+
+    // 모달 관리
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    // 체크 박스 핸들러
+    const onChangeCheckBox1 = (e) => {
+        setChecklist(!checklist);
+        console.log('체크리스트 공유 선택', checklist);
+    };
+
+    const onChangeCheckBox2 = (e) => {
+        setBook(!book);
+        console.log('가계부 공유 선택', book);
+    };
 
     const onChangeHandler = (e) => {
         //hashtags를 #단위로 나눠서 배열에 저장
@@ -38,6 +66,10 @@ function WritePage() {
         }
     };
     
+    const onCourse= (e) => {
+        openModal();
+    }
+
     const onSubmit = (e)=>{
         const formData = new FormData();
         formData.append("imageFile",images);
@@ -60,66 +92,89 @@ function WritePage() {
     return (
         <div className="xcommunity-page">
             <Nav />
-                <div className="xcontent-wrapper">
-                    <div className="left-section">
-                        <TravelCard setWhat={setWhat} setHard={setHard} setWithwho={setWithwho} />
-                        <ImageUploadBox setImages={setImages}/>
-                        <div className="star-ratingbar">
-                            <StarRating setRatings={setRatings}/>
+            {showModal && (
+                <Modal
+                    closeModal={closeModal}
+                    headerTitle={<h3>코스 선택</h3>}
+                    size = "large"
+                >
+                </Modal>
+            )}
+            <div className="xcontent-wrapper">
+                <div className="left-section">
+                    <div className="top-square">
+                        <div className="info-square">
+                            <div className="info-square-content">
+                                {/* {whatArray[travel.what-1]} */}
+                            </div>
+                            <div className="info-square-content">
+                                {/* {hardArray[travel.hard-1]} */}
+                            </div>
+                            <div className="info-square-content">
+                                {/* {withwhoArray[travel.withwho-1]} */}
+                            </div>
                         </div>
+                        <button className="course-btn" onClick={onCourse}>코스 선택</button>
                     </div>
-                    <div className="right-section">
-                        <div className = "input-info-box">
-                            <div className="input-user">
-                                <BsPersonCircle style={{color:"gray", fontSize:"30px"}}/> 
-                                <span>userId</span>
+                    <ImageUploadBox setImages={setImages}/>
+                    <div className="star-ratingbar">
+                        <StarRating setRatings={setRatings}/>
+                    </div>
+                </div>
+                <div className="right-section">
+                    <div className = "input-info-box">
+                        <div className="input-user">
+                            <BsPersonCircle style={{color:"gray", fontSize:"30px"}}/> 
+                            <span>userId</span>
+                        </div>
+                        <div className="input-title">
+                            <input className="input-box" id="title" maxLength={28} placeholder="제목을 입력하세요" name="title" onChange={onChangeHandler} />
+                            <div className='input-travel-date'>
+                                출발 날짜 | 도착 날짜
                             </div>
-                            <div className="input-title">
-                                <input className="input-box" id="title" maxLength={28} placeholder="제목 작성" name="title" onChange={onChangeHandler} />
-                                <div className="input-travel-info">
-                                </div>
-                                <div className='input-travel-date'>
-                                </div>
-                            </div>
-                            <div className="input-travel">
-                                <div className="input-travel-title">
-                                    <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> 
-                                    <span> 추천 장소 </span>
-                                </div>
-                                <div className="input-travel-content">
-                                    <input id="recommended" placeholder="추천 장소 추가"/>
-                                </div>
-                                <div className="input-travel-title">
-                                    <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> 
-                                    <span> Good </span>
-                                </div>
-                                <div className="input-travel-content" >
-                                    <input id="good" placeholder="장점 작성" name="goodPoints" onChange={onChangeHandler} />
-                                </div>
-                                <div className="input-travel-title">
-                                    <GiPositionMarker style={{color:"rgb(156, 184, 148)",fontSize:"30px"}}/> 
-                                    <span> Bad </span>
-                                </div>
-                                <div className="input-travel-content" >
-                                    <input id="bad" placeholder="단점 작성" name="badPoints" onChange={onChangeHandler} />
-                                </div>        
-                                <div className="input-travel-title">
-                                    <GiPositionMarker style={{color:"rgb(156, 184, 148)", fontSize:"30px"}}/> 
-                                    <span> 한줄 평 </span>
-                                </div>
-                                <div className="input-travel-content" >
-                                    <input id="review" placeholder="한줄 평 작성" name="oneLineReview" onChange={onChangeHandler} />
-                                </div>
+                        </div>
+                        <div className="input-travel">
+                            <div className="input-travel-title">
+                                <Marker/> <span> 추천 장소 </span>
                             </div>
                             <div className="input-travel-content">
-                                <input id="hashtag" placeholder="해시태그 작성" name="hashtags" onChange={onChangeHandler}/>
+                                <input id="recommended" placeholder="추천 장소를 입력하세요."/>
                             </div>
+                            <div className="input-travel-title">
+                                <Marker/> <span> Good </span>
+                            </div>
+                            <div className="input-travel-content" >
+                                <input id="good" placeholder="좋았던 점을 입력하세요." name="goodPoints" onChange={onChangeHandler} />
+                            </div>
+                            <div className="input-travel-title">
+                                <Marker/> <span> Bad </span>
+                            </div>
+                            <div className="input-travel-content" >
+                                <input id="bad" placeholder="안 좋았던 점을 입력하세요" name="badPoints" onChange={onChangeHandler} />
+                            </div>        
+                            <div className="input-travel-title">
+                                <Marker/> <span> 한줄 평 </span>
+                            </div>
+                            <div className="input-travel-content" >
+                                <input id="review" placeholder="여행을 한 줄로 평가해주세요" name="oneLineReview" onChange={onChangeHandler} />
+                            </div>
+                            <div className="input-travel-title">
+                                <Marker/> <span> 나의 노트 공유 </span>
+                            </div>
+                            <div className="input-travel-content" >
+                                <Checkbox onChange={onChangeCheckBox1}>체크리스트</Checkbox>
+                                <Checkbox onChange={onChangeCheckBox2}>가계부</Checkbox>
+                            </div>
+                        </div>
+                        <div className="input-travel-content">
+                            <input id="hashtag" placeholder="#를 누르고 해시태그를 입력하세요(최대 15개)" name="hashtags" onChange={onChangeHandler}/>
                         </div>
                     </div>
                 </div>
-                <div className="footer">
-                    <button className="submit-btn" type='submit' onClick={onSubmit}> 게시하기 </button>
-                </div>
+            </div>
+            <div className="footer">
+                <button className="submit-btn" type='submit' onClick={onSubmit}> 게시하기 </button>
+            </div>
         </div>
     );
 }
