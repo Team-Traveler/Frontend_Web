@@ -22,6 +22,18 @@ h1{
     color : #393939;
 }
 
+.profile-box {
+    width: 26px;
+    height: 26px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.profile-box > img{
+    height: 26px;
+    width: 26px;
+}
+
 .info-title{
     display: flex;
     flex-direction: column;
@@ -36,11 +48,12 @@ h1{
 #info-title{
     color: black;
     font-size: 24px;
+    font-weight: 550;
     margin-bottom : 5px;
 }
 
 .info-travel{
-    margin-top: 10px;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
 }
@@ -49,12 +62,7 @@ h1{
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-.info-travel-title > img{
-    width: 20px;
-    height: 30px;
-    margin-right: 7px;
+    gap : 5px;
 }
 
 .info-travel-title > span{

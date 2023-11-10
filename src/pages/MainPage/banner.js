@@ -21,9 +21,9 @@ function BannerSlide(){
             setBannerList(response.data);
             console.log('추천 여행 리스트', response.data);
         }
-        else console.log('실패',response);
+        else console.log('추천 여행 리스트 불러오기 실패',response);
     })
-    .catch(e=>console.log('error',e))
+    .catch(e=>{console.log('error',e)})
     }
 
     useEffect (() =>{
@@ -37,7 +37,7 @@ function BannerSlide(){
         slidesPerView={2}
         loop={true}
         centeredSlides={true}
-        autoplay={{ delay: 2000}}
+        autoplay={{ delay: 2000, disableOnInteraction: false}}
         >
             {bannerList&&bannerList.map((banner,index)=>(
             <SwiperSlide key={index}>

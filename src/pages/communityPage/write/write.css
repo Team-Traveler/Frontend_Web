@@ -1,7 +1,8 @@
 .xcommunity-page{
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    max-height: 100vh;
+
 }
       
 .xcontent-wrapper {
@@ -91,12 +92,24 @@ input:focus::-ms-input-placeholder{
     align-items: center;
     margin-bottom : 7px;
 }
-   
+
+.profile-box {
+    width: 26px;
+    height: 26px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.profile-box > img{
+    height: 26px;
+    width: 26px;
+}
+
 .input-user > span{
     margin-left: 10px;
     font-size: 20px;
     font-weight:normal;
-    color : #131313;
+    color : #393939;
 }
 
 .input-title{

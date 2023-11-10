@@ -7,8 +7,11 @@ import StarRating from '../components/star';
 import { Checkbox } from 'antd';
 import {ReactComponent as Marker} from '../components/Vector.svg';
 import Modal from "../../../components/Modal/Modal";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../../recoil/atoms/userState";
 
 function WritePage() {
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [showModal, setShowModal] = useState(false);
     const [value, setValue] = useState({
         title : "",
@@ -88,18 +91,9 @@ function WritePage() {
         console.log(jsonMerge);
         alert('submit!');
     }
-
     return (
         <div className="xcommunity-page">
             <Nav />
-            {showModal && (
-                <Modal
-                    closeModal={closeModal}
-                    headerTitle={<h3>코스 선택</h3>}
-                    size = "large"
-                >
-                </Modal>
-            )}
             <div className="xcontent-wrapper">
                 <div className="left-section">
                     <div className="top-square">
@@ -124,8 +118,10 @@ function WritePage() {
                 <div className="right-section">
                     <div className = "input-info-box">
                         <div className="input-user">
-                            <BsPersonCircle style={{color:"gray", fontSize:"30px"}}/> 
-                            <span>userId</span>
+                            <div className='profile-box'>
+                                <img src={userInfo.profileImage}/>
+                            </div>
+                            <span>{userInfo.nickname}</span>
                         </div>
                         <div className="input-title">
                             <input className="input-box" id="title" maxLength={28} placeholder="제목을 입력하세요" name="title" onChange={onChangeHandler} />
@@ -135,31 +131,36 @@ function WritePage() {
                         </div>
                         <div className="input-travel">
                             <div className="input-travel-title">
-                                <Marker/> <span> 추천 장소 </span>
+                                <Marker height={30} width={30} fill=" #98B4A6"/> 
+                                <span> 추천 장소 </span>
                             </div>
                             <div className="input-travel-content">
                                 <input id="recommended" placeholder="추천 장소를 입력하세요."/>
                             </div>
                             <div className="input-travel-title">
-                                <Marker/> <span> Good </span>
+                                <Marker height={15} width={20} fill=" #98B4A6"/> 
+                                <span> Good </span>
                             </div>
                             <div className="input-travel-content" >
                                 <input id="good" placeholder="좋았던 점을 입력하세요." name="goodPoints" onChange={onChangeHandler} />
                             </div>
                             <div className="input-travel-title">
-                                <Marker/> <span> Bad </span>
+                                <Marker height={15} width={20} fill=" #98B4A6"/> 
+                                <span> Bad </span>
                             </div>
                             <div className="input-travel-content" >
                                 <input id="bad" placeholder="안 좋았던 점을 입력하세요" name="badPoints" onChange={onChangeHandler} />
                             </div>        
                             <div className="input-travel-title">
-                                <Marker/> <span> 한줄 평 </span>
+                                <Marker height={15} width={20} fill=" #98B4A6"/> 
+                                <span> 한줄 평 </span>
                             </div>
                             <div className="input-travel-content" >
                                 <input id="review" placeholder="여행을 한 줄로 평가해주세요" name="oneLineReview" onChange={onChangeHandler} />
                             </div>
                             <div className="input-travel-title">
-                                <Marker/> <span> 나의 노트 공유 </span>
+                                <Marker height={15} width={20} fill=" #98B4A6"/> 
+                                <span> 나의 노트 공유 </span>
                             </div>
                             <div className="input-travel-content" >
                                 <Checkbox onChange={onChangeCheckBox1}>체크리스트</Checkbox>
@@ -175,6 +176,14 @@ function WritePage() {
             <div className="footer">
                 <button className="submit-btn" type='submit' onClick={onSubmit}> 게시하기 </button>
             </div>
+            {showModal && (
+                <Modal
+                    closeModal={closeModal}
+                    headerTitle={<h3>코스 선택</h3>}
+                    size = "large"
+                >
+                </Modal>
+            )}
         </div>
     );
 }

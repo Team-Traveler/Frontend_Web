@@ -2,12 +2,12 @@ import React, { useState,useEffect } from "react";
 import "./showInfoList.css";
 import {BsPersonCircle} from 'react-icons/bs';
 import {GiPositionMarker} from 'react-icons/gi';
+import { ReactComponent as Marker } from './Vector.svg';
 
 function ShowInfoList({prop}) {
   const [travel,setTravel] = useState(null);
   
   const infoSet = async ()=>{
-    console.log('info',prop);
     if(prop) await setTravel(prop);
   }
 
@@ -19,8 +19,10 @@ function ShowInfoList({prop}) {
     return (
       <div className="info-list-box">
         <div className="info-user">
-          <BsPersonCircle style={{color:"gray", fontSize:"30px"}}/> 
-          <span>userId</span>
+          <div className='profile-box'>
+            <img src={travel.user.profile_image_url}/> 
+          </div> 
+          <span>{travel.user.nickname}</span>
         </div>
         <div className="info-title">
           <span id="info-title"> {travel.title} </span>
@@ -29,25 +31,25 @@ function ShowInfoList({prop}) {
         </div>
         <div className="info-travel">
           <div className="info-travel-title">
-          <GiPositionMarker style={{color:"#9CBBAC",fontSize:"30px"}}/><span> 추천 장소 </span>
+            <Marker height={15} width={15} fill="#9CBBAC"/><span> 추천 장소 </span>
           </div>
           <div className="info-travel-content" id="recommended">
             속초 중앙시장, 어쩌구바다, 어쩌구횟집
           </div>
           <div className="info-travel-title">
-            <GiPositionMarker style={{color:"#9CBBAC",fontSize:"30px"}}/> <span> Good </span>
+            <Marker height={15} width={15} fill="#9CBBAC"/> <span> Good </span>
           </div>
           <div className="info-travel-content" id="good">
             {travel.goodPoints}
           </div>
           <div className="info-travel-title">
-            <GiPositionMarker style={{color:"#9CBBAC",fontSize:"30px"}}/> <span> Bad </span>
+            <Marker height={15} width={15} fill="#9CBBAC"/> <span> Bad </span>
           </div>
           <div className="info-travel-content" id="bad">
             {travel.badPoints}
           </div>        
           <div className="info-travel-title">
-              <GiPositionMarker style={{color:"#9CBBAC", fontSize:"30px"}}/> <span> 한줄 평 </span>
+            <Marker height={15} width={15} fill="#9CBBAC"/> <span> 한줄 평 </span>
           </div>
           <div className="info-travel-content" id="review">
             {travel.oneLineReview}

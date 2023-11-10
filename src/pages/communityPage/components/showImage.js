@@ -15,7 +15,6 @@ function ShowImagePage({img}){
     }
     useEffect(()=>{
         imgApi()
-        console.log(images);
     },[img]);
 
     // 이미지 슬라이드

@@ -1,6 +1,6 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
-
+import './Modal.css';
 // 모달 컴포넌트
 // headerTitle: 모달 헤더 제목
 // size: 모달 크기 (small, large)

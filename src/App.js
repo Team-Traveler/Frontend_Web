@@ -16,8 +16,7 @@ import { useRecoilState } from "recoil";
 
 function App() {
     const [userInfo] = useRecoilState(userInfoState);
-    //const isLogin = userInfo.isLogin;
-    const isLogin = true;
+    const isLogin = userInfo.isLogin;
     return (
         <div className="App">
             <Routes>

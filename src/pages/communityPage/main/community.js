@@ -9,12 +9,44 @@ import { Link } from "react-router-dom";
 import { API } from "../../../config";
 import CommentBtnPage from "../components/commentBtn";
 import HeartBtnPage from "../components/heartBtn";
-import PickBtnPage from "../components/scrapBtn";
+import PickBtnPage from "../components/PickBtn";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../../recoil/atoms/userState";
 
 function CommunityPage() {
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [scrapList,setScrapList] = useState([]);
+  const [likeList,setLikeList] = useState([]);
   const [travels,setTravels] = useState([]);
   const [currentPage,setCurrentPage] = useState(1);
+
   const itemsPerPage = 8;
+
+  // 내 찜 목록 api
+  const scrapListApi = async()=>{
+      await axios.get(`${API.HEADER}/users/myScrap`,{ headers: {Authorization:userInfo.accessToken,}})
+      .then(response=>{
+          if(response.data.isSuccess){
+              setScrapList(response.data.result);
+              console.log('내 찜 목록',response.data.result);
+          }
+          else console.log('찜 목록 불러오기 실패',response.data.result);
+      })
+      .catch(e=>{console.log('error',e)})
+  }
+
+  // 좋아요 여행 리스트 API 호출
+  const likeListApi = async()=>{
+    await axios.get(`${API.HEADER}/users/myLike`,{ headers: {Authorization:userInfo.accessToken,}})
+    .then(response=>{
+        if(response.data.isSuccess){
+            setLikeList(response.data.result);
+            console.log('내 좋아요 목록',response.data.result);
+        }
+        else console.log('좋아요 목록 불러오기 실패',response.data.result);
+    })
+    .catch(e=>{console.log('error',e)})
+}
 
   //api 호출(비동기를 처리하기 위해 useEffect 처리)
   useEffect(()=>{
@@ -27,6 +59,11 @@ function CommunityPage() {
         else console.log(response.data);
     })
     .catch(e=>console.log('error',e))
+
+    if(userInfo.isLogin){
+          scrapListApi();
+          likeListApi();
+    }
   },[]);
 
   //페이징 구현
@@ -64,18 +101,18 @@ function CommunityPage() {
   ];
   const [sortType, setSortType] = useState(sortOptions[0]);
 
-  useEffect(() => {
-    const newTravles=(sortType==="인기순")?([...travels].sort((a,b)=>a.likes-b.likes))
-                                          :([...travels].sort((a,b)=>a.created_at-b.created_at));
-    setTravels(newTravles);
-  }, [sortType]);
-
   const changeSortType = (e) => {
     const selectedType = sortOptions.find(
       (type) => type.title === e.target.value
     );
     setSortType(selectedType);
   };
+
+  useEffect(() => {
+    const newTravles=(sortType==="인기순")?([...travels].sort((a,b)=>a.likes-b.likes))
+                                          :([...travels].sort((a,b)=>a.created_at-b.created_at));
+    setTravels(newTravles);
+  }, [sortType]);
 
   return (
     <div className="community-page">
@@ -108,13 +145,15 @@ function CommunityPage() {
                   />
                 </Link>
                 <div className="xfavorite-icon">
-                  <PickBtnPage size="40" pId={travel.pid}/>
+                  <PickBtnPage size="40" pid={travel.pid} 
+                  pick={scrapList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true} />
                 </div>
               </div>
               <div className="xproduct-contents">
                 <div className="xicons-btn">
                     <CommentBtnPage pId={travel.pid} size="20"/>
-                    <HeartBtnPage pId={travel.pid} size="20"/>
+                    <HeartBtnPage pId={travel.pid} count={travel.likes} size="20"
+                    like={likeList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true}/>
                 </div>
                 <span className="xproduct-title">
                   {travel?.title}

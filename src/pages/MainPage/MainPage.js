@@ -3,9 +3,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../.././recoil/atoms/userState";
 import { Link, useNavigate } from "react-router-dom";
 import "./MainPage.css";
-// swiper 슬라이드
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+import {UpOutlined, DownOutlined} from '@ant-design/icons';
 // api
 import axios from "axios";
 import { API } from "../../config";
@@ -14,10 +12,13 @@ import Nav from "../../components/Nav/Nav";
 import kakaoLoginButton from "../../assets/images/kakao_login_medium_narrow.png";
 import useLogout from "../../services/useLogout";
 import Modal from "../../components/Modal/Modal";
+import TravelCardList from "../../components/TravelCardList/TravelCardList";
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
+    const [showScrapModal,setShowScrapModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const [scrapList, setScrapList] = useState([]);
 
     const navigate = useNavigate();
 
@@ -57,10 +58,18 @@ function MainPage() {
         }
     };
 
-    // 이미지 슬라이드 이미지 스타일
-    const imageStyle = (imageUrl) => ({
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url("${imageUrl}")`,
-    });
+    /* setShow함수를 onClick에 직접 대입하면 무한 렌더링 에러 발생함*/
+    // 찜한 여행 펼치기 눌렀을 때
+    const onClickUp = (e)=>{
+        setShowScrapModal(true);
+        console.log('showScrapModal',showScrapModal);
+    }
+
+    // 찜한 여행 닫기 눌렀을 때
+    const onClickDown = (e)=>{
+        setShowScrapModal(false);
+        console.log('showScrapModal',showScrapModal);
+    }
 
     return (
         <div className="main-body">
@@ -80,12 +89,17 @@ function MainPage() {
                     </button>
                 </Modal>
             )}
+            {/* 로그인 한 경우에만 나의 찜한 여행 보여주기 */}
             {userInfo.isLogin && (
-            <div className="like-travel-box">
-                {/* 로그인 한 경우에만 나의 찜한 여행 보여주기 */}
-                <h3 className="content-title"> {userInfo.nickname}님의 찜한 여행 </h3>
-                <div className="like-travel-list">
-
+            <div className={showScrapModal ? "modal-box up" : "modal-box"}>
+                <div className={showScrapModal ? "like-travel-box up" : "like-travel-box"}>
+                    {showScrapModal ? 
+                    <DownOutlined onClick={onClickDown} className="scrap-list-btn"/> :          
+                    <UpOutlined onClick={onClickUp} className="scrap-list-btn"  />}
+            
+                    <h3 className="content-title"> {userInfo.nickname}님이 찜한 여행 </h3>
+                
+                    <TravelCardList/>
                 </div>
             </div>
             )}
