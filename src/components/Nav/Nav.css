@@ -1,10 +1,10 @@
 /*          nav             */
 .nav {
     display: flex;
+    flex-direction: row;
     height:65px;
     width: 100%;
     background-color: #F9F9F9;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 5px;
@@ -21,6 +21,9 @@
 }
 
 .nav-logo {
+    position: absolute;
+    left:10px;
+    top :10px;
     margin-top:10px;
     margin-left:50px;
     /* border: 1px solid red; */
@@ -37,7 +40,6 @@
     justify-content: center;
     align-items: center;
     width: 700px;
-    height: 65px;
     margin-bottom: 10px;
     margin-top: 10px;
 }
@@ -64,6 +66,15 @@
     height: 50px;
 }
 
+#navbar_toggle{
+    display: none;
+    border: none;
+    background: none;
+    position: absolute;
+    right: 10px;
+    top : 15px;
+}
+
 /* 활성화 돼있는 메뉴인 경우*/
 .active{
     background-color:  #9CBBAC;
@@ -71,3 +82,31 @@
     width: 100px;
     height: 50px;
 }
+
+/* 미디어 쿼리 추가 */
+@media (max-width: 720px) {
+    #navbar_toggle{
+        display: block;
+    }
+
+    .nav.open{
+        display: flex;
+        flex-direction: column;
+        justify-content: first baseline;
+        height: 300px;
+    }
+
+    .nav-menu{
+        display: none;
+    }
+
+    .nav-menu.open{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+}
+

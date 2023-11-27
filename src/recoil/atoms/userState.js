@@ -8,9 +8,9 @@ export const userInfoState = atom({
         id: "",
         name: "",
         email: "",
-        nickname: "",
+        nickname: "Elmo",
         profileImage: "",
-        isLogin: false,
+        isLogin: true,
         accessToken: "",
     },
 });

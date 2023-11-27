@@ -8,6 +8,7 @@ import HeartBtnPage from "../../../src/pages/communityPage/components/heartBtn";
 import PickBtnPage from "../../../src/pages/communityPage/components/PickBtn";
 import axios from "axios";
 import { API } from "../../config";
+import CountDay from "../../pages/communityPage/components/countDay";
 
 function TravelCardList(){
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -39,7 +40,7 @@ function TravelCardList(){
         })
         .catch(e=>{console.log('error',e)})
     }
-
+    
     useEffect(()=>{
         if(userInfo.isLogin){
             scrapListApi();
@@ -50,29 +51,30 @@ function TravelCardList(){
     return(
     <div className="like-travel-list">
         {scrapList.map((travel,index)=>(
-        <div className="product-card" key={travel.postResponse.pid}>
+        <div className="product-card" key={travel.pid}>
             <div className="product-img-container">
-                <Link to={`/story/${travel.postResponse.pid}`} key={travel.postResponse.pid}>
+                <Link to={`/story/${travel.pid}`} key={travel.pid}>
                 <img
                     className="product-img"
-                    src={require("../../../src/assets/images/sea.jpg")}
+                    src={travel.image_url}
                     alt={`Travel ${index}`}
                 />
                 </Link>
                 <div className="favorite-icon">
-                <PickBtnPage size="40" pid={travel.postResponse.pid} pick={true}/>
+                <PickBtnPage size="40" pid={travel.pid} pick={true}/>
                 </div>
             </div>
             <div className="product-contents">
                 <div className="icons-btn">
-                    <CommentBtnPage pId={travel.postResponse.pid} size="20"/>
-                    <HeartBtnPage pId={travel.postResponse.pid} count={0} size="20"
-                    like={likeList.findIndex(i=>i.postResponse.pid === travel.postResponse.pid) === -1 ? false : true}/>
+                    <CommentBtnPage pId={travel.pid} size="20"/>
+                    <HeartBtnPage pId={travel.pid} count={travel.like} size="20"
+                    like={likeList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true}/>
                 </div>
                 <span className="product-title">
-                {travel.postResponse.title}
+                {travel.p_title}
                 </span>{" "}
-                <span style={{color:"white"}}>{travel?.location} | {'2박3일'}</span>
+                <span style={{color:"white"}}>{travel?.location} | 
+                <CountDay start_date={travel.start_date} end_date={travel.end_date}/></span>
             </div>
         </div>
         ))

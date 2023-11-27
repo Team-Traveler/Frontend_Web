@@ -1,55 +1,37 @@
-import { atom, selector } from 'recoil';
+import { atom} from 'recoil';
 
 export const travelsState = atom({
-  key: 'travelsState',
-  default: [
+  key : "travelsState",
+  default : 
     {
-        id: 1,
-        name: "null",
-
-        dcId: 1,
-        spot1: '호텔',
-        spot2: '롯폰기 힐스',
-        spot3: "롯폰기 케야키자카",
-        spot4: '공원',
-        first: 30000,
-        second: 1000,
-        third: 500,
-        spot1_lat: 37.715133,
-        spot1_lon:  126.734086,
-        spot2_lat: 38.715133,
-        spot2_lon:  127.734086,
-        spot3_lat: 39.715133,
-        spot3_lon:  128.734086,
-        numOfDay: 3,
-        tid: 1,
-
-      }
-  ],
-});
-
-export const modifyTravels = selector({
-  key: 'modifyTravels',
-  get: ({ get }) => {
-    return get(travelsState);
-  },
-  set: ({ set }, action) => {
-    const currentList = set(travelsState);
-    switch (action.type) {
-      case 'ADD':
-        return [...currentList, action.payload];
-      case 'DELETE':
-        return currentList.filter(travel => travel.tid !== action.payload.tid);
-      default:
-        return currentList;
+        "title": "여수 투어",
+        "destination": "여수",
+        "start_date": "2023-08-18 09:00:00",
+        "end_date": "2023-08-20 09:00:00",
+        "created_at": "2023-08-17 01:07:27",
+        "time_status": 1,
+        "writeStatus": 0,
+        "noteStatus": 0,
+        "courses": [
+            {
+                "dcId": 41,
+                "spot1": {
+                    "title": "오동도 김밥",
+                    "latitude": 38.35901,
+                    "longitude": 37.9857,
+                    "sid": 170
+                },
+                "spot2": null,
+                "spot3": null,
+                "spot4": null,
+                "first": null,
+                "second": null,
+                "third": null,
+                "numOfDay": 1
+            }
+        ],
+        "tid": 1,
+        "uid": 1,
+        "isMy": false,
     }
-  },
 });
-
-export const findTravelById = selector({
-    key: 'findTravelById',
-    get: ({ get }) => (id) => {
-      const travelList = get(travelsState);
-      return travelList.find(travel => travel.id === id);
-    },
-  });

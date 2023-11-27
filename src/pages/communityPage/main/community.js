@@ -48,24 +48,6 @@ function CommunityPage() {
     .catch(e=>{console.log('error',e)})
 }
 
-  //api 호출(비동기를 처리하기 위해 useEffect 처리)
-  useEffect(()=>{
-    axios.get(API.COMMUNITY)
-    .then(response => {
-        if(response.data.isSuccess === true){   
-            setTravels(response.data.result);
-            console.log(travels);
-        }
-        else console.log(response.data);
-    })
-    .catch(e=>console.log('error',e))
-
-    if(userInfo.isLogin){
-          scrapListApi();
-          likeListApi();
-    }
-  },[]);
-
   //페이징 구현
   const handleChangePage = (page) => {
     setCurrentPage(page);
@@ -81,12 +63,10 @@ function CommunityPage() {
   };
 
   const onClick = (e)=>{
-    console.log(search);
     axios.get(API.COMMUNITY, {params: {keyword: search}})
     .then(response => {
         if(response.data.isSuccess === true){   
             setTravels(response.data.result);
-            console.log(travels);
         }
         else console.log(response.data);
     })
@@ -95,24 +75,40 @@ function CommunityPage() {
 
   
   // 인기순, 최신순 정렬 버튼
-  const sortOptions = [
-    { title: "인기순", property: "popular" },
-    { title: "최신순", property: "late" },
-  ];
-  const [sortType, setSortType] = useState(sortOptions[0]);
+  const sortOptions = ["인기순", "최신순"];
+  const [sortType, setSortType] = useState(sortOptions[0]); // 기본 인기순
 
   const changeSortType = (e) => {
-    const selectedType = sortOptions.find(
-      (type) => type.title === e.target.value
-    );
-    setSortType(selectedType);
+    // const selectedType = sortOptions.find(
+    //   (type) => type.title === e.target.value
+    // );
+    setSortType(e.target.value);
   };
 
-  useEffect(() => {
-    const newTravles=(sortType==="인기순")?([...travels].sort((a,b)=>a.likes-b.likes))
-                                          :([...travels].sort((a,b)=>a.created_at-b.created_at));
-    setTravels(newTravles);
-  }, [sortType]);
+  //api 호출(비동기를 처리하기 위해 useEffect 처리)
+  useEffect(()=>{
+    axios.get(API.COMMUNITY)
+    .then(response => {
+        if(response.data.isSuccess === true){   
+            setTravels(response.data.result);
+            console.log('커뮤니티 여행 리스트',response.data.result);
+        }
+        else console.log(response.data);
+    })
+    .catch(e=>console.log('error',e))
+
+    if(userInfo.isLogin){
+          scrapListApi();
+          likeListApi();
+    }
+
+  },[]);
+
+  useEffect(()=>{
+    const newTravels=(sortType==="인기순")?([...travels].sort((a,b)=>Number(b.likes) - Number(a.likes)))
+                                          :([...travels].sort((a,b)=>new Date(b.created_at) - new Date(a.created_at)));
+    setTravels(newTravels);
+  },[sortType,travels[0]])
 
   return (
     <div className="community-page">
@@ -128,8 +124,8 @@ function CommunityPage() {
 
         <div className="sort-btn">
           <select onChange={changeSortType} style={{width:"80px"}}>
-            {sortOptions.map(({ title }, index) => {
-              return <option key={index}>{title}</option>;
+            {sortOptions.map((v, index) => {
+              return <option key={index}>{v}</option>;
             })}
           </select>
         </div>
@@ -146,7 +142,7 @@ function CommunityPage() {
                 </Link>
                 <div className="xfavorite-icon">
                   <PickBtnPage size="40" pid={travel.pid} 
-                  pick={scrapList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true} />
+                  pick={scrapList.findIndex(i=>i.pid === travel.pid) === -1 ? false : true} />
                 </div>
               </div>
               <div className="xproduct-contents">

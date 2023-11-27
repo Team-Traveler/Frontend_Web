@@ -1,0 +1,22 @@
+select{
+    border: none;
+    outline: none;
+}
+.xinfo-square{
+    display: flex;
+    flex-direction: row;
+    width : 65%;
+    gap : 10px;
+}
+
+.xinfo-square-content{
+    background-color: #9CBBAC;
+    font-size: 15px;
+    font-weight : 500;
+    color : white;
+    border-radius: 20px;
+    width: 80px;
+    height : 30px;
+    text-align : center;
+    padding-top:5px;
+}

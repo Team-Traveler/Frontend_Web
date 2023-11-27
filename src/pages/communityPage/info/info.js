@@ -10,6 +10,7 @@ import ShowImagePage from "../components/showImage";
 import CommentBtnPage from "../components/commentBtn";
 import HeartBtnPage from "../components/heartBtn";
 import PickBtnPage from "../components/PickBtn";
+import TravelCard from '../components/trip';
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
 
@@ -30,7 +31,7 @@ function InfoPage() {
         .then(response => {
             if(response.data.isSuccess === true){   
                 setTravel(response.data.result);
-                console.log('성공',travel);
+                console.log('성공',travel.what);
             }
             else console.log('실패',response.data);
         })
@@ -68,7 +69,6 @@ function InfoPage() {
             likeListApi();
         }
         callApi();
-        console.log(travel.likes)
     },[travel[0]]); // travel 자체는 주소이므로 무한 렌더링 발생. 배열 값을 넣어줘야함.
     
     if(travel){
@@ -77,11 +77,7 @@ function InfoPage() {
             <Nav />
             <div className="xcontent-wrapper">
                 <div className="xleft-section">
-                    <div className="info-square">
-                        <div className="info-square-concept">{whatArray[travel.what-1]}</div>
-                        <div className="info-square-intensity">{hardArray[travel.hard-1]}</div>
-                        <div className="info-square-who">{withwhoArray[travel.withwho-1]}</div>
-                    </div>
+                    <TravelCard hard={travel.hard} what={travel.what} who={travel.withwho} flag={true}/>
                     <div className="img-box">
                         {travel.image_url&&<ShowImagePage img={travel.image_url}/>} 
                     </div>
@@ -108,7 +104,7 @@ function InfoPage() {
                     </div>
                 </div>
                 <div className="pick-btn">
-                    <PickBtnPage size="45" pid={pid} pick={scrapList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true} />
+                    <PickBtnPage size="45" pid={pid} pick={scrapList.findIndex(i=>i.pid === travel.pid) === -1 ? false : true} />
                 </div>
             </div>
         </div>

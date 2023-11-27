@@ -32,7 +32,7 @@ function ShowImagePage({img}){
             <Slider {...settings} className="slider">
                 {images.map((value, index) => (
                 <div key={index}>
-                    <img src={value} alt={value}/>
+                    <img className="slider-img" src={value} alt={value}/>
                 </div>
                 ))}
             </Slider>

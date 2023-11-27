@@ -30,25 +30,6 @@
     align-items: center;
 }
 
-.info-square{
-    display: flex;
-    flex-direction: row;
-    width : 65%;
-    gap : 10px;
-}
-  
-.info-square-content{
-    background-color: #9CBBAC;
-    font-size: 15px;
-    font-weight : 500;
-    color : white;
-    border-radius: 20px;
-    width: 80px;
-    height : 30px;
-    text-align : center;
-    padding-top:5px;
-}
-
 .course-btn{
     text-decoration: underline;
     background-color: white;
@@ -65,25 +46,27 @@
     flex: 0.5;
 }
 
-input{
+textarea, input{
     border:none;
     font-size: 14px;
     font-weight: 400;
     width: 500px;
 }
 
-input:focus{
+input:focus,
+textarea:focus{
     outline: none;
 }
     
 /* 마우스 올릴 시 기본 텍스트가 안보이도록
 /* Chrome, Firefox, Opera, Safari 10.1+ */
-input:focus::placeholder{
+input:focus::placeholder, textarea:focus::placeholder{
     color:transparent;
 }
   
 /* Edge */
-input:focus::-ms-input-placeholder{
+input:focus::-ms-input-placeholder,
+textarea:focus::-ms-input-placeholder{
     color:transparent;
 } 
 
@@ -182,7 +165,7 @@ input:focus::-ms-input-placeholder{
     border : 1px solid rgb(221, 221, 221);
     box-shadow: 1px 2px 5px rgb(214, 214, 214);
     font-size: 14px;
-    color : #393939
+    color : #393939;
 }
 
 .footer{

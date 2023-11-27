@@ -1,6 +1,8 @@
 import './write.css'
 import React, { useState } from "react";
-import {BsPersonCircle} from 'react-icons/bs';
+import {useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API } from "../../../config";
 import Nav from "../../../components/Nav/Nav";
 import ImageUploadBox from '../components/imgUpload'
 import StarRating from '../components/star';
@@ -9,8 +11,15 @@ import {ReactComponent as Marker} from '../components/Vector.svg';
 import Modal from "../../../components/Modal/Modal";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
+import { travelsState } from '../../../recoil/atoms/travelsListStates';
+import ChoiceCourse from '../../../components/ChoiceCourse/ChoiceCourse';
+import TravelCard from '../components/trip';
 
 function WritePage() {
+    // 코스 선택 임시 값
+    const [flag,setFlag] = useState(false);
+    const [isMy, setIsMy] = useState(false);
+    const [course,setCourse] = useRecoilState(travelsState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [showModal, setShowModal] = useState(false);
     const [value, setValue] = useState({
@@ -19,19 +28,21 @@ function WritePage() {
         badPoints : "",
         oneLineReview : "",
         location : "",
-        hashtags : [] 
+        hashtags : [] ,
+        tid : null,
        });
     // 체크 박스
     const [checklist, setChecklist] = useState(false);
     const [book, setBook] = useState(false);
     // 코스 선택 시 갖고 오는 값 
-    const [what,setWhat] = useState(0);
-    const [withwho,setWithwho] = useState(0);
-    const [hard,setHard] = useState(0);
-    const [location,setLocation] = useState("");
+    const [what,setWhat] = useState(1);
+    const [withwho,setWithwho] = useState(1);
+    const [hard,setHard] = useState(1);
     // 별점
     const [ratings, setRatings] = useState([0, 0, 0]); // 0: 컨셉(what), 1: 강도(hard), 2: 총 별점(total)
     const [images,setImages] = useState([]);
+
+    const navigate = useNavigate();
 
     // 모달 관리
     const openModal = () => {
@@ -57,7 +68,7 @@ function WritePage() {
         //hashtags를 #단위로 나눠서 배열에 저장
         if(e.target.name === 'hashtags'){
             const noBlank = e.target.value.split(' ').join(''); // 공백제거
-            const hashtagArray = noBlank.split("#");
+            const hashtagArray = noBlank.split("#").slice(1);
             setValue((prevState) => {
                 return { ...prevState, [e.target.name]: hashtagArray };
             });
@@ -71,45 +82,71 @@ function WritePage() {
     
     const onCourse= (e) => {
         openModal();
+        setFlag(true); // 코스 선택하면 코스 저장
+        setIsMy(course.isMy);
+        setValue((prevState) => { // tid 설정
+            return { ...prevState, ["tid"]: course.tid };
+        });
+        setValue((prevState) => { // location 설정
+            return { ...prevState, ["location"]: course.destination };
+        });
     }
 
     const onSubmit = (e)=>{
+        /* 입력된 정보 formData로 변환*/
+        e.preventDefault();
+        // imageFile
         const formData = new FormData();
-        formData.append("imageFile",images);
-        const CircularJSON = require('circular-json'); // 순환참조로 인한 json 변환 에러를 해결
+        for(var i=0; i<images.length; i++){
+            formData.append("imageFile",images[i]);
+        }
+
         const rating = {
-            'whatrating':ratings[0],
-            'hardrating':ratings[1],
-            'totalrating':ratings[2],
+            whatrating:ratings[0],
+            hardrating:ratings[1],
+            totalrating:ratings[2],
         }
         const info = {
-            'what' : what,
-            'withwho' : withwho,
-            'hard' : hard,
+            what : what,
+            withwho : withwho,
+            hard : hard,
         }
         const jsonMerge = {...value,...rating,...info};
-        console.log(jsonMerge);
-        alert('submit!');
+        // content
+        // multipart와 json을 같이 보내기 위해서 Blob 사용해야함
+        const blob = new Blob([JSON.stringify(jsonMerge)], {type:"application/json"});
+        formData.append("content", blob);
+        /* 서버 전송*/
+        axios.post(`${API.WRITE}`,formData,
+        { headers: 
+            {Authorization : userInfo.accessToken,}})
+        .then(response=>{
+            if(response.data.isSuccess){
+                console.log('글작성 성공',response.data.result);
+                /* 리뷰 보기 화면으로 전환*/
+                navigate(`/story/${response.data.result.pid}`);
+            }
+            else console.log('글작성 실패',response)
+        })
+        .catch(e=>{
+            console.log('error',e);
+        })      
+
     }
+
     return (
         <div className="xcommunity-page">
             <Nav />
             <div className="xcontent-wrapper">
                 <div className="left-section">
                     <div className="top-square">
-                        <div className="info-square">
-                            <div className="info-square-content">
-                                {/* {whatArray[travel.what-1]} */}
-                            </div>
-                            <div className="info-square-content">
-                                {/* {hardArray[travel.hard-1]} */}
-                            </div>
-                            <div className="info-square-content">
-                                {/* {withwhoArray[travel.withwho-1]} */}
-                            </div>
-                        </div>
-                        <button className="course-btn" onClick={onCourse}>코스 선택</button>
-                    </div>
+                        { isMy ?
+                        // 추천으로 만들어진 코스이면 자동으로 가져옴 
+                        <TravelCard what={course.what} hard={course.hard} withwho={course.withwho} flag={true}/> : 
+                        // 내가 직접 만든 코스이면 선택해야함
+                        <TravelCard setHard={setHard} setWhat={setWhat} setWithwho={setWithwho} flag={false}/>}
+                        <button className="course-btn" onClick={onCourse}>코스 선택</button> 
+                    </div> 
                     <ImageUploadBox setImages={setImages}/>
                     <div className="star-ratingbar">
                         <StarRating setRatings={setRatings}/>
@@ -126,7 +163,10 @@ function WritePage() {
                         <div className="input-title">
                             <input className="input-box" id="title" maxLength={28} placeholder="제목을 입력하세요" name="title" onChange={onChangeHandler} />
                             <div className='input-travel-date'>
-                                출발 날짜 | 도착 날짜
+                            {flag ?
+                                (<span>{course.start_date.substr(0,10)} | {course.end_date.substr(0,10)}</span>)
+                                :(<span>출발날짜 | 도착날짜</span>)
+                            }
                             </div>
                         </div>
                         <div className="input-travel">
@@ -134,29 +174,29 @@ function WritePage() {
                                 <Marker height={30} width={30} fill=" #98B4A6"/> 
                                 <span> 추천 장소 </span>
                             </div>
-                            <div className="input-travel-content">
-                                <input id="recommended" placeholder="추천 장소를 입력하세요."/>
+                            <div className="input-travel-content" id="hashtag">
+                                <textarea placeholder="#를 누르고 추천장소를 해시태그로 입력하세요(최대 15개)" name="hashtags" onChange={onChangeHandler}/>
                             </div>
                             <div className="input-travel-title">
                                 <Marker height={15} width={20} fill=" #98B4A6"/> 
                                 <span> Good </span>
                             </div>
-                            <div className="input-travel-content" >
-                                <input id="good" placeholder="좋았던 점을 입력하세요." name="goodPoints" onChange={onChangeHandler} />
+                            <div className="input-travel-content" id="good">
+                                <textarea  placeholder="좋았던 점을 입력하세요." name="goodPoints" onChange={onChangeHandler} />
                             </div>
                             <div className="input-travel-title">
                                 <Marker height={15} width={20} fill=" #98B4A6"/> 
                                 <span> Bad </span>
                             </div>
-                            <div className="input-travel-content" >
-                                <input id="bad" placeholder="안 좋았던 점을 입력하세요" name="badPoints" onChange={onChangeHandler} />
+                            <div className="input-travel-content" id="bad">
+                                <textarea  placeholder="안 좋았던 점을 입력하세요" name="badPoints" onChange={onChangeHandler} />
                             </div>        
                             <div className="input-travel-title">
                                 <Marker height={15} width={20} fill=" #98B4A6"/> 
                                 <span> 한줄 평 </span>
                             </div>
-                            <div className="input-travel-content" >
-                                <input id="review" placeholder="여행을 한 줄로 평가해주세요" name="oneLineReview" onChange={onChangeHandler} />
+                            <div className="input-travel-content" id="review">
+                                <input placeholder="여행을 한 줄로 평가해주세요" name="oneLineReview" onChange={onChangeHandler} />
                             </div>
                             <div className="input-travel-title">
                                 <Marker height={15} width={20} fill=" #98B4A6"/> 
@@ -164,11 +204,8 @@ function WritePage() {
                             </div>
                             <div className="input-travel-content" >
                                 <Checkbox onChange={onChangeCheckBox1}>체크리스트</Checkbox>
-                                <Checkbox onChange={onChangeCheckBox2}>가계부</Checkbox>
+                                <Checkbox style={{marginLeft:"10px"}} onChange={onChangeCheckBox2}>가계부</Checkbox>
                             </div>
-                        </div>
-                        <div className="input-travel-content">
-                            <input id="hashtag" placeholder="#를 누르고 해시태그를 입력하세요(최대 15개)" name="hashtags" onChange={onChangeHandler}/>
                         </div>
                     </div>
                 </div>
@@ -182,6 +219,7 @@ function WritePage() {
                     headerTitle={<h3>코스 선택</h3>}
                     size = "large"
                 >
+                    <ChoiceCourse/>
                 </Modal>
             )}
         </div>

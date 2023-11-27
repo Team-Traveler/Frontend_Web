@@ -13,13 +13,13 @@ import kakaoLoginButton from "../../assets/images/kakao_login_medium_narrow.png"
 import useLogout from "../../services/useLogout";
 import Modal from "../../components/Modal/Modal";
 import TravelCardList from "../../components/TravelCardList/TravelCardList";
+import KakaoLogin from "./KakaoLogin";
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
     const [showScrapModal,setShowScrapModal] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-    const [scrapList, setScrapList] = useState([]);
-
+    
     const navigate = useNavigate();
 
     const openModal = () => {
@@ -50,7 +50,6 @@ function MainPage() {
     const handleCardClick = (content) => {
         if (userInfo.isLogin) {
             // 로그인 한 경우 상세 페이지로 이동
-            console.log("Navigate to /story/:id", content.postResponse.pid);
             navigate(`/story/${content.postResponse.pid}`);
         } else {
             // 로그인 하지 않은 경우 로그인 모달 창 띄우기
@@ -68,7 +67,6 @@ function MainPage() {
     // 찜한 여행 닫기 눌렀을 때
     const onClickDown = (e)=>{
         setShowScrapModal(false);
-        console.log('showScrapModal',showScrapModal);
     }
 
     return (
@@ -96,9 +94,7 @@ function MainPage() {
                     {showScrapModal ? 
                     <DownOutlined onClick={onClickDown} className="scrap-list-btn"/> :          
                     <UpOutlined onClick={onClickUp} className="scrap-list-btn"  />}
-            
                     <h3 className="content-title"> {userInfo.nickname}님이 찜한 여행 </h3>
-                
                     <TravelCardList/>
                 </div>
             </div>

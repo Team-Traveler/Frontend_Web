@@ -1,0 +1,9 @@
+.courselist-box{
+    display: flex;
+    flex-wrap: wrap;
+    gap : 5px;
+}
+
+.courselist{
+    border : 1px solid gray;
+}

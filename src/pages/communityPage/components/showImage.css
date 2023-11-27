@@ -3,9 +3,10 @@
     height: 400px;
 }
 
-.slider > img {
+.slider-img {
     width: 400px;
     height: 400px;
+    object-fit: cover;
 }
 
 .slick-dots{

@@ -71,6 +71,7 @@ h1{
 }
 
 .info-travel-content{
+    height: 20px;
     width: 500px;
     margin: 10px 0 20px 0;
     padding: 10px;
@@ -82,8 +83,34 @@ h1{
     color : #393939;
 }
 
-.info-hashtag{
-    font-size: 15px;
-    color: #393939;
-    font-weight: 500;
+#hashtag{
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+#hashtag::-webkit-scrollbar{
+    display: none;
+}
+
+#good, #bad{
+    height: 50px;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+#good::-webkit-scrollbar, #bad::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+#review{
+    height: 24px;
+    overflow-x: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+#review::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
