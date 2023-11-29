@@ -24,7 +24,7 @@ function KakaoLogin() {
             setAccessTokenFetching(true); // Set fetching to true
 
             const response = await axios.post(
-                "http://15.164.232.95:9000/api/auth/kakao",
+                "https://www.traveler-back.shop/api/auth/kakao",
                 {
                     authorizationCode: KAKAO_CODE,
                 },
@@ -57,7 +57,7 @@ function KakaoLogin() {
             if (userInfo.accessToken) {
                 // console.log("accessToken in getProfile:", userInfo.accessToken);
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/users/profile",
+                    "https://www.traveler-back.shop/users/profile",
                     {
                         headers: {
                             Authorization: `${userInfo.accessToken}`,
