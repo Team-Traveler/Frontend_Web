@@ -118,14 +118,16 @@ function CommunityPage() {
       </Link>
       <div id="body">
         <div className="search-bar">
-          <input type="text" placeholder="어떤 여행이 궁금하신가요?" className="search-bar-input" onChange={onChange}/>
           <img src={searchLogo} onClick={onClick}/>
+          <input type="text" placeholder="어떤 여행이 궁금하신가요?" className="search-bar-input" onChange={onChange}/>
+          
         </div>
-
         <div className="sort-btn">
-          <select onChange={changeSortType} style={{width:"80px"}}>
+          <select 
+          onChange={changeSortType} 
+          style={{width:"80px",fontSize:"15px", fontWeight:"550"}}>
             {sortOptions.map((v, index) => {
-              return <option key={index}>{v}</option>;
+              return <option key={index} className="sort-type">{v}</option>;
             })}
           </select>
         </div>

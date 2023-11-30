@@ -5,8 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "./MainPage.css";
 import {UpOutlined, DownOutlined} from '@ant-design/icons';
 // api
-import axios from "axios";
-import { API } from "../../config";
 import BannerSlide from "./banner";
 import Nav from "../../components/Nav/Nav";
 import kakaoLoginButton from "../../assets/images/kakao_login_medium_narrow.png";

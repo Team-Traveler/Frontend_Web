@@ -38,6 +38,7 @@ function BannerSlide(){
         loop={true}
         centeredSlides={true}
         autoplay={{ delay: 2000, disableOnInteraction: false}}
+        className="swiper-box"
         >
             {bannerList&&bannerList.map((banner,index)=>(
             <SwiperSlide key={index}>

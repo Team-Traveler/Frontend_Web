@@ -171,7 +171,7 @@ function WritePage() {
                         </div>
                         <div className="input-travel">
                             <div className="input-travel-title">
-                                <Marker height={30} width={30} fill=" #98B4A6"/> 
+                                <Marker height={15} width={20} fill=" #98B4A6"/> 
                                 <span> 추천 장소 </span>
                             </div>
                             <div className="input-travel-content" id="hashtag">

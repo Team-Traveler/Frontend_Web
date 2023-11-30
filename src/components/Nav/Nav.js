@@ -29,7 +29,7 @@ function Nav({onClick}) {
           // 현재 스크롤 위치를 가져옴
           const currentScrollPosition = window.pageYOffset;
           // 스크롤 위치가 메뉴의 위치보다 크거나 같으면 메뉴를 고정
-          if (currentScrollPosition >= 95) {
+          if (currentScrollPosition >= 120) {
             setSticky(true);
           } else {
             setSticky(false);

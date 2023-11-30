@@ -15,6 +15,12 @@
   color:#C7C7C7;
 }
 
+.modal-box{
+  position:fixed;
+  bottom: 0; 
+  left : 11.5vw;
+}
+
 .modal-box.up{
   position: fixed;
   top: 0;
@@ -34,10 +40,11 @@
   margin-top: 20px;
   border: 3px solid #e0e0e0;
   border-bottom : white;
-  border-top-right-radius: 150px;
-  border-top-left-radius: 150px;
-  max-width: 1100px;
-  height: 46.5vh;
+  border-top-right-radius: 200px;
+  border-top-left-radius: 200px;
+  min-width: 840px;
+  width: 77vw;
+  height: 46vh;
   overflow: hidden;
 }
 

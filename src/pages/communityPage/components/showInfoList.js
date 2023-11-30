@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "./showInfoList.css";
-import {BsPersonCircle} from 'react-icons/bs';
-import {GiPositionMarker} from 'react-icons/gi';
 import { ReactComponent as Marker } from './Vector.svg';
 import CountDay from "./countDay";
 import { Checkbox } from 'antd';
 
 function ShowInfoList({prop}) {
+  const location = useLocation();
   const [travel,setTravel] = useState(null);
   // 체크 박스
   const [checklist, setChecklist] = useState(false);
@@ -26,6 +26,15 @@ function ShowInfoList({prop}) {
       console.log('가계부 공유 선택', book);
   };
 
+  const handleCopyClipBoard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('url 링크',text)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(()=>{
     infoSet();
   },[prop])
@@ -43,7 +52,10 @@ function ShowInfoList({prop}) {
           <span id="info-title"> {travel.title} </span>
           <span> {travel.location} | 
           <CountDay start_date={travel.travel.start_date} end_date={travel.travel.end_date}/> </span>
-          <span> 2022.10.09 ~ 2022.10.12 </span>
+          <span> {travel.travel.start_date.substr(0,10)} ~ {travel.travel.end_date.substr(0,10)} </span>
+        </div>
+        <div className="copy-btn" onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
+          <span>URL 복사</span>
         </div>
         <div className="info-travel">
           <div className="info-travel-title">
@@ -74,7 +86,7 @@ function ShowInfoList({prop}) {
               <Marker height={15} width={20} fill=" #98B4A6"/> 
               <span> 나의 노트 공유 </span>
           </div>
-          <div className="input-travel-content" >
+          <div className="info-travel-content" >
               <Checkbox onChange={onChangeCheckBox1}>체크리스트</Checkbox>
               <Checkbox  style={{marginLeft:"10px"}} onChange={onChangeCheckBox2}>가계부</Checkbox>
           </div>

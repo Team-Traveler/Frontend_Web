@@ -3,14 +3,14 @@
     flex-direction: column;
     border : 1px solid rgb(221, 221, 221);
     box-shadow: 1px 2px 5px rgb(214, 214, 214);
-    width: 400px;
+    width: 26vw;
     height: auto;
     border-radius: 7px;
 }
 
 .ratingbar > span{
     font-size:15px;
-    font-weight: 400;
+    font-weight: 550;
 }
 
 .ratingbar{
