@@ -11,7 +11,6 @@ import kakaoLoginButton from "../../assets/images/kakao_login_medium_narrow.png"
 import useLogout from "../../services/useLogout";
 import Modal from "../../components/Modal/Modal";
 import TravelCardList from "../../components/TravelCardList/TravelCardList";
-import KakaoLogin from "./KakaoLogin";
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);

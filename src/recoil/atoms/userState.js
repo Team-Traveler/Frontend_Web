@@ -10,7 +10,7 @@ export const userInfoState = atom({
         email: "",
         nickname: "Elmo",
         profileImage: "",
-        isLogin: true,
+        isLogin: false,
         accessToken: "",
     },
 });
