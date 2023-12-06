@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 790px;
 }
 
 /* 글쓰기 버튼(하단 우측 고정) */

@@ -1,56 +1,253 @@
+/* main page css */
+.main-page {
+    color: black;
+    min-height: 100vh;
+}
+
+.main-body {
+    position: fixed;
+    top: 8%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.arrow-up-icon {
+    width: 3vw;
+    height: 3.76vh;
+    margin-top: 2vh;
+}
+.arrow-down-icon {
+    width: 3vw;
+    height: 3.76vh;
+    margin-top: 2vh;
+}
+
+.main-body-placeholder {
+    width: 77.36vw;
+    height: 100vh;
+    background-color: white;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 221px 221px 0 0px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 11%;
+    top : 0%;
+    align-items: center;
+    margin-top: 1.38vh;
+    z-index: 999;
+    transition: transform 0.5s ease-out;
+    overflow:hidden;
+}
+
+@keyframes logoAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo-animation {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.main-body-placeholder-title {
+    font-size: 45px;
+    color: #393939;
+    font-weight: bold;
+    margin-top: 15.98vh;
+}
+
+.main-body-placeholder-title-second {
+    font-size: 30px;
+    color: #393939;
+    font-weight: bold;
+    margin-top: 25.31vh;
+}
+
+.main-body-placeholder-content {
+    font-size: 30px;
+    color: #393939;
+    font-weight: lighter;
+}
+
+.main-header {
+    display: flex;
+    justify-content: normal;
+    align-items: center;
+    width: 100%;
+    height: 78px;
+    background-color: #f9f9f9;
+}
+
+.main-header-container {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.main-header-item {
+    margin-left: 20px; /* 수정된 부분 */
+    margin-right: 20px;
+}
+
+.main-header-item img {
+    width: 30px;
+    height: 30px;
+    border: 1px solid gainsboro;
+    border-radius: 50px;
+}
+
+.main-header-button {
+    border: none;
+    background-color: transparent;
+    width: 3vw;
+    font-size: 15px;
+    margin-right: 50px;
+}
+
+.main-header-button:hover {
+    cursor: pointer;
+}
+
+.main-signup-button {
+    width: 7.2vw;
+    height: 4.87vh;
+    font-size: 15px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background-color: #9cbbac;
+    margin-right: 11.94vw;
+}
+
+.main-logo {
+    margin-left: 10.69vw;
+    margin-right: 53.68vw;
+}
+
+.main-logo-image {
+    width: 10.27vw;
+    height: 3.11vh;
+}
+.main-logo-image-second {
+    width: 40vw;
+    height: 6.5vh;
+    margin-top: 2vh;
+}
+.main-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-menu-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.main-menu-box {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.1s linear;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-menu-box:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.main-menu-text {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.content-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-left: 5%;
+}
+
+.content {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+.content-card {
+    width: 53.05vw;
+    height: 32.22vh;
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),url("../../assets//images/beach_image.jpeg"); */
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    margin-right: 1.6vw;
+    margin-left: 1.6vw;
+    border-radius: 15px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.1s linear;
+}
+
+.content-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.content-card p {
+    margin-top: 0;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    color: white;
+}
+
 .kakao-login{
-  border: none;
-  background-color:white;
-  margin-top: 100px;
+    border: none;
+    background-color:white;
+    margin-top: 100px;
 }
-
+  
 .kakao-login:hover{
-  cursor: pointer;
+    cursor: pointer;
 }
 
-/* 찜 목록 펼치기 눌렀을 때 */
-.scrap-list-btn{
-  margin-top: 15px;
-  font-size: 40px;
-  color:#C7C7C7;
+.kakao-login-second {
+    border: none;
+    width: 37.84vw;
+    height: 0.53vh;
+    background-color: white;
+    margin-top: 4vh;
 }
 
-.modal-box{
-  position:fixed;
-  bottom: 0; 
-  left : 11.5vw;
+.main-body.blur-on-scroll {
+    filter: blur(0); /* 초기값은 블러 없음 */
+    transition: filter 0.3s ease; /* 트랜지션 효과 추가 */
+
+    /* 스크롤에 따라 블러 강도 조절 */
+    transform: translateY(0);
 }
 
-.modal-box.up{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(214, 214, 214, 0.5); /* 어두운 배경의 투명도 조정 */
-  backdrop-filter: blur(10px);
-  z-index: 99; /* 다른 요소보다 위로 올라오도록 설정 */
-}
-
-.like-travel-box{
-  display : flex;
-  flex-direction: column;
-  align-items: center;
-  margin : auto;
-  margin-top: 20px;
-  border: 3px solid #e0e0e0;
-  border-bottom : white;
-  border-top-right-radius: 200px;
-  border-top-left-radius: 200px;
-  min-width: 840px;
-  width: 77vw;
-  height: 46vh;
-  overflow: hidden;
-}
-
-.like-travel-box.up{
-  border-color: white;
-  background-color: white;
-  margin-top: 0;
-  height: 100vh;
+/* 스크롤이 내려갈수록 강한 블러 효과 */
+.main-body.blur-on-scroll.blurred {
+    filter: blur(10px); /* 원하는 강도로 조절 */
 }

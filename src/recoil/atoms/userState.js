@@ -8,7 +8,7 @@ export const userInfoState = atom({
         id: "",
         name: "",
         email: "",
-        nickname: "Elmo",
+        nickname: "",
         profileImage: "",
         isLogin: false,
         accessToken: "",

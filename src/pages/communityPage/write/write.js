@@ -56,12 +56,10 @@ function WritePage() {
     // 체크 박스 핸들러
     const onChangeCheckBox1 = (e) => {
         setChecklist(!checklist);
-        console.log('체크리스트 공유 선택', checklist);
     };
 
     const onChangeCheckBox2 = (e) => {
         setBook(!book);
-        console.log('가계부 공유 선택', book);
     };
 
     const onChangeHandler = (e) => {
@@ -117,6 +115,7 @@ function WritePage() {
         const blob = new Blob([JSON.stringify(jsonMerge)], {type:"application/json"});
         formData.append("content", blob);
         /* 서버 전송*/
+        console.log(jsonMerge);
         axios.post(`${API.WRITE}`,formData,
         { headers: 
             {Authorization : userInfo.accessToken,}})
@@ -136,7 +135,7 @@ function WritePage() {
 
     return (
         <div className="xcommunity-page">
-            <Nav />
+            <Nav/>
             <div className="xcontent-wrapper">
                 <div className="left-section">
                     <div className="top-square">

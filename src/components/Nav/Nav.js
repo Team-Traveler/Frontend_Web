@@ -10,7 +10,8 @@ function Nav({onClick}) {
     const location = useLocation();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [isOpen, setIsOpen] = useState(false);
-    const [isSticky, setSticky] = useState(false); // 스크롤 시 상단에 네비바 고정
+    // const [isSticky, setSticky] = useState(false); // 스크롤 시 상단에 네비바 고정
+      
 
     // 현재 경로에 따라 메뉴 활성화
     const isActive = (path) => {
@@ -24,26 +25,30 @@ function Nav({onClick}) {
         setIsOpen(isOpen ? false : true);
     }
 
+    // 스크롤시 고정으로 하려 했으나 임시로 지움..
     useEffect(() => {
-        const handleScroll = () => {
-          // 현재 스크롤 위치를 가져옴
-          const currentScrollPosition = window.pageYOffset;
-          // 스크롤 위치가 메뉴의 위치보다 크거나 같으면 메뉴를 고정
-          if (currentScrollPosition >= 120) {
-            setSticky(true);
-          } else {
-            setSticky(false);
-          }
-        };
-        window.addEventListener('scroll', handleScroll);
-        // Clean up function
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
+        // const handleScroll = () => {
+        //     // 현재 스크롤 위치를 가져옴
+        //     const currentScrollPosition = window.pageYOffset;
+        //     // 스크롤 위치가 메뉴의 위치보다 크거나 같으면 메뉴를 고정
+        //     if(location.pathname === '/story'){
+        //         if (currentScrollPosition >= 120) {
+        //             setSticky(true);
+        //         } else {
+        //             setSticky(false);
+        //         }
+        //     };
+        // }
+        // window.addEventListener('scroll', handleScroll);
+        // // Clean up function
+        // return () => {
+        //   window.removeEventListener('scroll', handleScroll);
+        // };
       }, []);
 
     return (
-        <div className={`nav ${isSticky ? 'sticky' : ''} ${isOpen ? 'open' : ''}`}>
+        <div 
+        className={`nav ${location.pathname === '/' ? 'main' : ''} ${isOpen ? 'open' : ''}`}>
             <div className="nav-title">
                 <Link to="/" style={{ textDecoration: "none" }}>
                     <div className="nav-logo">
