@@ -584,14 +584,14 @@ const MultipleSliderLike = () => {
             {hasLikedContents ? (
                 <Slider {...settings}>
                     {likeContents.result.map((likeContent) => (
-                        <div key={likeContent.postResponse.pid}>
+                        <div key={likeContent.postResponse?.pid}>
                             <div
                                 className="content-card"
                                 onClick={() => handleCardClick(likeContent)}
-                                style={imageStyle(likeContent.postResponse.url)}
+                                style={imageStyle(likeContent.postResponse?.url)}
                             >
-                                <p>{likeContent.postResponse.title}</p>
-                                <p>{likeContent.postResponse.oneLineReview}</p>
+                                <p>{likeContent.postResponse?.title}</p>
+                                <p>{likeContent.postResponse?.oneLineReview}</p>
                             </div>
                         </div>
                     ))}
