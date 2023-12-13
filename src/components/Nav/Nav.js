@@ -11,8 +11,6 @@ function Nav({onClick}) {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [isOpen, setIsOpen] = useState(false);
     // const [isSticky, setSticky] = useState(false); // 스크롤 시 상단에 네비바 고정
-      
-
     // 현재 경로에 따라 메뉴 활성화
     const isActive = (path) => {
         // /story/** 링크는 모두 스토리 네비게이션 바가 활성화됨.
@@ -20,7 +18,6 @@ function Nav({onClick}) {
             return "active";
         return location.pathname === path ? `${"active"}`: "";
     };
-
     const toggleClick = ()=>{
         setIsOpen(isOpen ? false : true);
     }
@@ -81,7 +78,6 @@ function Nav({onClick}) {
                         <div className="nav-menu-box">나의 여행</div>
                     </button>
                 </Link>
-
             </div>
             ) : (
             <div className={`nav-menu ${isOpen ? 'open' : ''}`}>

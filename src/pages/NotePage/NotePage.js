@@ -6,8 +6,8 @@ import { selectedNoteId } from "../../recoil/atoms/noteState";
 import { AccountBookMode } from "../../recoil/atoms/noteState";
 import { userInfoState } from "../../recoil/atoms/userState";
 import axios from "axios";
-import CheckList from "./CheckList";
-import AccountBook from "./AccountBook";
+import CheckList from "./CheckList/CheckList";
+import AccountBook from "./AccountBook/AccountBook";
 import Nav from "../../components/Nav/Nav";
 import Vector from "../../assets/images/Vector.png";
 import Ellipse from "../../assets/images/Ellipse.png";
@@ -20,7 +20,8 @@ function NotePage() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
     // Server Address
-    const serverUrl = "http://15.164.232.95:9000";
+
+    const serverUrl = "https://traveler-back.shop";
 
     // 나의 여행 목록 조회
     useEffect(() => {
@@ -72,6 +73,7 @@ function NotePage() {
                                                             item.tid ===
                                                             note.tid
                                                         ) {
+                                                            console.log(item);
                                                             return {
                                                                 ...item,
                                                                 istoggle:
@@ -87,6 +89,7 @@ function NotePage() {
                                                 src={Vector}
                                                 alt="Vector"
                                                 className="mr-5"
+                                                style={{ transform: note.istoggle ? 'rotate(90deg)' : 'none' }}
                                             />
                                             {note.title}
                                         </button>
@@ -99,6 +102,10 @@ function NotePage() {
                                                 onClick={() => {
                                                     setCheckToggle(true);
                                                     setSelectedNote(note.tid);
+                                                }}
+                                                style={{ 
+                                                    backgroundColor: note.tid==selectedNote&&checktoggle ? '#98B4A6' : 'white',
+                                                    color: note.tid==selectedNote&&checktoggle ? 'white' : 'black' 
                                                 }}
                                             >
                                                 <img
@@ -114,6 +121,11 @@ function NotePage() {
                                                     setCheckToggle(false);
                                                     setSelectedNote(note.tid);
                                                     setAccountMode(0);
+                                                }}
+
+                                                style={{ 
+                                                    backgroundColor: note.tid==selectedNote&&!checktoggle ? '#98B4A6' : 'white',
+                                                    color: note.tid==selectedNote&&!checktoggle ? 'white' : 'black' 
                                                 }}
                                             >
                                                 <img

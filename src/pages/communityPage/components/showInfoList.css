@@ -65,6 +65,13 @@ h1{
 /* 여행 정보 */
 .info-travel{
     margin-top: 5px;
+    font-size: 17px;
+    font-weight: 550;
+    color : rgb(93, 92, 92);
+}
+
+.info-travel{
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
 }
@@ -78,6 +85,7 @@ h1{
 
 .info-travel-title > span{
     font-size: 15px;
+
     font-weight: bold;
 }
 
