@@ -7,6 +7,7 @@
     width: 26vw;
     height: 21vh;
     border-radius: 7px;
+    min-width: 300px;
  }
   
   .xstar-section {

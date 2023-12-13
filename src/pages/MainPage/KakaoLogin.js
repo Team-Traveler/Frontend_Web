@@ -12,8 +12,6 @@ function KakaoLogin() {
     const KAKAO_CODE = PARAMS.get("code");
     const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
-    console.log("KAKAO_CODE:", KAKAO_CODE);
-
     // Access Token 받아오기
     const getAccessToken = async () => {
         if (accessTokenFetching) return; // Return early if fetching

@@ -1,5 +1,5 @@
 import './write.css'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../../config";
@@ -8,17 +8,15 @@ import ImageUploadBox from '../components/imgUpload'
 import StarRating from '../components/star';
 import { Checkbox } from 'antd';
 import {ReactComponent as Marker} from '../components/Vector.svg';
-import Modal from "../../../components/Modal/Modal";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
 import { travelsState } from '../../../recoil/atoms/travelsListStates';
 import ChoiceCourse from '../../../components/ChoiceCourse/ChoiceCourse';
 import TravelCard from '../components/trip';
+import CountDay from '../components/countDay';
 
 function WritePage() {
     // 코스 선택 임시 값
-    const [flag,setFlag] = useState(false);
-    const [isMy, setIsMy] = useState(false);
     const [course,setCourse] = useRecoilState(travelsState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [showModal, setShowModal] = useState(false);
@@ -31,6 +29,8 @@ function WritePage() {
         hashtags : [] ,
         tid : null,
        });
+    const [start_date, setStart_date] = useState("");
+    const [end_date,setEnd_date] = useState("");
     // 체크 박스
     const [checklist, setChecklist] = useState(false);
     const [book, setBook] = useState(false);
@@ -62,6 +62,19 @@ function WritePage() {
         setBook(!book);
     };
 
+    // 코스 선택
+    const onCourse = (v)=>{
+        setStart_date(v.start_date);
+        setEnd_date(v.end_date);
+        setValue((prevState) => { // tid 설정
+            return { ...prevState, ["tid"]: v.tid };
+        });
+        setValue((prevState) => { // location 설정
+            return { ...prevState, ["location"]: v.destination };
+        });
+        closeModal();
+    }
+
     const onChangeHandler = (e) => {
         //hashtags를 #단위로 나눠서 배열에 저장
         if(e.target.name === 'hashtags'){
@@ -77,18 +90,6 @@ function WritePage() {
             });
         }
     };
-    
-    const onCourse= (e) => {
-        openModal();
-        setFlag(true); // 코스 선택하면 코스 저장
-        setIsMy(course.isMy);
-        setValue((prevState) => { // tid 설정
-            return { ...prevState, ["tid"]: course.tid };
-        });
-        setValue((prevState) => { // location 설정
-            return { ...prevState, ["location"]: course.destination };
-        });
-    }
 
     const onSubmit = (e)=>{
         /* 입력된 정보 formData로 변환*/
@@ -97,6 +98,7 @@ function WritePage() {
         const formData = new FormData();
         for(var i=0; i<images.length; i++){
             formData.append("imageFile",images[i]);
+            console.log(images[i])
         }
 
         const rating = {
@@ -115,7 +117,6 @@ function WritePage() {
         const blob = new Blob([JSON.stringify(jsonMerge)], {type:"application/json"});
         formData.append("content", blob);
         /* 서버 전송*/
-        console.log(jsonMerge);
         axios.post(`${API.WRITE}`,formData,
         { headers: 
             {Authorization : userInfo.accessToken,}})
@@ -139,12 +140,11 @@ function WritePage() {
             <div className="xcontent-wrapper">
                 <div className="left-section">
                     <div className="top-square">
-                        { isMy ?
+                        {/* { isMy ?
                         // 추천으로 만들어진 코스이면 자동으로 가져옴 
-                        <TravelCard what={course.what} hard={course.hard} withwho={course.withwho} flag={true}/> : 
-                        // 내가 직접 만든 코스이면 선택해야함
-                        <TravelCard setHard={setHard} setWhat={setWhat} setWithwho={setWithwho} flag={false}/>}
-                        <button className="course-btn" onClick={onCourse}>코스 선택</button> 
+                        <TravelCard what={course.what} hard={course.hard} withwho={course.withwho} flag={true}/> :  */}
+                        <TravelCard setHard={setHard} setWhat={setWhat} setWithwho={setWithwho} flag={false}/>
+                        <button className="course-btn" onClick={openModal}>코스 선택</button> 
                     </div> 
                     <ImageUploadBox setImages={setImages}/>
                     <div className="star-ratingbar">
@@ -162,8 +162,8 @@ function WritePage() {
                         <div className="input-title">
                             <input className="input-box" id="title" maxLength={28} placeholder="제목을 입력하세요" name="title" onChange={onChangeHandler} />
                             <div className='input-travel-date'>
-                            {flag ?
-                                (<span>{course.start_date.substr(0,10)} | {course.end_date.substr(0,10)}</span>)
+                            {start_date !== "" ?
+                                (<span>{start_date.substr(0,10)} | {end_date.substr(0,10)}</span>)
                                 :(<span>출발날짜 | 도착날짜</span>)
                             }
                             </div>
@@ -213,13 +213,18 @@ function WritePage() {
                 <button className="submit-btn" type='submit' onClick={onSubmit}> 게시하기 </button>
             </div>
             {showModal && (
-                <Modal
-                    closeModal={closeModal}
-                    headerTitle={<h3>코스 선택</h3>}
-                    size = "large"
-                >
-                    <ChoiceCourse/>
-                </Modal>
+                <div className='course-modal' onClick={closeModal}>
+                    <div className='course-list-box' onClick={(e) => e.stopPropagation()}>
+                    {course&&course.map((v,index)=>(
+                        <div className='course-list' key={index} onClick={()=>{onCourse(v)}}>
+                            <span className='course-title'>{v.title}</span>
+                            <CountDay start_date={v.start_date} end_date={v.end_date}/>
+                            <span className='course-date'>{v.start_date.substr(0,10)} ~ {v.end_date.substr(0,10)}</span>
+                        </div>
+                    ))
+                    }
+                    </div>
+                </div>
             )}
         </div>
     );

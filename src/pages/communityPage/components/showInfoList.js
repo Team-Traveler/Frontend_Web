@@ -1,30 +1,28 @@
 import React, { useState,useEffect } from "react";
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./showInfoList.css";
 import { ReactComponent as Marker } from './Vector.svg';
 import CountDay from "./countDay";
 import { Checkbox } from 'antd';
+import Modal from "../../../components/Modal/Modal";
+import { API } from "../../../config";
 
 function ShowInfoList({prop}) {
   const location = useLocation();
   const [travel,setTravel] = useState(null);
-  // 체크 박스
-  const [checklist, setChecklist] = useState(false);
-  const [book, setBook] = useState(false);
+  const [showCheckList, setShowCheckList] = useState(false);
+  const [showBook, setShowBook] = useState(false);
+  const [checkList, setCheckList] = useState([]);
+  // 임시
+  const [flag1, setFlag1] = useState(true);
+  const [flag2, setFlag2] = useState(true);
 
   const infoSet = async ()=>{
-    if(prop) await setTravel(prop);
-  }
-  // 체크 박스 핸들러
-  const onChangeCheckBox1 = (e) => {
-    setChecklist(!checklist);
-    console.log('체크리스트 공유 선택', checklist);
-  };
-
-  const onChangeCheckBox2 = (e) => {
-      setBook(!book);
-      console.log('가계부 공유 선택', book);
-  };
+    if(prop){ 
+      await setTravel(prop);
+    }
+  } 
 
   const handleCopyClipBoard = async (text) => {
     try {
@@ -35,8 +33,30 @@ function ShowInfoList({prop}) {
     }
   }
 
+  // 체크리스트 조회
+  const fetchCheckList = async () => {
+    try {
+        const response = await axios.get(`${API.HEADER}/checklist/travel/${travel.tid}`);
+        console.log("체크리스트 조회 성공");
+        console.log(
+            "체크리스트 조회 response.data.result : ",
+            response.data.result
+        );
+        setCheckList(response.data.result);
+    } catch (error) {
+        console.log("체크리스트 조회 실패");
+        console.log(error);
+    }
+  };
+
   useEffect(()=>{
     infoSet();
+    if(flag1){
+      fetchCheckList();
+    }
+    if(flag2){
+      
+    }
   },[prop])
 
   if(travel && travel.title){
@@ -87,10 +107,18 @@ function ShowInfoList({prop}) {
               <span> 나의 노트 공유 </span>
           </div>
           <div className="info-travel-content" >
-              <Checkbox onChange={onChangeCheckBox1}>체크리스트</Checkbox>
-              <Checkbox  style={{marginLeft:"10px"}} onChange={onChangeCheckBox2}>가계부</Checkbox>
+            <Checkbox onClick={()=>{if(flag1) setShowCheckList(true)}} defaultChecked={true} disabled>체크리스트</Checkbox>
+            <Checkbox onClick={()=>{if(flag2) setShowBook(true)}} defaultChecked={false} disabled>가계부</Checkbox>
           </div>
         </div>
+      {showBook && (
+        <Modal 
+        closeModal={()=>{setShowBook(false)}}
+        headerTitle={<h3>사야할 것들</h3>}>
+          
+        </Modal>
+      )
+      }
       </div>
     );
   }
