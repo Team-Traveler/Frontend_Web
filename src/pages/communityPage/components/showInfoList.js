@@ -4,8 +4,10 @@ import { useLocation } from "react-router-dom";
 import "./showInfoList.css";
 import { ReactComponent as Marker } from './Vector.svg';
 import CountDay from "./countDay";
-import { Checkbox } from 'antd';
+import { ReactComponent as unCheck} from './unCheck.svg';
+import { ReactComponent as Check} from './Check.svg';
 import Modal from "../../../components/Modal/Modal";
+import AccountBook from "../../NotePage/AccountBook/AccountBook";
 import { API } from "../../../config";
 
 function ShowInfoList({prop}) {
@@ -13,7 +15,61 @@ function ShowInfoList({prop}) {
   const [travel,setTravel] = useState(null);
   const [showCheckList, setShowCheckList] = useState(false);
   const [showBook, setShowBook] = useState(false);
-  const [checkList, setCheckList] = useState([]);
+
+  const check = [
+    {
+      "cid": 1,
+      "title": "2023년 8월",
+      "tid": 40,
+      "items": [
+        {
+          "id": 1,
+          "name": "아쿠아 슈즈",
+          "isChecked": false,
+        },
+        {
+          "id": 2,
+          "name": "호텔 예약",
+          "isChecked": false,
+        },
+      ],
+    },
+    {
+      "cid": 2,
+      "title": "2023년 9월",
+      "tid": 40,
+      "items": [
+        {
+          "id": 1,
+          "name": "클렌징폼",
+          "isChecked": false,
+        },
+        {
+          "id": 2,
+          "name": "우산",
+          "isChecked": false,
+        },
+      ],
+    },
+    {
+      "cid": 3,
+      "title": "2023년 10월",
+      "tid": 40,
+      "items": [
+        {
+          "id": 1,
+          "name": "운동화",
+          "isChecked": false,
+        },
+        {
+          "id": 2,
+          "name": "수건",
+          "isChecked": false,
+        },
+      ],
+    },
+  ];
+  const [checkList, setCheckList] = useState(check);
   // 임시
   const [flag1, setFlag1] = useState(true);
   const [flag2, setFlag2] = useState(true);
@@ -34,25 +90,25 @@ function ShowInfoList({prop}) {
   }
 
   // 체크리스트 조회
-  const fetchCheckList = async () => {
-    try {
-        const response = await axios.get(`${API.HEADER}/checklist/travel/${travel.tid}`);
-        console.log("체크리스트 조회 성공");
-        console.log(
-            "체크리스트 조회 response.data.result : ",
-            response.data.result
-        );
-        setCheckList(response.data.result);
-    } catch (error) {
-        console.log("체크리스트 조회 실패");
-        console.log(error);
-    }
-  };
+  // const fetchCheckList = async () => {
+  //   try {
+  //       const response = await axios.get(`${API.HEADER}/checklist/travel/${travel.tid}`);
+  //       console.log("체크리스트 조회 성공");
+  //       console.log(
+  //           "체크리스트 조회 response.data.result : ",
+  //           response.data.result
+  //       );
+  //       setCheckList(response.data.result);
+  //   } catch (error) {
+  //       console.log("체크리스트 조회 실패");
+  //       console.log(error);
+  //   }
+  // };
 
   useEffect(()=>{
     infoSet();
     if(flag1){
-      fetchCheckList();
+      //fetchCheckList();
     }
     if(flag2){
       
@@ -106,16 +162,49 @@ function ShowInfoList({prop}) {
               <Marker height={15} width={20} fill=" #98B4A6"/> 
               <span> 나의 노트 공유 </span>
           </div>
-          <div className="info-travel-content" >
-            <Checkbox onClick={()=>{if(flag1) setShowCheckList(true)}} defaultChecked={true} disabled>체크리스트</Checkbox>
-            <Checkbox onClick={()=>{if(flag2) setShowBook(true)}} defaultChecked={false} disabled>가계부</Checkbox>
+          <div className="info-travel-content" id="checkbox" >
+              <span className="checkbox-content" onClick={()=>{if(flag1) setShowCheckList(true)}}>
+                {flag1 ? <Check /> : <unCheck/>} 체크리스트 
+              </span>
+              <span className="checkbox-content" onClick={()=>{if(flag2) setShowBook(true)}}>
+                {flag2 ? <Check /> : <unCheck /> } 가계부
+              </span>
           </div>
         </div>
-      {showBook && (
+      {showCheckList && (
         <Modal 
-        closeModal={()=>{setShowBook(false)}}
-        headerTitle={<h3>사야할 것들</h3>}>
-          
+        closeModal={()=>{setShowCheckList(false)}}
+        headerTitle={<h3>체크리스트</h3>}
+        size={"large"}
+        >
+          <div className="info-check-list-box">
+            {/* return을 안할 시 중괄호가 아닌 소괄호를 사용해야 출력됨 */}
+            {checkList&&checkList.map((v,index)=>(
+              <div
+                  className="info-check-list"
+                  key={index}
+              >
+                <span>{v.title}</span>
+                <div className="info-check-list-content">
+                  {v.items.map((c,index)=>(
+                  <div className="info-check-list-name">
+                    {c.name}
+                  </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Modal>
+      )
+      }
+      {showBook && (
+        <Modal
+        closeModal={()=>{setShowBook(false);}}
+        headerTitle={<h3>가계부</h3>}
+        size={"large"}
+        >
+          <AccountBook/>
         </Modal>
       )
       }

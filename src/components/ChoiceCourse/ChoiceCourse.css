@@ -1,9 +1,29 @@
-.courselist-box{
+.course-list-box{
     display: flex;
-    flex-wrap: wrap;
-    gap : 5px;
+    flex-flow: row wrap;
+    z-index: 10000;
+    width: 77vw;
+    height: 65vh;
+    gap:5%; 
 }
 
-.courselist{
-    border : 1px solid gray;
+.course-list{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 85px;
+    width: 25%;
+    border-radius: 10px;
+    padding: 15px 10px 10px 15px;
+    gap : 3px;
+}
+
+.course-title{
+    font-size: 15.82px;
+    font-weight: 550;
+}
+
+.course-date{
+    font-size: 13.18px;
+    font-weight: 550;
 }

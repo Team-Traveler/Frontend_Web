@@ -10,14 +10,12 @@ import { Checkbox } from 'antd';
 import {ReactComponent as Marker} from '../components/Vector.svg';
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
-import { travelsState } from '../../../recoil/atoms/travelsListStates';
 import ChoiceCourse from '../../../components/ChoiceCourse/ChoiceCourse';
 import TravelCard from '../components/trip';
-import CountDay from '../components/countDay';
 
 function WritePage() {
     // 코스 선택 임시 값
-    const [course,setCourse] = useRecoilState(travelsState);
+    const [activeCheckbox, setActiveCheckbox] = useState(true);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [showModal, setShowModal] = useState(false);
     const [value, setValue] = useState({
@@ -66,6 +64,8 @@ function WritePage() {
     const onCourse = (v)=>{
         setStart_date(v.start_date);
         setEnd_date(v.end_date);
+        if(v.noteStatus)
+            setActiveCheckbox(false);
         setValue((prevState) => { // tid 설정
             return { ...prevState, ["tid"]: v.tid };
         });
@@ -201,8 +201,8 @@ function WritePage() {
                                 <span> 나의 노트 공유 </span>
                             </div>
                             <div className="input-travel-content" >
-                                <Checkbox onChange={onChangeCheckBox1}>체크리스트</Checkbox>
-                                <Checkbox style={{marginLeft:"10px"}} onChange={onChangeCheckBox2}>가계부</Checkbox>
+                                <Checkbox onChange={onChangeCheckBox1} disabled={activeCheckbox}>체크리스트</Checkbox>
+                                <Checkbox style={{marginLeft:"10px"}} onChange={onChangeCheckBox2} disabled={activeCheckbox}>가계부</Checkbox>
                             </div>
                         </div>
                     </div>
@@ -213,16 +213,7 @@ function WritePage() {
             </div>
             {showModal && (
                 <div className='course-modal' onClick={closeModal}>
-                    <div className='course-list-box' onClick={(e) => e.stopPropagation()}>
-                    {course&&course.map((v,index)=>(
-                        <div className='course-list' key={index} onClick={()=>{onCourse(v)}}>
-                            <span className='course-title'>{v.title}</span>
-                            <CountDay start_date={v.start_date} end_date={v.end_date}/>
-                            <span className='course-date'>{v.start_date.substr(0,10)} ~ {v.end_date.substr(0,10)}</span>
-                        </div>
-                    ))
-                    }
-                    </div>
+                    <ChoiceCourse onCourse={onCourse}/>
                 </div>
             )}
         </div>

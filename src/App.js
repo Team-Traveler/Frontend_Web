@@ -4,15 +4,15 @@ import MainPage from "./pages/MainPage/MainPage.js";
 import NotePage from "./pages/NotePage/NotePage.js";
 import RecommendPage from "./pages/RecommendPage/RecommendPage";
 import KakaoLogin from "./pages/MainPage/KakaoLogin";
-import CompletedPage from "./pages/RecommendPage/CompletedPage";
 import MyTravelMain from "./pages/MyTravelPage/MyTravelMain/MyTravelMain";
 import CommentsPage from "./pages/communityPage/comments/comments";
 import CommunityPage from "./pages/communityPage/main/community";
 import WritePage from "./pages/communityPage/write/write";
 import InfoPage from "./pages/communityPage/info/info"
+import CompletedPage from "./pages/RecommendPage/CompletedPage";
 import { userInfoState } from "./recoil/atoms/userState";
 import { useRecoilState } from "recoil";
-
+import LoadingModal from "./components/Loading/Loading.js";
 
 function App() {
     const [userInfo] = useRecoilState(userInfoState);
@@ -23,15 +23,8 @@ function App() {
                 <Route path="/" element={<MainPage />}></Route>
                 {isLogin ? (
                     <>
-                        <Route
-                            path="/recommend"
-                            element={<RecommendPage />}
-                        ></Route>
-                        <Route
-                            path="/recommendCompleted"
-                            element={<CompletedPage />}
-                        ></Route> 
-
+                        <Route path="/recommend"element={<RecommendPage />}></Route> 
+                        <Route path="/completed" element={<CompletedPage/>}></Route>
                         <Route path="/story" element={<CommunityPage />}></Route>
                         <Route path={`/story/:pid`} element={<InfoPage />}></Route>
                         <Route path="/story/write" element={<WritePage/>}></Route>

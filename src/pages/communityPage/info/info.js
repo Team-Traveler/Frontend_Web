@@ -31,7 +31,7 @@ function InfoPage() {
         .then(response => {
             if(response.data.isSuccess === true){   
                 setTravel(response.data.result);
-                console.log('성공',travel.what);
+                console.log('성공',travel);
             }
             else console.log('실패',response.data);
         })
