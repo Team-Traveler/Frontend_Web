@@ -8,38 +8,37 @@
 }
 
 .Title {
-width: 14.84vw;
-height: 5vh;
-font-family: 'Cooper Black';
-font-style: normal;
-font-weight: 700;
-font-size: 35px;
-line-height: 42px;
-text-align: center;
-color: #000000;
-
+    width: 14.84vw;
+    height: 5vh;
+    font-family: "Cooper Black";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 42px;
+    text-align: center;
+    color: #000000;
 }
 
 .subText {
-width: 14.37vw;
-height: 2.5vh;
-font-family: 'Cooper Black';
-font-style: normal;
-font-weight: 200;
-font-size: 18px;
-line-height: 21px;
-text-align: center;
-color: #000000;
+    width: 14.37vw;
+    height: 2.5vh;
+    font-family: "Cooper Black";
+    font-style: normal;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: #000000;
 }
 
 .rectangle {
-box-sizing: border-box;
-width: 56.95vw;
-height: 0.6vh;
-background: #FFFFFF;
-border: 1px solid #BBBBBB;
+    box-sizing: border-box;
+    width: 56.95vw;
+    height: 0.6px;
+    background: #ffffff;
+    border: 1px solid #bbbbbb;
 }
 
-.windows{
+.windows {
     margin-top: 11.65vh;
 }

@@ -3,11 +3,15 @@ import ReactDOM from "react-dom";
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
-import { myAllTravelsState, isTravelDataCreatedState, toggleIsTravelDataCreated } from "../../../recoil/atoms/myAllTravelsState.js";
+import {
+    myAllTravelsState,
+    isTravelDataCreatedState,
+    toggleIsTravelDataCreated,
+} from "../../../recoil/atoms/myAllTravelsState.js";
 import "./MyTravelMain.css";
 import MyTravelProfile from "../MyTravelProfile/MyTravelProfile";
 import MyTravelSpecifics from "../MyTravelSpecifics/MyTravelSpecifics";
-import BtnMyTravelMenu from "../BtnMyTravelMenu/BtnMyTravelMenu";
+import HorizontalNavigation from "../TravelHorizontalNavigation/HorizontalNavigation";
 import MyTravelLists from "../MyTravelLists/MyTravelLists";
 import MyTravelAdd from "../MyTravelAdd/MyTravelAdd";
 import profileTest from "./profileTest.png";
@@ -15,10 +19,11 @@ import MyTravelEdit from "../MyTravelEdit/MyTravelEdit";
 import MyTravelProfileEdit from "../MyTravelProfileEdit/MyTravelProfileEdit";
 import Nav from "../../../components/Nav/Nav";
 import { selectedTravelState } from "../../../recoil/atoms/placeSearchState";
-import { withoutAllTravelsState,
+import {
+    withoutAllTravelsState,
     withoutApiState,
     withoutProfileState,
-    }from "../../../recoil/atoms/withoutAPI";
+} from "../../../recoil/atoms/withoutAPI";
 
 function MyTravelMain() {
     const TAG = "MyTravelMain";
@@ -29,7 +34,9 @@ function MyTravelMain() {
     const profileRef = React.useRef();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [travelData, setTravelData] = useRecoilState(myAllTravelsState);
-    const [IsTravelDataCreated, setIsTravelDataCreated] = useRecoilState(isTravelDataCreatedState);
+    const [IsTravelDataCreated, setIsTravelDataCreated] = useRecoilState(
+        isTravelDataCreatedState
+    );
     const [profileData, setProfileData] = useState({
         imgSrc: profileTest,
         name: "라이언",
@@ -40,12 +47,14 @@ function MyTravelMain() {
 
     // import { withoutAllTravelsState,
     //     withoutApiState,
-    
-    //     }from "../../../recoil/atoms/withoutAPI";
-    const [isWithoutApi,setIsWithoutApi] = useRecoilState(withoutApiState);
-    const [withoutAllTravel,setWithoutAllTravel] = useRecoilState(withoutAllTravelsState);
-    const [withoutProfile, setWithoutProfile] = useRecoilState(withoutProfileState);
 
+    //     }from "../../../recoil/atoms/withoutAPI";
+    const [isWithoutApi, setIsWithoutApi] = useRecoilState(withoutApiState);
+    const [withoutAllTravel, setWithoutAllTravel] = useRecoilState(
+        withoutAllTravelsState
+    );
+    const [withoutProfile, setWithoutProfile] =
+        useRecoilState(withoutProfileState);
 
     const updateProfileImgAndName = (newImgSrc, newName) => {
         setProfileData((prevData) => ({
@@ -60,8 +69,7 @@ function MyTravelMain() {
         setView("specifics");
     };
 
-
-    useEffect(()=>{
+    useEffect(() => {
         async function fetchTravelData() {
             try {
                 const response = await axios({
@@ -71,28 +79,28 @@ function MyTravelMain() {
                         Authorization: `${userInfo.accessToken}`,
                     },
                 });
-    
+
                 if (response.status === 200) {
                     const travelData = response.data;
                     setTravelData(travelData.result);
-                    if(isWithoutApi){
+                    if (isWithoutApi) {
                         setWithoutAllTravel(travelData.result);
                     }
                     setProfileData((prevData) => ({
                         ...prevData,
                         numTravel: travelData.result.length,
                     }));
-                    
+
                     const travelDat = {
                         numTravel: travelData.result.length,
                     };
                     //console.log(travelDat);
                     setWithoutProfile(travelDat);
-                    console.log(TAG , travelData);
+                    console.log(TAG, travelData);
                 }
             } catch (error) {
                 console.error("Error fetching travel data:", error);
-                if(!isWithoutApi){
+                if (!isWithoutApi) {
                     const travelData = [
                         {
                             title: "통신에러",
@@ -119,7 +127,6 @@ function MyTravelMain() {
                             tid: 1,
                             uid: 1,
                         },
-                        
                     ];
                     setTravelData(travelData);
                     const travelDat = {
@@ -127,14 +134,12 @@ function MyTravelMain() {
                     };
                     setWithoutProfile(travelDat);
                 }
-                
-                
             }
-        };
+        }
         fetchTravelData();
-    },[view]);
-    
-    useEffect(()=>{
+    }, [view]);
+
+    useEffect(() => {
         async function fetchProfilelData() {
             try {
                 const response = await axios({
@@ -144,7 +149,7 @@ function MyTravelMain() {
                         Authorization: `${userInfo.accessToken}`,
                     },
                 });
-    
+
                 if (response.status === 200) {
                     const profile = response.data;
                     updateProfileImgAndName(
@@ -157,10 +162,9 @@ function MyTravelMain() {
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
-        };
+        }
         fetchProfilelData();
-    },[travelData]);
-    
+    }, [travelData]);
 
     async function fetchProfilelLikedData() {
         try {
@@ -178,7 +182,7 @@ function MyTravelMain() {
                     ...prevData,
                     numLiked: liked.result.length,
                 }));
-                
+
                 //console.log(TAG + "-찜한목록 : ", liked);
             }
         } catch (error) {
@@ -186,13 +190,12 @@ function MyTravelMain() {
         }
     }
 
-    useEffect(() => {      
-        
+    useEffect(() => {
         fetchProfilelLikedData();
         withoutfetchProfile();
     }, [view]);
 
-    function withoutfetchProfile(){
+    function withoutfetchProfile() {
         setWithoutProfile(profileData.numTravel);
     }
     // useEffect(() => {
@@ -207,47 +210,32 @@ function MyTravelMain() {
     return (
         <div className="myTravelMain">
             <Nav />
+            {view === "list" && (
+                <div>
+                    <div className="my-travel-profile" ref={profileRef}>
+                        <MyTravelProfile
+                            imgSrc={profileData.imgSrc}
+                            name={profileData.name}
+                            numTravel={profileData.numTravel}
+                            numLiked={profileData.numLiked}
+                        />
+                    </div>
+                    <HorizontalNavigation
+                        setView={setView}
+                        toggleEditMode={() => setIsEditMode(!isEditMode)}
+                    />
+                </div>
+            )}
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                    className="edit-done-button"
-                    onClick={() => setIsEditMode(false)}
-                    style={{
-                        opacity: isEditMode ? 1 : 0,
-                        pointerEvents: isEditMode ? "auto" : "none",
-                    }}
-                >
-                    편집 완료
-                </button>
-
                 {view === "list" && (
                     <div className="my-travel-main-container">
-                        <div className="my-travel-profile" ref={profileRef}>
-                            <MyTravelProfile
-                                imgSrc={profileData.imgSrc}
-                                name={profileData.name}
-                                numTravel={profileData.numTravel}
-                                numLiked={profileData.numLiked}
-                                date={profileData.date}
-                            />
-                            
-                        </div>
-                        <div
-                            style={{
-                                flexGrow: 1,
-                                marginLeft: "4.2vw",
-                                height: profileRef.current
-                                    ? profileRef.current.clientHeight
-                                    : "auto",
-                            }}
-                        >
-                            <MyTravelLists
-                                setView={setView}
-                                isEditMode={isEditMode}
-                                setIsEditMode={setIsEditMode}
-                                view={view}
-                                travelData={travelData}
-                            />
-                        </div>
+                        <MyTravelLists
+                            setView={setView}
+                            isEditMode={isEditMode}
+                            setIsEditMode={setIsEditMode}
+                            view={view}
+                            travelData={travelData}
+                        />
                     </div>
                 )}
 
@@ -348,13 +336,7 @@ function MyTravelMain() {
                         bottom: "3.1vh",
                         zIndex: 1000,
                     }}
-                >
-                    <BtnMyTravelMenu
-                        toggleEditMode={() => setIsEditMode(!isEditMode)}
-                        view={view}
-                        setView={setView}
-                    />
-                </div>
+                ></div>
             </div>
         </div>
     );

@@ -1,0 +1,32 @@
+.horizontal-navigation {
+    display: flex; /* 수평 정렬 */
+    justify-content: flex-end; /* 우측 정렬 */
+    width: 100%; /* 부모 너비에 맞춤 */
+    height: 26.5px;
+    border-bottom: 1px solid #d9d9d9; /* 회색 선 추가 */
+}
+
+.horizontal-navigation button {
+    background: none; /* 배경 없음 */
+    border: none; /* 테두리 없음 */
+    height: 26.5px;
+    padding: 0 10px; /* 좌우 패딩 */
+    cursor: pointer; /* 커서 포인터 스타일 */
+    position: relative; /* 밑줄 효과를 위한 포지셔닝 */
+}
+
+.horizontal-navigation button::after {
+    content: "";
+    position: absolute;
+    bottom: -1px; /* 버튼 하단에 위치 */
+    left: 0;
+    width: 100%; /* 버튼 너비와 동일 */
+    height: 1px;
+    background-color: transparent; /* 기본적으로 투명 */
+    transition: background-color 0.3s; /* 부드러운 색상 전환 효과 */
+}
+
+.horizontal-navigation button:hover::after,
+.horizontal-navigation button.active::after {
+    background-color: #9cbbac; /* 밑줄 색상 */
+}
