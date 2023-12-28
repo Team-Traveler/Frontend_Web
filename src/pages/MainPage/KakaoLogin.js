@@ -4,6 +4,7 @@ import { userInfoState } from "../../recoil/atoms/userState";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./KakaoLogin.css";
+import { API } from "../../config";
 
 function KakaoLogin() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -11,8 +12,6 @@ function KakaoLogin() {
     const PARAMS = new URL(document.location).searchParams;
     const KAKAO_CODE = PARAMS.get("code");
     const [accessTokenFetching, setAccessTokenFetching] = useState(false);
-
-    console.log("KAKAO_CODE:", KAKAO_CODE);
 
     // Access Token 받아오기
     const getAccessToken = async () => {
@@ -24,7 +23,7 @@ function KakaoLogin() {
             setAccessTokenFetching(true); // Set fetching to true
 
             const response = await axios.post(
-                "http://15.164.232.95:9000/api/auth/kakao",
+                `${API.HEADER}/api/auth/kakao`,
                 {
                     authorizationCode: KAKAO_CODE,
                 },
@@ -57,7 +56,7 @@ function KakaoLogin() {
             if (userInfo.accessToken) {
                 // console.log("accessToken in getProfile:", userInfo.accessToken);
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/users/profile",
+                    `${API.HEADER}/users/profile`,
                     {
                         headers: {
                             Authorization: `${userInfo.accessToken}`,

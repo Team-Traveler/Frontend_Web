@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import "./showInfoList.css";
 import { ReactComponent as Marker } from './Vector.svg';
 import CountDay from "./countDay";
-import { ReactComponent as unCheck} from './unCheck.svg';
+import { Checkbox } from 'antd';
 import { ReactComponent as Check} from './Check.svg';
 import Modal from "../../../components/Modal/Modal";
 import AccountBook from "../../NotePage/AccountBook/AccountBook";
@@ -70,9 +70,6 @@ function ShowInfoList({prop}) {
     },
   ];
   const [checkList, setCheckList] = useState(check);
-  // 임시
-  const [flag1, setFlag1] = useState(true);
-  const [flag2, setFlag2] = useState(true);
 
   const infoSet = async ()=>{
     if(prop){ 
@@ -89,29 +86,26 @@ function ShowInfoList({prop}) {
     }
   }
 
-  // 체크리스트 조회
-  // const fetchCheckList = async () => {
-  //   try {
-  //       const response = await axios.get(`${API.HEADER}/checklist/travel/${travel.tid}`);
-  //       console.log("체크리스트 조회 성공");
-  //       console.log(
-  //           "체크리스트 조회 response.data.result : ",
-  //           response.data.result
-  //       );
-  //       setCheckList(response.data.result);
-  //   } catch (error) {
-  //       console.log("체크리스트 조회 실패");
-  //       console.log(error);
-  //   }
-  // };
+  //체크리스트 조회
+  const fetchCheckList = async () => {
+    try {
+        const response = await axios.get(`${API.HEADER}/checklist/travel/${travel.tid}`);
+        console.log("체크리스트 조회 성공");
+        console.log(
+            "체크리스트 조회 response.data.result : ",
+            response.data.result
+        );
+        setCheckList(response.data.result);
+    } catch (error) {
+        console.log("체크리스트 조회 실패");
+        console.log(error);
+    }
+  };
 
   useEffect(()=>{
     infoSet();
-    if(flag1){
-      //fetchCheckList();
-    }
-    if(flag2){
-      
+    if(prop.noteStatus !== 0){
+      fetchCheckList();
     }
   },[prop])
 
@@ -163,11 +157,11 @@ function ShowInfoList({prop}) {
               <span> 나의 노트 공유 </span>
           </div>
           <div className="info-travel-content" id="checkbox" >
-              <span className="checkbox-content" onClick={()=>{if(flag1) setShowCheckList(true)}}>
-                {flag1 ? <Check /> : <unCheck/>} 체크리스트 
+              <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowCheckList(true)}}>
+                {travel.noteStatus ? <Check /> : <Checkbox disabled/>} 체크리스트 
               </span>
-              <span className="checkbox-content" onClick={()=>{if(flag2) setShowBook(true)}}>
-                {flag2 ? <Check /> : <unCheck /> } 가계부
+              <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowBook(true)}}>
+                {travel.noteStatus ? <Check /> : <Checkbox disabled/> } 가계부
               </span>
           </div>
         </div>

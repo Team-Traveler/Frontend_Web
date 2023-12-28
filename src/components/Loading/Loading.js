@@ -13,7 +13,6 @@ function LoadingModal(){
     useEffect(()=>{
         const id = setInterval(()=>{
             setPercent((percent)=>percent+1);
-            console.log(percent);
         },4000/100)
 
         if(percent === 100)

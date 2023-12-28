@@ -1,11 +1,8 @@
 #body {
-  height: 100%;
+  height: 80vh;
   width: 68vw;
   margin: 0 auto;
   padding-bottom: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   min-width: 790px;
 }
 
@@ -49,6 +46,50 @@
   font-style: caption;
   width: 100%;
   color:gray;
+}
+
+/* 연관검색어 창 */
+.related-search-box{
+  position:absolute;
+  border:1px solid rgb(221, 221, 221);
+  box-shadow: 1px 2px 5px rgb(214, 214, 214);
+  border-radius: 10px;
+  width: 58vw;
+  height:300px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  left:20%;
+  z-index: 200;
+  gap:10px;
+  padding:20px 10px 10px 10px;
+  overflow-y: scroll;
+}
+
+.related-search-list{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:10px;
+  margin-left: 30px;
+  cursor: pointer;
+}
+
+.mark-icon{
+  width: 50px;
+  height: 47px;
+  background-color: #C7C7C7;
+  border-radius: 15px;
+  text-align: center;
+}
+
+#marker{
+  margin-top: 15px;
+}
+
+.related-keyword{
+  font-size: 20px;
+  color: #393939;
 }
 
 /* 마우스 올릴 시 기본 텍스트가 안보이도록
@@ -162,5 +203,8 @@
 }
 
 .page-box{
+  position: fixed;
+  left : 45%;
+  bottom:5%;
   text-align: center;
 }
