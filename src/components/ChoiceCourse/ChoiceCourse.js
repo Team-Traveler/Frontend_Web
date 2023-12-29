@@ -5,12 +5,11 @@ import { API } from "../../config";
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../recoil/atoms/userState";
-import {travelsState} from "../../recoil/atoms/travelsListStates";
 import CountDay from '../../pages/communityPage/components/countDay';
 
 function ChoiceCourse({setCourse,onCourse}){
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-    const [courseList, setCourseList] = useRecoilState(travelsState);
+    const [courseList, setCourseList] = useState([]);
 
     const courseApi = async ()=>{
         await axios.get(`${API.HEADER}/users/my_travels`,{ headers: {Authorization:userInfo.accessToken,}})
@@ -23,23 +22,19 @@ function ChoiceCourse({setCourse,onCourse}){
         })
         .catch(err=>{console.log('error',err);})
     }
-    
-    const onClick = (e)=>{
-        console.log(e.target);
-    }
 
     useEffect(()=>{
-        //courseApi();
+        courseApi();
     },[])
 
     return(
         <div className='course-list-box' onClick={(e) => e.stopPropagation()}>
         {courseList && courseList.map((v,index)=>(
-                <div className='course-list' key={index} onClick={()=>{onCourse(v)}}>
-                    <span className='course-title'>{v.title}</span>
-                    <CountDay start_date={v.start_date} end_date={v.end_date}/>
-                    <span className='course-date'>{v.start_date.substr(0,10)} ~ {v.end_date.substr(0,10)}</span>
-                </div>
+            <div className='course-list' key={index} onClick={()=>{onCourse(v)}}>
+                <span className='course-title'>{v.title}</span>
+                <CountDay start_date={v.start_date} end_date={v.end_date}/>
+                <span className='course-date'>{v.start_date.substr(0,10)} ~ {v.end_date.substr(0,10)}</span>
+            </div>
         ))
         }
         </div>

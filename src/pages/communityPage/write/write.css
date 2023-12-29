@@ -4,11 +4,10 @@
     max-height: 100vh;
 }
       
-.xcontent-wrapper {
+.write-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
     max-width: 75vw; /* 최대 너비를 지정 */
     margin: 10px auto 10px auto; /* 가운데 정렬을 위한 마진 설정 */
     gap:30px;

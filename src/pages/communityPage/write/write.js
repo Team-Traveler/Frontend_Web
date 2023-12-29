@@ -15,7 +15,6 @@ import TravelCard from '../components/trip';
 
 function WritePage() {
     // 코스 선택 임시 값
-    const [activeCheckbox, setActiveCheckbox] = useState(true);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [showModal, setShowModal] = useState(false);
     const [value, setValue] = useState({
@@ -32,6 +31,9 @@ function WritePage() {
     // 체크 박스
     const [checklist, setChecklist] = useState(false);
     const [book, setBook] = useState(false);
+    // 체크박스 활성화
+    const [activeC, setActiveC] = useState(false); // 체크리스트
+    const [activeB, setActiveB] = useState(false); // 가계부
     // 코스 선택 시 갖고 오는 값 
     const [what,setWhat] = useState(1);
     const [withwho,setWithwho] = useState(1);
@@ -64,8 +66,23 @@ function WritePage() {
     const onCourse = (v)=>{
         setStart_date(v.start_date);
         setEnd_date(v.end_date);
-        if(v.noteStatus)
-            setActiveCheckbox(false);
+        if(v.noteStatus === 0){ // 노트 정보가 없으면 비활성화
+            setActiveC(true);
+            setActiveB(true);
+        }
+        else if(v.noteStatus === 1){ // 가계부 정보만 있으면
+            setActiveC(true);
+            setActiveB(false);
+        }
+        else if(v.noteStatus === 2){ // 체크리스트만 있으면
+            setActiveC(false);
+            setActiveB(true);
+        }
+        else if(v.noteStatus === 3){ // 둘 다 있으면
+            setActiveC(false);
+            setActiveB(false);
+        }
+
         setValue((prevState) => { // tid 설정
             return { ...prevState, ["tid"]: v.tid };
         });
@@ -106,11 +123,22 @@ function WritePage() {
             hardrating:ratings[1],
             totalrating:ratings[2],
         }
+        
+        let noteStatus = 0;
+        if(checklist && book)
+            noteStatus = 3;
+        else if(checklist)
+            noteStatus = 2;
+        else if(book)
+            noteStatus = 1;
+
         const info = {
             what : what,
             withwho : withwho,
             hard : hard,
+            noteStatus : noteStatus
         }
+
         const jsonMerge = {...value,...rating,...info};
         // content
         // multipart와 json을 같이 보내기 위해서 Blob 사용해야함
@@ -136,7 +164,7 @@ function WritePage() {
     return (
         <div className="xcommunity-page">
             <Nav/>
-            <div className="xcontent-wrapper">
+            <div className="write-box">
                 <div className="left-section">
                     <div className="top-square">
                         {/* { isMy ?
@@ -201,8 +229,8 @@ function WritePage() {
                                 <span> 나의 노트 공유 </span>
                             </div>
                             <div className="input-travel-content" >
-                                <Checkbox onChange={onChangeCheckBox1} disabled={activeCheckbox}>체크리스트</Checkbox>
-                                <Checkbox style={{marginLeft:"10px"}} onChange={onChangeCheckBox2} disabled={activeCheckbox}>가계부</Checkbox>
+                                <Checkbox onChange={onChangeCheckBox1} disabled={activeC}>체크리스트</Checkbox>
+                                <Checkbox style={{marginLeft:"10px"}} onChange={onChangeCheckBox2} disabled={activeB}>가계부</Checkbox>
                             </div>
                         </div>
                     </div>

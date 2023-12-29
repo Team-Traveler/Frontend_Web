@@ -158,10 +158,10 @@ function ShowInfoList({prop}) {
           </div>
           <div className="info-travel-content" id="checkbox" >
               <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowCheckList(true)}}>
-                {travel.noteStatus ? <Check /> : <Checkbox disabled/>} 체크리스트 
+                {travel.noteStatus===3 || travel.noteStatus===2 ? <Check /> : <Checkbox disabled/>} 체크리스트 
               </span>
               <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowBook(true)}}>
-                {travel.noteStatus ? <Check /> : <Checkbox disabled/> } 가계부
+                {travel.noteStatus===3 || travel.noteStatus===1 ? <Check /> : <Checkbox disabled/> } 가계부
               </span>
           </div>
         </div>
