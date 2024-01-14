@@ -1,7 +1,8 @@
 .border {
     display: flex;
-    align-items: center; /* 세로 중앙 정렬 */
-    /* 추가적인 스타일링 */
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 .name {
@@ -21,19 +22,19 @@
     font-size: 30px;
     text-align: center;
     font-weight: bold;
-    font-family: CooperBlack;
+    font-family: AppleSDGothicNeoB00;
 }
 
 .profile-name {
-    font-size: 20px; /* 폰트 크기 변경 */
-    font-weight: bold; /* 굵은 글씨체 */
-    margin-right: 71px; /* 오른쪽 여백 */
-    /* 기타 스타일링 */
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 100px;
+    font-family: AppleSDGothicNeoB00;
 }
 
 .round-button {
-    width: 18px; /* 버튼 크기 */
-    height: 18px;
+    width: 20px; /* 버튼 크기 */
+    height: 20px;
     border-radius: 50%; /* 원형 버튼 */
     background-image: url("./btn.svg"); /* 배경 이미지 설정 */
     background-size: cover; /* 배경 이미지 크기 조정 */
@@ -45,32 +46,40 @@
     display: flex;
     justify-content: normal;
     width: 100%;
+    margin-top: 20px;
+    font-family: AppleSDGothicNeoB00;
 }
 
 .profile-travels {
-    font-size: 14px;
+    font-size: 17px;
     text-align: center;
-    font-family: CooperBlack;
+    font-family: AppleSDGothicNeoB00;
 }
 
 .profile-likes {
-    font-size: 14px;
+    font-size: 17px;
     text-align: center;
     margin-left: 5vw;
-    font-family: CooperBlack;
+    font-family: AppleSDGothicNeoB00;
 }
 
 .profile-date {
-    font-size: 14px;
+    font-size: 17px;
     text-align: start;
     font-family: CooperBlack;
 }
 
 .profile-image {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     margin-left: 30px;
-    margin-right: 30px;
+    margin-right: 80px;
     border-radius: 50%;
     object-fit: cover;
+}
+.profile-nums {
+    font-size: 17px;
+    text-align: center;
+    margin-left: 10px;
+    font-family: AppleSDGothicNeoB00;
 }

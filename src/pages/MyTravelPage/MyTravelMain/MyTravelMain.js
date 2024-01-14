@@ -18,22 +18,27 @@ import profileTest from "./profileTest.png";
 import MyTravelEdit from "../MyTravelEdit/MyTravelEdit";
 import MyTravelProfileEdit from "../MyTravelProfileEdit/MyTravelProfileEdit";
 import Nav from "../../../components/Nav/Nav";
+import { updateState } from "../../../recoil/atoms/updateState.js";
 import { selectedTravelState } from "../../../recoil/atoms/placeSearchState";
 import {
     withoutAllTravelsState,
     withoutApiState,
     withoutProfileState,
 } from "../../../recoil/atoms/withoutAPI";
+import { API } from "../../../config.js";
+import MyTravelCreateLists from "../MyTravelCreateLists/MyTravelCreateLists.js";
 
 function MyTravelMain() {
     const TAG = "MyTravelMain";
     const [view, setView] = useState("list");
     const [selectedTravel, setSelectedTravel] = useState(null); //상세보기 활성화 여부
+    const [selectedTravelId, setSelectedTravelId] = useState(null);
     const [selectTravel, setSelectTravel] = useRecoilState(selectedTravelState);
     const [isEditMode, setIsEditMode] = useState(false); // 목록 편집 활성화 여부
     const profileRef = React.useRef();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [travelData, setTravelData] = useRecoilState(myAllTravelsState);
+    const [update, setUpdate] = useRecoilState(updateState);
     const [IsTravelDataCreated, setIsTravelDataCreated] = useRecoilState(
         isTravelDataCreatedState
     );
@@ -43,6 +48,7 @@ function MyTravelMain() {
         numTravel: 8,
         numLiked: 20,
         date: "2023.08.23",
+        email: "OOOOOOOOO@naver.com",
     });
 
     // import { withoutAllTravelsState,
@@ -74,7 +80,7 @@ function MyTravelMain() {
             try {
                 const response = await axios({
                     method: "GET",
-                    url: "http://15.164.232.95:9000/users/my_travels",
+                    url: `${API.HEADER}/users/my_travels`,
                     headers: {
                         Authorization: `${userInfo.accessToken}`,
                     },
@@ -95,56 +101,57 @@ function MyTravelMain() {
                         numTravel: travelData.result.length,
                     };
                     //console.log(travelDat);
-                    setWithoutProfile(travelDat);
-                    console.log(TAG, travelData);
+                    //setWithoutProfile(travelDat);
+                    //console.log(TAG, travelData);
                 }
             } catch (error) {
-                console.error("Error fetching travel data:", error);
-                if (!isWithoutApi) {
-                    const travelData = [
-                        {
-                            title: "통신에러",
-                            destination: "여수",
-                            start_date: "2023-08-18 09:00:00",
-                            end_date: "2023-08-20 09:00:00",
-                            created_at: "2023-08-17 01:07:27",
-                            time_status: 1,
-                            writeStatus: 0,
-                            noteStatus: 0,
-                            courses: [
-                                {
-                                    dcId: 0,
-                                    spot1: null,
-                                    spot2: null,
-                                    spot3: null,
-                                    spot4: null,
-                                    first: null,
-                                    second: null,
-                                    third: null,
-                                    numOfDay: 1,
-                                },
-                            ],
-                            tid: 1,
-                            uid: 1,
-                        },
-                    ];
-                    setTravelData(travelData);
-                    const travelDat = {
-                        numTravel: 0,
-                    };
-                    setWithoutProfile(travelDat);
-                }
+                console.log("MyTravelMain : /users/my_travels 통신에러", error);
+                // if (!isWithoutApi) {
+                //     const travelData = [
+                //         {
+                //             title: "통신에러",
+                //             destination: "여수",
+                //             start_date: "2023-08-18 09:00:00",
+                //             end_date: "2023-08-20 09:00:00",
+                //             created_at: "2023-08-17 01:07:27",
+                //             time_status: 1,
+                //             writeStatus: 0,
+                //             noteStatus: 0,
+                //             courses: [
+                //                 {
+                //                     dcId: 0,
+                //                     spot1: null,
+                //                     spot2: null,
+                //                     spot3: null,
+                //                     spot4: null,
+                //                     first: null,
+                //                     second: null,
+                //                     third: null,
+                //                     numOfDay: 1,
+                //                 },
+                //             ],
+                //             tid: 1,
+                //             uid: 1,
+                //         },
+                //     ];
+
+                //     setTravelData(travelData);
+                //     const travelDat = {
+                //         numTravel: 0,
+                //     };
+                //     setWithoutProfile(travelDat);
+                // }
             }
         }
         fetchTravelData();
-    }, [view]);
+    }, [view, update]);
 
     useEffect(() => {
         async function fetchProfilelData() {
             try {
                 const response = await axios({
                     method: "GET",
-                    url: "http://15.164.232.95:9000/users/profile",
+                    url: `${API.HEADER}/users/profile`,
                     headers: {
                         Authorization: `${userInfo.accessToken}`,
                     },
@@ -157,43 +164,43 @@ function MyTravelMain() {
                         profile.result.nickname
                     );
                     setWithoutProfile(profile.result);
-                    console.log(TAG + "-카카오프로필 : ", profileData);
+                    //console.log(TAG + "-카카오프로필 : ", profileData);
                 }
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
         }
         fetchProfilelData();
-    }, [travelData]);
-
-    async function fetchProfilelLikedData() {
-        try {
-            const response = await axios({
-                method: "GET",
-                url: "http://15.164.232.95:9000/users/myLike",
-                headers: {
-                    Authorization: `${userInfo.accessToken}`,
-                },
-            });
-
-            if (response.status === 200) {
-                const liked = response.data;
-                setProfileData((prevData) => ({
-                    ...prevData,
-                    numLiked: liked.result.length,
-                }));
-
-                //console.log(TAG + "-찜한목록 : ", liked);
-            }
-        } catch (error) {
-            console.error("Error fetching like data:", error);
-        }
-    }
+    }, [travelData, update]);
 
     useEffect(() => {
+        async function fetchProfilelLikedData() {
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: `${API.HEADER}/users/myLike`,
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    const liked = response.data;
+                    setProfileData((prevData) => ({
+                        ...prevData,
+                        numLiked: liked.result.length,
+                    }));
+
+                    //console.log(TAG + "-찜한목록 : ", liked);
+                }
+            } catch (error) {
+                console.error("Error fetching like data:", error);
+            }
+        }
+
         fetchProfilelLikedData();
         withoutfetchProfile();
-    }, [view]);
+    }, [view, update]);
 
     function withoutfetchProfile() {
         setWithoutProfile(profileData.numTravel);
@@ -207,9 +214,23 @@ function MyTravelMain() {
     //     }
     // }, [IsTravelDataCreated]);
 
+    // useEffect(() => {
+    //     const handlePopState = () => {
+    //         setIsTravelDataCreated(false);
+    //     };
+
+    //     // window.addEventListener('popstate', handlePopState);
+
+    //     // // 컴포넌트 언마운트 시 이벤트 리스너 정리
+    //     // return () => {
+    //     //     window.removeEventListener('popstate', handlePopState);
+    //     // };
+    // }, []);
+
     return (
         <div className="myTravelMain">
             <Nav />
+            {/* {console.log(view)} */}
             {view === "list" && (
                 <div>
                     <div className="my-travel-profile" ref={profileRef}>
@@ -218,6 +239,7 @@ function MyTravelMain() {
                             name={profileData.name}
                             numTravel={profileData.numTravel}
                             numLiked={profileData.numLiked}
+                            setView={setView}
                         />
                     </div>
                     <HorizontalNavigation
@@ -227,6 +249,7 @@ function MyTravelMain() {
                 </div>
             )}
             <div style={{ display: "flex", justifyContent: "center" }}>
+                {/*나의 여행*/}
                 {view === "list" && (
                     <div className="my-travel-main-container">
                         <MyTravelLists
@@ -235,6 +258,7 @@ function MyTravelMain() {
                             setIsEditMode={setIsEditMode}
                             view={view}
                             travelData={travelData}
+                            setSelectedTravelId={setSelectedTravelId}
                         />
                     </div>
                 )}
@@ -259,7 +283,7 @@ function MyTravelMain() {
                             height: "62.6vh",
                         }}
                     >
-                        <MyTravelEdit />
+                        <MyTravelEdit setView={setView} />
                     </div>
                 )}
 
@@ -301,7 +325,7 @@ function MyTravelMain() {
                     </div>
                 )}
 
-                {/* 후기 작성 */}
+                {/* 리뷰 작성 */}
                 {view === "review" && (
                     <div
                         style={{
@@ -311,7 +335,7 @@ function MyTravelMain() {
                             height: "62.6vh",
                         }}
                     >
-                        후기작성
+                        리뷰작성
                     </div>
                 )}
 

@@ -1,32 +1,56 @@
-.horizontal-navigation {
-    display: flex; /* 수평 정렬 */
-    justify-content: flex-end; /* 우측 정렬 */
-    width: 100%; /* 부모 너비에 맞춤 */
-    height: 26.5px;
-    border-bottom: 1px solid #d9d9d9; /* 회색 선 추가 */
+.horizontal-navigation-container {
+    position: relative; /* 자식 요소들을 상대적으로 배치하기 위해 필요 */
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
-.horizontal-navigation button {
-    background: none; /* 배경 없음 */
-    border: none; /* 테두리 없음 */
+.horizontal-navigation {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
     height: 26.5px;
-    padding: 0 10px; /* 좌우 패딩 */
-    cursor: pointer; /* 커서 포인터 스타일 */
-    position: relative; /* 밑줄 효과를 위한 포지셔닝 */
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d9d9d9;
+}
+.horizontal-navigation button {
+    background: none;
+    border: none;
+    height: 26.5px;
+    padding: 0 10px;
+    cursor: pointer;
+    position: relative;
+    font-family: "AppleSDGothicNeoM00";
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .horizontal-navigation button::after {
     content: "";
     position: absolute;
-    bottom: -1px; /* 버튼 하단에 위치 */
+    bottom: -1px;
     left: 0;
-    width: 100%; /* 버튼 너비와 동일 */
+    width: 100%;
     height: 1px;
-    background-color: transparent; /* 기본적으로 투명 */
-    transition: background-color 0.3s; /* 부드러운 색상 전환 효과 */
+    background-color: transparent;
+    transition: background-color 0.3s;
 }
 
 .horizontal-navigation button:hover::after,
 .horizontal-navigation button.active::after {
-    background-color: #9cbbac; /* 밑줄 색상 */
+    background-color: #9cbbac;
+}
+
+.editNavBtn {
+    font-family: "AppleSDGothicNeoM00";
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 25px;
+    background: none;
+    border: none;
+    text-decoration: underline;
 }

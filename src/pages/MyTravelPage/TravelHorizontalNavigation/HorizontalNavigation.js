@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import "./HorizontalNavigation.css";
 
 const HorizontalNavigation = (props) => {
-    const [activeTab, setActiveTab] = useState("profile"); // 기본값 설정
+    const [activeTab, setActiveTab] = useState("list"); // 기본값 설정
 
     const handleNavClick = (viewName) => {
         props.setView(viewName);
@@ -13,37 +13,43 @@ const HorizontalNavigation = (props) => {
     };
 
     return (
-        <div className="horizontal-navigation">
-            <button
-                onClick={() => handleNavClick("profile")}
-                className={activeTab === "profile" ? "active" : ""}
-            >
-                프로필 편집
-            </button>
-            <button
-                onClick={() => handleNavClick("review")}
-                className={activeTab === "review" ? "active" : ""}
-            >
-                후기 작성
-            </button>
-            <button
-                onClick={() => handleNavClick("like")}
-                className={activeTab === "like" ? "active" : ""}
-            >
-                찜한 여행
-            </button>
-            <button
-                onClick={() => handleNavClick("add")}
-                className={activeTab === "add" ? "active" : ""}
-            >
-                여행 만들기
-            </button>
+        <div className="horizontal-navigation-container">
+            <div className="horizontal-navigation">
+                <button
+                    onClick={() => handleNavClick("add")}
+                    className={activeTab === "add" ? "active" : ""}
+                >
+                    여행 만들기
+                </button>
+                <button
+                    onClick={() => handleNavClick("review")}
+                    className={activeTab === "review" ? "active" : ""}
+                >
+                    리뷰 작성
+                </button>
+                <button
+                    onClick={() => handleNavClick("like")}
+                    className={activeTab === "like" ? "active" : ""}
+                >
+                    찜한 여행
+                </button>
+
+                <button
+                    onClick={() => {
+                        handleNavClick("list");
+                        //props.toggleEditMode();
+                    }}
+                    className={activeTab === "list" ? "active" : ""}
+                >
+                    나의 여행
+                </button>
+            </div>
             <button
                 onClick={() => {
-                    handleNavClick("edit");
+                    handleNavClick("list");
                     props.toggleEditMode();
                 }}
-                className={activeTab === "edit" ? "active" : ""}
+                className="editNavBtn"
             >
                 목록 편집
             </button>

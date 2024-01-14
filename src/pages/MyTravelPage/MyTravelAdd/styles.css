@@ -1,6 +1,7 @@
 .group490 {
     width: 100%;
-    height: 10.58vh;
+    height: 100%;
+    margin-top: 5%;
     display: flex;
     flex-direction: column;
     align-items: center; /* 가로 중앙 정렬 */
@@ -10,11 +11,11 @@
 .Title {
     width: 14.84vw;
     height: 5vh;
-    font-family: "Cooper Black";
+    font-family: "AppleSDGothicNeoL00";
     font-style: normal;
     font-weight: 700;
-    font-size: 35px;
-    line-height: 42px;
+    font-size: 45px;
+    margin: 0 auto;
     text-align: center;
     color: #000000;
 }
@@ -22,11 +23,11 @@
 .subText {
     width: 14.37vw;
     height: 2.5vh;
-    font-family: "Cooper Black";
+    font-family: "AppleSDGothicNeoL00";
     font-style: normal;
     font-weight: 200;
     font-size: 18px;
-    line-height: 21px;
+    margin: 10px 0 0 0 auto;
     text-align: center;
     color: #000000;
 }
@@ -34,11 +35,11 @@
 .rectangle {
     box-sizing: border-box;
     width: 56.95vw;
-    height: 0.6px;
+    height: 0.1%;
     background: #ffffff;
     border: 1px solid #bbbbbb;
 }
 
 .windows {
-    margin-top: 11.65vh;
+    margin-top: 1.65vh;
 }

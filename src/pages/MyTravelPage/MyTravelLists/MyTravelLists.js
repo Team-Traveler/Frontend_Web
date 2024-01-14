@@ -13,6 +13,8 @@ import {
     selectedTIDState,
     setSelectedTIDSelector,
 } from "../../../recoil/atoms/travelSpecificState";
+import { API } from "../../../config";
+import { updateState } from "../../../recoil/atoms/updateState";
 
 function TravelCard({
     tid,
@@ -26,12 +28,13 @@ function TravelCard({
     onDelete,
     setSelectedTID,
     onDetails,
+    setSelectedTravelId,
 }) {
     //console.log("Travel title : ",tid);
 
     const handleDetailClick = () => {
         //console.log('Detail button clicked');
-        //console.log('Detail button clicked with tid:', tid);
+        console.log("Detail button clicked with tid:", tid);
         onDetails(tid);
         setSelectedTID(tid);
         setView("specifics");
@@ -55,7 +58,7 @@ function TravelCard({
     };
 
     const handleDeleteClick = () => {
-        console.log("Delete button clicked");
+        //console.log("Delete button clicked");
         onDelete(tid);
     };
 
@@ -95,7 +98,7 @@ function TravelCard({
                         alignItems: "flex-end",
                     }}
                 >
-                    <div className="travel-card-name">{title}</div>
+                    <div className="travel-card-name-list">{title}</div>
                     <div className="travel-card-category">
                         {write_status == 0 ? (
                             "개인맞춤"
@@ -115,7 +118,7 @@ function TravelCard({
                         marginLeft: "40px",
                     }}
                 >
-                    <div className="travel-card-list-duration">
+                    <div className="travel-card-duration-list">
                         {calculateDaysBetween(start_date, end_date)}
                     </div>
                 </div>
@@ -128,71 +131,56 @@ function TravelCard({
                         marginLeft: "40px",
                     }}
                 >
-                    <div className="travel-card-text">
+                    <div className="travel-card-text-list">
                         {formatDate(start_date)}
                     </div>
-                    <div className="travel-card-text">~</div>
-                    <div className="travel-card-text">
+                    <div className="travel-card-text-list2"> ~ </div>
+                    <div className="travel-card-text-list">
                         {formatDate(end_date)}
                     </div>
                 </div>
-                {isEditMode ? (
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "flex-start",
-                            marginTop: "10px",
-                            marginBottom: "10px",
-                            marginLeft: "450px",
-                            marginRight: "40px",
-                        }}
-                    >
-                        <div
-                            className="travel-card-category"
-                            onClick={handleEditClick}
-                        >
-                            편집
-                        </div>
-                        <div
-                            className="travel-card-category"
-                            onClick={handleDeleteClick}
-                        >
-                            삭제
-                        </div>
-                    </div>
-                ) : (
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            marginTop: "10px",
-                            marginBottom: "10px",
-                            marginLeft: "40px",
-                            marginRight: "40px",
-                        }}
-                    >
-                        <div
-                            className="travel-card-button"
-                            onClick={handleDetailClick}
-                        >
-                            상세보기
-                        </div>
-                        <div
-                            className="travel-card-button"
-                            onClick={handleReviewClick}
-                        >
-                            리뷰쓰기
-                        </div>
-                        <div
-                            className="travel-card-button"
-                            onClick={handleShareClick}
-                        >
-                            공유
-                        </div>
-                    </div>
-                )}
+                <div className="travel-card-buttons-container">
+                    {isEditMode ? (
+                        <>
+                            <div
+                                className="travel-card-category-edit"
+                                onClick={handleEditClick}
+                            >
+                                편집
+                            </div>
+                            <span className="travel-card-button-line">|</span>
+                            <div
+                                className="travel-card-category-edit"
+                                onClick={handleDeleteClick}
+                            >
+                                삭제
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                className="travel-card-button"
+                                onClick={handleDetailClick}
+                            >
+                                상세보기
+                            </button>
+                            <span className="travel-card-button-line">|</span>
+                            <button
+                                className="travel-card-button"
+                                onClick={handleReviewClick}
+                            >
+                                리뷰쓰기
+                            </button>
+                            <span className="travel-card-button-line">|</span>
+                            <button
+                                className="travel-card-button"
+                                onClick={handleShareClick}
+                            >
+                                공유
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -203,6 +191,7 @@ function MyTravelLists({
     setView,
     isEditMode,
     setIsEditMode,
+    setSelectedTravelId,
 }) {
     const TAG = "MyTravelLists";
     const [travelList, setTravelList] = useRecoilState(myAllTravelsState);
@@ -211,10 +200,11 @@ function MyTravelLists({
     const [travelSpecificData, setTravelSpecificData] = useRecoilState(
         setTravelSpecificStateSelector
     );
+    const [update, setUpdate] = useState(updateState);
 
     async function deleteTravelData(tid) {
         try {
-            const url = `http://15.164.232.95:9000/travel/${tid}`;
+            const url = `${API.HEADER}/travel/${tid}`;
             const response = await axios.delete(url, {
                 headers: {
                     Authorization: `${userInfo.accessToken}`,
@@ -222,7 +212,7 @@ function MyTravelLists({
             });
 
             if (response.status === 200) {
-                console.log("여행 삭제 완료");
+                //console.log("여행 삭제 완료");
             }
         } catch (error) {
             console.error("Error fetching travel data:", error);
@@ -233,20 +223,15 @@ function MyTravelLists({
         try {
             const response = await axios({
                 method: "GET",
-                url: `http://15.164.232.95:9000/travel/${tid}`,
+                url: `${API.HEADER}/travel/${tid}`,
                 headers: {
                     Authorization: `${userInfo.accessToken}`,
                 },
             });
 
-            if (response.status === 200) {
-                const travelData = response.data;
-                setTravelSpecificData(travelData.result);
-                console.log(
-                    "fetched travel Specific data : ",
-                    travelSpecificData
-                );
-            }
+            const travelData = response.data;
+            setTravelSpecificData(travelData.result);
+            console.log("fetched travel Specific data : ", travelSpecificData);
         } catch (error) {
             console.log("SelectedTID :", tid);
 
@@ -255,15 +240,17 @@ function MyTravelLists({
     }
 
     useEffect(() => {
-        console.log(TAG + "-상세여행조회 : ", travelSpecificData);
-        console.log(TAG + "현재 저장된 값", travelList);
-    }, [travelList, travelSpecificData]);
+        //console.log(TAG + " : 상세여행조회 : ", travelSpecificData);
+        //console.log(TAG + " : 현재 저장된 값", travelList);
+    }, [travelList, travelSpecificData, update]);
 
     const handleDelete = (tid) => {
         setTravelList((prevTravelList) =>
             prevTravelList.filter((travel) => travel.tid !== tid)
         );
         deleteTravelData(tid);
+        setUpdate(Math.random());
+        setIsEditMode(false);
     };
 
     return (
@@ -272,6 +259,7 @@ function MyTravelLists({
                 <div>이 항목에는 여행 리스트 값이 없습니다.</div>
             ) : (
                 travelList.map((travel, index) => {
+                    //console.log("Travel item:", travel);
                     return (
                         <TravelCard
                             key={travel.tid || index}

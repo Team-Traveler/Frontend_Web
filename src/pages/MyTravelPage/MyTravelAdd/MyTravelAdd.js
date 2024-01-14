@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import MyTravelInputWindows from "../MyTravelInputWindows/MyTravelInputWindows";
 import "./styles.css";
 
-function MyTravelAdd({ setView, setIsTravelDataCreated, ...props }) {
+function MyTravelAdd({ setView, ...props }) {
     const [travelInfo, setTravelInfo] = useState({
         name: "",
         placeName: "",
@@ -22,8 +22,6 @@ function MyTravelAdd({ setView, setIsTravelDataCreated, ...props }) {
             startDate,
             endDate,
         });
-
-        // 추가적으로 필요한 로직(정보전송)
     };
     //console.log('Travel Add result: ', travelInfo);
 
@@ -38,12 +36,7 @@ function MyTravelAdd({ setView, setIsTravelDataCreated, ...props }) {
                 <div className="rectangle"></div>
             </div>
             <div className="windows">
-                <MyTravelInputWindows
-                    onTravelInfoSubmit={onTravelInfoSubmit}
-                    isFromEdit={false}
-                    setView={setView}
-                    setIsTravelDataCreated={setIsTravelDataCreated}
-                />
+                <MyTravelInputWindows isFromEdit={false} setView={setView} />
             </div>
         </div>
     );
