@@ -1,42 +1,32 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import MyTravelInputWindows from '../MyTravelInputWindows/MyTravelInputWindows';
-import './styles.css';
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import MyTravelInputWindows from "../MyTravelInputWindows/MyTravelInputWindows";
+import "./styles.css";
 
-
-function MyTravelEdit(props) {
+function MyTravelEdit({ setView, ...props }) {
     const [travelInfo, setTravelInfo] = useState({
         name: "",
         placeName: "",
         latitude: "",
         longitude: "",
         startDate: "",
-        endDate: ""
+        endDate: "",
     });
 
     const onTravelInfoSubmit = (info) => {
-        const [
-          name,
-          placeName,
-          latitude,
-          longitude,
-          startDate,
-          endDate
-        ] = info;
-    
+        const [name, placeName, latitude, longitude, startDate, endDate] = info;
+
         setTravelInfo({
-          name,
-          placeName,
-          latitude,
-          longitude,
-          startDate,
-          endDate
+            name,
+            placeName,
+            latitude,
+            longitude,
+            startDate,
+            endDate,
         });
-    
-        // 추가적으로 필요한 로직(정보전송)
     };
-    
-    console.log('Travel Edit result: ', travelInfo);
+
+    //console.log('Travel Edit result: ', travelInfo);
 
     return (
         <div>
@@ -48,10 +38,8 @@ function MyTravelEdit(props) {
                 <div className="rectangle-edit"></div>
             </div>
             <div className="windows-edit">
-                <MyTravelInputWindows onTravelInfoSubmit={onTravelInfoSubmit} isFromEdit = {true}/>
+                <MyTravelInputWindows isFromEdit={true} setView={setView} />
             </div>
-            
-        
         </div>
     );
 }
