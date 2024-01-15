@@ -12,7 +12,6 @@ import Hap from "./pages/communityPage/hap/hap";
 import { userInfoState } from "./recoil/atoms/userState";
 import { useRecoilState } from "recoil";
 
-
 function App() {
     const [userInfo] = useRecoilState(userInfoState);
     const isLogin = userInfo.isLogin;
@@ -31,8 +30,14 @@ function App() {
                             element={<CompletedPage />}
                         ></Route>
 
-                        <Route path="/story" element={<CommunityPage />}></Route>
-                        <Route path="/story/search" element={<Search />}></Route>
+                        <Route
+                            path="/story"
+                            element={<CommunityPage />}
+                        ></Route>
+                        <Route
+                            path="/story/search"
+                            element={<Search />}
+                        ></Route>
                         <Route path={`/story/:tid`} element={<Hap />}></Route>
                         <Route path="/note" element={<NotePage />}></Route>
                         <Route path="/mypage" element={<MyTravelMain />} />

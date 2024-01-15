@@ -22,6 +22,7 @@ import { ReactComponent as KakaoSecond } from "../../../src/assets/images/kakaol
 import { ReactComponent as ArrowUp } from "../../../src/assets/images/arrow_up.svg";
 import { ReactComponent as ArrowDown } from "../../../src/assets/images/arrow_down.svg";
 import Modal from "../../components/Modal/Modal";
+import { API } from "../../config";
 
 function MainPage() {
     const [showModal, setShowModal] = useState(false);
@@ -402,7 +403,7 @@ const MultipleSliderRecommend = () => {
         const fetchContents = async () => {
             try {
                 const response = await axios.get(
-                    "https://www.traveler-back.shop/recommend/list"
+                    `${API.HEADER}/recommend/list`
                 );
                 setContents(response.data);
             } catch (error) {
@@ -518,7 +519,7 @@ const MultipleSliderLike = () => {
         const fetchContents = async () => {
             try {
                 const response = await axios.get(
-                    "http://15.164.232.95:9000/users/myScrap",
+                    `${API.HEADER}/users/myScrap`,
                     {
                         headers: { Authorization: userInfo.accessToken },
                     }
