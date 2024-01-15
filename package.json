@@ -27,7 +27,7 @@
     "react-icons": "^4.11.0",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.14.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-slick": "^0.29.0",
     "recoil": "^0.7.7",
     "redux": "^4.2.1",
@@ -62,5 +62,5 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
-  "proxy" : "http://suggestqueries.google.com"
+  "proxy": "http://suggestqueries.google.com"
 }
