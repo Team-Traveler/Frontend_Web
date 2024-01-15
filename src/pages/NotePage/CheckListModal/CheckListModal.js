@@ -25,7 +25,7 @@ function CheckListModal({ closeModal, size, headerTitle, children }) {
                         <AiOutlineClose />
                     </button> */}
                 </div>
-                <div className="modal-header-divide-line"></div>
+                {/* <div className="modal-header-divide-line"></div> */}
                 {/* <hr style={{ width: "100%" }}></hr> */}
                 {/* 모달 컨텐츠 */}
                 <div className="modal-body">{children}</div>

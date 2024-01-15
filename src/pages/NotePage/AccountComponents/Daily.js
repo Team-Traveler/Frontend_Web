@@ -1,20 +1,61 @@
 import { useRecoilState } from "recoil";
 import { accountState } from "../../../recoil/atoms/accountState";
 import { selectedNoteId } from "../../../recoil/atoms/noteState";
+import { userInfoState } from "../../../recoil/atoms/userState";
 import { noteState } from "../../../recoil/atoms/noteState";
 import "./Daily.css";
 import del_btn from "../../../assets/images/del_btn.png";
 import add_btn from "../../../assets/images/add_btn.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ExpenseButtons from "./DropDown/dropdown";
+import axios from "axios";
 
 function Daily() {
     const [account, setAccount] = useRecoilState(accountState);
     const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
     const [noteList, setNoteList] = useRecoilState(noteState);
-
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    // Server Address
+    const serverUrl = "https://traveler-back.shop";
     useEffect(() => {
         console.log("account", account);
     }, [account]);
+    const [detail, setDetail] = useState('');
+    const handleDetailChange = (event) => {
+        setDetail(event.target.value);
+      };
+    const [price, setPrice] = useState('');
+    const handlePriceChange = (event) => {
+        const input = event.target.value;
+        const numericInput = input.replace(/[^0-9]/g, ""); // 숫자 이외의 문자 모두 제거
+      
+        const numberWithCommas = numericInput.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        setPrice(numberWithCommas);
+      };      
+    // // 가계부 생성
+    // const createBook = async (tid) => {
+    //     try {
+    //         const response = await axios.post(
+    //             `${serverUrl}/accountbook/${tid}`,
+    //             {
+    //                 title: "new title",
+    //                 items: [],
+    //             },
+    //             {
+    //                 headers: {
+    //                     Authorization: `${userInfo.accessToken}`,
+    //                 },
+    //             }
+    //         );
+    //         console.log("체크리스트 생성 성공!");
+    //         console.log("체크리스트 생성 response : ", response);
+    //         setCheckList([...checkList, response.data.result]);
+    //         console.log("체크리스트 생성 결과 checkList : ", checkList);
+    //     } catch (error) {
+    //         console.log(error);
+    //         console.log("체크리스트 생성 실패");
+    //     }
+    // };
 
     const createItem = () => {
         let category = prompt("카테고리 입력(식비/교통비/쇼핑/관광/기타)");
@@ -159,16 +200,70 @@ function Daily() {
 
     return (
         <div className="account-daily">
-            <div>
-                <img
-                    src={add_btn}
-                    alt="add_btn"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                        createItem();
-                    }}
-                />
-            </div>
+
+            <div
+                className="account-item-container"
+                key="{`${list.tId}-${e.dateId}`}"
+            >
+                <div className="account-item-daily-header">
+                    <div className="account-item-date">
+                        11월
+                    </div>
+                </div>
+                <div
+                    className="account-input-form"
+                >
+                    <div
+                        style={{width:"90px", height:"20px",}}
+                    ></div>
+                    <div className="account-input-expense-box">
+                    <ExpenseButtons></ExpenseButtons> 
+                    {/* <select id="account-input-expense" className="account-input-expense">
+                        <option value="" disabled selected hidden>카테고리</option>
+                        <option value="식비">식비</option>
+                        <option value="교통비">교통비</option>
+                        <option value="쇼핑">쇼핑</option>
+                        <option value="관광">관광</option>
+                        <option value="기타">기타</option>
+                    </select> */}
+                    </div>
+
+                    <div className="account-input-description-box">
+                    <input
+                        type="text"
+                        value={detail}
+                        placeholder="세부 사항"
+                        className="account-input-description"
+                        onChange={handleDetailChange}
+                    >
+                    </input>
+                    </div>
+                    <div className="account-input-price-box">
+                        <input
+                            type="text"
+                            value={price}
+                            placeholder="가격"
+                            className="account-input-price"
+                            onChange={handlePriceChange}
+                        >
+                        </input>
+                        <div
+                            className="account-add-btn"
+                            style={{display: "flex", alignItems: "center", justifyContent: "flex-end"}}
+                        >
+                            <img
+                                src={add_btn}
+                                alt="add_btn"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                    createItem();
+                                }}
+                            />
+                        </div>                        
+                    </div>
+                </div>
+                <div className="account-daily-div-line"></div>
+            </div>            
             {account.map((list) => {
                 if (list.tId === selectedNote) {
                     return list.daily.map((e) => {
@@ -230,34 +325,96 @@ function Daily() {
                                                         }
                                                     })}
 
-                                                    <div className="account-item-category">
-                                                        {item.category}
+                                                    <div className="account-item-category-box">
+                                                        <div className="account-item-category">
+                                                            {item.category}
+                                                        </div>
+                                                        
                                                     </div>
-                                                    <div className="account-item-title">
-                                                        {item.title}
+                                                    <div className="account-item-title-box">
+                                                        <div className="account-item-title">
+                                                            {item.title}
+                                                        </div>
                                                     </div>
-                                                    <div className="account-item-price">
-                                                        {item.price !==
-                                                        undefined ? (
-                                                            <>
-                                                                {item.price
-                                                                    .toString()
-                                                                    .replace(
-                                                                        /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
-                                                                        ","
-                                                                    )}
-                                                                원
-                                                            </>
-                                                        ) : (
-                                                            "가격 없음"
-                                                        )}
+                                                    <div className="account-item-price-box">
+                                                        <div className="account-item-price">
+                                                            {item.price !==
+                                                            undefined ? (
+                                                                <>
+                                                                    {item.price
+                                                                        .toString()
+                                                                        .replace(
+                                                                            /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                                                                            ","
+                                                                        )}
+                                                                    원
+                                                                </>
+                                                            ) : (
+                                                                "가격 없음"
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             );
                                         }
                                         return null; // item이 정의되지 않았을 경우 렌더링하지 않음
                                     })}
+                                    <div
+                                        className="account-item-container"
+                                    >
+                                        <div
+                                            className="account-input-form"
+                                        >
+                                            <div
+                                                style={{width:"90px", height:"20px",}}
+                                            ></div>
+                                            <div className="account-input-expense-box">
+                                            <ExpenseButtons></ExpenseButtons> 
+                                            {/* <select id="account-input-expense" className="account-input-expense">
+                                                <option value="" disabled selected hidden>카테고리</option>
+                                                <option value="식비">식비</option>
+                                                <option value="교통비">교통비</option>
+                                                <option value="쇼핑">쇼핑</option>
+                                                <option value="관광">관광</option>
+                                                <option value="기타">기타</option>
+                                            </select> */}
+                                            </div>
 
+                                            <div className="account-input-description-box">
+                                            <input
+                                                type="text"
+                                                value={detail}
+                                                placeholder="세부 사항"
+                                                className="account-input-description"
+                                                onChange={handleDetailChange}
+                                            >
+                                            </input>
+                                            </div>
+                                            <div className="account-input-price-box">
+                                                <input
+                                                    type="text"
+                                                    value={price}
+                                                    placeholder="가격"
+                                                    className="account-input-price"
+                                                    onChange={handlePriceChange}
+                                                >
+                                                </input>
+                                                <div
+                                                    className="account-add-btn"
+                                                    style={{display: "flex", alignItems: "center", justifyContent: "flex-end"}}
+                                                >
+                                                    <img
+                                                        src={add_btn}
+                                                        alt="add_btn"
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() => {
+                                                            createItem();
+                                                        }}
+                                                    />
+                                                </div>                        
+                                            </div>
+                                        </div>
+                                    </div>   
                                     <div className="account-daily-div-line"></div>
                                 </div>
                             );

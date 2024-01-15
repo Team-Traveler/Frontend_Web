@@ -2,11 +2,15 @@ import { useRecoilState } from "recoil";
 import { accountState } from "../../../recoil/atoms/accountState";
 import { selectedNoteId } from "../../../recoil/atoms/noteState";
 import { useEffect, useState } from "react";
+import { userInfoState } from "../../../recoil/atoms/userState";
 import "./Summary.css";
+import axios from "axios";
 
 function Summary() {
     const [account, setAccount] = useRecoilState(accountState);
     const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    // 여기부터 데이터
     const [foodExpense, setFoodExpense] = useState(0);
     const [transportationExpense, setTransportationExpense] = useState(0);
     const [sightseeingExpense, setSightseeingExpense] = useState(0);
@@ -16,6 +20,42 @@ function Summary() {
     const [totalBudget, setTotalBudget] = useState(200000);
     const [percentage, setPercentage] = useState(0);
     const [progressBarWidth, setprogressBarWidth] = useState(0);
+    const serverUrl = "https://traveler-back.shop";
+    const fetchAccountBook = async () => {
+        try {
+            const response = await axios.get(
+                `${serverUrl}/accountbook/1/summary`,
+                {
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                }
+            ).then((res)=>{
+                setFoodExpense(res.data.result.foodExpense);
+                setTransportationExpense(res.data.result.transportationExpense);
+                setSightseeingExpense(res.data.result.sightseeingExpense);
+                setShoppingExpense(res.data.result.shoppingExpense);
+                setOtherExpense(res.data.result.otherExpense);
+                setTotalExpense(res.data.result.totalExpense);
+                console.log("acoount book 조회 성공");
+                console.log(
+                    "account book 조회 response.data.result : ",
+                    res.data.result
+                );
+            });
+        
+        } catch (error) {
+            console.log("가계부 조회 실패");
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        console.log("sdas");
+        // book check
+        fetchAccountBook();
+    }, [account]);
+    
+
 
     const createExepnse = (categoryTitle) => {
         const value = parseInt(
@@ -41,7 +81,7 @@ function Summary() {
     };
 
     const expensePercentage = (expense) => {
-        const value = Math.round(expense / totalExpense) * 100;
+        const value = Math.round(expense*100 / totalExpense);
         return value ? value : 0;
     };
 

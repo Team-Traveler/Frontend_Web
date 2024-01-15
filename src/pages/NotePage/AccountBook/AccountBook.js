@@ -53,9 +53,9 @@ function AccountBook() {
                         setAccountMode(0);
                     }}
                 >
-                    일일
+                    일별
                 </button>
-                <button
+                {/* <button
                     className={`account-book-mode-btn${
                         AccountMode === 1 ? "-active" : ""
                     }`}
@@ -64,7 +64,7 @@ function AccountBook() {
                     }}
                 >
                     월별
-                </button>
+                </button> */}
                 <button
                     className={`account-book-mode-btn${
                         AccountMode === 2 ? "-active" : ""
@@ -78,7 +78,6 @@ function AccountBook() {
             </div>
 
             {AccountMode === 0 && <Daily />}
-            {AccountMode === 1 && <Monthly />}
             {AccountMode === 2 && <Summary />}
         </div>
     );

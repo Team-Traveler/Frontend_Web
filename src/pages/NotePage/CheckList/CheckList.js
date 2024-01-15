@@ -311,7 +311,8 @@ function CheckList() {
                     }}
                 >
                     체크리스트 추가
-                    <img src={add_btn} alt="add_btn" />
+                    <img style={{marginLeft: "10px"}}
+                    src={add_btn} alt="add_btn" />
                 </div>
             </div>
 
@@ -367,7 +368,7 @@ function CheckList() {
                                                 className="check-list-title-edit-box-modal"
                                                 type="text"
                                                 value={list.title}
-                                                style={{textAlign: 'center'}}
+                                                style={{textAlign: 'left'}}
                                                 onChange={(e) => {
                                                     setCheckList(
                                                         checkList.map((i) => {

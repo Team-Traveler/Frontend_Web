@@ -55,23 +55,34 @@
     display: flex;
     justify-content: space-between;
 }
-.account-item-category {
+.account-item-category-box {
     width: 220px;
     display: flex;
     justify-content: flex-end;
+}
+.account-item-title-box {
+    width: 220px;
+    display: flex;
+    justify-content: flex-end;
+}
+.account-item-price-box {
+    width: 220px;
+    display: flex;
+    justify-content: flex-start;
+}
+.account-item-category {
+    width: 100px;
+    text-align: center;
 }
 .account-item-title {
-    width: 220px;
-    display: flex;
-    justify-content: flex-end;
+    width: 100%;
+    text-align: center;
 }
 .account-item-price {
-    width: 220px;
-    display: flex;
-    justify-content: flex-end;
+    width: 100px;
+    text-align: center;
     color: crimson;
 }
-
 .account-item-del-btn {
     cursor: pointer;
     width: 20px;
@@ -90,3 +101,72 @@
     width: 95%;
     margin: 10px;
 }
+
+.account-input-form{
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.account-input-expense-box{
+    width: 20vw;
+    display: flex;
+    justify-content: flex-end;
+}
+.account-input-description-box{
+    width: 220px;
+    display: flex;
+    justify-content: center;
+}
+.account-input-price-box{
+    width: 220px;
+    display: flex;
+    justify-content: flex-start;
+}
+.account-input-description{
+    text-align: center;
+    width: 150px;
+    border: 0px;
+    color: black;
+    border-bottom: 1px solid #ccc;
+}
+.account-input-description::placeholder{
+    font-size: 16px;
+    color: #C7C7C7;
+}
+.account-input-price{
+    text-align: center;
+    width: 100px;
+    border: 0px;
+    margin-right: 30px;
+    color: black;
+    border-bottom: 1px solid #ccc;
+}
+.account-input-price::placeholder{
+    font-size: 16px;
+    color: #C7C7C7;
+}
+/* 드롭다운 스타일링 */
+select{
+    padding: 5px;
+    font-size: 16px;
+    color: #C7C7C7;
+    border: 0px;
+    border-bottom: 1px solid #ccc;
+    appearance: none; /* 폼 요소의 기본 UI를 숨김 */
+    outline: none; /* 기본 포커스 스타일 제거 */
+    background: white;
+    width: 100px; /* 원하는 너비 지정 */
+    text-align: center;
+}
+select option {
+    font-weight: bold;
+    background-color: white; /* 선택된 option의 배경색을 빨간색으로 지정 */
+    color: black; /* 선택된 option의 텍스트 색상을 흰색으로 지정 */
+}
+select option:checked {
+    font-weight: bold;
+    background-color: white; /* 선택된 option의 배경색을 빨간색으로 지정 */
+    color: #9CBBAC; /* 선택된 option의 텍스트 색상을 흰색으로 지정 */
+}
+

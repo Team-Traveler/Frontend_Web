@@ -35,23 +35,30 @@
 }
 
 .account-book-mode-btn {
-    background-color: #d9d9d9;
-    width: 238px;
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+    width: 48%;
     height: 32px;
     border-radius: 5px;
     border: none;
 }
 .account-book-mode-btn:hover {
     background-color: #aaaaaa;
-    width: 238px;
+    font-size: 15px;
+    width: 48%;
     height: 32px;
     border-radius: 5px;
     border: none;
+    font-weight: bold;
 }
 
 .account-book-mode-btn-active {
-    background-color: #aaaaaa;
-    width: 238px;
+    background-color: #9CBBAC;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    width: 48%;
     height: 32px;
     border-radius: 5px;
     border: none;

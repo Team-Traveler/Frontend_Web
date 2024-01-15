@@ -13,20 +13,18 @@
 
 .modals {
   width: 400px;
-  
+  padding: 20px;
   background-color: white;
   border-radius: 15px;
   display: flex;
-  padding:2px;
   flex-direction: column;
 }
 
 .modal-header{
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   position: relative;
-  text-align: center;
   margin: 5px;
 }
 
