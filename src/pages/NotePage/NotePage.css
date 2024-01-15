@@ -99,6 +99,8 @@
     height: 31px;
     border-radius: 5px;
     display: flex;
+    transition-duration: 0.6s;
+    /* border: 1px solid cyan; */    
     align-items: center;
     margin-left: 15px;
 }
@@ -114,6 +116,9 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
+
+    transition-duration: 0.6s;
+    /* border: 1px solid cyan; */    
     margin-left: 15px;
 }
 .note-list-item-account:hover {
@@ -124,7 +129,7 @@
     display: flex;
     padding: 5px;
     height: 80vh;
-    width: 70vw;
+    width: 50vw;
     /* border: 1px solid blue; */
     box-shadow: 0px 0px 10px 0px #0000001a;
     border-radius: 15px;

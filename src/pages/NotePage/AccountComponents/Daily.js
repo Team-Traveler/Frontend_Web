@@ -31,6 +31,8 @@ function Daily() {
       
         const numberWithCommas = numericInput.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         setPrice(numberWithCommas);
+        // const priceWithUnit = numberWithCommas + "원";
+        // setPrice(priceWithUnit);
       };      
     // // 가계부 생성
     // const createBook = async (tid) => {
@@ -58,119 +60,119 @@ function Daily() {
     // };
 
     const createItem = () => {
-        let category = prompt("카테고리 입력(식비/교통비/쇼핑/관광/기타)");
-        let title = prompt("내용 입력");
-        let price = parseInt(prompt("금액 입력"));
-        let date = prompt("날짜 입력");
+        // let category = prompt("카테고리 입력(식비/교통비/쇼핑/관광/기타)");
+        // let title = prompt("내용 입력");
+        // let price = parseInt(prompt("금액 입력"));
+        // let date = prompt("날짜 입력");
 
-        // category, title, price, date 값의 유효성 검사
-        if (!category || !title || isNaN(price) || !date) {
-            alert("올바른 입력 값을 제공하지 않았습니다.");
-            return;
-        }
+        // // category, title, price, date 값의 유효성 검사
+        // if (!category || !title || isNaN(price) || !date) {
+        //     alert("올바른 입력 값을 제공하지 않았습니다.");
+        //     return;
+        // }
 
-        // id 값 설정
-        let id = 1; // 기본값으로 1 설정
+        // // id 값 설정
+        // let id = 1; // 기본값으로 1 설정
 
-        // account에서 selectedNote에 해당하는 리스트 가져오기
-        const selectedList = account.find((list) => list.tId === selectedNote);
+        // // account에서 selectedNote에 해당하는 리스트 가져오기
+        // const selectedList = account.find((list) => list.tId === selectedNote);
 
-        // 만약 리스트가 있다면
-        if (selectedList) {
-            // 선택한 리스트의 daily 배열 가져오기
-            const dailyList = selectedList.daily;
+        // // 만약 리스트가 있다면
+        // if (selectedList) {
+        //     // 선택한 리스트의 daily 배열 가져오기
+        //     const dailyList = selectedList.daily;
 
-            // dailyList에서 선택한 date에 해당하는 daily 객체 가져오기
-            const selectedDaily = dailyList.find(
-                (daily) => daily.date === date
-            );
+        //     // dailyList에서 선택한 date에 해당하는 daily 객체 가져오기
+        //     const selectedDaily = dailyList.find(
+        //         (daily) => daily.date === date
+        //     );
 
-            // 만약 선택한 date에 해당하는 daily가 있다면
-            if (selectedDaily) {
-                // 해당 daily의 content에서 가장 큰 id 값을 찾아서 1을 더합니다.
-                const maxId = Math.max(
-                    ...selectedDaily.content.map((item) => item.id)
-                );
-                id = maxId + 1;
-            }
-        }
+        //     // 만약 선택한 date에 해당하는 daily가 있다면
+        //     if (selectedDaily) {
+        //         // 해당 daily의 content에서 가장 큰 id 값을 찾아서 1을 더합니다.
+        //         const maxId = Math.max(
+        //             ...selectedDaily.content.map((item) => item.id)
+        //         );
+        //         id = maxId + 1;
+        //     }
+        // }
 
-        // item 객체 생성
-        const newItem = {
-            id: id,
-            category: category,
-            title: title,
-            price: price,
-        };
+        // // item 객체 생성
+        // const newItem = {
+        //     id: id,
+        //     category: category,
+        //     title: title,
+        //     price: price,
+        // };
 
-        // 만약 account의 selectedNote에 해당하는 tId를 가진 list가 없다면 생성
-        if (!account.find((list) => list.tId === selectedNote)) {
-            setAccount([
-                ...account,
-                {
-                    tId: selectedNote,
-                    daily: [
-                        {
-                            dateId: 1,
-                            date: date,
-                            content: [newItem], // newItem 추가
-                        },
-                    ],
-                },
-            ]);
-        }
-        // 만약 account의 selectedNote에 해당하는 tId를 가진 list가 있다면
-        else {
-            // 해당 tId를 가진 list의 daily에 해당 날짜가 있는지 확인
-            if (
-                account
-                    .find((list) => list.tId === selectedNote)
-                    .daily.find((e) => e.date === date)
-            ) {
-                // 해당 날짜가 있다면 해당 날짜의 content에 item 추가
-                setAccount(
-                    account.map((list) => {
-                        if (list.tId === selectedNote) {
-                            return {
-                                ...list,
-                                daily: list.daily.map((e) => {
-                                    if (e.date === date) {
-                                        return {
-                                            ...e,
-                                            content: [...e.content, newItem], // newItem 추가
-                                        };
-                                    }
-                                    return e;
-                                }),
-                            };
-                        }
-                        return list;
-                    })
-                );
-            }
-            // 해당 tId를 가진 list의 daily에 해당 날짜가 없다면
-            else {
-                // 해당 날짜를 추가하고 content에 item 추가
-                setAccount(
-                    account.map((list) => {
-                        if (list.tId === selectedNote) {
-                            return {
-                                ...list,
-                                daily: [
-                                    ...list.daily,
-                                    {
-                                        dateId: list.daily.length + 1,
-                                        date: date,
-                                        content: [newItem], // newItem 추가
-                                    },
-                                ],
-                            };
-                        }
-                        return list;
-                    })
-                );
-            }
-        }
+        // // 만약 account의 selectedNote에 해당하는 tId를 가진 list가 없다면 생성
+        // if (!account.find((list) => list.tId === selectedNote)) {
+        //     setAccount([
+        //         ...account,
+        //         {
+        //             tId: selectedNote,
+        //             daily: [
+        //                 {
+        //                     dateId: 1,
+        //                     date: date,
+        //                     content: [newItem], // newItem 추가
+        //                 },
+        //             ],
+        //         },
+        //     ]);
+        // }
+        // // 만약 account의 selectedNote에 해당하는 tId를 가진 list가 있다면
+        // else {
+        //     // 해당 tId를 가진 list의 daily에 해당 날짜가 있는지 확인
+        //     if (
+        //         account
+        //             .find((list) => list.tId === selectedNote)
+        //             .daily.find((e) => e.date === date)
+        //     ) {
+        //         // 해당 날짜가 있다면 해당 날짜의 content에 item 추가
+        //         setAccount(
+        //             account.map((list) => {
+        //                 if (list.tId === selectedNote) {
+        //                     return {
+        //                         ...list,
+        //                         daily: list.daily.map((e) => {
+        //                             if (e.date === date) {
+        //                                 return {
+        //                                     ...e,
+        //                                     content: [...e.content, newItem], // newItem 추가
+        //                                 };
+        //                             }
+        //                             return e;
+        //                         }),
+        //                     };
+        //                 }
+        //                 return list;
+        //             })
+        //         );
+        //     }
+        //     // 해당 tId를 가진 list의 daily에 해당 날짜가 없다면
+        //     else {
+        //         // 해당 날짜를 추가하고 content에 item 추가
+        //         setAccount(
+        //             account.map((list) => {
+        //                 if (list.tId === selectedNote) {
+        //                     return {
+        //                         ...list,
+        //                         daily: [
+        //                             ...list.daily,
+        //                             {
+        //                                 dateId: list.daily.length + 1,
+        //                                 date: date,
+        //                                 content: [newItem], // newItem 추가
+        //                             },
+        //                         ],
+        //                     };
+        //                 }
+        //                 return list;
+        //             })
+        //         );
+        //     }
+        // }
     };
 
     const deleteItem = (tId, dateId, id) => {
