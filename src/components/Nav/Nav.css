@@ -1,13 +1,25 @@
 /*          nav             */
+body{
+    margin:0;
+}
+
 .nav {
     display: flex;
-    height:65px;
-    background-color: #f5f5f5;
     flex-direction: row;
+    height:7.6%;
+    width: 100%;
+    background-color: #F9F9F9;
     justify-content: space-between;
     align-items: center;
-    padding: 5px;
     /* border: 1px solid black; */
+}
+
+.main{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 98;
 }
 
 .sticky{
@@ -20,6 +32,9 @@
 }
 
 .nav-logo {
+    position: absolute;
+    left:10px;
+    top :5px;
     margin-top:10px;
     margin-left:50px;
     /* border: 1px solid red; */
@@ -36,9 +51,9 @@
     justify-content: center;
     align-items: center;
     width: 700px;
-    height: 65px;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 13px;
+    gap:10px;
 }
 
 .nav-menu-item {
@@ -57,16 +72,52 @@
 }
 
 .nav-menu-item:hover {
-    background-color: rgb(156, 184, 148);
+    background-color: #9CBBAC;
     color: #f5f4f4;
     width: 100px;
     height: 50px;
 }
 
+#navbar_toggle{
+    display: none;
+    border: none;
+    background: none;
+    position: absolute;
+    right: 10px;
+    top : 15px;
+}
+
 /* 활성화 돼있는 메뉴인 경우*/
 .active{
-    background-color:  rgb(156, 184, 148);
+    background-color:  #9CBBAC;
     color: #f5f4f4;
     width: 100px;
     height: 50px;
+}
+
+/* 미디어 쿼리 추가 */
+@media (max-width: 840px) {
+    #navbar_toggle{
+        display: block;
+    }
+
+    .open{
+        display: flex;
+        flex-direction: column;
+        justify-content: first baseline;
+        height: 300px;
+    }
+
+    .nav-menu{
+        display: none;
+    }
+
+    .nav-menu.open{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
 }

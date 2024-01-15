@@ -1,4 +1,4 @@
-import "./RecommendPage.css";
+import "./CompletedPage.css";
 import React, { useEffect, useState } from "react";
 import Nav from "../../components/Nav/Nav";
 import { useNavigate } from "react-router-dom";
@@ -23,40 +23,46 @@ function CompletedPage() {
         });
     }, []);
 
-    const handleCompletedButtonClick = () => {
+    const onMyPage = () => {
         navigate("/mypage");
     };
 
+    const onHome = () => {
+        navigate("/");
+    };
+
     return (
-        <div className="recommend-page">
+        <div className="completed-page">
             {/* 메뉴 */}
-            <Nav className="recommend-nav"></Nav>
+            <Nav />
             {/* main content */}
-            <div className="recommend-content">
-                {/* Display completion screen */}
-                <div className="loading-screen">
-                    <div className="completed-text">
-                        <p style={{ fontWeight: "700" }}>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;추천완료!
-                        </p>
-                        <p>&nbsp;</p>
-                        <p>&nbsp;&nbsp;&nbsp;취향에 맞는 여행계획을</p>
-                        <p>나의 여행에서 확인하세요!</p>
+            <div className="completed-modal">
+                <div className='completed-box'>
+                    <div className="completed-text-box">
+                        <div className='completed-text'>
+                            <span id='emphasis'>추천 완료!</span>
+                        </div>
+                        <div className='completed-text'>
+                            <span>취향에 맞는 여행 계획을</span>
+                        </div>
+                        <div className='completed-text'>
+                            <span>나의 여행에서 확인하세요!</span>
+                        </div>
                     </div>
-                    <div className="loading-spinner">
+                    <div className="completed-spinner">
                         <span></span>
                         <span></span>
                         <span></span>
                         <span></span>
-                    </div>
-                    <div
-                        className="recommend-button completed-button"
-                        onClick={handleCompletedButtonClick}
-                    >
-                        완료
                     </div>
                 </div>
-            </div>
+                <div className="completed-btn">
+                    <button className="onMyPage" onClick={onMyPage}>
+                        나의 여행으로 바로 가기
+                    </button>
+                    <span className="onHome" onClick={onHome}>홈으로 돌아갈래요</span>
+                </div>
+           </div>  
         </div>
     );
 }

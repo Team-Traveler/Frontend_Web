@@ -20,6 +20,7 @@ function NotePage() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
     // Server Address
+
     const serverUrl = "https://traveler-back.shop";
 
     // 나의 여행 목록 조회
@@ -51,6 +52,7 @@ function NotePage() {
             console.log("여행(노트) 조회 실패");
         }
     };
+
     return (
         <div className="note-page">
             {/* selectedNoteId : {selectedNote} */}
@@ -120,6 +122,7 @@ function NotePage() {
                                                     setSelectedNote(note.tid);
                                                     setAccountMode(0);
                                                 }}
+
                                                 style={{ 
                                                     backgroundColor: note.tid==selectedNote&&!checktoggle ? '#98B4A6' : 'white',
                                                     color: note.tid==selectedNote&&!checktoggle ? 'white' : 'black' 

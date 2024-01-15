@@ -1,16 +1,16 @@
 .ratingbar-box{
     display: flex;
     flex-direction: column;
-    border : 1px rgb(169, 169, 169);
-    box-shadow: 1px 1px 5px rgb(169, 168, 168);
-    width: 400px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    width: 26vw;
     height: auto;
     border-radius: 7px;
 }
 
 .ratingbar > span{
-    font-size:medium;
-    font-weight: 600;
+    font-size:15px;
+    font-weight: 550;
 }
 
 .ratingbar{
