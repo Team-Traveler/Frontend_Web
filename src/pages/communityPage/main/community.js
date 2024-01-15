@@ -1,433 +1,274 @@
-import React, { useState } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import "./community.css";
 import axios from "axios";
 import { Pagination } from "antd";
 import Nav from "../../../components/Nav/Nav";
-import {
-  HeartOutlined,
-  ShareAltOutlined,
-  CommentOutlined,
-  StarOutlined,
-  StarFilled,
-} from "@ant-design/icons";
-import button1 from "../../../assets/images/Group 533.svg";
-import button2 from "../../../assets/images/Ellipse 7.svg";
-import search from "../../../assets/images/Search.png";
+import write from "../../../assets/images/write.svg";
+import searchLogo from "../../../assets/images/돋보기.svg";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from 'recoil';
-import { travelsSelector } from '../../../recoil/atoms/travelsreviewStates';
+import { API } from "../../../config";
+import CommentBtnPage from "../components/commentBtn";
+import HeartBtnPage from "../components/heartBtn";
+import PickBtnPage from "../components/PickBtn";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../../recoil/atoms/userState";
+import { ReactComponent as Marker } from '../components/Vector.svg';
 
 function CommunityPage() {
-  const travels = useRecoilValue(travelsSelector);
-  const [starred, setStarred] = useState(new Array(travels.length).fill(false));
+  const api_url = '/complete/search';
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [scrapList,setScrapList] = useState([]);
+  const [likeList,setLikeList] = useState([]);
+  const [travels,setTravels] = useState([]);
+  const [currentPage,setCurrentPage] = useState(1);
+  const outSection = useRef();
+  const itemsPerPage = 8;
 
-  const handleStarClick = async (pId, index) => {
-    try {
-      console.log('별 클릭 이벤트 발생');
-      const response = await axios.post(`/post/${pId}/scrap`);
-      if (response.status === 200) {
-        const newStarred = [...starred];
-        newStarred[index] = !newStarred[index];
-        setStarred(newStarred);
-        console.log('성공');
+  // 연관검색어
+  const [relatedSearch,setRelatedSearch] = useState(false); // 연관검색어 
+  const [relatedList,setRelatedList] = useState([]);
+  const myElementRef = useRef();
+  const [topPosition,setTopPosition] = useState(0);
+
+  // 내 찜 목록 api
+  const scrapListApi = async()=>{
+      await axios.get(`${API.HEADER}/users/myScrap`,{ headers: {Authorization:userInfo.accessToken,}})
+      .then(response=>{
+          if(response.data.isSuccess){
+              setScrapList(response.data.result);
+              console.log('내 찜 목록',response.data.result);
+          }
+          else console.log('찜 목록 불러오기 실패',response.data.result);
+      })
+      .catch(e=>{console.log('error',e)})
+  }
+
+  // 좋아요 여행 리스트 API 호출
+  const likeListApi = async()=>{
+    await axios.get(`${API.HEADER}/users/myLike`,{ headers: {Authorization:userInfo.accessToken,}})
+    .then(response=>{
+        if(response.data.isSuccess){
+            setLikeList(response.data.result);
+            console.log('내 좋아요 목록',response.data.result);
+        }
+        else console.log('좋아요 목록 불러오기 실패',response.data.result);
+    })
+    .catch(e=>{console.log('error',e)})
+}
+
+  //페이징 구현
+  const handleChangePage = (page) => {
+    setCurrentPage(page);
+  };
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedTravels = travels.slice(startIndex, endIndex);
+
+  //연관검색어 구글 API 호출
+  const searchKeywordApi = async(keyword)=>{
+    await axios.get(api_url,
+    {
+      params: {
+        client: 'firefox',
+        q: keyword+'',
+        hl:'ko', 
       }
-    } catch (error) {
-      console.error('Error while scraping:', error);
-    }
+    })
+    .then(response=>{
+      setRelatedList(response.data[1]);
+    })
+    .catch(err=>{
+      console.log('err',err);
+    })
+  }
+
+  //연관 검색어 클릭
+  const onClickKeyword = (v)=>{
+    setSearch(v);
+    axios.get(API.COMMUNITY, {params: {keyword: v}})
+    .then(response => {
+        if(response.data.isSuccess === true){   
+            setTravels(response.data.result);
+        }
+        else console.log(response.data);
+    })
+    .catch(e=>console.log('error',e))
+    setRelatedSearch(false);
+  }
+
+  // 검색 기능 구현(필터링된 데이터)
+  const [search, setSearch] = useState("");
+  const onChange = (e) => {
+    setSearch(e.target.value)
   };
 
-  return (
-    <div className="community-page">
-      <Nav />
-      <div className="custom-button">
-        <Link to="/search">
-          <img src={button2} alt="button1" className="button2" />
-        </Link>
-        <Link to="/new">
-          <img src={button1} alt="button2" className="button1" />
-        </Link>
-      </div>
-      <div className="search-button">
-        <Link to="/story/search">
-          <img src={search} alt="search" className="search" />
-        </Link>
-      </div>
+  // 검색버튼 클릭 시 
+  const onClick = ()=>{
+    axios.get(API.COMMUNITY, {params: {keyword: search}})
+    .then(response => {
+        if(response.data.isSuccess === true){   
+            setTravels(response.data.result);
+        }
+        else console.log(response.data);
+    })
+    .catch(e=>console.log('error',e))
+    setRelatedSearch(false);
+  }
+  
+  // 인기순, 최신순 정렬 버튼
+  const sortOptions = ["인기순", "최신순"];
+  const [sortType, setSortType] = useState(sortOptions[0]); // 기본 인기순
 
+  const changeSortType = (e) => {
+    // const selectedType = sortOptions.find(
+    //   (type) => type.title === e.target.value
+    // );
+    setSortType(e.target.value);
+  };
+
+  //api 호출(비동기를 처리하기 위해 useEffect 처리)
+  useEffect(()=>{
+    if (myElementRef.current) {
+      // ref를 통해 DOM 요소에 접근합니다.
+      const topPosition = myElementRef.current.getBoundingClientRect().top;
+      setTopPosition(topPosition);
+    }
+
+    axios.get(API.COMMUNITY)
+    .then(response => {
+        if(response.data.isSuccess === true){   
+            setTravels(response.data.result);
+            console.log('커뮤니티 여행 리스트',response.data.result);
+        }
+        else console.log(response.data);
+    })
+    .catch(e=>console.log('error',e))
+
+    if(userInfo.isLogin){
+      scrapListApi();
+      likeListApi();
+    }
+
+  },[]);
+
+  useEffect(()=>{
+    if(search !== ''){
+      setRelatedSearch(true);
+    }
+    else
+      setRelatedSearch(false);
+
+    const debounce = setTimeout(() => {
+      if(search !== ''){
+        searchKeywordApi(search);
+      }
+    }, 200);
+
+    return () => {
+      clearTimeout(debounce);
+    };
+
+  },[search])
+
+  useEffect(()=>{
+    const newTravels=(sortType==="인기순")?([...travels].sort((a,b)=>Number(b.likes) - Number(a.likes)))
+                                          :([...travels].sort((a,b)=>new Date(b.created_at) - new Date(a.created_at)));
+    setTravels(newTravels);
+  },[sortType,travels[0]])
+
+  return (
+    <div 
+    className="community-page" 
+    ref={outSection} 
+    onClick={(e)=>{
+      if(outSection.current === e.target) {
+          setRelatedSearch(false);
+      }}}>
+      <Nav /> 
+      <Link to="/story/write">
+        <img src={write} alt="writeButton" id="writeBtn"/>
+      </Link>
       <div id="body">
+        {/* 검색바 */}
+        <div className="search-bar" id="searchBar" ref={myElementRef}>
+          <img style={{cursor:"pointer"}} src={searchLogo} onClick={onClick}/>
+          <input type="text" placeholder="어떤 여행이 궁금하신가요?" className="search-bar-input" onChange={onChange}/>
+        </div>
+        {/* 연관검색어 */}
+        {relatedSearch&&(
+          <div className="related-search-box" style={{top:{topPosition}}}>
+            {relatedList
+            &&
+            relatedList.map((v,index)=>(
+              <div 
+              className="related-search-list" 
+              onClick={(v)=>{onClick(v)}}
+              >
+                <div className="mark-icon">
+                  <Marker id="marker" height={17} width={15} fill="#FFFFFF"/>
+                </div>
+                <div className="related-keyword">
+                  {v}
+                </div>
+              </div>
+            ))
+            }
+          </div>
+          )
+        }
+        {/* 정렬 버튼 */}
+        <div className="sort-btn">
+          <select 
+          onChange={changeSortType} 
+          style={{width:"80px",fontSize:"15px", fontWeight:"550"}}>
+            {sortOptions.map((v, index) => {
+              return <option key={index} className="sort-type">{v}</option>;
+            })}
+          </select>
+        </div>
+        {/* 여행카드 리스트 */}
         <div id="product-list">
-          {travels.map((travel, index) => (
+          {displayedTravels&&displayedTravels.map((travel, index) => (
             <div className="xproduct-card" key={travel.pid}>
               <div className="xproduct-img-container">
-                <Link to={`/story/${travel.tid}`}>
-            
-                
+                <Link to={`/story/${travel.pid}`} key={travel.pid}>
                   <img
                     className="xproduct-img"
-                    src={travel.imageUrl}
+                    src={travels.imgUrl ? travels.imgUrl : require("../../../assets/images/sea.jpg")}
                     alt={`Travel ${index}`}
                   />
                 </Link>
-                <div className="xfavorite-icon" onClick={() => handleStarClick(travel.tid, index)}>
-                  {starred[index] ? <StarFilled /> : <StarOutlined />}
-                </div>
-                <div className="xicons-bottom">
-                  <CommentOutlined className="comment-icon" />
-                  <ShareAltOutlined className="share-icon" />
-                  <HeartOutlined className="heart-icon" />
+                <div className="xfavorite-icon">
+                  <PickBtnPage size="40" pid={travel.pid} 
+                  pick={scrapList.findIndex(i=>i.pid === travel.pid) === -1 ? false : true} />
                 </div>
               </div>
               <div className="xproduct-contents">
-                <span className="xproduct-oneline">
-                  {travel.oneLineReview}
+                <div className="xicons-btn">
+                    <CommentBtnPage pId={travel.pid} size="20"/>
+                    <HeartBtnPage pId={travel.pid} count={travel.likes} size="20"
+                    like={likeList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true}/>
+                </div>
+                <span className="xproduct-title">
+                  {travel?.title}
                 </span>{" "}
-                <span className="xproduct-traveler">
-                  {travel.title}
-                </span>
-                <span className="xtag">#{travel.hashtags[0]} #{travel.hashtags[1]}</span>
-              </div>
+                <span style={{color:"white"}}>{travel?.location} | {'2박3일'}</span>
             </div>
+          </div>
           ))}
         </div>
-      </div>
-      <div
-        id="footer"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <Pagination defaultCurrent={1} total={50} />
+        {/* 페이징 */}
+        <Pagination
+          className="page-box"
+          defaultPageSize={itemsPerPage}
+          defaultCurrent={1}
+          total={travels.length}
+          onChange={handleChangePage}
+        />
       </div>
     </div>
+
   );
 }
 
 export default CommunityPage;
-
-
-// import React, { useState } from "react";
-// import "./community.css";
-// import { Pagination } from "antd";
-// import Nav from "../Nav/Nav";
-// import {
-//   HeartOutlined,
-//   ShareAltOutlined,
-//   CommentOutlined,
-//   HeartFilled,
-
-// } from "@ant-design/icons";
-// import button1 from "./Group 533.svg";
-// import button2 from "./Ellipse 7.svg";
-// import search from "./Search.png";
-// import { Link } from "react-router-dom";
-// import image1 from "./images/1.jpg";
-// import image2 from "./images/2.jpg";
-// import image3 from "./images/3.jpg";
-// import image4 from "./images/4.jpg";
-// import image5 from "./images/5.jpg";
-// import image6 from "./images/6.jpg";
-// import image7 from "./images/7.jpg";
-// import image8 from "./images/8.jpg";
-// const travels = [
-//   {
-//     id: 1,
-//     tag: "바다",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "행복한 여행이였다",
-//     sharing: "응",
-//     travel: "강릉 3박 4일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image1,
-//   },
-//   {
-//     id: 2,
-//     tag: "힐링",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "친구들과 힐링여행",
-//     sharing: "응",
-//     travel: "양양 1박 2일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image2,
-//   },
-//   {
-//     id: 3,
-//     tag: "봄",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "봄 여행은 행복해요",
-//     sharing: "응",
-//     travel: "부산 3박 4일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image3,
-//   },
-//   {
-//     id: 4,
-//     tag: "단양",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "단양에서 다이빙",
-//     sharing: "응",
-//     travel: "단양 3박 4일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image4,
-//   },
-//   {
-//     id: 5,
-//     tag: "사랑",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "남편과 오랜만에 떠난 여행",
-//     sharing: "응",
-//     travel: "용인 3박 4일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image5,
-//   },
-//   {
-//     id: 6,
-//     tag: "푸른 바다",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "언제나 예쁜 여수",
-//     sharing: "응",
-//     travel: "여수 3박 4일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image6,
-//   },
-//   {
-//     id: 7,
-//     tag: "우정",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "친구들과 우정여행",
-//     sharing: "응",
-//     travel: "여수 2박 3일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image7,
-//   },
-//   {
-//     id: 8,
-//     tag: "부산",
-//     location: "강릉 시장",
-//     good: "바다 색이 너무 이뻐요",
-//     bad: "날이 더워요",
-//     oneline: "혼자 떠났던 여행",
-//     sharing: "응",
-//     travel: "부산 3박 4일",
-//     when: "2023/05/08-2023/05/12",
-//     imageUrl: image8,
-//   },
-// ];
-
-// function MainPage() {
-//   return (
-//     <div className="community-page">
-//       <Nav />
-//       <div className="custom-button">
-//         <Link to="/search">
-//           <img src={button2} alt="button1" className="button2" />
-//         </Link>
-//         <Link to="/new">
-//           <img src={button1} alt="button2" className="button1" />
-//         </Link>
-//       </div>
-//       <div className="search-button">
-//         <Link to="/search">
-//           <img src={search} alt="search" className="search" />
-//         </Link>
-//       </div>
-//       <div id="body">
-//         <div id="product-list">
-//           {travels.map((travel, index) => (
-//             <Travelscard key={index} {...travel} />
-//           ))}
-//         </div>
-//       </div>
-//       <div
-//         id="footer"
-//         style={{
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//         }}
-//       >
-//         <Pagination defaultCurrent={1} total={50} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// function Travelscard({
-//   id,
-//   tag,
-//   location,
-//   good,
-//   bad,
-//   oneline,
-//   sharing,
-//   travel,
-//   when,
-//   imageUrl,
-// }) {
-//   const [starred, setStarred] = useState(Array(travels.length).fill(false));
-
-//   const handleStarClick = (index) => {
-//     const newStarred = [...starred];
-//     newStarred[index] = !newStarred[index];
-//     setStarred(newStarred);
-//   };
-
-//   return (
-//     <div className="product-card" key={id}>
-//       <div className="product-img-container">
-//         <Link to={`/${id}`}>
-//           <img className="product-img" src={imageUrl} alt={`Product ${id}`} />
-//         </Link>
-//         <div
-//           className={`favorite-icon ${starred[id - 1] ? "filled" : ""}`}
-//           onClick={() => handleStarClick(id - 1)}
-//         >
-//           {starred[id - 1] ? <HeartFilled /> : <HeartOutlined />}
-//         </div>
-//         <div className="icons-bottom">
-//           <CommentOutlined className="comment-icon" />
-//           <ShareAltOutlined className="share-icon" />
-//           <HeartOutlined className="heart-icon" />
-//         </div>
-//       </div>
-//       <div className="product-contents">
-//         <span className="product-oneline">{oneline}</span>{" "}
-//         <span className="product-traveler">{travel}</span>
-//         <span className="tag">#{tag}</span>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default MainPage;
-
-// {product.oneline}>>{travel.oneline}
-// {product.destination}>>{travel.travel}
-// {travel.tag}#해시태그
-// import React, { useState } from "react";
-// import "./community.css";
-// import { Pagination } from "antd";
-// import Nav from "../Nav/Nav";
-// import {
-//   HeartOutlined,
-//   ShareAltOutlined,
-//   CommentOutlined,
-//   HeartFilled,
-// } from "@ant-design/icons";
-// import button1 from "./Group 533.svg";
-// import button2 from "./Ellipse 7.svg";
-// import search from "./Search.png";
-// import { Link } from "react-router-dom";
-// import { useRecoilState } from "recoil";
-// import { travelsreviewState } from "../recoil/atoms/travelsreviewStates";
-
-// function MainPage() {
-//   const [travels, setTravels] = useRecoilState(travelsreviewState);
-//   const [starred, setStarred] = useState(Array(travels.length).fill(false));
-
-//   const handleStarClick = (index) => {
-//     const newStarred = [...starred];
-//     newStarred[index] = !newStarred[index];
-//     setStarred(newStarred);
-//   };
-
-//   return (
-//     <div className="community-page">
-//       <Nav />
-//       <div className="custom-button">
-//         <Link to="/search">
-//           <img src={button2} alt="button1" className="button2" />
-//         </Link>
-//         <Link to="/new">
-//           <img src={button1} alt="button2" className="button1" />
-//         </Link>
-//       </div>
-//       <div className="search-button">
-//         <Link to="/search">
-//           <img src={search} alt="search" className="search" />
-//         </Link>
-//       </div>
-//       <div id="body">
-//         <div id="product-list">
-//           {travels.map((travel, index) => (
-//             <Travelscard
-//               key={index}
-//               {...travel}
-//               starred={starred[index]} // starred 상태 전달
-//               onStarClick={() => handleStarClick(index)}
-//             />
-//           ))}
-//         </div>
-//       </div>
-//       <div
-//         id="footer"
-//         style={{
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//         }}
-//       >
-//         <Pagination defaultCurrent={1} total={50} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// function Travelscard({
-//   id,
-//   tag,
-//   location,
-//   good,
-//   bad,
-//   oneline,
-//   sharing,
-//   travel,
-//   when,
-//   imageUrl,
-//   starred, // starred 상태 전달 받음
-//   onStarClick,
-// }) {
-//   return (
-//     <div className="product-card" key={id}>
-//       <div className="product-img-container">
-//         <Link to={`/${id}`}>
-//           <img className="product-img" src={imageUrl} alt={`Product ${id}`} />
-//         </Link>
-//         <div
-//           className={`favorite-icon ${starred ? "filled" : ""}`}
-//           onClick={onStarClick}
-//         >
-//           {starred ? <HeartFilled /> : <HeartOutlined />}
-//         </div>
-//         <div className="icons-bottom">
-//           <CommentOutlined className="comment-icon" />
-//           <ShareAltOutlined className="share-icon" />
-//           <HeartOutlined className="heart-icon" />
-//         </div>
-//       </div>
-//       <div className="product-contents">
-//         <span className="product-oneline">{oneline}</span>{" "}
-//         <span className="product-traveler">{travel}</span>
-//         <span className="tag">#{tag}</span>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default MainPage;

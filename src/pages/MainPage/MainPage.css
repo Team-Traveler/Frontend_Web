@@ -1,17 +1,15 @@
 /* main page css */
 .main-page {
     color: black;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-    overflow-x: hidden;
 }
+
 .main-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: fixed;
+    top: 8%;
+    left: 0;
+    right: 0;
+    z-index: 99;
 }
 
 .arrow-up-icon {
@@ -36,10 +34,12 @@
     flex-direction: column;
     position: fixed;
     left: 11%;
+    top : 0%;
     align-items: center;
     margin-top: 1.38vh;
     z-index: 999;
     transition: transform 0.5s ease-out;
+    overflow:hidden;
 }
 
 @keyframes logoAnimation {
@@ -181,8 +181,8 @@
 
 .content-title {
     display: flex;
+    justify-content: center;
     width: 100%;
-    justify-content: start;
     margin-left: 5%;
 }
 
@@ -221,84 +221,14 @@
     color: white;
 }
 
-.slick-arrow.slick-prev::before {
-    color: black;
-    font-size: 100px;
-    content: "‹";
-
-    position: absolute; /* 절대적 위치 설정 */
-    top: -50px; /* 상하 중앙에 위치 */
-    left: -30px; /* 좌우 중앙에 위치 */
-}
-
-.slick-arrow.slick-next::before {
-    color: black;
-    font-size: 100px;
-    content: "›";
-
-    position: absolute; /* 절대적 위치 설정 */
-    top: -50px; /* 상하 중앙에 위치 */
-    right: -30px; /* 좌우 중앙에 위치 */
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경의 투명도 조정 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* 다른 요소보다 위로 올라오도록 설정 */
-}
-
-.modal {
-    width: 400px;
-    height: 500px;
-    background-color: white;
-    border-radius: 15px;
-    display: flex;
-    padding: 2px;
-    flex-direction: column;
-}
-
-.modal-header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    margin: 5px;
-}
-
-.modal-header button {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    background-color: white;
+.kakao-login{
     border: none;
-    font-size: 20px;
+    background-color:white;
+    margin-top: 100px;
 }
-
-.modal-header button:hover {
+  
+.kakao-login:hover{
     cursor: pointer;
-}
-
-.modal-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.modal-body h3 {
-    margin-top: 100px;
-}
-
-.kakao-login {
-    border: none;
-    background-color: white;
-    margin-top: 100px;
 }
 
 .kakao-login-second {
@@ -309,11 +239,7 @@
     margin-top: 4vh;
 }
 
-.kakao-login:hover {
-    cursor: pointer;
-}
-
-.blur-on-scroll {
+.main-body.blur-on-scroll {
     filter: blur(0); /* 초기값은 블러 없음 */
     transition: filter 0.3s ease; /* 트랜지션 효과 추가 */
 
@@ -322,6 +248,6 @@
 }
 
 /* 스크롤이 내려갈수록 강한 블러 효과 */
-.blur-on-scroll.blurred {
+.main-body.blur-on-scroll.blurred {
     filter: blur(10px); /* 원하는 강도로 조절 */
 }

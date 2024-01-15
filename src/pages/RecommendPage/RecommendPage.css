@@ -1,7 +1,7 @@
 .recommend-page{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   min-height: 100vh;
   background-image: url("../../assets//images/background.png");
   background-size: cover;
@@ -196,97 +196,6 @@
 
 .disabled:hover{
   cursor: not-allowed;
-}
-
-.completed-button{
-  background-color: #95d88a;
-}
-
-
-.loading-text{
-  z-index: 2;
-  position: absolute;
-  top: 43%;
-  left: 40%;
-  line-height: 0.5;
-   font-size: 33px;
-  font-weight: 200;
-  margin-bottom: 10px;
-}
-
-.loading-text p{
-  font-size: 33px;
-  font-weight: 200;
-  margin-bottom: 10px;
-}
-
-.completed-text{
-  z-index: 2;
-  position: absolute;
-  top: 34%;
-  left: 40%;
-  line-height: 0.5;
-  font-weight: 200;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.completed-text p{
-  font-size: 28px;
-  font-weight: 200;
-  margin-bottom: 10px;
-}
-
-
-.loading-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  height: 400px;
-  width: 400px;
-  animation: rotate_3922 1.2s linear infinite;
-  background-color: #95d88a;
-  background-image: linear-gradient(#95d88a, #cbebc5, #d0eda5);
-}
-
-.loading-spinner span {
-  position: absolute;
-  border-radius: 50%;
-  height: 100%;
-  width: 100%;
-  background-color: #95d88a;
-  background-image: linear-gradient(#95d88a, #cbebc5, #d0eda5);
-}
-
-.loading-spinner span:nth-of-type(1) {
-  filter: blur(5px);
-}
-
-.loading-spinner span:nth-of-type(2) {
-  filter: blur(10px);
-}
-
-.loading-spinner span:nth-of-type(3) {
-  filter: blur(25px);
-}
-
-.loading-spinner span:nth-of-type(4) {
-  filter: blur(50px);
-}
-
-.loading-spinner::after {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  background-color: #fff;
-  border: solid 5px #ffffff;
-  border-radius: 50%;
 }
 
 @keyframes rotate_3922 {
