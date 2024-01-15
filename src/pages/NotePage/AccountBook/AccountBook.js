@@ -16,7 +16,7 @@ function AccountBook() {
 
     return (
         <div className="account-book">
-            <div className="account-book-header">
+            {/* <div className="account-book-header">
                 <div className="account-book-title">
                     {noteList.map((note) => {
                         if (note.tid === selectedNote) {
@@ -42,7 +42,7 @@ function AccountBook() {
                         );
                     }}
                 />
-            </div>
+            </div> */}
 
             <div className="account-book-nav">
                 <button
