@@ -13,8 +13,8 @@ const HorizontalNavigation = (props) => {
     };
 
     return (
-        <div className="horizontal-navigation-container">
-            <div className="horizontal-navigation">
+        <div className="horizontal-navigation-container2">
+            <div className="horizontal-navigation2">
                 <button
                     onClick={() => handleNavClick("add")}
                     className={activeTab === "add" ? "active" : ""}
