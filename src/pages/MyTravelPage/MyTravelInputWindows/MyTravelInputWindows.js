@@ -19,9 +19,9 @@ import {
     myAllTravelsState,
     isTravelDataCreatedState,
     updateTravelById,
+    updateState,
 } from "../../../recoil/atoms/myAllTravelsState.js";
 import MyTravelSpecifics from "../MyTravelSpecifics/MyTravelSpecifics.js";
-import { updateState } from "../../../recoil/atoms/updateState.js";
 import { useNavigate, useHistory } from "react-router-dom";
 import { API } from "../../../config.js";
 import { createPlaceState } from "../../../recoil/atoms/createPlaceState.js";

@@ -63,7 +63,7 @@ function KakaoLogin() {
                         },
                     }
                 );
-                console.log("message:", response.data.result);
+                //console.log("message:", response.data.result);
                 setUserInfo({
                     ...userInfo,
                     id: response.data.result.id,

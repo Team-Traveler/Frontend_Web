@@ -7,6 +7,7 @@ import { userInfoState } from "../../../recoil/atoms/userState";
 import {
     myAllTravelsState,
     deleteTravelById,
+    updateState,
 } from "../../../recoil/atoms/myAllTravelsState";
 import {
     setTravelSpecificStateSelector,
@@ -14,7 +15,6 @@ import {
     setSelectedTIDSelector,
 } from "../../../recoil/atoms/travelSpecificState";
 import { API } from "../../../config";
-import { updateState } from "../../../recoil/atoms/updateState";
 
 function TravelCard({
     tid,
@@ -242,6 +242,7 @@ function MyTravelLists({
     useEffect(() => {
         //console.log(TAG + " : 상세여행조회 : ", travelSpecificData);
         //console.log(TAG + " : 현재 저장된 값", travelList);
+        console.log(TAG, update);
     }, [travelList, travelSpecificData, update]);
 
     const handleDelete = (tid) => {

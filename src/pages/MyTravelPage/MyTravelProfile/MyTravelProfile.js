@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles.css";
-
+import { useRecoilState } from "recoil";
+import { updateState } from "../../../recoil/atoms/myAllTravelsState.js";
 function MyTravelProfile(props) {
+    const [update, setUpdate] = useRecoilState(updateState);
+
     const handleRoundButtonClick = () => {
         props.setView("profile");
     };
+
+    useEffect(() => {
+        console.log("여기여기");
+    }, [update]);
 
     return (
         <div className="border">
