@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import profileTest from "../../assets/images/profileTest.png";
 
 export const profileState = atom({
     key: "profileState",

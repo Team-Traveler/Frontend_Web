@@ -15,6 +15,7 @@ import {
     setSelectedTIDSelector,
 } from "../../../recoil/atoms/travelSpecificState";
 import { API } from "../../../config";
+import { profileState } from "../../../recoil/atoms/profileState";
 
 function TravelCard({
     tid,
@@ -200,7 +201,8 @@ function MyTravelLists({
     const [travelSpecificData, setTravelSpecificData] = useRecoilState(
         setTravelSpecificStateSelector
     );
-    const [update, setUpdate] = useState(updateState);
+    const [update, setUpdate] = useRecoilState(updateState);
+    const [profileData, setProfileData] = useRecoilState(profileState);
 
     async function deleteTravelData(tid) {
         try {
@@ -239,16 +241,22 @@ function MyTravelLists({
         }
     }
 
-    useEffect(() => {
-        //console.log(TAG + " : 상세여행조회 : ", travelSpecificData);
-        //console.log(TAG + " : 현재 저장된 값", travelList);
-        console.log(TAG, update);
-    }, [travelList, travelSpecificData, update]);
+    // useEffect(() => {
+    //     //console.log(TAG + " : 상세여행조회 : ", travelSpecificData);
+    //     //console.log(TAG + " : 현재 저장된 값", travelList);
+    //     //console.log(TAG, update);
+    // }, [travelList, travelSpecificData, update]);
 
     const handleDelete = (tid) => {
         setTravelList((prevTravelList) =>
             prevTravelList.filter((travel) => travel.tid !== tid)
         );
+
+        setProfileData((prevData) => ({
+            ...prevData,
+            numTravel: travelList.length - 1,
+        }));
+        console.log("디버깅", profileData);
         deleteTravelData(tid);
         setUpdate(Math.random());
         setIsEditMode(false);

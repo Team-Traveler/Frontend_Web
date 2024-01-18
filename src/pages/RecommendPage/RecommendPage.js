@@ -74,10 +74,10 @@ function RecommendPage() {
                 const startTime = Date.now(); // 로딩화면 띄우기 시작 시간
 
                 // 최소 3초동안 로딩화면 띄우기
-                const remainingTime = (Math.max(
+                const remainingTime = Math.max(
                     0,
                     3000 - (Date.now() - startTime)
-                ));
+                );
                 setTimeout(() => {
                     setLoading(false);
                     setCompleted(true);
@@ -140,7 +140,7 @@ function RecommendPage() {
                 );
                 setRegion(response.data);
             } catch (error) {
-                console.log("Error: ", error);
+                //console.log("Error: ", error);
             }
         };
         fetchRegionData();
@@ -577,9 +577,7 @@ function RecommendPage() {
                 )}
 
                 {/* Display loading screen */}
-                {loading&&(
-                    <LoadingModal/>
-                )}
+                {loading && <LoadingModal />}
             </div>
 
             {/* 여행지 선택 모달 창 */}

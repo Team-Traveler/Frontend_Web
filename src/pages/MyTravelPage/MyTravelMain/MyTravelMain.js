@@ -15,7 +15,6 @@ import MyTravelSpecifics from "../MyTravelSpecifics/MyTravelSpecifics";
 import HorizontalNavigation from "../TravelHorizontalNavigation/HorizontalNavigation";
 import MyTravelLists from "../MyTravelLists/MyTravelLists";
 import MyTravelAdd from "../MyTravelAdd/MyTravelAdd";
-import profileTest from "./profileTest.png";
 import MyTravelEdit from "../MyTravelEdit/MyTravelEdit";
 import MyTravelProfileEdit from "../MyTravelProfileEdit/MyTravelProfileEdit";
 import Nav from "../../../components/Nav/Nav";
@@ -27,6 +26,7 @@ import {
 } from "../../../recoil/atoms/withoutAPI";
 import { API } from "../../../config.js";
 import MyTravelCreateLists from "../MyTravelCreateLists/MyTravelCreateLists.js";
+import { profileState } from "../../../recoil/atoms/profileState.js";
 
 function MyTravelMain() {
     const TAG = "MyTravelMain";
@@ -42,19 +42,7 @@ function MyTravelMain() {
     const [IsTravelDataCreated, setIsTravelDataCreated] = useRecoilState(
         isTravelDataCreatedState
     );
-    const [profileData, setProfileData] = useState({
-        imgSrc: profileTest,
-        name: "라이언",
-        numTravel: 8,
-        numLiked: 20,
-        date: "2023.08.23",
-        email: "OOOOOOOOO@naver.com",
-    });
-
-    const [isWithoutApi, setIsWithoutApi] = useRecoilState(withoutApiState);
-    const [withoutAllTravel, setWithoutAllTravel] = useRecoilState(
-        withoutAllTravelsState
-    );
+    const [profileData, setProfileData] = useRecoilState(profileState);
 
     const updateProfileImgAndName = (newImgSrc, newName) => {
         setProfileData((prevData) => ({
@@ -135,6 +123,7 @@ function MyTravelMain() {
         fetchProfileData();
         fetchProfileLikedData();
         console.log(TAG, "통신 완료");
+        console.log(profileData);
     }, [view, update]);
 
     return (
@@ -144,13 +133,7 @@ function MyTravelMain() {
             {view === "list" && (
                 <div>
                     <div className="my-travel-profile" ref={profileRef}>
-                        <MyTravelProfile
-                            imgSrc={profileData.imgSrc}
-                            name={profileData.name}
-                            numTravel={profileData.numTravel}
-                            numLiked={profileData.numLiked}
-                            setView={setView}
-                        />
+                        <MyTravelProfile setView={setView} />
                     </div>
                     <HorizontalNavigation
                         setView={setView}
