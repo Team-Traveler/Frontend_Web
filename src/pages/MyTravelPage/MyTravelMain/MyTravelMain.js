@@ -122,8 +122,8 @@ function MyTravelMain() {
         fetchTravelData();
         fetchProfileData();
         fetchProfileLikedData();
-        //console.log(TAG, "통신 완료");
-        //console.log(profileData);
+        console.log(TAG, "통신 완료");
+        console.log(profileData);
     }, [view, update]);
 
     return (

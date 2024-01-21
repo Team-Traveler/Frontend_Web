@@ -43,6 +43,7 @@ function TravelCard({
 
     const handleReviewClick = () => {
         console.log("Review button clicked");
+        setSelectedTID(tid);
         setView("review");
     };
 
