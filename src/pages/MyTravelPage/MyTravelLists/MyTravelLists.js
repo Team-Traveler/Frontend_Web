@@ -34,7 +34,7 @@ function TravelCard({
     //console.log("Travel title : ",tid);
 
     const handleDetailClick = () => {
-        //console.log('Detail button clicked');
+        console.log("Detail button clicked");
         console.log("Detail button clicked with tid:", tid);
         onDetails(tid);
         setSelectedTID(tid);
