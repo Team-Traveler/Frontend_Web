@@ -1,25 +1,29 @@
-.xcommunity-page{
+.write-page{
     display: flex;
     flex-direction: column;
-    max-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
       
 .write-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     max-width: 75vw; /* 최대 너비를 지정 */
     margin: 10px auto 10px auto; /* 가운데 정렬을 위한 마진 설정 */
     gap:30px;
     min-width: 700px;
 }
-    
+
 /* Left Section */
 .left-section {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    flex: 0.43;
+    flex: 0.3;
 }
 
 .top-square{
@@ -43,7 +47,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 5px;
-    flex: 0.57;
+    flex: 0.6;
 }
 
 textarea, input{
@@ -169,19 +173,15 @@ textarea:focus::-ms-input-placeholder{
     min-width: 250px;
 }
 
-.footer{
-    background-color: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .submit-btn{
-    height: 50px;
-    width: 100px;
+    position: fixed;
+    right : 4%;
+    bottom: 3%;
+    height: 70px;
+    width: 70px;
     background-color: #9CBBAC;
     border: none;
-    border-radius: 20px;
+    border-radius: 45%;
     color: white;
     font-size: medium;
     font-weight: 550;

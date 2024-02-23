@@ -15,61 +15,7 @@ function ShowInfoList({prop}) {
   const [travel,setTravel] = useState(null);
   const [showCheckList, setShowCheckList] = useState(false);
   const [showBook, setShowBook] = useState(false);
-
-  const check = [
-    {
-      "cid": 1,
-      "title": "2023년 8월",
-      "tid": 40,
-      "items": [
-        {
-          "id": 1,
-          "name": "아쿠아 슈즈",
-          "isChecked": false,
-        },
-        {
-          "id": 2,
-          "name": "호텔 예약",
-          "isChecked": false,
-        },
-      ],
-    },
-    {
-      "cid": 2,
-      "title": "2023년 9월",
-      "tid": 40,
-      "items": [
-        {
-          "id": 1,
-          "name": "클렌징폼",
-          "isChecked": false,
-        },
-        {
-          "id": 2,
-          "name": "우산",
-          "isChecked": false,
-        },
-      ],
-    },
-    {
-      "cid": 3,
-      "title": "2023년 10월",
-      "tid": 40,
-      "items": [
-        {
-          "id": 1,
-          "name": "운동화",
-          "isChecked": false,
-        },
-        {
-          "id": 2,
-          "name": "수건",
-          "isChecked": false,
-        },
-      ],
-    },
-  ];
-  const [checkList, setCheckList] = useState(check);
+  const [checkList, setCheckList] = useState([]);
 
   const infoSet = async ()=>{
     if(prop){ 
@@ -121,8 +67,8 @@ function ShowInfoList({prop}) {
         <div className="info-title">
           <span id="info-title"> {travel.title} </span>
           <span> {travel.location} | 
-          <CountDay start_date={travel.travel.start_date} end_date={travel.travel.end_date}/> </span>
-          <span> {travel.travel.start_date.substr(0,10)} ~ {travel.travel.end_date.substr(0,10)} </span>
+          <CountDay start_date={travel.travel.startDate} end_date={travel.travel.endDate}/> </span>
+          <span> {travel.travel.startDate.substr(0,10)} ~ {travel.travel.endDate.substr(0,10)} </span>
         </div>
         <div className="copy-btn" onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
           <span>URL 복사</span>
@@ -152,7 +98,7 @@ function ShowInfoList({prop}) {
           <div className="info-travel-content" id="review">
             {travel.oneLineReview}
           </div>
-          <div className="input-travel-title">
+          <div className="info-travel-title">
               <Marker height={15} width={20} fill=" #98B4A6"/> 
               <span> 나의 노트 공유 </span>
           </div>

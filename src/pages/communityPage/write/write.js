@@ -10,11 +10,19 @@ import { Checkbox } from 'antd';
 import {ReactComponent as Marker} from '../components/Vector.svg';
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
-import ChoiceCourse from '../../../components/ChoiceCourse/ChoiceCourse';
 import TravelCard from '../components/trip';
+import MyTravelLists from '../../MyTravelPage/MyTravelLists/MyTravelLists';
+import { myAllTravelsState } from '../../../recoil/atoms/myAllTravelsState';
 
 function WritePage() {
-    // 코스 선택 임시 값
+    /* 코스 선택 임시 */
+    const [isEditMode, setIsEditMode] = useState(false); // 목록 편집 활성화 여부
+    const [travelData, setTravelData] = useRecoilState(myAllTravelsState);
+    const [selectedTravelId, setSelectedTravelId] = useState(-1);
+    const [view, setView] = useState("list");
+    const [course, setCourse] = useState([]);
+    const [flag,setFlag] = useState(false);
+    /* 리뷰 작성 */
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [showModal, setShowModal] = useState(false);
     const [value, setValue] = useState({
@@ -62,33 +70,47 @@ function WritePage() {
         setBook(!book);
     };
 
-    // 코스 선택
-    const onCourse = (v)=>{
-        setStart_date(v.start_date);
-        setEnd_date(v.end_date);
-        if(v.noteStatus === 0){ // 노트 정보가 없으면 비활성화
+    // 코스 정보에 따른 set
+    const setCourseInfo = (result)=>{
+        if(result.code){
+            setFlag(true);
+            const len = result.code.len
+            const str = String(result.code)
+            // countryID, what, hard, with, period(최대 3박 4일)
+            setWhat(str[len-4]);
+            setHard(str[len-3]);
+            setWithwho(str[len-2]+1);
+        }
+        else if(result.code === 0)
+            setFlag(false);
+
+        setStart_date(result.start_date);
+        setEnd_date(result.end_date);
+        
+        if(result.noteStatus === 0){ // 노트 정보가 없으면 비활성화
             setActiveC(true);
             setActiveB(true);
         }
-        else if(v.noteStatus === 1){ // 가계부 정보만 있으면
+        else if(result.noteStatus === 1){ // 가계부 정보만 있으면
             setActiveC(true);
             setActiveB(false);
         }
-        else if(v.noteStatus === 2){ // 체크리스트만 있으면
+        else if(result.noteStatus === 2){ // 체크리스트만 있으면
             setActiveC(false);
             setActiveB(true);
         }
-        else if(v.noteStatus === 3){ // 둘 다 있으면
+        else if(result.noteStatus === 3){ // 둘 다 있으면
             setActiveC(false);
             setActiveB(false);
         }
 
         setValue((prevState) => { // tid 설정
-            return { ...prevState, ["tid"]: v.tid };
+            return { ...prevState, ["tid"]: result.tid };
         });
         setValue((prevState) => { // location 설정
-            return { ...prevState, ["location"]: v.destination };
+            return { ...prevState, ["location"]: result.destination };
         });
+        console.log('value',value);
         closeModal();
     }
 
@@ -161,16 +183,62 @@ function WritePage() {
         })      
     }
 
+    /* 코스 상세 정보 가져오기 */
+    const fetchCourseInfo = async ()=>{
+        await axios.get(`${API.HEADER}/travel/${selectedTravelId}`)
+        .then(response=>{
+            if(response.data.isSuccess){
+                const result = response.data.result;
+                setCourseInfo(result);
+                setCourse(result);
+                console.log('CourseInfo',result);
+            }
+            else{console.log('CourseInfo Error',response.data);}
+        })
+        .catch(err=>{console.log('error',err);})
+    }
+
+    /* 여행 목록 가져오기 */
+    useEffect(()=>{
+    async function fetchTravelData() {
+        try {
+            const response = await axios({
+                method: "GET",
+                url: `${API.HEADER}/users/my_travels`,
+                headers: {
+                    Authorization: `${userInfo.accessToken}`,
+                },
+            });
+
+            if (response.status === 200) {
+                setTravelData(response.data.result);
+            }
+        } catch (error) {
+            console.log("/users/my_travels error", error);
+        }
+    }
+    fetchTravelData();
+    },[])
+    
+    // 코스 선택 시 실행
+    useEffect(()=>{
+        console.log('selectedTravelId',selectedTravelId);
+        if(selectedTravelId!==-1){ // 코스가 선택됐으면
+            fetchCourseInfo();
+        }
+    },[selectedTravelId])
+
     return (
-        <div className="xcommunity-page">
+        <div className="write-page">
             <Nav/>
             <div className="write-box">
                 <div className="left-section">
                     <div className="top-square">
-                        {/* { isMy ?
+                        { flag ? 
                         // 추천으로 만들어진 코스이면 자동으로 가져옴 
-                        <TravelCard what={course.what} hard={course.hard} withwho={course.withwho} flag={true}/> :  */}
-                        <TravelCard setHard={setHard} setWhat={setWhat} setWithwho={setWithwho} flag={false}/>
+                        <TravelCard what={what} hard={hard} withwho={withwho} flag={flag}/> :
+                        <TravelCard setHard={setHard} setWhat={setWhat} setWithwho={setWithwho} flag={flag}/> 
+                        }
                         <button className="course-btn" onClick={openModal}>코스 선택</button> 
                     </div> 
                     <ImageUploadBox setImages={setImages}/>
@@ -236,12 +304,19 @@ function WritePage() {
                     </div>
                 </div>
             </div>
-            <div className="footer">
-                <button className="submit-btn" type='submit' onClick={onSubmit}> 게시하기 </button>
-            </div>
+            <button className="submit-btn" type='submit' onClick={onSubmit}
+            disabled={!value.title || !value.location || !value.tid || !course}> 제출 </button>
             {showModal && (
                 <div className='course-modal' onClick={closeModal}>
-                    <ChoiceCourse onCourse={onCourse}/>
+                    {/* <ChoiceCourse onCourse={onCourse}/> */}
+                    <MyTravelLists
+                        setView={setView}
+                        isEditMode={isEditMode}
+                        setIsEditMode={setIsEditMode}
+                        view={view}
+                        travelData={travelData}
+                        setSelectedTravelId={setSelectedTravelId}
+                    />
                 </div>
             )}
         </div>

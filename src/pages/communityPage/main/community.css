@@ -203,8 +203,5 @@
 }
 
 .page-box{
-  position: fixed;
-  left : 45%;
-  bottom:5%;
   text-align: center;
 }
