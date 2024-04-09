@@ -1,19 +1,23 @@
 .expense {
-    height: 3vh;
+    height: 2.5vh;
     color: black;
     background-color: white;
     border: 1px solid gray;
     border-radius: 5px;
     font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 0px;    
   }
   
   .expense-selected {
-    height: 3vh;
+    height: 2.6vh;
     color: black;
     font-weight: 800;    
     background-color: rgb(240, 250, 244);
     border: 2px solid #9CBBAC;
     color: #9CBBAC;
     border-radius: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
   

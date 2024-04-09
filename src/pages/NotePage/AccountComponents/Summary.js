@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { userInfoState } from "../../../recoil/atoms/userState";
 import "./Summary.css";
 import axios from "axios";
-
+import { API } from "../../../config";
 function Summary() {
     const [account, setAccount] = useRecoilState(accountState);
     const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
@@ -20,11 +20,10 @@ function Summary() {
     const [totalBudget, setTotalBudget] = useState(200000);
     const [percentage, setPercentage] = useState(0);
     const [progressBarWidth, setprogressBarWidth] = useState(0);
-    const serverUrl = "https://traveler-back.shop";
     const fetchAccountBook = async () => {
         try {
             const response = await axios.get(
-                `${serverUrl}/accountbook/1/summary`,
+                `${API.HEADER}/accountbook/${selectedNote}/summaryTravel`,
                 {
                     headers: {
                         Authorization: `${userInfo.accessToken}`,
@@ -37,6 +36,7 @@ function Summary() {
                 setShoppingExpense(res.data.result.shoppingExpense);
                 setOtherExpense(res.data.result.otherExpense);
                 setTotalExpense(res.data.result.totalExpense);
+                setTotalBudget(res.data.result.totalBudget);
                 console.log("acoount book 조회 성공");
                 console.log(
                     "account book 조회 response.data.result : ",
@@ -86,7 +86,7 @@ function Summary() {
     };
 
     const processBarWidth = (expense) => {
-        const value = (expense / totalExpense) * 300 + 100;
+        const value = (expense / totalExpense) * 30 ;
         return value ? value : 100;
     };
 
@@ -107,7 +107,7 @@ function Summary() {
 
     useEffect(() => {
         setPercentage(Math.round((totalExpense / totalBudget) * 100));
-        setprogressBarWidth((percentage / 100) * 450);
+        setprogressBarWidth(percentage);
         // console.log("percentage: ", percentage);
         // console.log("progressBarWidth: ", progressBarWidth);
     });
@@ -132,13 +132,13 @@ function Summary() {
                             );
                         }}
                     >
-                        총 예산 변경하기
+                        예산 변경하기
                     </div>
                 </div>
                 <div className="account-summary-total-center">
                     <div
                         className="account-summary-total-progress-bar"
-                        style={{ width: `${progressBarWidth}px` }}
+                        style={{ width: `${progressBarWidth}%` }}
                     ></div>
                     <div
                         className="account-summary-total-percentage"
@@ -165,6 +165,17 @@ function Summary() {
                 <div className="account-summary-content-top">항목별 지출</div>
 
                 <div className="account-summary-content-item">
+                <div className="account-summary-content-item-right">
+                        <div
+                            className="account-summary-content-item-progress-bar"
+                            style={{
+                                width: `${processBarWidth(foodExpense)}vw`,
+                            }}
+                        ></div>
+                        <div className="account-summary-content-item-percentage">
+                            {expensePercentage(foodExpense)}%
+                        </div>                        
+                    </div>                    
                     <div className="account-summary-content-item-left">
                         <div className="account-summary-content-item-category">
                             식 비
@@ -173,19 +184,21 @@ function Summary() {
                             {costToString(foodExpense)}원
                         </div>
                     </div>
+                </div>
+                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-right">
-                        <div className="account-summary-content-item-percentage">
-                            {expensePercentage(foodExpense)}%
-                        </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${processBarWidth(foodExpense)}px`,
+                                width: `${processBarWidth(
+                                    transportationExpense
+                                )}vw`,
                             }}
                         ></div>
+                        <div className="account-summary-content-item-percentage">
+                            {expensePercentage(transportationExpense)}%
+                        </div>
                     </div>
-                </div>
-                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-left">
                         <div className="account-summary-content-item-category">
                             교통비
@@ -193,22 +206,22 @@ function Summary() {
                         <div className="account-summary-content-item-cost">
                             {costToString(transportationExpense)}원
                         </div>
-                    </div>
+                    </div>                    
+                </div>
+                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-right">
-                        <div className="account-summary-content-item-percentage">
-                            {expensePercentage(transportationExpense)}%
-                        </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
                                 width: `${processBarWidth(
-                                    transportationExpense
-                                )}px`,
+                                    sightseeingExpense
+                                )}vw`,
                             }}
-                        ></div>
+                        ></div>                        
+                        <div className="account-summary-content-item-percentage">
+                            {expensePercentage(sightseeingExpense)}%
+                        </div>
                     </div>
-                </div>
-                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-left">
                         <div className="account-summary-content-item-category">
                             관 광
@@ -216,22 +229,20 @@ function Summary() {
                         <div className="account-summary-content-item-cost">
                             {costToString(sightseeingExpense)}원
                         </div>
-                    </div>
+                    </div>                    
+                </div>
+                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-right">
-                        <div className="account-summary-content-item-percentage">
-                            {expensePercentage(sightseeingExpense)}%
-                        </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${processBarWidth(
-                                    sightseeingExpense
-                                )}px`,
+                                width: `${processBarWidth(shoppingExpense)}vw`,
                             }}
                         ></div>
+                        <div className="account-summary-content-item-percentage">
+                            {expensePercentage(shoppingExpense)}%
+                        </div>
                     </div>
-                </div>
-                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-left">
                         <div className="account-summary-content-item-category">
                             쇼 핑
@@ -239,20 +250,20 @@ function Summary() {
                         <div className="account-summary-content-item-cost">
                             {costToString(shoppingExpense)}원
                         </div>
-                    </div>
+                    </div>                    
+                </div>
+                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-right">
-                        <div className="account-summary-content-item-percentage">
-                            {expensePercentage(shoppingExpense)}%
-                        </div>
                         <div
                             className="account-summary-content-item-progress-bar"
                             style={{
-                                width: `${processBarWidth(shoppingExpense)}px`,
+                                width: `${processBarWidth(otherExpense)}vw`,
                             }}
-                        ></div>
+                        ></div>                        
+                        <div className="account-summary-content-item-percentage">
+                            {expensePercentage(otherExpense)}%
+                        </div>
                     </div>
-                </div>
-                <div className="account-summary-content-item">
                     <div className="account-summary-content-item-left">
                         <div className="account-summary-content-item-category">
                             기 타
@@ -260,18 +271,7 @@ function Summary() {
                         <div className="account-summary-content-item-cost">
                             {costToString(otherExpense)}원
                         </div>
-                    </div>
-                    <div className="account-summary-content-item-right">
-                        <div className="account-summary-content-item-percentage">
-                            {expensePercentage(otherExpense)}%
-                        </div>
-                        <div
-                            className="account-summary-content-item-progress-bar"
-                            style={{
-                                width: `${processBarWidth(otherExpense)}px`,
-                            }}
-                        ></div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

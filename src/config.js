@@ -1,4 +1,4 @@
-const URL = 'https://www.traveler-back.shop';
+const URL = 'https://traveler-back.shop';
 
 export const API = {
     LOGIN: `${URL}/api/auth/kakao`,

@@ -11,26 +11,80 @@ import AccountBook from "./AccountBook/AccountBook";
 import Nav from "../../components/Nav/Nav";
 import Vector from "../../assets/images/Vector.png";
 import Ellipse from "../../assets/images/Ellipse.png";
-
+import { API } from "../../config";
 function NotePage() {
     const [noteList, setNoteList] = useRecoilState(noteState);
     const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
     const [checktoggle, setCheckToggle] = useState(true);
     const [AccountMode, setAccountMode] = useRecoilState(AccountBookMode);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const fetchProfilelData = async () => {
+        try {
+            const response = await axios({
+                method: "GET",
+                url: "http://15.164.232.95:9000/users/profile",
+                headers: {
+                    Authorization: `${userInfo.accessToken}`,
+                },
+            });
 
-    // Server Address
-    const serverUrl = "https://traveler-back.shop";
+            if (response.status === 200) {
+                setUserInfo({
+                    ...userInfo,
+                    id: response.data.result.id,
+                    name: response.data.result.name,
+                    email: response.data.result.email,
+                    nickname: response.data.result.nickname,
+                    profileImage: response.data.result.profile_image_url,
+                    isLogin: true,
+                });
+                console.log("유저인포 set 확인");
+            }
+        } catch (error) {
+            console.error("Error fetching profile data:", error);
+        }
+    };
+    useEffect(()=>{
+        async function fetchProfilelData() {
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: "https://traveler-back.shop/users/profile",
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    },
+                });
+    
+                if (response.status === 200) {
+                    setUserInfo({
+                        ...userInfo,
+                        id: response.data.result.id,
+                        name: response.data.result.name,
+                        email: response.data.result.email,
+                        nickname: response.data.result.nickname,
+                        profileImage: response.data.result.profile_image_url,
+                        isLogin: true,
+                    });
+                    console.log("유저인포 set 확인");
+                }
+            } catch (error) {
+                console.error("Error fetching profile data:", error);
+            }
+        };
+        fetchProfilelData();
+    },[]);
+
 
     // 나의 여행 목록 조회
     useEffect(() => {
+        fetchProfilelData();
         setSelectedNote(0);
         fetchNotes();
     }, []);
 
     const fetchNotes = async () => {
         try {
-            const response = await axios.get(`${serverUrl}/users/my_travels`, {
+            const response = await axios.get(`${API.HEADER}/users/my_travels`, {
                 headers: {
                     Authorization: `${userInfo.accessToken}`,
                 },

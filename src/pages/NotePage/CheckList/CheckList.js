@@ -4,7 +4,6 @@ import { selectedNoteId } from "../../../recoil/atoms/noteState";
 import { checkListState } from "../../../recoil/atoms/noteState";
 import { userInfoState } from "../../../recoil/atoms/userState";
 import "./CheckList.css";
-import edit_btn from "../../../assets/images/edit_btn.png";
 import add_btn from "../../../assets/images/add_btn.png";
 import del_btn from "../../../assets/images/del_btn.png";
 import { useEffect, useState } from "react";
