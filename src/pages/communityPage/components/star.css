@@ -4,17 +4,18 @@
     flex-direction: column;
     border : 1px rgb(169, 169, 169);
     box-shadow: 1px 1px 5px rgb(169, 168, 168);
-    width: 400px;
-    height: auto;
+    width: 26vw;
+    height: 21vh;
     border-radius: 7px;
+    min-width: 300px;
  }
   
   .xstar-section {
-    margin : 10px 0 10px 15px;
+    margin : 4px 0 3px 15px;
   }
   
   .xstar-section > span{
-    font-size:medium;
+    font-size:15px;
     font-weight: 600; 
   }
 

@@ -11,7 +11,6 @@ function CommentBtnPage(props){
         axios.get(`${API.HEADER}/post/${props.pId}/comment`).then(response=>{
             if(response.data.isSuccess===true){
                 setCount(response.data.result.length);
-                console.log(count);
             }
         }).catch(e=>console.log(e))
     },[count]);

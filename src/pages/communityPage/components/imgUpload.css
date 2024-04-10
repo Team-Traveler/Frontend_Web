@@ -1,13 +1,20 @@
+.slick-dots{
+  position : static;
+  bottom:0;
+  top : 89%;
+}
+
 .img-upload-box{
+  min-width: 300px;
   height: 400px;
-  width: 400px;
+  width: 26vw;
   border: 1px rgb(179, 178, 178);
   box-shadow: -1px 1px 5px rgb(171, 171, 171);
 }
 
 .img-container {
-  height: 330px;
-  width: 400px;
+  height: 355px;
+  width: 26vw;
 }
 
 .img-container > img{

@@ -1,51 +1,72 @@
 .xcommunity-page{
     display: flex;
     flex-direction: column;
+    max-height: 100vh;
 }
       
-.xcontent-wrapper {
+.write-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    max-width: 900px; /* 최대 너비를 지정 */
-    margin: 10px auto 20px auto; /* 가운데 정렬을 위한 마진 설정 */
-    gap:20px;
+    max-width: 75vw; /* 최대 너비를 지정 */
+    margin: 10px auto 10px auto; /* 가운데 정렬을 위한 마진 설정 */
+    gap:30px;
+    min-width: 700px;
 }
     
+/* Left Section */
 .left-section {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    flex: 0.5;
+    flex: 0.43;
 }
 
+.top-square{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 330px;
+}
+
+.course-btn{
+    text-decoration: underline;
+    background-color: transparent;
+    border : none;
+    color : black;
+    font-size: 16px;
+}
+
+/* Right Section */
 .right-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    flex: 0.5;
+    margin-top: 5px;
+    flex: 0.57;
 }
 
-input{
+textarea, input{
     border:none;
-    font-size: medium;
-    font-weight: 550;
-    width: 500px;
+    font-size: 14px;
+    font-weight: 400;
+    width: 34vw;
 }
 
-input:focus{
+input:focus,
+textarea:focus{
     outline: none;
 }
     
 /* 마우스 올릴 시 기본 텍스트가 안보이도록
 /* Chrome, Firefox, Opera, Safari 10.1+ */
-input:focus::placeholder{
+input:focus::placeholder, textarea:focus::placeholder{
     color:transparent;
 }
   
 /* Edge */
-input:focus::-ms-input-placeholder{
+input:focus::-ms-input-placeholder,
+textarea:focus::-ms-input-placeholder{
     color:transparent;
 } 
 
@@ -54,12 +75,24 @@ input:focus::-ms-input-placeholder{
     align-items: center;
     margin-bottom : 7px;
 }
-   
+
+.profile-box {
+    width: 26px;
+    height: 26px; 
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.profile-box > img{
+    height: 26px;
+    width: 26px;
+}
+
 .input-user > span{
     margin-left: 10px;
-    font-size: 27px;
+    font-size: 20px;
     font-weight:normal;
-    color : rgb(93, 92, 92);
+    color : #393939;
 }
 
 .input-title{
@@ -73,24 +106,34 @@ input:focus::-ms-input-placeholder{
 }
 
 #title{
-    width: 500px;
-    margin: 10px 0 20px 0;
+    width: 34vw;
     padding: 10px;
-    border: 1px rgb(179, 178, 178);
-    box-shadow: -1px 1px 5px rgb(171, 171, 171);
-    font-size: 18px;
-    font-weight: 550;
-    color : rgb(93, 92, 92);
+    border-radius: 5px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    font-size: 14px;
+    color : #393939
 }
 
 .input-title > span{
     font-size: 17px;
     font-weight: 550;
-    color : rgb(93, 92, 92);
+    color : #393939
+}
+
+.input-travel-date{
+    width: 34vw;
+    height: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    font-size: 14px;
+    color : #696969
 }
 
 .input-travel{
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
 }
@@ -99,6 +142,7 @@ input:focus::-ms-input-placeholder{
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap : 10px;
 }
 
 .input-travel-title > img{
@@ -108,19 +152,21 @@ input:focus::-ms-input-placeholder{
 }
 
 .input-travel-title > span{
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 .input-travel-content{
-    width: 500px;
-    margin: 10px 0 20px 0;
+    width: 34vw;
+    height: 20px;
+    margin: 5px 0 20px 0;
     padding: 10px;
-    border: 1px rgb(179, 178, 178);
-    box-shadow: -1px 1px 5px rgb(171, 171, 171);
-    font-size: 18px;
-    font-weight: 550;
-    color : rgb(93, 92, 92);
+    border-radius: 5px;
+    border : 1px solid rgb(221, 221, 221);
+    box-shadow: 1px 2px 5px rgb(214, 214, 214);
+    font-size: 14px;
+    color : #393939;
+    min-width: 250px;
 }
 
 .footer{
@@ -133,10 +179,25 @@ input:focus::-ms-input-placeholder{
 .submit-btn{
     height: 50px;
     width: 100px;
-    background-color: rgb(156, 184, 148);
+    background-color: #9CBBAC;
     border: none;
     border-radius: 20px;
     color: white;
     font-size: medium;
     font-weight: 550;
 }
+
+.course-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경의 투명도 조정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 다른 요소보다 위로 올라오도록 설정 */
+}
+
+

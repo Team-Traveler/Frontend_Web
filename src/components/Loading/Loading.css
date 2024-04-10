@@ -1,0 +1,98 @@
+.loading-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경의 투명도 조정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 다른 요소보다 위로 올라오도록 설정 */
+}
+
+.loading-box{
+    z-index: 10000;
+    position: absolute;
+    top: 43vh;
+    left: 44vw;
+}
+
+.loading-text-box{
+    z-index: 10001;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap : 30px;
+    line-height: 0.5;
+    margin-bottom: 10px;
+}
+
+.loading-text > span{
+    font-size: 35px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+
+#emphasis{
+    font-size: 40px;
+    font-weight: 550;
+}
+
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    height: 400px;
+    width: 400px;
+    animation: rotate_3922 1.2s linear infinite;
+    background-color: #9CBBAC;
+    background-image: linear-gradient(#9CBBAC, #cbebc5, #d0eda5);;
+}
+
+.loading-spinner span {
+    position: absolute;
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    background-color: #9CBBAC;
+    background-image: linear-gradient(#9CBBAC, #cbebc5, #d0eda5);
+}
+
+.loading-spinner span:nth-of-type(1) {
+    filter: blur(5px);
+}
+
+.loading-spinner span:nth-of-type(2) {
+    filter: blur(10px);
+}
+
+.loading-spinner span:nth-of-type(3) {
+    filter: blur(25px);
+}
+
+.loading-spinner span:nth-of-type(4) {
+    filter: blur(50px);
+}
+
+.loading-spinner::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    background-color: #fff;
+    border: solid 5px #ffffff;
+    border-radius: 50%;
+}
+
+.progress-bar{
+    position: fixed;
+    top : 85%;
+    left : 25%;
+}

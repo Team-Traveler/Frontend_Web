@@ -1,9 +1,9 @@
-h1{
+h1 {
     color: aquamarine;
     font-style: italic;
 }
 
-.edit-done-button{
+.edit-done-button {
     position: absolute; /* 버튼을 절대 위치로 설정합니다. */
     width: 8vw;
     height: 5vh;
@@ -15,7 +15,7 @@ h1{
     border: none;
     border-radius: 30px;
     right: 14vw; /* 오른쪽으로부터 82px 떨어트립니다. */
-    top: 7vh; 
+    top: 7vh;
     z-index: 10; /* 필요에 따라 z-index를 조정하여 다른 요소 위에 버튼이 나타나게 할 수 있습니다. */
 }
 
@@ -24,14 +24,16 @@ h1{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url("../../../assets/images/background.png");
     background-size: cover;
-    background-repeat: no-repeat; }
+    background-repeat: no-repeat;
+}
 
-.my-travel-main-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.my-travel-main-container {
+    justify-content: center; /* 중앙 정렬, 필요에 따라 변경 가능 */
+    flex-wrap: wrap; /* 자식 요소가 넘치면 줄 바꿈 */
+    width: calc(100% - 20px); /* 좌우 여백을 고려한 너비 */
+    margin: 0 10px; /* 좌우 여백 */
     height: 62.6vh;
     margin-top: 40px;
+    border: none; /* 테두리 제거 */
 }

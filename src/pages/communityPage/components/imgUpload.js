@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 import "./imgUpload.css"; // Import the CSS file for styling
-import {FcPlus} from 'react-icons/fc';
 import {TiDelete} from 'react-icons/ti';
 import Slider from "react-slick";
 
-function ImageUploadBox(props) {
+function ImageUploadBox({setImages}) {
   const [showImages, setShowImages] = useState([]);
+  const [imageList, setImageList] = useState([]);
 
-  // 이미지 상대경로 저장
   const handleAddImages = (event) => {
-    const imageLists = event.target.files;
-    let imageUrlLists = [...showImages];
+    const image = event.target.files; // 서버 전송용 이미지
+    let showImageList = [...showImages]; // 미리보기용 이미지
+    let postImageList = [...imageList];
 
-    for (let i = 0; i < imageLists.length; i++) {
-      const currentImageUrl = URL.createObjectURL(imageLists[i]);
-      imageUrlLists.push(currentImageUrl);
+    for(let i=0; i<image.length; i++){
+      showImageList.push(URL.createObjectURL(image[i]));
+      postImageList.push(image[i]);
     }
 
-    if (imageUrlLists.length > 10) {
-      imageUrlLists = imageUrlLists.slice(0, 10);
+    if (showImageList.length > 10) {
+      showImageList = showImageList.slice(0, 10);
+      postImageList = postImageList.slice(0,10);
     }
-
-    setShowImages(imageUrlLists);
-    props.setImages(imageUrlLists);
+    setShowImages(showImageList);
+    setImageList(postImageList);
+    setImages(postImageList); // imageList를 넣어주면 setState가 바로 업데이트 되지 않는 문제 생김 
   };
 
   // X버튼 클릭 시 이미지 삭제
@@ -41,9 +42,10 @@ function ImageUploadBox(props) {
 
   return (
     <div className='img-upload-box'>
-      <label htmlFor="input-file" className='add-btn' onChange={handleAddImages}>
-          <input type="file" id="input-file" multiple onChange={props.setFile}/>
-      </label>
+      <form>
+        <label htmlFor="img-upload" />
+        <input type="file" accept="image/*" multiple onChange={handleAddImages}/>
+      </form>
       <Slider {...settings} className="slider">
         {showImages.map((image, id) => (
           <div className='img-container' key={id}>

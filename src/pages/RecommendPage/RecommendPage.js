@@ -4,6 +4,7 @@ import Nav from "../../components/Nav/Nav";
 import Modal from "../../components/Modal/Modal";
 import { AiOutlinePlus } from "react-icons/ai";
 import dayjs from "dayjs";
+import LoadingModal from "../../components/Loading/Loading";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -35,7 +36,6 @@ function RecommendPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [completed, setCompleted] = useState(false);
-
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     useEffect(() => {
@@ -65,7 +65,7 @@ function RecommendPage() {
             people: parseInt(recommendForm.people),
         };
 
-        // 여행 찾기 버튼 클릭 시 recommendFormState axios 전송
+        //여행 찾기 버튼 클릭 시 recommendFormState axios 전송
         axios
             .post("http://15.164.232.95:9000/recommend", data, {
                 headers: { Authorization: userInfo.accessToken },
@@ -76,10 +76,10 @@ function RecommendPage() {
                 const startTime = Date.now(); // 로딩화면 띄우기 시작 시간
 
                 // 최소 3초동안 로딩화면 띄우기
-                const remainingTime = Math.max(
+                const remainingTime = (Math.max(
                     0,
                     3000 - (Date.now() - startTime)
-                );
+                ));
                 setTimeout(() => {
                     setLoading(false);
                     setCompleted(true);

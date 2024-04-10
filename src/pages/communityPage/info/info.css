@@ -1,7 +1,12 @@
 /* info.css */
+body{
+  margin:0;
+}
+
 .xcommunity-page{
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .xcontent-wrapper {
@@ -9,23 +14,24 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  max-width: 900px; /* 최대 너비를 지정 */
-  margin: 10px auto 20px auto; /* 가운데 정렬을 위한 마진 설정 */
+  max-width: 75vw; /* 최대 너비를 지정 */
+  margin: 10px auto 10px auto; /* 가운데 정렬을 위한 마진 설정 */
   position: relative;
+  gap:5px;
 }
 
 .xleft-section {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex: 0.5;
+  flex: 0.43;
 }
   
 .xright-section {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex: 0.5;
+  flex: 0.57;
 }
 
 .info-square{
@@ -37,25 +43,28 @@
 }
 
 .info-square > *{
-  background-color: rgb(156, 184, 148);
-  font-size: large;
+  background-color: #9CBBAC;
+  font-size: 15px;
   font-weight : 500;
   color : white;
   border-radius: 20px;
   width: 80px;
-  height : 35px;
+  height : 30px;
   text-align : center;
   padding-top:5px;
 }
 
 #footer{
+  position : fixed;
+  bottom : 0;
+  left: 14%;
+  width: 70%;
   display: flex;
   flex-direction: row;
+  height: 4%;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  background-color: gray;
-  height: auto;
+  background-color: #999999;
   padding:10px;
 }
 

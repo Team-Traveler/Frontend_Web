@@ -2,6 +2,9 @@
   "name": "traveler-front-web",
   "version": "0.1.0",
   "private": true,
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "@emotion/react": "^11.11.1",
@@ -29,6 +32,7 @@
     "recoil": "^0.7.7",
     "redux": "^4.2.1",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -57,5 +61,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  }
+  },
+  "proxy": "http://suggestqueries.google.com"
 }

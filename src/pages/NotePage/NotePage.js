@@ -105,6 +105,7 @@ function NotePage() {
             console.log("여행(노트) 조회 실패");
         }
     };
+
     return (
         <div className="note-page">
             {/* selectedNoteId : {selectedNote} */}
@@ -174,6 +175,7 @@ function NotePage() {
                                                     setSelectedNote(note.tid);
                                                     setAccountMode(0);
                                                 }}
+
                                                 style={{ 
                                                     backgroundColor: note.tid==selectedNote&&!checktoggle ? '#98B4A6' : 'white',
                                                     color: note.tid==selectedNote&&!checktoggle ? 'white' : 'black' 
