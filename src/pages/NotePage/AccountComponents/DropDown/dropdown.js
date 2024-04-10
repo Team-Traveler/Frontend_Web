@@ -93,8 +93,9 @@ function ExpenseButtons({tid, list}) {
     <div className="account-input-form">
       <div className="account-input-expense-box">
         <div>
+        <button className={selectedExpense === '숙소' ? 'expense-selected' : 'expense'} onClick={() => handleClick('숙소')}>숙소</button>
         <button className={selectedExpense === '식비' ? 'expense-selected' : 'expense'} onClick={() => handleClick('식비')}>식비</button>
-        <button className={selectedExpense === '교통비' ? 'expense-selected' : 'expense'} onClick={() => handleClick('교통비')}>교통비</button>
+        <button className={selectedExpense === '교통' ? 'expense-selected' : 'expense'} onClick={() => handleClick('교통')}>교통</button>
         <button className={selectedExpense === '쇼핑' ? 'expense-selected' : 'expense'} onClick={() => handleClick('쇼핑')}>쇼핑</button>
         <button className={selectedExpense === '관광' ? 'expense-selected' : 'expense'} onClick={() => handleClick('관광')}>관광</button>
         <button className={selectedExpense === '기타' ? 'expense-selected' : 'expense'} onClick={() => handleClick('기타')}>기타</button>

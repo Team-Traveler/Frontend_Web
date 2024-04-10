@@ -1,0 +1,66 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경의 투명도 조정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 다른 요소보다 위로 올라오도록 설정 */
+  }
+  
+  .account-modals {
+    width: 50vw;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .account-modal-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 5px;
+  }
+  
+  .modal-header button{
+    position: absolute;
+    top: 0;
+    right:10px;
+    background-color: white;
+    border: none;
+    font-size: 20px;
+  }
+  
+  .modal-header button:hover{
+    cursor: pointer;
+  }
+  
+  .modal-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+  }
+  
+  .modal-header-divide-line {
+    width: 400px;
+    height: 1px;
+    background-color: gray;
+  }
+.account-content {
+    display: flex;
+    padding: 5px;
+    height: 80vh;
+    width: 50vw;
+    /* border: 1px solid blue; */
+    box-shadow: 0px 0px 10px 0px #0000001a;
+    border-radius: 15px;
+    background-color: white;
+}
