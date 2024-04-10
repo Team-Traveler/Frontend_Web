@@ -23,7 +23,7 @@ export const accountListState = atom({
                     amount: 200.0,
                 },
                 {
-                    description: "교통비",
+                    description: "교통",
                     amount: 50.0,
                 },
             ],

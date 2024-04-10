@@ -11,6 +11,7 @@ import edit_btn_OFF from "../../../assets/images/edit_btn_OFF.png";
 import edit_btn_ON from "../../../assets/images/edit_btn_ON.png";
 import { useEffect, useState } from "react";
 import ExpenseButtons from "./DropDown/dropdown";
+import AccountBookModal from "../../communityPage/components/accountBookModal";
 import axios from "axios";
 
 function Daily() {
@@ -56,31 +57,6 @@ function Daily() {
         // const priceWithUnit = numberWithCommas + "원";
         // setPrice(priceWithUnit);
       };      
-    // // 가계부 생성
-    // const createBook = async (tid) => {
-    //     try {
-    //         const response = await axios.post(
-    //             `${serverUrl}/accountbook/${tid}`,
-    //             {
-    //                 title: "new title",
-    //                 items: [],
-    //             },
-    //             {
-    //                 headers: {
-    //                     Authorization: `${userInfo.accessToken}`,
-    //                 },
-    //             }
-    //         );
-    //         console.log("체크리스트 생성 성공!");
-    //         console.log("체크리스트 생성 response : ", response);
-    //         setCheckList([...checkList, response.data.result]);
-    //         console.log("체크리스트 생성 결과 checkList : ", checkList);
-    //     } catch (error) {
-    //         console.log(error);
-    //         console.log("체크리스트 생성 실패");
-    //     }
-    // };
-
     const deleteItem = async (accountId, transaction) => {
         try {
             const response = await axios.delete(
@@ -118,7 +94,7 @@ function Daily() {
                             <div className="account-item-daily-cost">
                                 0원
                             </div>
-                            {list.isEdit ? (
+                            {list.isEdit&&noteList.some((e) => e.tid===selectedNote) ? (
                                 <img
                                 className="account-item-edit-btn-ON"
                                 src={
@@ -200,7 +176,7 @@ function Daily() {
                                 {list.expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                 원
                             </div>
-                            {list.isEdit ? (
+                            {list.isEdit&&noteList.some((e) => e.tid===selectedNote) ? (
                                 <img
                                 className="account-item-edit-btn-ON"
                                 src={
@@ -326,31 +302,12 @@ function Daily() {
 
                         </div>   
                         <div className="account-daily-div-line"></div>
+                        
                     </div>
                 );                
             }
             )}
-            {/* {account.map((item) => (
-                <div className="account-item-container">
-                    <div className="account-item-daily-header">
-                        <div className="account-item-date">{item.date}</div>
-                        <div className="account-item-daily-cost">합계 금액</div>
-                    </div>
-                    {item.content.map((item) => (
-                        <div className="account-item">
-                            <div className="account-item-category">
-                                {item.category}
-                            </div>
-                            <div className="account-item-title">
-                                {item.title}
-                            </div>
-                            <div className="account-item-price">
-                                {item.price}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ))} */}
+                   
         </div>
     );
 }

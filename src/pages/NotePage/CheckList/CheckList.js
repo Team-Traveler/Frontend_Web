@@ -10,7 +10,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { el } from "date-fns/locale";
 import { set } from "date-fns";
+import AccountBookModal from "../../communityPage/components/accountBookModal";
 import CheckListModal from "../CheckListModal/CheckListModal";
+
 
 function CheckList() {
     const [noteList, setNoteList] = useRecoilState(noteState);
@@ -360,7 +362,7 @@ function CheckList() {
                                     </div>                                    
 
                                     {showModal && (
-                                        <CheckListModal
+                                        <AccountBookModal
                                             closeModal={closeModal}
                                             headerTitle={                                    
                                             <input
@@ -670,7 +672,7 @@ function CheckList() {
                                                 </button>                   
                                                 </div>                           
                                             </div>
-                                        </CheckListModal>
+                                        </AccountBookModal>
                                     )}    
                                                                             
                                 </div>
