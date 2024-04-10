@@ -7,7 +7,6 @@ import Monthly from "../AccountComponents/Monthly";
 import Summary from "../AccountComponents/Summary";
 import { useState } from "react";
 import "./AccountBook.css";
-import edit_btn from "../../../assets/images/edit_btn.png";
 
 function AccountBook() {
     const [noteList, setNoteList] = useRecoilState(noteState);
@@ -16,34 +15,6 @@ function AccountBook() {
 
     return (
         <div className="account-book">
-            {/* <div className="account-book-header">
-                <div className="account-book-title">
-                    {noteList.map((note) => {
-                        if (note.tid === selectedNote) {
-                            return note.title;
-                        }
-                    })}
-                </div>
-                <img
-                    className="account-book-title-edit-btn"
-                    src={edit_btn}
-                    alt="edit_btn"
-                    onClick={() => {
-                        setNoteList(
-                            noteList.map((note) => {
-                                if (note.tid === selectedNote) {
-                                    return {
-                                        ...note,
-                                        isEdit: !note.isEdit,
-                                    };
-                                }
-                                return note;
-                            })
-                        );
-                    }}
-                />
-            </div> */}
-
             <div className="account-book-nav">
                 <button
                     className={`account-book-mode-btn${

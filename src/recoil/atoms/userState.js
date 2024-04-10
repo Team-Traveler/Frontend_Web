@@ -7,10 +7,10 @@ export const userInfoState = atom({
     key: "userInfoState",
     default: {
         id: "",
-        name: "라이언",
-        email: "OOOOOOOOO@naver.com",
+        name: "",
+        email: "",
         nickname: "",
-        profileImage: profileTest,
+        profileImage: "",
         isLogin: false,
         accessToken: "",
     },

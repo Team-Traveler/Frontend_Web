@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect} from "react";
+import { useRecoilState } from "recoil";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./showInfoList.css";
@@ -7,8 +8,9 @@ import CountDay from "./countDay";
 import { Checkbox } from 'antd';
 import { ReactComponent as Check} from './Check.svg';
 import Modal from "../../../components/Modal/Modal";
-import AccountBook from "../../NotePage/AccountBook/AccountBook";
+import AccountBookModal from './accountBookModal';
 import { API } from "../../../config";
+import { selectedNoteId } from "../../../recoil/atoms/noteState";
 
 function ShowInfoList({prop}) {
   const location = useLocation();
@@ -16,6 +18,7 @@ function ShowInfoList({prop}) {
   const [showCheckList, setShowCheckList] = useState(false);
   const [showBook, setShowBook] = useState(false);
   const [checkList, setCheckList] = useState([]);
+  const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
 
   const infoSet = async ()=>{
     if(prop){ 
@@ -106,7 +109,12 @@ function ShowInfoList({prop}) {
               <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowCheckList(true)}}>
                 {travel.noteStatus===3 || travel.noteStatus===2 ? <Check /> : <Checkbox disabled/>} 체크리스트 
               </span>
-              <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowBook(true)}}>
+              <span className="checkbox-content" onClick={()=>{
+                if(travel.travel.noteStatus !== 0) {
+                  setShowBook(true); 
+                  setSelectedNote(travel.travel.tid);
+                  console.log('성공');
+                  }}}>
                 {travel.noteStatus===3 || travel.noteStatus===1 ? <Check /> : <Checkbox disabled/> } 가계부
               </span>
           </div>
@@ -139,14 +147,8 @@ function ShowInfoList({prop}) {
       )
       }
       {showBook && (
-        <Modal
-        closeModal={()=>{setShowBook(false);}}
-        headerTitle={<h3>가계부</h3>}
-        size={"large"}
-        >
-          <AccountBook/>
-        </Modal>
-      )
+          <AccountBookModal closeModal={()=>setShowBook(false)} headerTitle={travel.title}/>
+        )
       }
       </div>
     );

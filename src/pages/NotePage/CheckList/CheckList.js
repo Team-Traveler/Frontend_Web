@@ -4,14 +4,15 @@ import { selectedNoteId } from "../../../recoil/atoms/noteState";
 import { checkListState } from "../../../recoil/atoms/noteState";
 import { userInfoState } from "../../../recoil/atoms/userState";
 import "./CheckList.css";
-import edit_btn from "../../../assets/images/edit_btn.png";
 import add_btn from "../../../assets/images/add_btn.png";
 import del_btn from "../../../assets/images/del_btn.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { el } from "date-fns/locale";
 import { set } from "date-fns";
+import AccountBookModal from "../../communityPage/components/accountBookModal";
 import CheckListModal from "../CheckListModal/CheckListModal";
+
 
 function CheckList() {
     const [noteList, setNoteList] = useRecoilState(noteState);
@@ -361,7 +362,7 @@ function CheckList() {
                                     </div>                                    
 
                                     {showModal && (
-                                        <CheckListModal
+                                        <AccountBookModal
                                             closeModal={closeModal}
                                             headerTitle={                                    
                                             <input
@@ -671,7 +672,7 @@ function CheckList() {
                                                 </button>                   
                                                 </div>                           
                                             </div>
-                                        </CheckListModal>
+                                        </AccountBookModal>
                                     )}    
                                                                             
                                 </div>
