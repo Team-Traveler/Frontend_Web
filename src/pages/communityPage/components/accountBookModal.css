@@ -64,3 +64,8 @@
     border-radius: 15px;
     background-color: white;
 }
+
+.accountbook-close-btn{
+  border: none;
+  background-color: unset;
+}

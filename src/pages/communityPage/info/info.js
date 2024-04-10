@@ -21,9 +21,6 @@ function InfoPage() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [scrapList,setScrapList] = useState([]);
     const [likeList,setLikeList] = useState([]);
-    const whatArray = ['경치관람','먹방','액티비티','체험','카페'];
-    const hardArray = ['액티비티','여유롭게','보통','바쁘게'];
-    const withwhoArray = ['친구랑','가족과','연인과','혼자서'];
 
     //api 호출(비동기를 처리하기 위해 useEffect 처리)
     const callApi = async() =>{
@@ -31,7 +28,7 @@ function InfoPage() {
         .then(response => {
             if(response.data.isSuccess === true){   
                 setTravel(response.data.result);
-                console.log('성공',travel);
+                console.log('성공',response.data.result);
             }
             else console.log('실패',response.data);
         })
@@ -73,38 +70,40 @@ function InfoPage() {
     
     if(travel){
     return (
-        <div className="xcommunity-page">
+        <div className="xcommunity-body">
             <Nav />
-            <div className="xcontent-wrapper">
-                <div className="xleft-section">
-                    <TravelCard hard={travel.hard} what={travel.what} who={travel.withwho} flag={true}/>
-                    <div className="img-box">
-                        {travel.image_url&&<ShowImagePage img={travel.image_url}/>} 
+            <div className="xcommunity-page">
+                <div className="xcontent-wrapper">
+                    <div className="xleft-section">
+                        <TravelCard hard={travel.hard} what={travel.what} withwho={travel.withwho} flag={true}/>
+                        <div className="img-box">
+                            {travel.image_url&&<ShowImagePage img={travel.image_url}/>} 
+                        </div>
+                        <div className="star-ratingbar">
+                            <ShowRatingbarPage 
+                                intensity={travel.hardrating} 
+                                concept={travel.whatrating} 
+                                totalStar={travel.totalrating}
+                            />
+                        </div>
                     </div>
-                    <div className="star-ratingbar">
-                        <ShowRatingbarPage 
-                            intensity={travel.hardrating} 
-                            concept={travel.whatrating} 
-                            totalStar={travel.totalrating}
-                        />
-                    </div>
-                </div>
-                <div className="xright-section">
-                    {travel&&<ShowInfoList prop={travel} />}
-                </div>
-            </div>
-            <div id="footer">
-                <div className="icon-btn">
-                    <div className="comment-btn">
-                        <CommentBtnPage size="30" pId={pid}/>
-                    </div>
-                    <div className="heart-btn">
-                        <HeartBtnPage size="30" pId={pid} count={travel.likes}
-                        like={likeList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true}/>
+                    <div className="xright-section">
+                        {travel&&<ShowInfoList prop={travel} />}
                     </div>
                 </div>
-                <div className="pick-btn">
-                    <PickBtnPage size="45" pid={pid} pick={scrapList.findIndex(i=>i.pid === travel.pid) === -1 ? false : true} />
+                <div id="footer">
+                    <div className="icon-btn">
+                        <div className="comment-btn">
+                            <CommentBtnPage size="30" pId={pid}/>
+                        </div>
+                        <div className="heart-btn">
+                            <HeartBtnPage size="30" pId={pid} count={travel.likes}
+                            like={likeList.findIndex(i=>i.postResponse.pid === travel.pid) === -1 ? false : true}/>
+                        </div>
+                    </div>
+                    <div className="pick-btn">
+                        <PickBtnPage size="45" pid={pid} pick={scrapList.findIndex(i=>i.pid === travel.pid) === -1 ? false : true} />
+                    </div>
                 </div>
             </div>
         </div>

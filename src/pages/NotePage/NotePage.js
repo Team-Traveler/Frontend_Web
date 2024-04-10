@@ -74,7 +74,6 @@ function NotePage() {
         fetchProfilelData();
     },[]);
 
-
     // 나의 여행 목록 조회
     useEffect(() => {
         fetchProfilelData();

@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect} from "react";
+import { useRecoilState } from "recoil";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./showInfoList.css";
@@ -7,69 +8,17 @@ import CountDay from "./countDay";
 import { Checkbox } from 'antd';
 import { ReactComponent as Check} from './Check.svg';
 import Modal from "../../../components/Modal/Modal";
-import AccountBook from "../../NotePage/AccountBook/AccountBook";
+import AccountBookModal from './accountBookModal';
 import { API } from "../../../config";
+import { selectedNoteId } from "../../../recoil/atoms/noteState";
 
 function ShowInfoList({prop}) {
   const location = useLocation();
   const [travel,setTravel] = useState(null);
   const [showCheckList, setShowCheckList] = useState(false);
   const [showBook, setShowBook] = useState(false);
-
-  const check = [
-    {
-      "cid": 1,
-      "title": "2023년 8월",
-      "tid": 40,
-      "items": [
-        {
-          "id": 1,
-          "name": "아쿠아 슈즈",
-          "isChecked": false,
-        },
-        {
-          "id": 2,
-          "name": "호텔 예약",
-          "isChecked": false,
-        },
-      ],
-    },
-    {
-      "cid": 2,
-      "title": "2023년 9월",
-      "tid": 40,
-      "items": [
-        {
-          "id": 1,
-          "name": "클렌징폼",
-          "isChecked": false,
-        },
-        {
-          "id": 2,
-          "name": "우산",
-          "isChecked": false,
-        },
-      ],
-    },
-    {
-      "cid": 3,
-      "title": "2023년 10월",
-      "tid": 40,
-      "items": [
-        {
-          "id": 1,
-          "name": "운동화",
-          "isChecked": false,
-        },
-        {
-          "id": 2,
-          "name": "수건",
-          "isChecked": false,
-        },
-      ],
-    },
-  ];
-  const [checkList, setCheckList] = useState(check);
+  const [checkList, setCheckList] = useState([]);
+  const [selectedNote, setSelectedNote] = useRecoilState(selectedNoteId);
 
   const infoSet = async ()=>{
     if(prop){ 
@@ -121,8 +70,8 @@ function ShowInfoList({prop}) {
         <div className="info-title">
           <span id="info-title"> {travel.title} </span>
           <span> {travel.location} | 
-          <CountDay start_date={travel.travel.start_date} end_date={travel.travel.end_date}/> </span>
-          <span> {travel.travel.start_date.substr(0,10)} ~ {travel.travel.end_date.substr(0,10)} </span>
+          <CountDay start_date={travel.travel.startDate} end_date={travel.travel.endDate}/> </span>
+          <span> {travel.travel.startDate.substr(0,10)} ~ {travel.travel.endDate.substr(0,10)} </span>
         </div>
         <div className="copy-btn" onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
           <span>URL 복사</span>
@@ -152,7 +101,7 @@ function ShowInfoList({prop}) {
           <div className="info-travel-content" id="review">
             {travel.oneLineReview}
           </div>
-          <div className="input-travel-title">
+          <div className="info-travel-title">
               <Marker height={15} width={20} fill=" #98B4A6"/> 
               <span> 나의 노트 공유 </span>
           </div>
@@ -160,7 +109,12 @@ function ShowInfoList({prop}) {
               <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowCheckList(true)}}>
                 {travel.noteStatus===3 || travel.noteStatus===2 ? <Check /> : <Checkbox disabled/>} 체크리스트 
               </span>
-              <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowBook(true)}}>
+              <span className="checkbox-content" onClick={()=>{
+                if(travel.travel.noteStatus !== 0) {
+                  setShowBook(true); 
+                  setSelectedNote(travel.travel.tid);
+                  console.log('성공');
+                  }}}>
                 {travel.noteStatus===3 || travel.noteStatus===1 ? <Check /> : <Checkbox disabled/> } 가계부
               </span>
           </div>
@@ -193,14 +147,8 @@ function ShowInfoList({prop}) {
       )
       }
       {showBook && (
-        <Modal
-        closeModal={()=>{setShowBook(false);}}
-        headerTitle={<h3>가계부</h3>}
-        size={"large"}
-        >
-          <AccountBook/>
-        </Modal>
-      )
+          <AccountBookModal closeModal={()=>setShowBook(false)} headerTitle={travel.title}/>
+        )
       }
       </div>
     );

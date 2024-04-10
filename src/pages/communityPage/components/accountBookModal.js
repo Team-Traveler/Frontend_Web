@@ -26,7 +26,7 @@ function AccountBookModal({ closeModal, size, headerTitle }) {
                 <div className="account-modal-header">
                     {headerTitle}
                     {/* 닫기 버튼 */}
-                    <button onClick={closeModal}>
+                    <button className="accountbook-close-btn" onClick={closeModal}>
                         <AiOutlineClose />
                     </button>
                 </div>

@@ -6,7 +6,7 @@ body{
 .nav {
     display: flex;
     flex-direction: row;
-    height:7.6%;
+    height:50px;
     width: 100%;
     background-color: #F9F9F9;
     justify-content: space-between;
@@ -33,16 +33,16 @@ body{
 
 .nav-logo {
     position: absolute;
-    left:10px;
-    top :5px;
+    left:5px;
+    top :3px;
     margin-top:10px;
     margin-left:50px;
     /* border: 1px solid red; */
 }
 
 .nav-logo-image {
-    width: 220px;
-    height: 50px;
+    width: 150px;
+    height: auto;
     /* border: 1px solid blue; */
 }
 
@@ -74,8 +74,8 @@ body{
 .nav-menu-item:hover {
     background-color: #9CBBAC;
     color: #f5f4f4;
-    width: 100px;
-    height: 50px;
+    width: 95px;
+    height: 40px;
 }
 
 #navbar_toggle{
@@ -91,8 +91,8 @@ body{
 .active{
     background-color:  #9CBBAC;
     color: #f5f4f4;
-    width: 100px;
-    height: 50px;
+    width: 95px;
+    height: 40px;
 }
 
 /* 미디어 쿼리 추가 */

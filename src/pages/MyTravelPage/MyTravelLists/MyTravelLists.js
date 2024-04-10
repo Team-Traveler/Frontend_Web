@@ -42,6 +42,7 @@ function TravelCard({
 
     const handleReviewClick = () => {
         console.log("Review button clicked");
+        setSelectedTravelId(tid);
         setView("review");
     };
 
@@ -264,7 +265,7 @@ function MyTravelLists({
                         <TravelCard
                             key={travel.tid || index}
                             {...travel}
-                            setSelectedTravel={setSelectedTravel}
+                            setSelectedTravelId={setSelectedTravelId}
                             setView={setView}
                             isEditMode={isEditMode}
                             onDelete={handleDelete}
