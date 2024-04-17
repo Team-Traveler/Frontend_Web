@@ -87,22 +87,22 @@ function WritePage() {
         setStart_date(result.start_date);
         setEnd_date(result.end_date);
         
-        if(result.noteStatus === 0){ // 노트 정보가 없으면 비활성화
-            setActiveC(true);
-            setActiveB(true);
-        }
-        else if(result.noteStatus === 1){ // 가계부 정보만 있으면
-            setActiveC(true);
-            setActiveB(false);
-        }
-        else if(result.noteStatus === 2){ // 체크리스트만 있으면
-            setActiveC(false);
-            setActiveB(true);
-        }
-        else if(result.noteStatus === 3){ // 둘 다 있으면
-            setActiveC(false);
-            setActiveB(false);
-        }
+        // if(result.noteStatus === 0){ // 노트 정보가 없으면 비활성화
+        //     setActiveC(true);
+        //     setActiveB(true);
+        // }
+        // else if(result.noteStatus === 1){ // 가계부 정보만 있으면
+        //     setActiveC(true);
+        //     setActiveB(false);
+        // }
+        // else if(result.noteStatus === 2){ // 체크리스트만 있으면
+        //     setActiveC(false);
+        //     setActiveB(true);
+        // }
+        // else if(result.noteStatus === 3){ // 둘 다 있으면
+        //     setActiveC(false);
+        //     setActiveB(false);
+        // }
 
         setValue((prevState) => { // tid 설정
             return { ...prevState, ["tid"]: result.tid };
@@ -112,6 +112,8 @@ function WritePage() {
         });
         console.log('value',value);
         closeModal();
+        console.log("checklist : ",checklist);
+        console.log("book:",book);
     }
 
     const onChangeHandler = (e) => {
@@ -162,6 +164,7 @@ function WritePage() {
         }
 
         const jsonMerge = {...value,...rating,...info};
+        console.log("글 제출 result",jsonMerge);
         // content
         // multipart와 json을 같이 보내기 위해서 Blob 사용해야함
         const blob = new Blob([JSON.stringify(jsonMerge)], {type:"application/json"});

@@ -53,7 +53,7 @@ function ShowInfoList({prop}) {
 
   useEffect(()=>{
     infoSet();
-    if(prop.noteStatus !== 0){
+    if(prop.noteStatus === 2 || prop.noteStatus === 3){
       fetchCheckList();
     }
   },[prop])
@@ -106,15 +106,18 @@ function ShowInfoList({prop}) {
               <span> 나의 노트 공유 </span>
           </div>
           <div className="info-travel-content" id="checkbox" >
-              <span className="checkbox-content" onClick={()=>{if(travel.noteStatus) setShowCheckList(true)}}>
+              <span className="checkbox-content" onClick={()=>{
+                if(travel.noteStatus === 2 || travel.noteStatus === 3) 
+                  setShowCheckList(true)
+                }}>
                 {travel.noteStatus===3 || travel.noteStatus===2 ? <Check /> : <Checkbox disabled/>} 체크리스트 
               </span>
               <span className="checkbox-content" onClick={()=>{
-                if(travel.travel.noteStatus !== 0) {
+                if(travel.noteStatus === 1 || travel.noteStatus === 3) {
                   setShowBook(true); 
                   setSelectedNote(travel.travel.tid);
                   console.log('성공');
-                  }}}>
+                }}}>
                 {travel.noteStatus===3 || travel.noteStatus===1 ? <Check /> : <Checkbox disabled/> } 가계부
               </span>
           </div>

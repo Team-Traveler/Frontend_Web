@@ -362,7 +362,7 @@ function CheckList() {
                                     </div>                                    
 
                                     {showModal && (
-                                        <AccountBookModal
+                                        <CheckListModal
                                             closeModal={closeModal}
                                             headerTitle={                                    
                                             <input
@@ -672,7 +672,7 @@ function CheckList() {
                                                 </button>                   
                                                 </div>                           
                                             </div>
-                                        </AccountBookModal>
+                                        </CheckListModal>
                                     )}    
                                                                             
                                 </div>
