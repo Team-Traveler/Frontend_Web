@@ -242,13 +242,7 @@ function MyTravelLists({
         }
     }
 
-    // useEffect(() => {
-    //     //console.log(TAG + " : 상세여행조회 : ", travelSpecificData);
-    //     //console.log(TAG + " : 현재 저장된 값", travelList);
-    //     //console.log(TAG, update);
-    // }, [travelList, travelSpecificData, update]);
-
-    const handleDelete = (tid) => {
+    const handleDelete = async (tid) => {
         setTravelList((prevTravelList) =>
             prevTravelList.filter((travel) => travel.tid !== tid)
         );
@@ -257,10 +251,14 @@ function MyTravelLists({
             ...prevData,
             numTravel: travelList.length - 1,
         }));
-        console.log("디버깅", profileData);
-        deleteTravelData(tid);
-        setUpdate(Math.random());
-        setIsEditMode(false);
+
+        try {
+            await deleteTravelData(tid);
+            setUpdate(Math.random());
+            setIsEditMode(false);
+        } catch (error) {
+            console.error("Error deleting travel data:", error);
+        }
     };
 
     return (
@@ -269,7 +267,6 @@ function MyTravelLists({
                 <div>이 항목에는 여행 리스트 값이 없습니다.</div>
             ) : (
                 travelList.map((travel, index) => {
-                    //console.log("Travel item:", travel);
                     return (
                         <TravelCard
                             key={travel.tid || index}

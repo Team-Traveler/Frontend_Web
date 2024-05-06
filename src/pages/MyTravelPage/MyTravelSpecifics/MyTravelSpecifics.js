@@ -62,24 +62,12 @@ function MyTravelSpecifics({ travel, setView, ...props }) {
 
     return (
         <div>
-            {isTravelCreate ? (
-                <div className="group490">
-                    <h1 className="detailTitle">여행 만들기</h1>
-                    <p className="subText">
-                        여행 일정을 만들어보세요. 장소의 날짜를 직접 설정하고
-                        일일 계획을 구성할 수 있습니다.
-                    </p>
-                    <div className="rectangle"></div>
-                </div>
-            ) : (
-                <div className="group490">
-                    <h1 className="detailTitle">여행 상세보기</h1>
-                    <p className="subText-specific">
-                        여행 일정을 확인해보세요!
-                    </p>
-                    <div className="rectangle"></div>
-                </div>
-            )}
+            <div className="group490">
+                <h1 className="detailTitle">여행 코스 만들기</h1>
+                <p className="subText-specific">여행 일정을 추가해보세요!</p>
+                <div className="rectangle"></div>
+            </div>
+
             <div
                 style={{
                     display: "flex",
@@ -91,29 +79,18 @@ function MyTravelSpecifics({ travel, setView, ...props }) {
                     marginTop: "20px",
                 }}
             >
-                {selectedCourse.courses.length != 0 && (
-                    <div style={{ marginRight: "6vw" }}>
-                        {/* <MyTravelMap isTravelCreate={isTravelCreate}/> */}
-                        <Map
-                            searchPlace={Place}
-                            setRecoilPlaces={setRecoilPlaces}
-                        />
-                    </div>
-                )}
-
                 <div style={{ flexGrow: 1 }}>
                     {/* {console.log(TAG, selectedCourse)} */}
-                    {selectedCourse.courses.length == 0 ||
-                    !selectedCourse.courses[0].spot1 ? (
-                        <MyTravelCreateLists
-                            showCreateComponent={showCreateComponent}
-                            setShowCreateComponent={setShowCreateComponent}
-                            setIsTravelCreate={setIsTravelCreate}
-                            selectedTID={selectedTID}
-                            Places={Place}
-                            setView={setView}
-                        />
-                    ) : (
+
+                    <MyTravelCreateLists
+                        showCreateComponent={showCreateComponent}
+                        setShowCreateComponent={setShowCreateComponent}
+                        setIsTravelCreate={setIsTravelCreate}
+                        selectedTID={selectedTID}
+                        Places={Place}
+                        setView={setView}
+                    />
+                    {/* ) : (
                         <>
                             <MyTravelSpecificsLists
                                 showCreateComponent={showCreateComponent}
@@ -123,7 +100,7 @@ function MyTravelSpecifics({ travel, setView, ...props }) {
                                 setView={setView}
                             />
                         </>
-                    )}
+                    )} */}
                 </div>
             </div>
         </div>
