@@ -12,6 +12,12 @@ export const myAllTravelsState = atom({
     default: [],
 });
 
+// 업데이트 유무 확인 state
+export const updateState = atom({
+    key: "updateState",
+    default: null,
+});
+
 export const addNewTravel = selector({
     key: "addNewTravel",
     get: ({ get }) => {

@@ -94,30 +94,6 @@
     margin-right: 5.6vw;
 }
 
-.edit-create-button {
-    position: absolute;
-    top: 60px; /* 위치 조절 필요 */
-    right: 50px; /* 위치 조절 필요 */
-    width: 2vw;
-    height: 2vw;
-    background: url("./edit.svg");
-    border: none; /* 테두리 제거 */
-    outline: none; /* 클릭 시 나타나는 아웃라인도 제거합니다. */
-    background-size: cover; /* 이미지를 버튼에 꽉 차게 표시 */
-}
-
-.calender-create-button {
-    position: absolute;
-    top: 110px; /* 위치 조절 필요 */
-    right: 50px; /* 위치 조절 필요 */
-    width: 2vw;
-    height: 2vw;
-    background: url("./calender.svg");
-    border: none; /* 테두리 제거 */
-    outline: none; /* 클릭 시 나타나는 아웃라인도 제거합니다. */
-    background-size: cover; /* 이미지를 버튼에 꽉 차게 표시 */
-}
-
 .my-travel-create-lists {
     position: relative;
     overflow-y: auto; /* 수직으로만 스크롤 */
@@ -196,25 +172,6 @@
     border: none;
     outline: none;
     background: none;
-}
-
-.search-Btn {
-    background-color: #ffffff;
-    border: none;
-    background-image: url("./search.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    outline: none;
-    margin-left: 10rem; /* 버튼과 검색창 사이의 간격 조정 */
-}
-
-.searchBtn:active {
-    transform: none;
-    box-shadow: none;
 }
 
 .result-Style {

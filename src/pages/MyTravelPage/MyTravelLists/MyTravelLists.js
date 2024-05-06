@@ -7,6 +7,7 @@ import { userInfoState } from "../../../recoil/atoms/userState";
 import {
     myAllTravelsState,
     deleteTravelById,
+    updateState,
 } from "../../../recoil/atoms/myAllTravelsState";
 import {
     setTravelSpecificStateSelector,
@@ -14,7 +15,7 @@ import {
     setSelectedTIDSelector,
 } from "../../../recoil/atoms/travelSpecificState";
 import { API } from "../../../config";
-import { updateState } from "../../../recoil/atoms/updateState";
+import { profileState } from "../../../recoil/atoms/profileState";
 
 function TravelCard({
     tid,
@@ -33,7 +34,7 @@ function TravelCard({
     //console.log("Travel title : ",tid);
 
     const handleDetailClick = () => {
-        //console.log('Detail button clicked');
+        console.log("Detail button clicked");
         console.log("Detail button clicked with tid:", tid);
         onDetails(tid);
         setSelectedTID(tid);
@@ -42,7 +43,7 @@ function TravelCard({
 
     const handleReviewClick = () => {
         console.log("Review button clicked");
-        setSelectedTravelId(tid);
+        setSelectedTID(tid);
         setView("review");
     };
 
@@ -201,7 +202,8 @@ function MyTravelLists({
     const [travelSpecificData, setTravelSpecificData] = useRecoilState(
         setTravelSpecificStateSelector
     );
-    const [update, setUpdate] = useState(updateState);
+    const [update, setUpdate] = useRecoilState(updateState);
+    const [profileData, setProfileData] = useRecoilState(profileState);
 
     async function deleteTravelData(tid) {
         try {
@@ -240,18 +242,23 @@ function MyTravelLists({
         }
     }
 
-    useEffect(() => {
-        //console.log(TAG + " : 상세여행조회 : ", travelSpecificData);
-        //console.log(TAG + " : 현재 저장된 값", travelList);
-    }, [travelList, travelSpecificData, update]);
-
-    const handleDelete = (tid) => {
+    const handleDelete = async (tid) => {
         setTravelList((prevTravelList) =>
             prevTravelList.filter((travel) => travel.tid !== tid)
         );
-        deleteTravelData(tid);
-        setUpdate(Math.random());
-        setIsEditMode(false);
+
+        setProfileData((prevData) => ({
+            ...prevData,
+            numTravel: travelList.length - 1,
+        }));
+
+        try {
+            await deleteTravelData(tid);
+            setUpdate(Math.random());
+            setIsEditMode(false);
+        } catch (error) {
+            console.error("Error deleting travel data:", error);
+        }
     };
 
     return (
@@ -260,7 +267,6 @@ function MyTravelLists({
                 <div>이 항목에는 여행 리스트 값이 없습니다.</div>
             ) : (
                 travelList.map((travel, index) => {
-                    //console.log("Travel item:", travel);
                     return (
                         <TravelCard
                             key={travel.tid || index}

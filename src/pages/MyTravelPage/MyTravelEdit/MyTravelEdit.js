@@ -26,7 +26,7 @@ function MyTravelEdit({ setView, ...props }) {
         });
     };
 
-    //console.log('Travel Edit result: ', travelInfo);
+    console.log("Travel Edit result: ", travelInfo);
 
     return (
         <div>

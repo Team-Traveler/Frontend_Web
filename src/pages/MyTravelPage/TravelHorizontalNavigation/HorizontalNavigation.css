@@ -12,6 +12,17 @@
     padding-bottom: 10px;
     border-bottom: 1px solid #d9d9d9;
 }
+.horizontal-navigation button.active {
+    background-color: transparent;
+    color: initial;
+    width: 120px;
+    height: 26.5px;
+}
+
+.horizontal-navigation button.active::after {
+    background-color: #9cbbac;
+}
+
 .horizontal-navigation button {
     background: none;
     border: none;

@@ -7,6 +7,7 @@ import {
     myAllTravelsState,
     isTravelDataCreatedState,
     toggleIsTravelDataCreated,
+    updateState,
 } from "../../../recoil/atoms/myAllTravelsState.js";
 import "./MyTravelMain.css";
 import MyTravelProfile from "../MyTravelProfile/MyTravelProfile";
@@ -14,11 +15,9 @@ import MyTravelSpecifics from "../MyTravelSpecifics/MyTravelSpecifics";
 import HorizontalNavigation from "../TravelHorizontalNavigation/HorizontalNavigation";
 import MyTravelLists from "../MyTravelLists/MyTravelLists";
 import MyTravelAdd from "../MyTravelAdd/MyTravelAdd";
-import profileTest from "./profileTest.png";
 import MyTravelEdit from "../MyTravelEdit/MyTravelEdit";
 import MyTravelProfileEdit from "../MyTravelProfileEdit/MyTravelProfileEdit";
 import Nav from "../../../components/Nav/Nav";
-import { updateState } from "../../../recoil/atoms/updateState.js";
 import { selectedTravelState } from "../../../recoil/atoms/placeSearchState";
 import {
     withoutAllTravelsState,
@@ -27,6 +26,7 @@ import {
 } from "../../../recoil/atoms/withoutAPI";
 import { API } from "../../../config.js";
 import MyTravelCreateLists from "../MyTravelCreateLists/MyTravelCreateLists.js";
+import { profileState } from "../../../recoil/atoms/profileState.js";
 
 function MyTravelMain() {
     const TAG = "MyTravelMain";
@@ -42,25 +42,7 @@ function MyTravelMain() {
     const [IsTravelDataCreated, setIsTravelDataCreated] = useRecoilState(
         isTravelDataCreatedState
     );
-    const [profileData, setProfileData] = useState({
-        imgSrc: profileTest,
-        name: "라이언",
-        numTravel: 8,
-        numLiked: 20,
-        date: "2023.08.23",
-        email: "OOOOOOOOO@naver.com",
-    });
-
-    // import { withoutAllTravelsState,
-    //     withoutApiState,
-
-    //     }from "../../../recoil/atoms/withoutAPI";
-    const [isWithoutApi, setIsWithoutApi] = useRecoilState(withoutApiState);
-    const [withoutAllTravel, setWithoutAllTravel] = useRecoilState(
-        withoutAllTravelsState
-    );
-    const [withoutProfile, setWithoutProfile] =
-        useRecoilState(withoutProfileState);
+    const [profileData, setProfileData] = useRecoilState(profileState);
 
     const updateProfileImgAndName = (newImgSrc, newName) => {
         setProfileData((prevData) => ({
@@ -75,157 +57,74 @@ function MyTravelMain() {
         setView("specifics");
     };
 
-    useEffect(() => {
-        async function fetchTravelData() {
-            try {
-                const response = await axios({
-                    method: "GET",
-                    url: `${API.HEADER}/users/my_travels`,
-                    headers: {
-                        Authorization: `${userInfo.accessToken}`,
-                    },
-                });
-
-                if (response.status === 200) {
+    const fetchTravelData = async () => {
+        await axios
+            .get(`${API.HEADER}/users/my_travels`, {
+                headers: { Authorization: userInfo.accessToken },
+            })
+            .then((response) => {
+                if (response.data.isSuccess) {
                     const travelData = response.data;
                     setTravelData(travelData.result);
-                    if (isWithoutApi) {
-                        setWithoutAllTravel(travelData.result);
-                    }
                     setProfileData((prevData) => ({
                         ...prevData,
                         numTravel: travelData.result.length,
                     }));
 
-                    const travelDat = {
-                        numTravel: travelData.result.length,
-                    };
-                    //console.log(travelDat);
-                    //setWithoutProfile(travelDat);
                     //console.log(TAG, travelData);
                 }
-            } catch (error) {
+            })
+            .catch((error) => {
                 console.log("MyTravelMain : /users/my_travels 통신에러", error);
-                // if (!isWithoutApi) {
-                //     const travelData = [
-                //         {
-                //             title: "통신에러",
-                //             destination: "여수",
-                //             start_date: "2023-08-18 09:00:00",
-                //             end_date: "2023-08-20 09:00:00",
-                //             created_at: "2023-08-17 01:07:27",
-                //             time_status: 1,
-                //             writeStatus: 0,
-                //             noteStatus: 0,
-                //             courses: [
-                //                 {
-                //                     dcId: 0,
-                //                     spot1: null,
-                //                     spot2: null,
-                //                     spot3: null,
-                //                     spot4: null,
-                //                     first: null,
-                //                     second: null,
-                //                     third: null,
-                //                     numOfDay: 1,
-                //                 },
-                //             ],
-                //             tid: 1,
-                //             uid: 1,
-                //         },
-                //     ];
+            });
+    };
 
-                //     setTravelData(travelData);
-                //     const travelDat = {
-                //         numTravel: 0,
-                //     };
-                //     setWithoutProfile(travelDat);
-                // }
-            }
-        }
-        fetchTravelData();
-    }, [view, update]);
-
-    useEffect(() => {
-        async function fetchProfilelData() {
-            try {
-                const response = await axios({
-                    method: "GET",
-                    url: `${API.HEADER}/users/profile`,
-                    headers: {
-                        Authorization: `${userInfo.accessToken}`,
-                    },
-                });
-
-                if (response.status === 200) {
+    const fetchProfileData = async () => {
+        await axios
+            .get(`${API.HEADER}/users/profile`, {
+                headers: { Authorization: userInfo.accessToken },
+            })
+            .then((response) => {
+                if (response.data.isSuccess) {
                     const profile = response.data;
                     updateProfileImgAndName(
                         profile.result.profile_image_url,
                         profile.result.nickname
                     );
-                    setWithoutProfile(profile.result);
-                    //console.log(TAG + "-카카오프로필 : ", profileData);
                 }
-            } catch (error) {
-                console.error("Error fetching profile data:", error);
-            }
-        }
-        fetchProfilelData();
-    }, [travelData, update]);
+            })
+            .catch((e) => {
+                console.log("error", e);
+            });
+    };
 
-    useEffect(() => {
-        async function fetchProfilelLikedData() {
-            try {
-                const response = await axios({
-                    method: "GET",
-                    url: `${API.HEADER}/users/myLike`,
-                    headers: {
-                        Authorization: `${userInfo.accessToken}`,
-                    },
-                });
-
+    const fetchProfileLikedData = async () => {
+        await axios
+            .get(`${API.HEADER}/users/myLike`, {
+                headers: { Authorization: userInfo.accessToken },
+            })
+            .then((response) => {
                 if (response.status === 200) {
                     const liked = response.data;
                     setProfileData((prevData) => ({
                         ...prevData,
                         numLiked: liked.result.length,
                     }));
-
                     //console.log(TAG + "-찜한목록 : ", liked);
                 }
-            } catch (error) {
+            })
+            .catch((error) => {
                 console.error("Error fetching like data:", error);
-            }
-        }
+            });
+    };
 
-        fetchProfilelLikedData();
-        withoutfetchProfile();
+    useEffect(() => {
+        fetchTravelData();
+        fetchProfileData();
+        fetchProfileLikedData();
+        console.log(TAG, "통신 완료");
+        console.log(profileData);
     }, [view, update]);
-
-    function withoutfetchProfile() {
-        setWithoutProfile(profileData.numTravel);
-    }
-    // useEffect(() => {
-    //     console.log("여행생성Toggled-Recoil");
-    //     if (IsTravelDataCreated) {
-    //         fetchTravelData();
-    //         fetchProfilelData();
-    //         setIsTravelDataCreated(false);
-    //     }
-    // }, [IsTravelDataCreated]);
-
-    // useEffect(() => {
-    //     const handlePopState = () => {
-    //         setIsTravelDataCreated(false);
-    //     };
-
-    //     // window.addEventListener('popstate', handlePopState);
-
-    //     // // 컴포넌트 언마운트 시 이벤트 리스너 정리
-    //     // return () => {
-    //     //     window.removeEventListener('popstate', handlePopState);
-    //     // };
-    // }, []);
 
     return (
         <div className="myTravelMain">
@@ -234,13 +133,7 @@ function MyTravelMain() {
             {view === "list" && (
                 <div>
                     <div className="my-travel-profile" ref={profileRef}>
-                        <MyTravelProfile
-                            imgSrc={profileData.imgSrc}
-                            name={profileData.name}
-                            numTravel={profileData.numTravel}
-                            numLiked={profileData.numLiked}
-                            setView={setView}
-                        />
+                        <MyTravelProfile setView={setView} />
                     </div>
                     <HorizontalNavigation
                         setView={setView}

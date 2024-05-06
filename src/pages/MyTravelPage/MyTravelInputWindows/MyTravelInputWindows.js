@@ -19,9 +19,9 @@ import {
     myAllTravelsState,
     isTravelDataCreatedState,
     updateTravelById,
+    updateState,
 } from "../../../recoil/atoms/myAllTravelsState.js";
 import MyTravelSpecifics from "../MyTravelSpecifics/MyTravelSpecifics.js";
-import { updateState } from "../../../recoil/atoms/updateState.js";
 import { useNavigate, useHistory } from "react-router-dom";
 import { API } from "../../../config.js";
 import { createPlaceState } from "../../../recoil/atoms/createPlaceState.js";
@@ -69,10 +69,41 @@ const MyTravelInputWindows = ({ isFromEdit, setView, selectedTravelId }) => {
                 },
             });
 
-            console.log(response.data); // 받아온 응답 데이터를 콘솔에 출력
+            const startDate = new Date(travelInfo.start_date);
+            const endDate = new Date(travelInfo.end_date);
+            const dateDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
+            const tid = response.data.result.tid;
+            // 날짜 차이, tid, uid 출력
+            // console.log(
+            //     `날짜 차이: ${dateDiff}일, tid: ${tid}, uid: ${response.data.result.uid}`
+            // );
+
+            for (let i = 1; i <= dateDiff; i++) {
+                postTravelDate(i, tid);
+            }
             //setNewTravel((prevTravels) => [...prevTravels, travelInfo]);
         } catch (error) {
             console.error("Error posting travel data:", error);
+        }
+    }
+
+    // 여행 일정 생성 api 호출
+    async function postTravelDate(date, tid) {
+        try {
+            const response = await axios({
+                method: "POST",
+                url: `${API.HEADER}/travel/${tid}/course`,
+                headers: {
+                    Authorization: `${userInfo.accessToken}`,
+                },
+                data: {
+                    numofDay: date,
+                },
+            });
+
+            //console.log(response.data); // 받아온 응답 데이터를 콘솔에 출력
+        } catch (error) {
+            console.error("Error posting travel date:", error);
         }
     }
 
@@ -146,7 +177,7 @@ const MyTravelInputWindows = ({ isFromEdit, setView, selectedTravelId }) => {
         }
     };
 
-    const handleSubmit = (isFromEdit) => {
+    const handleSubmit = async (isFromEdit) => {
         if (startDate === null || endDate === null) {
             alert("입력을 다시 확인해주세요");
             return;
@@ -160,27 +191,33 @@ const MyTravelInputWindows = ({ isFromEdit, setView, selectedTravelId }) => {
                 end_date: formatPostDate(endDate),
                 write_status: 1,
             };
-            if (isFromEdit) {
-                // 여행 편집
-                patchTravelData(travelInfo, selectedTID);
-            } else {
-                // 여행 생성
-                //axios 통신
-                postTravelData(travelInfo);
 
-                setNewTravel(travelInfo); // 새 여행 정보 추가
-                setNoteList([
-                    ...noteList,
-                    {
-                        id: noteList.length + 1,
-                        title: name,
-                    },
-                ]);
+            try {
+                if (isFromEdit) {
+                    // 여행 편집
+                    await patchTravelData(travelInfo, selectedTID);
+                } else {
+                    // 여행 생성
+                    await postTravelData(travelInfo); // axios 통신을 기다림
+
+                    setNewTravel(travelInfo); // 새 여행 정보 추가
+                    setNoteList([
+                        ...noteList,
+                        {
+                            id: noteList.length + 1,
+                            title: name,
+                        },
+                    ]);
+                }
+
+                // 비동기 작업이 완료된 후 실행될 코드
+                setIsTravelDataCreated(false);
+                setUpdate(Math.random());
+                setView("list");
+            } catch (error) {
+                console.error("여행 데이터 처리 중 오류 발생:", error);
+                // 오류 처리 코드
             }
-
-            setIsTravelDataCreated(false);
-            setUpdate(Math.random());
-            setView("list");
         }
     };
 

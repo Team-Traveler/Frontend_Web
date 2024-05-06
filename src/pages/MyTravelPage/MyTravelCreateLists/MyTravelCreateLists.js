@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import MyTravelMap from "../MyTravelMap/MyTravelMap";
-import circles from "./circles.svg";
 import "./styles.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { setPlaceStateSelector } from "../../../recoil/atoms/placeState";
@@ -34,21 +33,12 @@ import {
 } from "../../../recoil/atoms/myAllTravelsState";
 import { API } from "../../../config";
 
-function TravelCard({ index, ...props }) {
-    // console.log("카드내부-",{travelSpecificData});
-    // console.log("카드내부-",travelSpecificData.courses);
-    // console.log("카드내부-",{index});
+function TravelCard({ index, selectedTID, ...props }) {
     const [createPlace, setCreatePlace] = useRecoilState(createPlaceState); // 여행 임시 저장 state
 
-    const handleEditSpecificsClick = (course) => {
-        //console.log('Edit Specifics button clicked');
-        //setIsTravelCreate(true);
-    };
+    const handleEditSpecificsClick = (course) => {};
 
-    const handleDeleteClick = (spotNum) => {
-        //console.log('Delete button clicked');
-        //setIsTravelCreate(true);
-    };
+    const handleDeleteClick = (spotNum) => {};
 
     const convertDistance = (distance) => {
         if (distance >= 1000) {
@@ -104,7 +94,6 @@ function TravelCard({ index, ...props }) {
                 </span>
             </div>
             <div className="travel-create-card">
-                {/* {console.log(index)} */}
                 {createPlace.courses[index].spot1.title == null ? (
                     <span className="travel-card-empty">항목을 추가하세요</span>
                 ) : (
@@ -135,8 +124,6 @@ function TravelCard({ index, ...props }) {
                     />
                 )}
             </div>
-            <button className="edit-create-button"></button>
-            <button className="calender-create-button"></button>
         </div>
     );
 }
@@ -198,10 +185,10 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
 
     //여행 상세 생성 api 호출
     useEffect(() => {
-        async function postNewTravel() {
+        async function getNewTravel() {
             try {
                 const response = await axios({
-                    method: "POST",
+                    method: "GET",
                     url: `${API.HEADER}/travel/${selectedTID}/course`,
                     headers: {
                         Authorization: `${userInfo.accessToken}`,
@@ -213,20 +200,13 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                         ),
                     },
                 });
-                console.log(response.data); // 받아온 응답 데이터를 콘솔에 출력
+                console.log("떼온 데이터", response.data); // 받아온 응답 데이터를 콘솔에 출력
                 setTravelCourse(response.data.result);
             } catch (error) {
                 console.error("Error posting travel new data:", error);
             }
         }
-        postNewTravel();
-        setIsTravelCreate(false);
-        //setCreatePlace();
-        //console.log(TAG + "-", createPlace);
-        // console.log(TAG + "-", { createPlace });
-        //console.log(TAG + "-", travelCourse);
-        // console.log(TAG + "-", travelIndex.index);
-        //console.log(TAG + "-", searchState);
+        getNewTravel();
     }, []);
 
     useEffect(() => {
@@ -262,7 +242,12 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
             alert("장소 입력을 완료해주세요.");
             return;
         }
-        console.log("디버깅", selectedCourse);
+        // console.log("디버깅", selectedCourse);
+
+        // 1. 여기 들어오면서 날짜 만큼 칸 파고, 해당 데이터만큼 화면에 뿌려주기
+        // 2. 뿌린거 아래에 검색 창 달기
+        // 3. 검색창 엔터 치면 걍 바로 코스 만들기
+        // 4. 완성 버튼 누르면 뒤로가기
 
         postTravelData(
             searchState.place_name,
@@ -305,21 +290,16 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                     />
                 </div>
                 <div>
-                    <div className="image-create-container">
-                        <img src={circles} alt="Circles Decoration" />
-                    </div>
                     <div className="my-travel-create-lists">
                         <div>
-                            {console.log("디버깅", selectedCourse)}
-                            <TravelCard index={createPlace.nunOfCourse} />
+                            <TravelCard
+                                index={createPlace.nunOfCourse}
+                                selectedTID={selectedTID}
+                            />
                         </div>
 
                         <div className="inputFormContainer">
                             <form className="inputform" onSubmit={handleSearch}>
-                                <button
-                                    className="search-Btn"
-                                    type="submit"
-                                ></button>
                                 <input
                                     className="search-"
                                     placeholder={inputPlaceholder}
@@ -383,7 +363,7 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
 
             <div className="button-create-container">
                 <button className="button" onClick={() => handleSubmit()}>
-                    {"추가 하기"}
+                    {"완성"}
                 </button>
             </div>
         </div>

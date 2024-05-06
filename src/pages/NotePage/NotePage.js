@@ -88,8 +88,8 @@ function NotePage() {
                     Authorization: `${userInfo.accessToken}`,
                 },
             });
-            console.log("여행(노트) 조회 성공");
-            console.log("여행 조회 response : ", response);
+            //console.log("여행(노트) 조회 성공");
+            //console.log("여행 조회 response : ", response);
             setNoteList(response.data.result);
 
             // const initialSelectedNote =
@@ -100,8 +100,8 @@ function NotePage() {
             // setSelectedNote(initialSelectedNote);
             // console.log("selectedNote : ", initialSelectedNote);
         } catch (error) {
-            console.log(error);
-            console.log("여행(노트) 조회 실패");
+            //console.log(error);
+            //console.log("여행(노트) 조회 실패");
         }
     };
 
@@ -141,7 +141,11 @@ function NotePage() {
                                                 src={Vector}
                                                 alt="Vector"
                                                 className="mr-5"
-                                                style={{ transform: note.istoggle ? 'rotate(90deg)' : 'none' }}
+                                                style={{
+                                                    transform: note.istoggle
+                                                        ? "rotate(90deg)"
+                                                        : "none",
+                                                }}
                                             />
                                             {note.title}
                                         </button>
@@ -155,9 +159,19 @@ function NotePage() {
                                                     setCheckToggle(true);
                                                     setSelectedNote(note.tid);
                                                 }}
-                                                style={{ 
-                                                    backgroundColor: note.tid==selectedNote&&checktoggle ? '#98B4A6' : 'white',
-                                                    color: note.tid==selectedNote&&checktoggle ? 'white' : 'black' 
+                                                style={{
+                                                    backgroundColor:
+                                                        note.tid ==
+                                                            selectedNote &&
+                                                        checktoggle
+                                                            ? "#98B4A6"
+                                                            : "white",
+                                                    color:
+                                                        note.tid ==
+                                                            selectedNote &&
+                                                        checktoggle
+                                                            ? "white"
+                                                            : "black",
                                                 }}
                                             >
                                                 <img
@@ -174,10 +188,19 @@ function NotePage() {
                                                     setSelectedNote(note.tid);
                                                     setAccountMode(0);
                                                 }}
-
-                                                style={{ 
-                                                    backgroundColor: note.tid==selectedNote&&!checktoggle ? '#98B4A6' : 'white',
-                                                    color: note.tid==selectedNote&&!checktoggle ? 'white' : 'black' 
+                                                style={{
+                                                    backgroundColor:
+                                                        note.tid ==
+                                                            selectedNote &&
+                                                        !checktoggle
+                                                            ? "#98B4A6"
+                                                            : "white",
+                                                    color:
+                                                        note.tid ==
+                                                            selectedNote &&
+                                                        !checktoggle
+                                                            ? "white"
+                                                            : "black",
                                                 }}
                                             >
                                                 <img
