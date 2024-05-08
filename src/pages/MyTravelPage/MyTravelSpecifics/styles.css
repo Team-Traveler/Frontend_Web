@@ -1,3 +1,11 @@
+
+.specific-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .group490 {
     width: 100%;
     height: 10.58vh;
@@ -6,7 +14,7 @@
     align-items: center; /* 가로 중앙 정렬 */
     justify-content: center; /* 세로 중앙 정렬 */
   }
-  
+
   .detailTitle {
     margin-top: 50px;
     width: 14.84vw;

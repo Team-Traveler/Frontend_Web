@@ -1,7 +1,7 @@
 .travel-card {
     position: relative;
     margin-top: 2vh;
-    border-radius: 15px;
+    border-radius: 20px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     padding: 1.64vw;
     border: 2px solid #757575;
@@ -41,16 +41,17 @@
 }
 
 .day {
-    font-size: 20px;
+    font-size: 25px;
     font-family: AppleSDGothicNeoM00;
-    font-weight: lighter;
+    font-weight: 400;
     margin-left: 10px;
+    color: #C7C7C7;
 }
 
 .numofDay {
-    font-size: 20px;
+    font-size: 30px;
     font-family: AppleSDGothicNeoM00;
-    font-weight: bold;
+    font-weight:400;
 }
 
 .travel-card-empty {
@@ -187,3 +188,14 @@
     align-items: center;
     font-size: 30px;
 }
+
+#num-circle{
+    width : 45px;
+    height : 45px;
+    border-radius: 50%;
+    background-color: #9CBBAC; 
+    color: #FFFFFF;
+    font-size: 30px;
+    text-align: center;
+}
+

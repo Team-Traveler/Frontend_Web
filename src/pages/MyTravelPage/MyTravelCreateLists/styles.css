@@ -1,13 +1,19 @@
 /* styles.css */
 
+.travel-card-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
 .travel-create-card {
     margin-top: 2vh;
     border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    margin-right: 20px;
-    margin-left: 20px;
-    border: 2px solid #757575;
+    padding: 20px;
+    /* margin-right: 20px;  
+    margin-left: 20px; */
+    border: 1px solid #e4e3e3;
     background-color: white;
 }
 
@@ -49,7 +55,7 @@
 
 .my-travel-lists {
     overflow-y: auto;
-    width: 39vw;
+    width: 28vw;
     height: 51.3vh;
     border-radius: 15px;
     padding: 20px;
@@ -61,8 +67,8 @@
     display: flex;
     flex-direction: row;
     align-items: center; /* 수직 방향에서 자식 요소들을 중앙 정렬 */
-    margin-left: 40px;
-    margin-top: 40px;
+    /* margin-left: 40px; */
+    /* margin-top: 40px; */
 }
 
 .image-create-container img {
@@ -97,11 +103,11 @@
 .my-travel-create-lists {
     position: relative;
     overflow-y: auto; /* 수직으로만 스크롤 */
-    width: 39vw;
+    width: 28vw;
     height: 56vh;
     border-radius: 15px;
     padding: 20px;
-    border: 2px solid #000;
+    /* border: 2px solid #000; */
     box-sizing: border-box;
     background-color: white;
 }
@@ -149,18 +155,19 @@
     border-radius: 5px; /* 둘레를 살짝 둥글게 */
     flex-direction: row-reverse; /* 버튼을 왼쪽으로 */
 }
-
+/*
 .inputFormContainer {
     margin-top: 25px;
     margin-left: 20px;
     margin-right: 20px;
     padding: 20px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
-    border-radius: 5px; /* 둘레를 살짝 둥글게 */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 5px; /
     display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; 
+    align-items: center; 
 }
+*/
 
 .search- {
     font-size: 20px;
@@ -179,15 +186,15 @@
     margin-left: 80px;
     margin-right: 80px;
     padding: 0 20px 20px 20px;
-    overflow: scroll;
+    overflow-y: scroll;
     max-height: 500px;
-    position: relative;
+    position: absolute;
     box-sizing: border-box;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
     border-radius: 5%; /* 둘레를 살짝 둥글게 */
     background-color: white;
     opacity: 0.7;
-    z-index: 1;
+    z-index: 9999;
     font-size: 17px;
     color: #000000;
 }
@@ -252,4 +259,16 @@
     &:active {
         background-color: #7dbb7a;
     }
+}
+
+.specific-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 62.6vh;
+    /* padding: 0 6vw; */
+    margin: 20px auto 0 auto;
+    /* margin-top: 20px; */
+    gap:20px;
 }

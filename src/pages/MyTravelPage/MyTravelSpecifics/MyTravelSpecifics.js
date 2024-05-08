@@ -61,24 +61,14 @@ function MyTravelSpecifics({ travel, setView, ...props }) {
     }, []);
 
     return (
-        <div>
+        <div className="specific-body">
             <div className="group490">
                 <h1 className="detailTitle">여행 코스 만들기</h1>
                 <p className="subText-specific">여행 일정을 추가해보세요!</p>
                 <div className="rectangle"></div>
             </div>
 
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    height: "62.6vh",
-                    padding: "0 6vw",
-                    marginTop: "20px",
-                }}
-            >
+            <div>
                 <div style={{ flexGrow: 1 }}>
                     {/* {console.log(TAG, selectedCourse)} */}
 

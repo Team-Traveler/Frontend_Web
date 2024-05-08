@@ -133,13 +133,13 @@ const Map = ({ searchPlace, setRecoilPlaces, isFromCreate }) => {
             <div
                 id="myMap"
                 style={{
-                    width: '39vw',
+                    width: '25vw',
                     height: '53vh',
-                    marginTop: '11vh',
+                    //marginTop: '11vh',
                     borderRadius: '15px',
                     boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
                     padding: '10px',
-                    border: '2px solid #757575'
+                    //border: '2px solid #757575'
                 }}
             ></div>
             

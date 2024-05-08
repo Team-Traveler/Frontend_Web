@@ -32,9 +32,30 @@ import {
     travelCoursesByTidSelector,
 } from "../../../recoil/atoms/myAllTravelsState";
 import { API } from "../../../config";
+import CreateSpot from "./CreateSpot";
 
-function TravelCard({ index, selectedTID, ...props }) {
+function TravelCard({ index, selectedTID, Place, setPlace, setplaceSearchState, InputText, recoilPlaces, setInputText, inputPlaceholder,...props }) {
     const [createPlace, setCreatePlace] = useRecoilState(createPlaceState); // 여행 임시 저장 state
+
+    /* Input */
+    const [search, setSearch] = useState("");
+    const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
+    const onChange = (e) => {
+        setInputText(e.target.value);
+    };
+    const [modal, setModal] = useState(false);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setPlace(InputText);
+        setInputText("");
+    };
+
+    function handleItemClick(item) {
+        setplaceSearchState(item);
+        setIsFromSearch(true);
+        //console.log("Clicked item:", item);
+    }
 
     const handleEditSpecificsClick = (course) => {};
 
@@ -51,8 +72,22 @@ function TravelCard({ index, selectedTID, ...props }) {
         const date = new Date(input);
         const days = ["일", "월", "화", "수", "목", "금", "토"];
         const nextDayIndex = (date.getDay() + index) % 7;
-        return `(${days[nextDayIndex]})`;
+
+        // 월과 일을 추출
+        const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줌
+        const day = date.getDate();
+        
+        // 월.일 형태로 포맷팅
+        const formattedDateString = `${month}.${day}`;
+        return `${formattedDateString} (${days[nextDayIndex]})`;
     }
+
+    useEffect(()=>{
+        if(InputText){
+            setModal(true);
+        }
+        else setModal(false);
+    },[InputText,Place])
 
     const SpotDisplay = ({ num, spot, distance }) => (
         <div className="spot-wrapper">
@@ -86,16 +121,71 @@ function TravelCard({ index, selectedTID, ...props }) {
     );
 
     return (
-        <div>
+        <div className="travel-card-box">
             <div className="travel-card-create-header">
-                <span className="numofDay">{index + 1}일차</span>
+                <span className="numofDay">{index + 1}일 차</span>
                 <span className="day">
-                    {getDayOfWeek(createPlace.start_date, index)}
+                   {getDayOfWeek(createPlace.start_date, index)}
                 </span>
             </div>
             <div className="travel-create-card">
                 {createPlace.courses[index].spot1.title == null ? (
-                    <span className="travel-card-empty">항목을 추가하세요</span>
+                    <div className="inputFormContainer">
+                        <form className="inputform" onSubmit={handleSearch}>
+                            <input
+                                className="search-"
+                                placeholder={inputPlaceholder}
+                                onChange={onChange}
+                                value={InputText}
+                            />
+                        </form>
+                    {modal&&(
+                    <div className="result-Style">
+                        {recoilPlaces.map((item, i) => (
+                            <div
+                                key={i}
+                                className="item-search-create-container"
+                                onClick={() => handleItemClick(item)}
+                            >
+                                <div>
+                                    <span
+                                        style={{
+                                            fontSize: "23px",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        {item.place_name}
+                                    </span>
+                                    {item.road_address_name ? (
+                                        <div
+                                            style={{
+                                                fontSize: "19px",
+                                                marginTop: "10px",
+                                            }}
+                                        >
+                                            <span>
+                                                {item.road_address_name}
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            style={{
+                                                fontSize: "19px",
+                                                marginTop: "10px",
+                                            }}
+                                        >
+                                            <span>{item.address_name}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                        <div className="pagi-nation" id="pagination"></div>
+                        </div>
+                    )
+                    }
+                    </div>
+                
                 ) : (
                     <SpotDisplay
                         num="1"
@@ -130,20 +220,15 @@ function TravelCard({ index, selectedTID, ...props }) {
 
 function MyTravelCreateLists({ setView, selectedTID, ...props }) {
     const TAG = "MyTravelCreateLists";
-    const [search, setSearch] = useState("");
     const [Place, setPlace] = useState("");
-    const [inputPlaceholder, setInputPlaceholder] =
-        useState("검색어를 입력하세요");
-    const [recoilPlaces, setRecoilPlaces] = useRecoilState(
-        setPlaceStateSelector
-    );
+    const [searchSubmit, setSearchSubmit] = useRecoilState(searchSubmitState);
     const [InputText, setInputText] = useState("");
+    const [inputPlaceholder, setInputPlaceholder] = useState("장소를 검색해 보세요");
     const [hide, setHide] = useState(true);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [searchState, setplaceSearchState] = useRecoilState(placeSearchState);
-    const [searchSubmit, setSearchSubmit] = useRecoilState(searchSubmitState);
-    const [isFromSearch, setIsFromSearch] =
-        useRecoilState(fromPlaceSearchState);
+    const [recoilPlaces, setRecoilPlaces] = useRecoilState(setPlaceStateSelector);
+
     const [selectTravel, setSelectTravel] = useRecoilState(selectedTravelState);
     const [travelCourse, setTravelCourse] = useRecoilState(travelCourseState);
     const [travelIndex, setTraveIndex] = useRecoilState(travelCourseIndex);
@@ -158,22 +243,6 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
     const selectedCourse = travelData.find(
         (travel) => travel.tid === selectedTID
     );
-
-    const onChange = (e) => {
-        setInputText(e.target.value);
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setPlace(InputText);
-        setInputText("");
-    };
-
-    function handleItemClick(item) {
-        setplaceSearchState(item);
-        setIsFromSearch(true);
-        //console.log("Clicked item:", item);
-    }
 
     function calculateDaysBetweenDates(startDate, endDate) {
         const start = new Date(startDate);
@@ -264,24 +333,14 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
         const newPlaceholder =
             Place && Place.place_name
                 ? Place.place_name
-                : "검색어를 입력하세요";
+                : "장소를 검색해 보세요";
         setInputPlaceholder(newPlaceholder);
     }, [Place]);
 
     return (
         <div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    height: "62.6vh",
-                    padding: "0 6vw",
-                    marginTop: "50px",
-                }}
-            >
-                <div style={{ marginRight: "6vw" }}>
+            <div className="specific-box">
+                <div className="map-box">
                     {/* <MyTravelMap isTravelCreate={isTravelCreate}/> */}
                     <Map
                         isFromCreate={true}
@@ -295,67 +354,14 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                             <TravelCard
                                 index={createPlace.nunOfCourse}
                                 selectedTID={selectedTID}
+                                Place = {Place}
+                                setPlace = {setPlace}
+                                InputText = {InputText}
+                                setInputText = {setInputText}
+                                inputPlaceholder = {inputPlaceholder}
+                                setplaceSearchState = {setplaceSearchState}
+                                recoilPlaces={recoilPlaces}
                             />
-                        </div>
-
-                        <div className="inputFormContainer">
-                            <form className="inputform" onSubmit={handleSearch}>
-                                <input
-                                    className="search-"
-                                    placeholder={inputPlaceholder}
-                                    onChange={onChange}
-                                    value={InputText}
-                                />
-                            </form>
-                        </div>
-
-                        <div
-                            className="result-Style"
-                            style={{
-                                visibility:
-                                    InputText || Place ? "visible" : "hidden",
-                            }}
-                        >
-                            {recoilPlaces.map((item, i) => (
-                                <div
-                                    key={i}
-                                    className="item-search-create-container"
-                                    onClick={() => handleItemClick(item)}
-                                >
-                                    <div>
-                                        <span
-                                            style={{
-                                                fontSize: "23px",
-                                                fontWeight: "bold",
-                                            }}
-                                        >
-                                            {item.place_name}
-                                        </span>
-                                        {item.road_address_name ? (
-                                            <div
-                                                style={{
-                                                    fontSize: "19px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-                                                <span>
-                                                    {item.road_address_name}
-                                                </span>
-                                            </div>
-                                        ) : (
-                                            <div
-                                                style={{
-                                                    fontSize: "19px",
-                                                    marginTop: "10px",
-                                                }}
-                                            >
-                                                <span>{item.address_name}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="pagi-nation" id="pagination"></div>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,20 @@
+.create-spot-box{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#num-circle{
+    width : 45px;
+    height : 45px;
+    border-radius: 50%;
+    background-color: #9CBBAC; 
+    color: #FFFFFF;
+    font-size: 30px;
+    text-align: center;
+}
+
+.create-spot-input{
+    width: 90%;
+    border-bottom: 1px solid #D9D9D9;
+}
