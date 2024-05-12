@@ -188,14 +188,3 @@
     align-items: center;
     font-size: 30px;
 }
-
-#num-circle{
-    width : 45px;
-    height : 45px;
-    border-radius: 50%;
-    background-color: #9CBBAC; 
-    color: #FFFFFF;
-    font-size: 30px;
-    text-align: center;
-}
-

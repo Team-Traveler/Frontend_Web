@@ -32,191 +32,7 @@ import {
     travelCoursesByTidSelector,
 } from "../../../recoil/atoms/myAllTravelsState";
 import { API } from "../../../config";
-import CreateSpot from "./CreateSpot";
-
-function TravelCard({ index, selectedTID, Place, setPlace, setplaceSearchState, InputText, recoilPlaces, setInputText, inputPlaceholder,...props }) {
-    const [createPlace, setCreatePlace] = useRecoilState(createPlaceState); // 여행 임시 저장 state
-
-    /* Input */
-    const [search, setSearch] = useState("");
-    const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
-    const onChange = (e) => {
-        setInputText(e.target.value);
-    };
-    const [modal, setModal] = useState(false);
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setPlace(InputText);
-        setInputText("");
-    };
-
-    function handleItemClick(item) {
-        setplaceSearchState(item);
-        setIsFromSearch(true);
-        //console.log("Clicked item:", item);
-    }
-
-    const handleEditSpecificsClick = (course) => {};
-
-    const handleDeleteClick = (spotNum) => {};
-
-    const convertDistance = (distance) => {
-        if (distance >= 1000) {
-            return `${distance / 1000}km`;
-        }
-        return `${distance}m`;
-    };
-
-    function getDayOfWeek(input, index) {
-        const date = new Date(input);
-        const days = ["일", "월", "화", "수", "목", "금", "토"];
-        const nextDayIndex = (date.getDay() + index) % 7;
-
-        // 월과 일을 추출
-        const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줌
-        const day = date.getDate();
-        
-        // 월.일 형태로 포맷팅
-        const formattedDateString = `${month}.${day}`;
-        return `${formattedDateString} (${days[nextDayIndex]})`;
-    }
-
-    useEffect(()=>{
-        if(InputText){
-            setModal(true);
-        }
-        else setModal(false);
-    },[InputText,Place])
-
-    const SpotDisplay = ({ num, spot, distance }) => (
-        <div className="spot-wrapper">
-            <div className="spot-container">
-                <div className="num-box">{`${num}`}</div>
-                <div className="travel-card-places">{spot}</div>
-                <div
-                    className="travel-carrd-delete"
-                    onClick={handleDeleteClick(num)}
-                >
-                    삭제
-                </div>
-            </div>
-            {distance && (
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "start",
-                        marginTop: "10px",
-                        marginBottom: "10px",
-                        marginLeft: "10px",
-                        marginRight: "40px",
-                    }}
-                >
-                    <div className="div-size">|</div>
-                    <div>{convertDistance(distance)}</div>
-                </div>
-            )}
-        </div>
-    );
-
-    return (
-        <div className="travel-card-box">
-            <div className="travel-card-create-header">
-                <span className="numofDay">{index + 1}일 차</span>
-                <span className="day">
-                   {getDayOfWeek(createPlace.start_date, index)}
-                </span>
-            </div>
-            <div className="travel-create-card">
-                {createPlace.courses[index].spot1.title == null ? (
-                    <div className="inputFormContainer">
-                        <form className="inputform" onSubmit={handleSearch}>
-                            <input
-                                className="search-"
-                                placeholder={inputPlaceholder}
-                                onChange={onChange}
-                                value={InputText}
-                            />
-                        </form>
-                    {modal&&(
-                    <div className="result-Style">
-                        {recoilPlaces.map((item, i) => (
-                            <div
-                                key={i}
-                                className="item-search-create-container"
-                                onClick={() => handleItemClick(item)}
-                            >
-                                <div>
-                                    <span
-                                        style={{
-                                            fontSize: "23px",
-                                            fontWeight: "bold",
-                                        }}
-                                    >
-                                        {item.place_name}
-                                    </span>
-                                    {item.road_address_name ? (
-                                        <div
-                                            style={{
-                                                fontSize: "19px",
-                                                marginTop: "10px",
-                                            }}
-                                        >
-                                            <span>
-                                                {item.road_address_name}
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        <div
-                                            style={{
-                                                fontSize: "19px",
-                                                marginTop: "10px",
-                                            }}
-                                        >
-                                            <span>{item.address_name}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                        <div className="pagi-nation" id="pagination"></div>
-                        </div>
-                    )
-                    }
-                    </div>
-                
-                ) : (
-                    <SpotDisplay
-                        num="1"
-                        spot={createPlace.courses[index].spot1}
-                        distance={createPlace.courses[index].first}
-                    />
-                )}
-                {createPlace.courses[index].spot2.title && (
-                    <SpotDisplay
-                        num="2"
-                        spot={createPlace.courses[index].spot2}
-                        distance={createPlace.courses[index].second}
-                    />
-                )}
-                {createPlace.courses[index].spot3.title && (
-                    <SpotDisplay
-                        num="3"
-                        spot={createPlace.courses[index].spot3}
-                        distance={createPlace.courses[index].third}
-                    />
-                )}
-                {createPlace.courses[index].spot4.title && (
-                    <SpotDisplay
-                        num="4"
-                        spot={createPlace.courses[index].spot4}
-                    />
-                )}
-            </div>
-        </div>
-    );
-}
+import TravelCard from "./TravelCard";
 
 function MyTravelCreateLists({ setView, selectedTID, ...props }) {
     const TAG = "MyTravelCreateLists";
@@ -269,7 +85,7 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                         ),
                     },
                 });
-                console.log("떼온 데이터", response.data); // 받아온 응답 데이터를 콘솔에 출력
+                console.log("날짜별 코스 생성", response.data); // 받아온 응답 데이터를 콘솔에 출력
                 setTravelCourse(response.data.result);
             } catch (error) {
                 console.error("Error posting travel new data:", error);
@@ -279,7 +95,6 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
     }, []);
 
     useEffect(() => {
-        console.log("travelCourse", travelCourse);
     }, [travelCourse]);
 
     //여행 상세 추가 api 호출
@@ -329,14 +144,6 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
         setplaceSearchState(null);
     };
 
-    useEffect(() => {
-        const newPlaceholder =
-            Place && Place.place_name
-                ? Place.place_name
-                : "장소를 검색해 보세요";
-        setInputPlaceholder(newPlaceholder);
-    }, [Place]);
-
     return (
         <div>
             <div className="specific-box">
@@ -346,6 +153,7 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                         isFromCreate={true}
                         searchPlace={Place}
                         setRecoilPlaces={setRecoilPlaces}
+                        setInputText={setInputText}
                     />
                 </div>
                 <div>
@@ -357,10 +165,10 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                                 Place = {Place}
                                 setPlace = {setPlace}
                                 InputText = {InputText}
-                                setInputText = {setInputText}
-                                inputPlaceholder = {inputPlaceholder}
                                 setplaceSearchState = {setplaceSearchState}
                                 recoilPlaces={recoilPlaces}
+                                days = {calculateDaysBetweenDates(selectedCourse.start_date,selectedCourse.end_date)+1}
+                                selectedCourse = {selectedCourse}
                             />
                         </div>
                     </div>
