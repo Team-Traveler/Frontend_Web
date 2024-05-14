@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import { useNavigate } from "react-router-dom";
 import MyTravelMap from "../MyTravelMap/MyTravelMap";
 import "./styles.css";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -38,13 +38,11 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
     const TAG = "MyTravelCreateLists";
     const [Place, setPlace] = useState("");
     const [searchSubmit, setSearchSubmit] = useRecoilState(searchSubmitState);
-    const [InputText, setInputText] = useState("");
-    const [inputPlaceholder, setInputPlaceholder] = useState("장소를 검색해 보세요");
     const [hide, setHide] = useState(true);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [searchState, setplaceSearchState] = useRecoilState(placeSearchState);
     const [recoilPlaces, setRecoilPlaces] = useRecoilState(setPlaceStateSelector);
-
+    const navigate = useNavigate();
     const [selectTravel, setSelectTravel] = useRecoilState(selectedTravelState);
     const [travelCourse, setTravelCourse] = useRecoilState(travelCourseState);
     const [travelIndex, setTraveIndex] = useRecoilState(travelCourseIndex);
@@ -75,15 +73,15 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                 const response = await axios({
                     method: "GET",
                     url: `${API.HEADER}/travel/${selectedTID}/course`,
-                    headers: {
-                        Authorization: `${userInfo.accessToken}`,
-                    },
                     data: {
                         numofDay: calculateDaysBetweenDates(
                             selectedCourse.start_date,
                             selectedCourse.end_date
-                        ),
+                        )+1
                     },
+                    headers: {
+                        Authorization: `${userInfo.accessToken}`,
+                    }
                 });
                 console.log("날짜별 코스 생성", response.data); // 받아온 응답 데이터를 콘솔에 출력
                 setTravelCourse(response.data.result);
@@ -91,33 +89,11 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                 console.error("Error posting travel new data:", error);
             }
         }
-        getNewTravel();
+        //getNewTravel();
     }, []);
 
     useEffect(() => {
     }, [travelCourse]);
-
-    //여행 상세 추가 api 호출
-    async function postTravelData(title, lat, lng, dcid) {
-        try {
-            const response = await axios({
-                method: "POST",
-                url: `${API.HEADER}/travel/course/${dcid}/spot`,
-                headers: {
-                    Authorization: `${userInfo.accessToken}`,
-                },
-                data: {
-                    title: title,
-                    latitude: lat,
-                    longitude: lng,
-                },
-            });
-            console.log(response.data); // 받아온 응답 데이터를 콘솔에 출력
-            console.log(response.data.result);
-        } catch (error) {
-            console.error("Error posting travel specific data:", error);
-        }
-    }
 
     const handleSubmit = () => {
         const courseindex = +travelIndex.index;
@@ -133,13 +109,6 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
         // 3. 검색창 엔터 치면 걍 바로 코스 만들기
         // 4. 완성 버튼 누르면 뒤로가기
 
-        postTravelData(
-            searchState.place_name,
-            parseFloat(searchState.y),
-            parseFloat(searchState.x),
-            selectedCourse.dcId
-        );
-
         setSearchSubmit(searchState);
         setplaceSearchState(null);
     };
@@ -153,7 +122,6 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                         isFromCreate={true}
                         searchPlace={Place}
                         setRecoilPlaces={setRecoilPlaces}
-                        setInputText={setInputText}
                     />
                 </div>
                 <div>
@@ -164,10 +132,9 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                                 selectedTID={selectedTID}
                                 Place = {Place}
                                 setPlace = {setPlace}
-                                InputText = {InputText}
                                 setplaceSearchState = {setplaceSearchState}
                                 recoilPlaces={recoilPlaces}
-                                days = {calculateDaysBetweenDates(selectedCourse.start_date,selectedCourse.end_date)+1}
+                                days = {selectedCourse.courses.length}
                                 selectedCourse = {selectedCourse}
                             />
                         </div>
@@ -176,8 +143,8 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
             </div>
 
             <div className="button-create-container">
-                <button className="button" onClick={() => handleSubmit()}>
-                    {"완성"}
+                <button className="button" onClick={() => {navigate("/mypage")}}>
+                    목록으로
                 </button>
             </div>
         </div>

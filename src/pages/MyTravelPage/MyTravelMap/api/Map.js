@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { setPlaceStateSelector } from '../../../../recoil/atoms/placeState';
 import { fromPlaceSearchState, placeSearchState } from '../../../../recoil/atoms/placeSearchState';
 
-const Map = ({ searchPlace, setRecoilPlaces, isFromCreate, setInputText}) => {
+const Map = ({ searchPlace, setRecoilPlaces, isFromCreate}) => {
     const [Places, setPlaces] = useState([]);
     const [placeSearch, setPlaceSearch] = useRecoilState(placeSearchState);
     const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
@@ -111,8 +111,6 @@ const Map = ({ searchPlace, setRecoilPlaces, isFromCreate, setInputText}) => {
         
             // 확대 레벨을 3으로 변경
             map.setLevel(3);
-
-            setInputText(place.place_name);
         }
         // function createAndDisplayMarker(place) {
         //     let marker = new kakao.maps.Marker({

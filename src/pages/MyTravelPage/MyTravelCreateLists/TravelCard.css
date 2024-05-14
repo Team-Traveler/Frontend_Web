@@ -14,7 +14,7 @@
     margin-left: 20px; */
     border: 1px solid #e4e3e3;
     background-color: white;
-    max-width: 500px;
+    width: 30vw;
 }
 
 .travel-card-name {
@@ -61,14 +61,28 @@
     /* margin-top: 40px; */
 }
 
+.spot-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: baseline;
+    margin-left: 8px;
+    height: 45px;
+}
+
 #num-circle{
     width : 45px;
     height : 45px;
     border-radius: 50%;
     background-color: #9CBBAC; 
     color: #FFFFFF;
-    font-size: 30px;
+    font-size: 25px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
 }
 
 .inputform {
@@ -79,12 +93,12 @@
     height: 40px;
     position: relative;
     border-radius: 5px; /* 둘레를 살짝 둥글게 */
-    gap : 10px;
+    margin-left: 8px;
 }
 
 .place-input{
     font-size: 20px;
-    width: 450px;
+    width: 80%;
     height: 30px;
     font-family: "CooperBlack";
     border-radius: 0;
@@ -95,7 +109,7 @@
 
 .result-Style {
     margin-top: 5px;
-    margin-left: 80px;
+    margin-left: 7%;
     margin-right: 80px;
     padding: 30px 30px 30px 30px;
     overflow-y: scroll;
@@ -115,23 +129,46 @@
     align-items: center;
 }
 
-.travel-carrd-delete {
-    margin-right: 20px;
-    width: 100%;
-    font-size: 20px;
-    text-align: right;
-    text-decoration: underline;
-    font-family: CooperBlack;
-    font-weight: lighter;
-    display: block;
+.close-result{
+    position: absolute;
+    top:7%;
+    right:5%;
+    font-size: 40px;
+    color: #9CBBAC;
+    cursor: pointer;
 }
+
+.travel-card-delete {
+    color: gray;
+    font-size: 25px;
+}
+
+.spot-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: baseline;
+    margin-bottom:10px;
+    width: 100%;
+}
+
 .travel-card-places {
     font-size: 20px;
     text-align: start;
     font-family: CooperBlack;
     font-weight: lighter;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: baseline;
     white-space: nowrap;
+    width: 80%;
+    overflow-x: scroll;
+
+}
+
+.travel-card-places::-webkit-scrollbar{
+    display: none;
 }
 
 .num-box {
@@ -153,14 +190,14 @@
     margin-top: 1rem;
 }
 
-.pagination a {
+#pagination a {
     color: black;
     font-size: 25px;
     text-decoration: none;
     margin: 0 10px;
 }
 
-.pagination a.on {
+#pagination a.on {
     color: lightblue;
     font-weight: bold;
 }
@@ -186,4 +223,33 @@
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+}
+
+.distance-wrap{
+    position : relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.distance-box{
+    position: absolute;
+    top : 25%;
+    left : 0%;
+    width: 60px;
+    height: 22px;
+    border : 1.5px solid #9CBBAC;
+    border-radius: 50px;;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+    background-color: white;
+}
+
+.distance{
+    font-size: 13px;
+}
+
+.dist{
+    margin-bottom: 10px;
 }

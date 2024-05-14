@@ -63,15 +63,15 @@ function ShowInfoList({prop}) {
       <div className="info-list-box">
         <div className="info-user">
           <div className='profile-box'>
-            <img src={travel.user.profile_image_url}/> 
+            <img src={travel.user?.profile_image_url}/> 
           </div> 
-          <span>{travel.user.nickname}</span>
+          <span>{travel.user?.nickname}</span>
         </div>
         <div className="info-title">
           <span id="info-title"> {travel.title} </span>
           <span> {travel.location} | 
-          <CountDay start_date={travel.travel.startDate} end_date={travel.travel.endDate}/> </span>
-          <span> {travel.travel.startDate.substr(0,10)} ~ {travel.travel.endDate.substr(0,10)} </span>
+          <CountDay start_date={travel.travel?.startDate} end_date={travel.travel?.endDate}/> </span>
+          <span> {travel.travel?.startDate.substr(0,10)} ~ {travel.travel?.endDate.substr(0,10)} </span>
         </div>
         <div className="copy-btn" onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
           <span>URL 복사</span>

@@ -78,7 +78,7 @@ const MyTravelInputWindows = ({ isFromEdit, setView, selectedTravelId }) => {
             //     `날짜 차이: ${dateDiff}일, tid: ${tid}, uid: ${response.data.result.uid}`
             // );
 
-            for (let i = 1; i <= dateDiff; i++) {
+            for (let i = 1; i <= dateDiff+1; i++) {
                 postTravelDate(i, tid);
             }
             //setNewTravel((prevTravels) => [...prevTravels, travelInfo]);
