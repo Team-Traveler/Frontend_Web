@@ -34,7 +34,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
         }
     ))
     const [inputList, setInputList] = useState(Array(selectedCourse.courses.length).fill("")); // 날짜별 input
-    const API_KEY = process.env.REACT_APP_KAKAO_MAP_API_KEY;
+    const API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
     /* Input */
     const [search, setSearch] = useState("");
     const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
