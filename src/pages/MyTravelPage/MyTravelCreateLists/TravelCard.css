@@ -104,8 +104,7 @@
     border-radius: 0;
     border-bottom: 1px solid #D9D9D9;
     outline: none;
-    background: none;
-}
+    background: none; }
 
 .result-Style {
     margin-top: 5px;
@@ -164,6 +163,7 @@
     white-space: nowrap;
     width: 80%;
     overflow-x: scroll;
+    cursor: pointer;
 
 }
 

@@ -25,7 +25,16 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
     const [travel, setTravel] = useState(selectedCourse);
     const [recentDay, setRecentDay] = useState(0); // 최근 선택된 날짜
     const [dayArray, setDayArray] = useState(Array(selectedCourse.courses.length).fill("none")); // 날짜별 검색된 Place 저장
+    const [addressList, setAddressList] = useState(Array(selectedCourse.courses.length).fill(
+        {
+            "spot1" : "",
+            "spot2" : "",
+            "spot3" : "",
+            "spot4" : ""
+        }
+    ))
     const [inputList, setInputList] = useState(Array(selectedCourse.courses.length).fill("")); // 날짜별 input
+    const API_KEY = process.env.REACT_APP_KAKAO_MAP_API_KEY;
     /* Input */
     const [search, setSearch] = useState("");
     const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
@@ -67,8 +76,9 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
         await axios.get(`${API.HEADER}/travel/${selectedTID}`, { headers: {Authorization:userInfo.accessToken,}})
         .then(response=>{
             if(response.data.isSuccess){
-                console.log(`tId : ${selectedTID} 상세 조회`,response.data.result);
-                setTravel(response.data.result);
+                const result = response.data.result;
+                console.log(`tId : ${selectedTID} 상세 조회`,result);
+                setTravel(result);
             }
             else console.log(`tId : ${selectedTID} 상세 조회 실패`,response.data.result);
         })
@@ -106,6 +116,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
             if(response.data.isSuccess){
                 console.log(`${index+1}일 코스 등록`,response.data.result);
                 fetchCourse();
+                fetchAddress(index,spotNum(index),dayArray[index].x,dayArray[index].y);
             }
             else console.log(`${index+1}일 코스 등록 실패`,response.data.result);
         })
@@ -113,14 +124,57 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
 
     }
 
+    const deleteSpot = async(num, index) => {
+        await axios.delete(`${API.HEADER}/travel/course/${selectedCourse.courses[index].dcId}/spot/${num}`,
+        { headers: {Authorization:userInfo.accessToken,}},
+        )
+        .then(response=>{
+            if(response.data.isSuccess){
+                console.log(`${num}일 코스 삭제`,response.data.result);
+                fetchCourse();
+            }
+            else console.log(`${num}일 코스 삭제 실패`,response.data.result);
+        })
+        .catch(e=>{console.log('error',e)})
+    }
+
+    const fetchAddress = (index,num,longitude,latitude) => {
+        axios
+        .get(
+          `https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${longitude}&y=${latitude}`,
+          {
+            headers: {
+              Authorization: `KakaoAK ${API_KEY}`,  
+            },
+          }
+        ).then(response=>{
+            console.log('setAddress',response);
+            const result = response.data.documents[0].address.address_name;
+          if(result){
+            var newAddress = [...addressList];
+            if (num === 1) {
+                newAddress[index].spot1 = result;
+              } else if (num === 2) {
+                newAddress[index].spot2 = result;
+              } else if (num === 3) {
+                newAddress[index].spot3 = result;
+              } else{
+                newAddress[index].spot4 = result;
+              }
+              setAddressList(newAddress);
+          }
+          }).catch(error=>{
+            console.error('Error fetching address:', error);
+            
+          })
+    };
+
     // 날짜별 코스 등록 버튼 클릭
     const addItemClick = (index)=>{
         addItem(index);
     }
 
-    const handleEditSpecificsClick = (course) => {};
-
-    const handleDeleteClick = (spotNum) => {};
+    const handleEditSpecificsClick = (course) => {};;
 
     const convertDistance = (distance) => {
         if (distance >= 1000) {
@@ -128,6 +182,18 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
         }
         return `${Math.floor(distance)}m`;
     };
+
+    function getAddressInfo(index, num){
+        if (num === '1') {
+            return `${addressList[index].spot1}`;
+          } else if (num === '2') {
+            return `${addressList[index].spot2}`;
+          } else if (num === '3') {
+            return `${addressList[index].spot3}`;
+          } else{
+            return `${addressList[index].spot4}`;
+          } 
+    }
 
     function getDayOfWeek(input, index) {
         const date = new Date(input);
@@ -145,41 +211,37 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
     }
 
     useEffect(()=>{
-        console.log('selectedCourse',selectedCourse);
-        console.log('travel',travel);
-        if(travel == null){
-            fetchCourse();
+        fetchCourse();
+        for(var i=0; i<travel.courses.length; i++){
+            if(travel.courses[i].spot1?.title){
+                fetchAddress(i,1,travel.courses[i].spot1.longitude,travel.courses[i].spot1.latitude);
+            }
+            if(travel.courses[i].spot2?.title){
+                fetchAddress(i,2,travel.courses[i].spot2.longitude,travel.courses[i].spot2.latitude);
+            }
+            if(travel.courses[i].spot3?.title){
+                fetchAddress(i,3,travel.courses[i].spot3.longitude,travel.courses[i].spot3.latitude);
+            }
+            if(travel.courses[i].spot4?.title){
+                fetchAddress(i,4,travel.courses[i].spot4.longitude,travel.courses[i].spot4.latitude);
+            }
         }
-    },[Place])
-
-    // 위도, 경도로 상세 주소 찾아오기 
-    // const getAddress = async (longitude,latitude) => {
-    //     try {
-    //       const response = await axios.get(
-    //         `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}`,
-    //         {
-    //           headers: {
-    //             Authorization: 'KakaoAK YOUR_KAKAO_API_KEY',
-    //           },
-    //         }
-    //       );
-    //       setAddress(response.data.documents[0].address.address_name);
-    //     } catch (error) {
-    //       console.error('Error fetching address:', error);
-    //     }
-    //   };
+        console.log('addressList',addressList);
+    },[])
 
     // 코스 저장 시 번호별 보여주기 
-    const SpotDisplay = ({ num, spot, distance }) => (
+    const SpotDisplay = ({ num, index, spot, distance }) => (
         <div>
             <div className={`spot-box ${distance > 0 && num!==1 ? '' : 'dist' }`}>
                 <div className="spot-container">
                     <div id="num-circle">{num}</div>
                     <div className="travel-card-places">
                         <span>{spot.title}</span>
-                        <span style={{fontSize:"15px",color:"#C7C7C7"}}>상세주소</span>
+                        <span style={{fontSize:"15px",color:"#C7C7C7"}}>
+                            {getAddressInfo(index,num)}
+                        </span>
                     </div>
-                    <IoIosCloseCircleOutline className="travel-card-delete" onClick={handleDeleteClick(num)}/>
+                    <IoIosCloseCircleOutline className="travel-card-delete" onClick={()=>{deleteSpot(num,index)}}/>
                 </div>
             </div>
             {/* 거리 보여주기 */}
@@ -208,6 +270,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
                 <div className="travel-create-card">
                     {travel.courses[index]?.spot1?.title && (
                         <SpotDisplay
+                            index={index}
                             num="1"
                             spot={travel.courses[index].spot1}
                             distance={travel.courses[index].first}
@@ -215,6 +278,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
                     )}
                     {travel.courses[index]?.spot2?.title && (
                         <SpotDisplay
+                            index={index}
                             num="2"
                             spot={travel.courses[index].spot2}
                             distance={travel.courses[index].second}
@@ -222,6 +286,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
                     )}
                     {travel.courses[index]?.spot3?.title && (
                         <SpotDisplay
+                            index={index}
                             num="3"
                             spot={travel.courses[index].spot3}
                             distance={travel.courses[index].third}
@@ -229,6 +294,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
                     )}
                     {travel.courses[index]?.spot4?.title && (
                         <SpotDisplay
+                            index={index}
                             num="4"
                             spot={travel.courses[index].spot4}
                         />
@@ -237,7 +303,7 @@ function TravelCard({ selectedTID, Place, setPlace, setplaceSearchState, recoilP
                     <div className="inputFormContainer">
                         <form className="inputform" onSubmit={(event)=>{handleSearch(event,index)}}>
                             <div id="num-circle">
-                            <div className="num">{spotNum(index)}</div>
+                                <div className="num">{spotNum(index)}</div>
                             </div>
                             <input
                                 key={index}

@@ -8,6 +8,7 @@ const Map = ({ searchPlace, setRecoilPlaces, isFromCreate}) => {
     const [Places, setPlaces] = useState([]);
     const [placeSearch, setPlaceSearch] = useRecoilState(placeSearchState);
     const [isFromSearch, setIsFromSearch] = useRecoilState(fromPlaceSearchState);
+
     useEffect(() => {
         const { kakao } = window;
 
