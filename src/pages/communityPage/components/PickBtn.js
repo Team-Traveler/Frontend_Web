@@ -17,6 +17,7 @@ function PickBtnPage({pid,pick}){
         { headers: {Authorization:userInfo.accessToken,}})
         .then(response=>{
             if(response.data.isSuccess){
+                console.log('찜 결과 : ',response.data.result);
                 if(response.data.result === '찜 성공!')
                     setActive(true);
                 else if(response.data.result === '찜 취소 성공!')

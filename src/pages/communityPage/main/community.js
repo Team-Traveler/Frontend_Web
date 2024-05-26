@@ -234,7 +234,7 @@ function CommunityPage() {
                 <Link to={`/story/${travel.pid}`} key={travel.pid}>
                   <img
                     className="xproduct-img"
-                    src={travels.imgUrl ? travels.imgUrl : require("../../../assets/images/sea.jpg")}
+                    src={travel.image_url[0] ? travel.image_url[0] : require("../../../assets/images/sea.jpg")}
                     alt={`Travel ${index}`}
                   />
                 </Link>

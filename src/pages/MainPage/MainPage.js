@@ -110,6 +110,7 @@ function MainPage() {
     const [scrollOffset, setScrollOffset] = useState(0);
 
     useEffect(() => {
+        console.log(userInfo);
         const handleScroll = () => {
             const offset = window.scrollY;
             setScrollOffset(offset);
@@ -120,6 +121,7 @@ function MainPage() {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
+
     }, []);
 
     const translateYValue = Math.max(

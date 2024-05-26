@@ -25,6 +25,7 @@
 
 .main-body-placeholder {
     width: 77.36vw;
+    min-width: 750px;
     height: 100vh;
     background-color: white;
     border: 1px solid rgb(255, 255, 255);
@@ -183,7 +184,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-left: 5%;
 }
 
 .content {

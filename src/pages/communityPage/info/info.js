@@ -42,7 +42,7 @@ function InfoPage() {
                 setScrapList(response.data.result);
                 console.log('내 찜 목록',response.data.result);
             }
-            else console.log('찜 목록 불러오기 실패',response.data.result);
+            else console.log('찜 목록 불러오기 실패',response);
         })
         .catch(e=>{console.log('error',e)})
     }
