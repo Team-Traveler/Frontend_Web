@@ -13,6 +13,7 @@ import PickBtnPage from "../components/PickBtn";
 import TravelCard from '../components/trip';
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
+import MyTravelSpecifics from '../../MyTravelPage/MyTravelSpecifics/MyTravelSpecifics';
 
 // 이 페이지에서 데이터 가져와서 보여주기
 function InfoPage() {
@@ -21,6 +22,7 @@ function InfoPage() {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [scrapList,setScrapList] = useState([]);
     const [likeList,setLikeList] = useState([]);
+    const [tid,setTid] = useState(0);
 
     //api 호출(비동기를 처리하기 위해 useEffect 처리)
     const callApi = async() =>{
@@ -29,6 +31,7 @@ function InfoPage() {
             if(response.data.isSuccess === true){   
                 setTravel(response.data.result);
                 console.log('글 상세보기 성공',response.data.result);
+                setTid(response.data.result.travel.tid);
             }
             else console.log('글 상세보기 실패',response.data);
         })
@@ -68,14 +71,14 @@ function InfoPage() {
         callApi();
     },[travel[0]]); // travel 자체는 주소이므로 무한 렌더링 발생. 배열 값을 넣어줘야함.
     
-    if(travel){
+    if(travel&&tid){
     return (
         <div className="xcommunity-body">
             <Nav />
             <div className="xcommunity-page">
                 <div className="xcontent-wrapper">
                     <div className="xleft-section">
-                        <TravelCard hard={travel.hard} what={travel.what} withwho={travel.withwho} flag={true}/>
+                        <TravelCard tid={tid} hard={travel.hard} what={travel.what} withwho={travel.withwho} flag={true}/>
                         <div className="img-box">
                             {travel.image_url&&<ShowImagePage img={travel.image_url}/>} 
                         </div>

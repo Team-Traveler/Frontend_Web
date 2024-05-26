@@ -29,6 +29,7 @@ h1 {
 }
 
 .my-travel-main-container {
+    min-width: 850px;
     justify-content: center; /* 중앙 정렬, 필요에 따라 변경 가능 */
     flex-wrap: wrap; /* 자식 요소가 넘치면 줄 바꿈 */
     width: calc(100% - 20px); /* 좌우 여백을 고려한 너비 */

@@ -44,7 +44,8 @@ function TravelCard({
     const handleReviewClick = () => {
         console.log("Review button clicked");
         setSelectedTID(tid);
-        setSelectedTravelId(tid); setView("review");
+        setSelectedTravelId(tid); 
+        setView("review");
     };
 
     const handleShareClick = () => {

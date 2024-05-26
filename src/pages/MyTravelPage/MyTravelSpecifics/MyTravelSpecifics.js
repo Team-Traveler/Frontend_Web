@@ -57,7 +57,6 @@ function MyTravelSpecifics({ travel, setView, ...props }) {
         //console.log("useEffect 실행됨");
         //console.log(selectedCourse.courses.length);
         console.log(travelData);
-        //console.log(selectedTID);
     }, []);
 
     return (

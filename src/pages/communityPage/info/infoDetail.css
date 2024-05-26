@@ -1,3 +1,23 @@
+.info-detail-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 950px;
+}
+
+.info-specific-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* height: 62.6vh; */
+    /* padding: 0 6vw; */
+    margin: 20px auto 0 auto;
+    /* margin-top: 20px; */
+    gap:20px;
+}
+
 .travel-card-box{
     display: flex;
     flex-direction: column;
@@ -85,6 +105,63 @@
     margin-right: 10px;
 }
 
+.inputform {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    height: 40px;
+    position: relative;
+    border-radius: 5px; /* 둘레를 살짝 둥글게 */
+    margin-left: 8px;
+}
+
+.place-input{
+    font-size: 20px;
+    width: 80%;
+    height: 30px;
+    font-family: "CooperBlack";
+    border-radius: 0;
+    border-bottom: 1px solid #D9D9D9;
+    outline: none;
+    background: none; }
+
+.result-Style {
+    margin-top: 5px;
+    margin-left: 7%;
+    margin-right: 80px;
+    padding: 30px 30px 30px 30px;
+    overflow-y: scroll;
+    max-height: 500px;
+    width: 450px;
+    position: absolute;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* 그림자를 더 진하게 */
+    border-radius: 5%; /* 둘레를 살짝 둥글게 */
+    background-color: white;
+    z-index: 9999;
+    font-size: 17px;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-result{
+    position: absolute;
+    top:7%;
+    right:5%;
+    font-size: 40px;
+    color: #9CBBAC;
+    cursor: pointer;
+}
+
+.travel-card-delete {
+    color: gray;
+    font-size: 25px;
+}
+
 .spot-container{
     display: flex;
     flex-direction: row;
@@ -127,6 +204,22 @@
     margin-right: 2.34vw;
     box-sizing: border-box;
     flex-shrink: 0;
+}
+
+.pagi-nation {
+    margin-top: 1rem;
+}
+
+#pagination a {
+    color: black;
+    font-size: 25px;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+#pagination a.on {
+    color: lightblue;
+    font-weight: bold;
 }
 
 .item-search-create-container {

@@ -93,6 +93,7 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
     }, []);
 
     useEffect(() => {
+        console.log('tid',selectedTID);
     }, [travelCourse]);
 
     const handleSubmit = () => {

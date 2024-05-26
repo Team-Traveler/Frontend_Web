@@ -10,6 +10,7 @@ import CommunityPage from "./pages/communityPage/main/community";
 import WritePage from "./pages/communityPage/write/write";
 import InfoPage from "./pages/communityPage/info/info"
 import CompletedPage from "./pages/RecommendPage/CompletedPage";
+import InfoDetail from "./pages/communityPage/info/infoDetail.js";
 import { userInfoState } from "./recoil/atoms/userState";
 import { useRecoilState } from "recoil";
 import LoadingModal from "./components/Loading/Loading.js";
@@ -31,6 +32,7 @@ function App() {
                         {/* <Route path="/completed" element={<CompletedPage/>}></Route> */}
                         <Route path="/story" element={<CommunityPage />}></Route>
                         <Route path={`/story/:pid`} element={<InfoPage />}></Route>
+                        <Route path={`/story/course/:tid`} element={<InfoDetail/>}></Route>
                         <Route path="/story/write" element={<WritePage/>}></Route>
                         <Route path="/story/:pid/comments" element={<CommentsPage/>}></Route>
                         <Route path="/note" element={<NotePage />}></Route>

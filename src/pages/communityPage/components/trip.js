@@ -1,23 +1,33 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
+import { useRecoilState, useSetRecoilState } from "recoil"; 
 import './trip.css';
+import { useNavigate } from 'react-router-dom';
 // 여행 스타일 선택
+import { selectedTIDState } from "../../../recoil/atoms/travelSpecificState";
 
-function TravelCard({setWhat,setHard,setWithwho,flag,what,withwho,hard}) {
+function TravelCard({setWhat,setHard,setWithwho,flag,what,withwho,hard,tid}) {
+  const navigate = useNavigate();
   const whatArray = ['힐링','관광','액티비티','먹방','체험','카페'];
   const hardArray = ['','빡빡하게','보통','느긋하게'];
   //const withwhoArray = ['친구랑','가족과','연인과','혼자서'];
 
+  
   if(flag){ // 이미 값이 설정돼있으면
     return(
-    <div className="xinfo-square">
-      <div className="xinfo-square-content">
-          {whatArray[what-1]}
+    <div>
+      <div className="xinfo-square">
+        <div className="xinfo-square-content">
+            {whatArray[what-1]}
+        </div>
+        <div className="xinfo-square-content">
+            {hardArray[hard-1]}
+        </div>
+        <div className="xinfo-square-content">
+            {withwho} 명
+        </div>
       </div>
-      <div className="xinfo-square-content">
-          {hardArray[hard-1]}
-      </div>
-      <div className="xinfo-square-content">
-          {withwho} 명
+      <div className="course-detail-btn" onClick={()=>{navigate(`/story/course/${tid}`)}}>
+        코스 보기
       </div>
     </div>
     )

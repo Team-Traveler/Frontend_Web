@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState } from "../../../recoil/atoms/userState";
+import { useNavigate } from 'react-router-dom';
 import {
     myAllTravelsState,
     isTravelDataCreatedState,
@@ -27,7 +28,7 @@ import {
 import { API } from "../../../config.js";
 import MyTravelCreateLists from "../MyTravelCreateLists/MyTravelCreateLists.js";
 import { profileState } from "../../../recoil/atoms/profileState.js";
-
+import WritePage from "../../communityPage/write/write.js";
 function MyTravelMain() {
     const TAG = "MyTravelMain";
     const [view, setView] = useState("list");
@@ -43,6 +44,7 @@ function MyTravelMain() {
         isTravelDataCreatedState
     );
     const [profileData, setProfileData] = useRecoilState(profileState);
+    const navigate = useNavigate();
 
     const updateProfileImgAndName = (newImgSrc, newName) => {
         setProfileData((prevData) => ({
@@ -124,6 +126,9 @@ function MyTravelMain() {
         fetchProfileLikedData();
         console.log(TAG, "통신 완료");
         console.log(profileData);
+        if(view=="review"){
+            navigate("/story/write");
+        }
     }, [view, update]);
 
     return (
@@ -131,7 +136,7 @@ function MyTravelMain() {
             <Nav />
             {/* {console.log(view)} */}
             {view === "list" && (
-                <div>
+                <div style={{minWidth:"850px"}}>
                     <div className="my-travel-profile" ref={profileRef}>
                         <MyTravelProfile setView={setView} />
                     </div>
@@ -219,18 +224,8 @@ function MyTravelMain() {
                 )}
 
                 {/* 리뷰 작성 */}
-                {view === "review" && (
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            height: "62.6vh",
-                        }}
-                    >
-                        리뷰작성
-                    </div>
-                )}
+                {/* {view === "review" && (
+                )} */}
 
                 {/* 공유 */}
                 {view === "share" && (
