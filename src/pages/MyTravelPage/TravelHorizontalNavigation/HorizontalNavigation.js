@@ -44,7 +44,8 @@ const HorizontalNavigation = (props) => {
                     나의 여행
                 </button>
             </div>
-            <button
+            {props.edit==="true" && 
+            (<button
                 onClick={() => {
                     handleNavClick("list");
                     props.toggleEditMode();
@@ -52,7 +53,8 @@ const HorizontalNavigation = (props) => {
                 className="editNavBtn"
             >
                 목록 편집
-            </button>
+            </button>)
+            }
         </div>
     );
 };

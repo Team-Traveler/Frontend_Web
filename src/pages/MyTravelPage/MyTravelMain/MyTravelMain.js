@@ -29,6 +29,8 @@ import { API } from "../../../config.js";
 import MyTravelCreateLists from "../MyTravelCreateLists/MyTravelCreateLists.js";
 import { profileState } from "../../../recoil/atoms/profileState.js";
 import WritePage from "../../communityPage/write/write.js";
+import TravelCardList from "../../../components/TravelCardList/TravelCardList.js";
+
 function MyTravelMain() {
     const TAG = "MyTravelMain";
     const [view, setView] = useState("list");
@@ -135,7 +137,7 @@ function MyTravelMain() {
         <div className="myTravelMain">
             <Nav />
             {/* {console.log(view)} */}
-            {view === "list" && (
+            {(view === "list" || view === "like") && (
                 <div style={{minWidth:"850px"}}>
                     <div className="my-travel-profile" ref={profileRef}>
                         <MyTravelProfile setView={setView} />
@@ -143,6 +145,7 @@ function MyTravelMain() {
                     <HorizontalNavigation
                         setView={setView}
                         toggleEditMode={() => setIsEditMode(!isEditMode)}
+                        edit = {`${view === "list" ? true : false}`}
                     />
                 </div>
             )}
@@ -211,16 +214,8 @@ function MyTravelMain() {
 
                 {/* 찜한 여행 */}
                 {view === "like" && (
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            height: "62.6vh",
-                        }}
-                    >
-                        찜한여행
-                    </div>
+                <TravelCardList/>
+                    
                 )}
 
                 {/* 리뷰 작성 */}
