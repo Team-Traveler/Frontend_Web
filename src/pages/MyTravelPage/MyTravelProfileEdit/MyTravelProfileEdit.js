@@ -5,8 +5,9 @@ import { userInfoState } from "../../../recoil/atoms/userState";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import profileTest from "./profile.svg";
+import { API } from "../../../config";
 
-function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
+function MyTravelProfileEdit({ profileData, setProfileData, setView, ...props }) {
     const [showPopup, setShowPopup] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [userNick, setUserNick] = useState(profileData.name);
@@ -21,7 +22,7 @@ function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
         try {
             const response = await axios({
                 method: "GET",
-                url: "http://15.164.232.95:9000/users/profile",
+                url: `${API.HEADER}/users/profile`,
                 headers: {
                     Authorization: `${userInfo.accessToken}`,
                 },
@@ -37,9 +38,10 @@ function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
 
     async function changeUserProfile(userNick) {
         try {
+            console.log('프로필 수정 event')
             const response = await axios({
                 method: "PATCH",
-                url: "http://15.164.232.95:9000/users/nickname",
+                url: `${API.HEADER}/users/nickname`,
                 headers: {
                     Authorization: `${userInfo.accessToken}`,
                 },
@@ -58,13 +60,14 @@ function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
 
     async function changeUserPick() {
         try {
+            console.log("프로필 사진 수정 event",formData);
             const response = await axios.patch(
-                "http://15.164.232.95:9000/users/profile_image",
+                `${API.HEADER}/users/profile_image`,
                 formData, // 이전에 설정한 formData
                 {
                     headers: {
-                        Authorization: `${userInfo.accessToken}`,
-                        "Content-Type": "multipart/form-data",
+                        "Authorization" :`${userInfo.accessToken}`,
+                        "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
                     },
                 }
             );
@@ -81,7 +84,7 @@ function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
     const navigate = useNavigate();
 
     const handleClose = () => {
-        navigate(-1); // 브라우저의 뒤로 가기 기능
+        setView("list");
     };
 
     const handleDelete = () => {
@@ -118,7 +121,6 @@ function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
 
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
-
         if (file) {
             // form-data 형식으로 파일 데이터 설정
             const newFormData = new FormData();
@@ -150,9 +152,8 @@ function MyTravelProfileEdit({ profileData, setProfileData, ...props }) {
                     imgSrc: imageUrl,
                 }));
             };
-
             reader.readAsDataURL(file);
-
+            console.log('change profile',profileData);
             // formData를 서버로 전송하는 로직을 여기에 추가...
         }
     };
