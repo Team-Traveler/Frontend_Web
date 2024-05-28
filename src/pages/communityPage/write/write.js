@@ -319,6 +319,7 @@ function WritePage() {
                         view={view}
                         travelData={travelData}
                         setSelectedTravelId={setSelectedTravelId}
+                        fromWritePage = {"write"}
                     />
                 </div>
             )}

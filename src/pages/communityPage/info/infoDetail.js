@@ -171,19 +171,19 @@ function InfoDetail(){
     useEffect(()=>{
         fetchCourse();
     },[])
-
+if(travel){
     return(
     <div>
         <Nav />
         <div className="info-detail-body">
-            <div className="group490">
+            <div className="group-info">
                 <h1 className="detailTitle">여행 코스 보기</h1>
                 <p className="subText-specific">여행 일정을 확인해보세요!</p>
                 <div className="rectangle"></div>
             </div>
             <div className="info-specific-box">
                 <div className="map-box">
-                    <Map isFromCreate={true} searchPlace={Place} setRecoilPlaces={setRecoilPlaces}/>
+                    <Map initialData={travel} isFromCreate={true} searchPlace={Place} setRecoilPlaces={setRecoilPlaces}/>
                 </div>
                 <div className="travel-detail-body">
                 {dayArray.map((item, index)=>( /* index 일차 */
@@ -237,6 +237,7 @@ function InfoDetail(){
         </div>
     </div>
     )
+}
 }
 
 export default InfoDetail;

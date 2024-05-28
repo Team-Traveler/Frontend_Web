@@ -9,7 +9,7 @@ function MyTravelProfile({ setView, ...props }) {
     const [profileData, setProfileData] = useRecoilState(profileState);
 
     const handleRoundButtonClick = () => {
-        props.setView("profile");
+        setView("profile");
     };
 
     useEffect(() => {

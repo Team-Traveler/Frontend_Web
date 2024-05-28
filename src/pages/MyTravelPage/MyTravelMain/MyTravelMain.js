@@ -166,12 +166,10 @@ function MyTravelMain() {
 
                 {/* 여행 만들기 */}
                 {view === "add" && (
-                    <div>
-                        <MyTravelAdd
-                            setView={setView}
-                            setIsTravelDataCreated={setIsTravelDataCreated}
-                        />
-                    </div>
+                <MyTravelAdd
+                    setView={setView}
+                    setIsTravelDataCreated={setIsTravelDataCreated}
+                />
                 )}
 
                 {/* 여행 코스 편집 */}
@@ -201,6 +199,7 @@ function MyTravelMain() {
                         <MyTravelProfileEdit
                             profileData={profileData}
                             setProfileData={setProfileData}
+                            setView={setView}
                         />
                     </div>
                 )}

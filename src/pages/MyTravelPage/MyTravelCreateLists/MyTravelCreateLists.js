@@ -123,6 +123,7 @@ function MyTravelCreateLists({ setView, selectedTID, ...props }) {
                         isFromCreate={true}
                         searchPlace={Place}
                         setRecoilPlaces={setRecoilPlaces}
+                        initialData={selectedCourse}
                     />
                 </div>
                 <div>

@@ -14,7 +14,7 @@ function TravelCard({setWhat,setHard,setWithwho,flag,what,withwho,hard,tid}) {
   
   if(flag){ // 이미 값이 설정돼있으면
     return(
-    <div>
+    <div className="xinfo-box">
       <div className="xinfo-square">
         <div className="xinfo-square-content">
             {whatArray[what-1]}

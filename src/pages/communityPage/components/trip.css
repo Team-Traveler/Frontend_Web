@@ -1,3 +1,10 @@
+.xinfo-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 select{
     border: none;
     outline: none;
@@ -19,4 +26,9 @@ select{
     height : 30px;
     text-align : center;
     padding-top:5px;
+}
+
+.course-detail-btn{
+    text-decoration: underline;
+    cursor: pointer;
 }

@@ -61,7 +61,7 @@ function MyTravelSpecifics({ travel, setView, ...props }) {
 
     return (
         <div className="specific-body">
-            <div className="group490">
+            <div className="group-info">
                 <h1 className="detailTitle">여행 코스 만들기</h1>
                 <p className="subText-specific">여행 일정을 추가해보세요!</p>
                 <div className="rectangle"></div>

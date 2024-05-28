@@ -16,6 +16,7 @@ import {
 } from "../../../recoil/atoms/travelSpecificState";
 import { API } from "../../../config";
 import { profileState } from "../../../recoil/atoms/profileState";
+import { useNavigate } from 'react-router-dom';
 
 function TravelCard({
     tid,
@@ -30,8 +31,10 @@ function TravelCard({
     setSelectedTID,
     onDetails,
     setSelectedTravelId,
+    fromWritePage
 }) {
     //console.log("Travel title : ",tid);
+    const navigate = useNavigate();
 
     const handleDetailClick = () => {
         console.log("Detail button clicked");
@@ -86,6 +89,11 @@ function TravelCard({
 
         // "x박 y일" 형식으로 반환
         return `${diffDays - 1}박 ${diffDays}일`;
+    }
+
+    function navigateToDetail(){
+        console.log("heelo")
+        navigate(`/story/course/${tid}`)
     }
 
     return (
@@ -163,7 +171,7 @@ function TravelCard({
                         <>
                             <button
                                 className="travel-card-button"
-                                onClick={handleDetailClick}
+                                onClick={fromWritePage? navigateToDetail : handleDetailClick}
                             >
                                 상세보기
                             </button>
@@ -195,6 +203,7 @@ function MyTravelLists({
     isEditMode,
     setIsEditMode,
     setSelectedTravelId,
+    fromWritePage
 }) {
     const TAG = "MyTravelLists";
     const [travelList, setTravelList] = useRecoilState(myAllTravelsState);
@@ -262,6 +271,7 @@ function MyTravelLists({
         }
     };
 
+
     return (
         <div className="my-travel-lists">
             {!travelList || travelList.length === 0 ? ( // 여행 리스트가 없는 경우
@@ -283,6 +293,7 @@ function MyTravelLists({
                             start_date={travel.start_date}
                             end_date={travel.end_date}
                             setSelectedTID={setSelectedTID}
+                            fromWritePage={fromWritePage}
                         />
                     );
                 })
